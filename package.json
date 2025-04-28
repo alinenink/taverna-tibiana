@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --configuration production --base-href /tavernatibiana/",
-    "deploy": "npm run build:prod && npx angular-cli-ghpages --dir=dist/tavernatibiana",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve --configuration production",
+    "build": "ng build --configuration production",
+    "deploy": "ng build --configuration production --base-href=/taverna-tibiana/ --output-path docs && gh-pages -d docs",
+    "test": "ng test",
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "dependencies": {
