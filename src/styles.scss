@@ -60,7 +60,7 @@ body {
 }
 
 /* ======= Título Principal ======= */
-.charlovinho-title {
+.tavernatibiana-title {
   /* Use a fonte medieval que você estiver importando no seu projeto */
   font-family: "MedievalSharp", serif;
   /* Ajuste o tamanho conforme o layout */
@@ -78,7 +78,7 @@ body {
   /* Se quiser um leve efeito ornamentado, pode usar ::after ou ::before */
 }
 
-.charlovinho-title::after {
+.tavernatibiana-title::after {
   content: "";
   display: block;
   width: 120px;
@@ -93,7 +93,7 @@ body {
 }
 
 /* ======= Rodapé ======= */
-.charlovinho-footer {
+.tavernatibiana-footer {
   text-align: center;
   padding: 1rem 0;
   font-family: "Georgia", serif;
@@ -550,7 +550,7 @@ body {
     padding: 1rem;
   }
 
-  .charlovinho-title {
+  .tavernatibiana-title {
     font-size: 2rem;
   }
 
@@ -593,7 +593,7 @@ body {
     margin: 0 auto;
   }
 
-  .charlovinho-title {
+  .tavernatibiana-title {
     font-size: 2.5rem;
   }
 

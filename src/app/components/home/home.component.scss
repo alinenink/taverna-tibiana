@@ -1,4 +1,4 @@
-.charlovinho-layout {
+.tavernatibiana-layout {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -150,7 +150,7 @@
 
 /* ======= MOBILE: as duas imagens lado a lado (1ª e 3ª), texto abaixo ======= */
 @media (max-width: 768px) {
-    .charlovinho-layout {
+    .tavernatibiana-layout {
         flex-wrap: wrap;
         /* permite quebrar linha */
         flex-direction: row;

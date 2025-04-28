@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "charlovinho": {
+    "tavernatibiana": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/charlovinho",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -56,10 +56,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "charlovinho:build:production"
+              "buildTarget": "tavernatibiana:build:production"
             },
             "development": {
-              "buildTarget": "charlovinho:build:development"
+              "buildTarget": "tavernatibiana:build:development"
             }
           },
           "defaultConfiguration": "development"
