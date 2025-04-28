@@ -1,1 +1,837 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+/* Caso ainda não tenha importado a fonte MedievalSharp, inclua, por exemplo:
+   @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+*/
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* Fundo básico para evitar cor de fundo “padrão” */
+  background-color: #f5f0d5;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.parchment-background {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Fundo existente com gradiente + imagem */
+  background: linear-gradient(
+      135deg,
+      rgba(245, 240, 213, 0.85),
+      rgba(232, 217, 165, 0.85)
+    ),
+    url("/assets/8970520f452d7a3f878c9b7c369f52dd.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  /* Para que o pseudo-elemento fique “por cima” das bordas */
+  position: relative;
+  z-index: 0;
+}
+
+/* Efeito de bordas queimadas */
+.parchment-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* ocupa toda a área do elemento */
+  pointer-events: none;
+  /* não interfere na interação do mouse */
+  z-index: 1;
+
+  /* 
+       Use várias sombras insets para criar camadas de queimado.
+       Ajuste cor e tamanho à vontade (opacidade e spread).
+    */
+  box-shadow: inset 0 0 35px 15px rgba(0, 0, 0, 0.45),
+    /* sombra mais escura perto das bordas */ inset 0 0 70px 40px
+      rgba(139, 69, 19, 0.25);
+  /* sombra em tom marrom, ampliando o 'queimado' */
+}
+
+/* ======= Título Principal ======= */
+.charlovinho-title {
+  /* Use a fonte medieval que você estiver importando no seu projeto */
+  font-family: "MedievalSharp", serif;
+  /* Ajuste o tamanho conforme o layout */
+  font-size: 3rem;
+  text-align: center;
+  /* Cor de texto puxando um tom de marrom-escuro */
+  color: #3e2f1c;
+  /* Sombra para dar destaque */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  /* Para se sobrepor a pseudo-elementos de fundo caso haja */
+
+  /* Se quiser um leve efeito ornamentado, pode usar ::after ou ::before */
+}
+
+.charlovinho-title::after {
+  content: "";
+  display: block;
+  width: 120px;
+  /* Largura da linha decorativa */
+  height: 4px;
+  /* Espessura da “barra” */
+  background-color: #7b5e3b;
+  margin: 0.5rem auto 0;
+  /* Centraliza e espaça do texto */
+  border-radius: 2px;
+  /* Deixa as pontas arredondadas */
+}
+
+/* ======= Rodapé ======= */
+.charlovinho-footer {
+  text-align: center;
+  padding: 1rem 0;
+  font-family: "Georgia", serif;
+  color: #4a3b29;
+  position: relative;
+  z-index: 1;
+  background: none;
+  /* Deixa transparente para aparecer o fundo */
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .footer-links {
+    margin-top: 0.5rem;
+
+    a {
+      margin: 0 0.5rem;
+      font-size: 1.4rem;
+      color: #7b5e3b;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #a88d5a;
+      }
+    }
+  }
+}
+
+.footer-separator {
+  border: none;
+  border-top: 2px solid #a07947;
+  margin: 0 0 1rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  justify-items: center;
+  margin-top: 2rem;
+  padding: 2em;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ======= Estilo dos Cards de Pergaminho ======= */
+.parchment-card {
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px solid #a07947;
+  border-radius: 8px;
+
+  /* Fundo que simula pergaminho */
+  background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
+  background-blend-mode: multiply;
+
+  /* Sombreamento externo + sombra interna */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2),
+    /* sombra externa suave */ inset 0 0 6px rgba(0, 0, 0, 0.15),
+    /* sombra interna para realçar o “desgaste” */ 2px 2px 10px
+      rgba(0, 0, 0, 0.1);
+  /* você pode ajustar ou remover para suavizar */
+
+  position: relative;
+  text-align: center;
+  color: #3e2f1c;
+  font-family: "Georgia", serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  /* garante que pseudo-elementos fiquem contidos */
+
+  /* Textura sutil no “papel” */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.015) 0,
+        rgba(0, 0, 0, 0.015) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        rgba(0, 0, 0, 0.015) 0,
+        rgba(0, 0, 0, 0.015) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Título do card */
+  h2 {
+    font-family: "MedievalSharp", serif;
+    font-size: 1.5rem;
+    margin-top: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #7b5e3b;
+    margin: 0.5rem 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  p,
+  ul {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Botão no card */
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #d4c292, #c2a36e);
+    border: 2px solid #a88d5a;
+    border-radius: 6px;
+    font-family: "MedievalSharp", serif;
+    color: #3e2f1c;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+
+    &:hover {
+      background: linear-gradient(135deg, #c2a36e, #b5925c);
+      box-shadow: 0 0 8px rgba(255, 223, 120, 0.6);
+      transform: scale(1.05);
+    }
+  }
+
+  /* Efeito de hover no card */
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25),
+      /* intensifica a sombra ao passar o mouse */ inset 0 0 6px
+        rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ======= Estilos para seção de consulta ======= */
+.parchment-card input[type="text"] {
+  width: 90%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
+  border: 2px solid #d4c292;
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  font-family: "MedievalSharp", serif;
+  color: #3e2f1c;
+  font-size: 1rem;
+
+  &::placeholder {
+    color: #8c7a5b;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #bfa66b;
+    box-shadow: 0 0 8px rgba(191, 166, 107, 0.6);
+  }
+}
+
+.parchment-card button {
+  transition: all 0.4s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 223, 120, 0.5);
+  }
+}
+
+/* ======= Cards ======= */
+.three-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+
+  @media (max-width: 768px) and (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    flex-wrap: unset;
+    width: auto;
+  }
+}
+
+// consult
+
+/******************************************/
+/* Container de linha responsivo          */
+/******************************************/
+.conquista-row-custom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .conquista-row-custom {
+    align-items: center;
+  }
+}
+
+/******************************************/
+/* Card individual estilo pergaminho escuro */
+/******************************************/
+.conquista-card-custom {
+  cursor: pointer;
+  width: 150px;
+  min-height: 180px;
+  text-align: center;
+  background: linear-gradient(#fdf1cc, #f1d9a4);
+  border: 3px solid #b98b4e;
+  border-radius: 12px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem;
+  box-sizing: border-box;
+  position: relative;
+  font-family: "Cinzel", serif;
+  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.conquista-card-custom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 217, 125, 0.7);
+}
+
+.conquista-info-custom {
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/******************************************/
+/* Textura com contorno decorativo fake (borda dupla) */
+/******************************************/
+.conquista-card-custom::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 2px dashed #e6c079;
+  border-radius: 10px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/******************************************/
+/* Imagem centralizada                    */
+/******************************************/
+.conquista-image-container-custom {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 0.5rem;
+  position: relative;
+}
+
+.conquista-image-custom {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/******************************************/
+/* Tipografia do nome                     */
+/******************************************/
+.conquista-name-custom {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #3b2a14;
+  margin-top: 0.25rem;
+  margin-bottom: 0.2rem;
+}
+
+/******************************************/
+/* Detalhes de "faltam"                   */
+/******************************************/
+.missing-details-custom {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #992e2e;
+  display: block;
+  margin-top: 0.2rem;
+  line-height: 1.2;
+}
+
+/******************************************/
+/* Layout geral                           */
+/******************************************/
+.consulta-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/******************************************/
+/* Texto de introdução                    */
+/******************************************/
+.consulta-intro {
+  font-family: "Georgia", serif;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #4a3b29;
+  line-height: 1.6;
+}
+
+/******************************************/
+/* Estilo de formulário e painel medieval */
+/******************************************/
+.parchment-card-consult {
+  background: linear-gradient(#fef6dc, #f4e6b3);
+  border: 3px solid #a67c52;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px rgba(139, 69, 19, 0.15),
+    2px 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  font-family: "Cinzel", serif;
+  color: #3b2a1a;
+  width: 100%;
+}
+
+/******************************************/
+/* Títulos medievais                      */
+/******************************************/
+.parchment-card-consult h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-family: "Uncial Antiqua", cursive;
+  color: #4b2e1e;
+  text-shadow: 1px 1px #f0e0c0;
+}
+
+/******************************************/
+/* Formulário                             */
+/******************************************/
+.consulta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.consulta-form label {
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.consulta-form input[type="text"] {
+  padding: 0.5rem;
+  border: 2px solid #a67c52;
+  border-radius: 8px;
+  background-color: #fffaf0;
+  font-family: "Georgia", serif;
+  font-size: 0.9rem;
+  color: #3b2a1a;
+}
+
+.consulta-form button {
+  align-self: flex-start;
+  background-color: #d4aa7d;
+  color: #2d1a05;
+  border: 2px solid #8b5a2b;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Cinzel", serif;
+  transition: background 0.3s ease;
+}
+
+.consulta-form button:hover {
+  background-color: #c89b6d;
+}
+
+/******************************************/
+/* Lista de feitos do herói               */
+/******************************************/
+.parchment-card-consult ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.parchment-card-consult strong {
+  color: #5b3e1d;
+}
+
+/* Ajustes específicos para largura menor */
+@media (min-width: 300px) {
+  .parchment-card {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin: 1.5rem 0;
+    border-width: 1.5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .conquista-row-custom {
+    align-items: center;
+  }
+
+  .conquista-card-custom {
+    width: 100%;
+    max-width: 280px;
+    min-width: unset;
+    margin: 0 auto;
+  }
+
+  .conquista-name-custom {
+    font-size: 0.75rem;
+  }
+
+  .consulta-layout {
+    padding: 1rem 1.5rem;
+  }
+
+  .parchment-card-consult {
+    padding: 1rem;
+  }
+
+  .charlovinho-title {
+    font-size: 2rem;
+  }
+
+  .parchment-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .parchment-card input[type="text"],
+  .parchment-card button {
+    font-size: 0.9rem;
+  }
+
+  .svg-icon {
+    width: 1.5em;
+  }
+}
+
+/* ======= Responsivo Mobile ======= */
+/* ======= Responsivo para Tablet (768px a 1024px) ======= */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .consulta-layout {
+    padding: 1.5rem 1rem; // padding vertical e horizontal igual
+  }
+
+  .parchment-card {
+    padding: 1.25rem;
+    margin: 1rem auto;
+    width: 100%;
+    max-width: 700px; // limita o tamanho do card sem colar nas bordas
+    box-sizing: border-box;
+  }
+
+  .conquista-row-custom {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .conquista-card-custom {
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .charlovinho-title {
+    font-size: 2.5rem;
+  }
+
+  .svg-icon {
+    width: 1.6em;
+  }
+
+  .parchment-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .parchment-card input[type="text"],
+  .parchment-card button {
+    font-size: 1rem;
+  }
+
+  .consulta-intro {
+    font-size: 1.05rem;
+    padding: 0 1rem;
+  }
+
+  .missing-details-custom {
+    font-size: 0.75rem;
+  }
+
+  .medieval-disclaimer {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+}
+
+/* Ícone do título maior */
+.svg-icon {
+  width: 2em;
+  height: auto;
+  vertical-align: middle;
+}
+/* Animous Mastery */
+.tabela-pergaminho {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Georgia", serif;
+  color: #3b2a1a;
+  background: linear-gradient(#fdf8e4, #f4e6b3);
+  border: 2px solid #a67c52;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.tabela-pergaminho th,
+.tabela-pergaminho td {
+  border: 1px solid #d4c292;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.tabela-pergaminho th {
+  background-color: #e8d9a5;
+  font-weight: bold;
+  font-family: "MedievalSharp", serif;
+}
+
+.botoes-paginacao {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.botoes-paginacao button {
+  background-color: #d4aa7d;
+  color: #2d1a05;
+  border: 2px solid #8b5a2b;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  transition: background 0.3s ease;
+}
+
+.botoes-paginacao button:hover {
+  background-color: #c89b6d;
+}
+
+.toast-medieval {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(#fdf8e4, #e8d9a5);
+  border: 2px solid #a67c52;
+  color: #3e2f1c;
+  padding: 1rem 1.5rem;
+  font-family: "MedievalSharp", serif;
+  font-size: 1rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animações */
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.filtro-container {
+  padding: 2rem;
+}
+
+.filtro-topo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.filtro-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.acoes-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .filtro-topo {
+    flex-direction: column;
+  }
+  .filtro-form {
+    flex-direction: column;
+  }
+  .acoes-icons {
+    margin-top: 1rem;
+  }
+}
+
+.input-medieval {
+  margin-top: 1rem !important;
+}
+
+.input-medieval,
+.select-medieval,
+.botao-buscar {
+  background: linear-gradient(135deg, #fdf8e4, #e8d9a5) !important;
+  border: 2px solid #a67c52 !important;
+  border-radius: 8px !important;
+  padding: 0.5rem !important;
+  font-family: "MedievalSharp", serif !important;
+  font-size: 1rem !important;
+  color: #3e2f1c !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1) !important;
+  outline: none !important;
+}
+
+@media (max-width: 768px) {
+  .input-medieval,
+  .select-medieval,
+  .botao-buscar {
+    width: 90%;
+  }
+}
+
+.input-medieval::placeholder {
+  color: #8c7a5b;
+}
+
+.select-medieval {
+  margin-top: 1rem;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%237b5e3b" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+}
+
+.select-medieval option {
+  background: #fdf8e4;
+  color: #3e2f1c;
+  font-family: "MedievalSharp", serif;
+}
+
+.input-medieval:hover,
+.select-medieval:hover,
+.botao-buscar:hover {
+  border-color: #bfa66b;
+  box-shadow: 0 0 8px rgba(191, 166, 107, 0.6);
+}
+
+.botao-buscar {
+  cursor: pointer;
+  padding: 0 1.5rem;
+}
+
+.acoes-icons {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-button {
+  width: 32px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.svg-button:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px gold);
+}
+
+.svg-label {
+  cursor: pointer;
+}

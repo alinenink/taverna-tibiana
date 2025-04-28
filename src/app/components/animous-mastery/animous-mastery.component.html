@@ -1,0 +1,132 @@
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="charlovinho-title">Consulta de Masteries</h1>
+
+    <div *ngIf="service.toastMessage()" class="toast-medieval">
+      {{ service.toastMessage() }}
+    </div>
+
+    <!-- Formulário de Filtros -->
+    <div class="parchment-card filtro-container">
+      <form class="filtro-form" (submit)="buscar($event)">
+        <input
+          type="text"
+          [(ngModel)]="filtros.nome"
+          name="nome"
+          placeholder="Criatura"
+          class="input-medieval"
+          (input)="filtros.nome.length >= 4 && buscar()"
+        />
+
+        <input
+          type="text"
+          [(ngModel)]="filtros.classe"
+          name="classe"
+          placeholder="Classe"
+          class="input-medieval"
+          (input)="filtros.classe.length >= 4 && buscar()"
+        />
+        <select
+          [(ngModel)]="filtros.dificuldade"
+          name="dificuldade"
+          class="select-medieval"
+        >
+          <option value="">Todas dificuldades</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <button type="submit">Buscar</button>
+      </form>
+
+      <!-- Ações -->
+      <div class="acoes-icons">
+        <img
+          src="assets/eraser.svg"
+          alt="Limpar Seleção"
+          class="svg-button"
+          title="Limpar Seleção"
+          (click)="limparSelecao()"
+        />
+        <img
+          src="assets/pdf-file.svg"
+          alt="Exportar PDF"
+          class="svg-button"
+          title="Exportar PDF"
+          (click)="service.exportarPdf()"
+        />
+        <img
+          src="assets/folder.svg"
+          alt="Exportar JSON"
+          class="svg-button"
+          title="Exportar JSON"
+          (click)="service.exportarJson()"
+        />
+        <label for="upload-json" class="svg-label">
+          <img
+            src="assets/document.svg"
+            alt="Importar JSON"
+            class="svg-button"
+            title="Importar JSON"
+          />
+        </label>
+        <input
+          type="file"
+          id="upload-json"
+          accept="application/json"
+          style="display: none"
+          (change)="onUpload($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="parchment-card">
+      <div style="margin-bottom: 1rem">
+        <strong>{{ service.selecionados().length }}</strong> selecionados de
+        {{ service.totalResultados() }} monstros
+      </div>
+
+      <table class="tabela-pergaminho">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nome</th>
+            <th>Dificuldade</th>
+            <th>Classe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of service.dados()">
+            <td>
+              <input
+                type="checkbox"
+                [checked]="isSelecionado(item.id)"
+                (change)="selecionar($event, item)"
+              />
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.difficulty }}</td>
+            <td>{{ item.class.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="botoes-paginacao">
+        <button
+          (click)="paginaAnterior()"
+          [disabled]="service.paginaAtual() === 1"
+        >
+          Anterior
+        </button>
+        <button
+          (click)="proximaPagina()"
+          [disabled]="service.paginaAtual() === service.totalPaginas()"
+        >
+          Próximo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

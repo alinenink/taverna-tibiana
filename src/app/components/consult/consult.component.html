@@ -1,0 +1,164 @@
+<!-- Fundo total com aparência de pergaminho medieval -->
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="charlovinho-title">Sempre Começa na Taverna</h1>
+
+    <p class="consulta-intro">
+      Aqui na nossa humilde taverna, os destinos se revelam a quem ousa procurá-los.
+      Insira o ID do seu herói e descubra o que falta para alcançar a glória e se tornar um
+      <span class="highlight">charlover supremo</span>!
+    </p>
+
+    <!-- Formulário de Consulta -->
+    <form class="parchment-card" (submit)="consultarPersonagem()">
+      <h2>🔍 Consulta de Personagem</h2>
+      <hr />
+      <label for="char-id">ID do Personagem:</label>
+      <input type="text" id="char-id" placeholder="Ex: 123456" [(ngModel)]="characterId" name="characterId" />
+      <button type="submit">Consultar</button>
+    </form>
+
+    <!-- Registro dos Feitos do Herói -->
+    <div class="parchment-card" *ngIf="characterData">
+      <h2>📜 Jornada do Aventureiro 📜 </h2>
+      <hr />
+
+      <ul>
+        <li> <img src="assets/id-card.svg" alt="name" class="svg-icon" />
+          <strong>Nome:</strong> {{ characterData.name }}
+        </li>
+        <li> <img src="assets/star.svg" alt="level" class="svg-icon" /><strong>Nível:</strong> {{ characterData.level
+          }}
+        </li>
+        <li [ngSwitch]="characterData.vocation">
+          <ng-container *ngSwitchCase="'Royal Paladin'">
+            <img src="assets/bow.svg" alt="Paladin" class="svg-icon" />
+          </ng-container>
+          <ng-container *ngSwitchCase="'Paladin'">
+            <img src="assets/bow.svg" alt="Paladin" class="svg-icon" />
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Elder Druid'">
+            <img src="assets/priest.svg" alt="Druid" class="svg-icon" />
+          </ng-container>
+          <ng-container *ngSwitchCase="'Druid'">
+            <img src="assets/priest.svg" alt="Druid" class="svg-icon" />
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Elite Knight'">
+            <img src="assets/swordsman.svg" alt="Knight" class="svg-icon" />
+          </ng-container>
+          <ng-container *ngSwitchCase="'Knight'">
+            <img src="assets/swordsman.svg" alt="Knight" class="svg-icon" />
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Master Sorcerer'">
+            <img src="assets/magician.svg" alt="Sorcerer" class="svg-icon" />
+          </ng-container>
+          <ng-container *ngSwitchCase="'Sorcerer'">
+            <img src="assets/magician.svg" alt="Sorcerer" class="svg-icon" />
+          </ng-container>
+          <!-- Fallback genérico -->
+          <ng-container *ngSwitchDefault>
+            <img src="assets/question.svg" alt="Unknown" class="svg-icon" />
+          </ng-container>
+
+          <strong>Vocação:</strong> {{ characterData.vocation }}
+        </li>
+
+        <li> <img src="assets/planet-earth.svg" alt="world" class="svg-icon" /><strong>Mundo:</strong> {{
+          characterData.world }}</li>
+        <li>
+          <img src="assets/armor-svgrepo-com.svg" alt="outfit" class="svg-icon" /><strong>Outfits
+            Desbloqueados:</strong>
+          {{ outfitsPossui.length }} / {{ outfitsPossui.length + outfitsNaoPossui.length }}
+        </li>
+        <li> <img src="assets/horse.svg" alt="mounts" class="svg-icon" />
+          <strong>Montarias Desbloqueadas:</strong>
+          {{ mountsPossui.length }} / {{ mountsPossui.length + mountsNaoPossui.length }}
+        </li>
+        <li> <img src="assets/success.svg" alt="achiviement" class="svg-icon" /><strong>Conquistas:</strong>
+          {{ allAchievements?.acquired }} / {{ allAchievements?.total}}
+        </li>
+        <li> <img src="assets/badge.svg" alt="quest" class="svg-icon" /><strong>Achiviements Raros:</strong>
+          {{ rareAchiviements.length}}
+        </li>
+        <li> <img src="assets/quest.svg" alt="quest" class="svg-icon" /><strong>Quests Principais:</strong>
+          {{ quests.countDone }} / {{ quests.total}}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Itens a Conquistar (Outfits e Montarias) -->
+    <div class="parchment-card" *ngIf="characterData">
+      <h2>🗡️ Capítulo das Vestes Épicas 🗡️</h2>
+      <hr />
+
+      <div class="conquista-row-custom">
+        <div class="conquista-card-custom" *ngFor="let outfit of outfitsNaoPossui">
+          <div class="conquista-image-container-custom">
+            <img [src]="outfit.image" [alt]="outfit.name" class="conquista-image-custom" />
+          </div>
+          <div class="conquista-info-custom">
+            <span class="conquista-name-custom">{{ outfit.name }}</span><br>
+
+            <span class="missing-details-custom" *ngIf="!outfit.base || !outfit.addon1 || !outfit.addon2">
+              <ng-container *ngIf="!outfit.base && !outfit.addon1 && !outfit.addon2">
+                <span class="flavor-text">A jornada nem começou!</span>
+              </ng-container>
+            
+              <ng-container *ngIf="!( !outfit.base && !outfit.addon1 && !outfit.addon2 )">
+                <ng-container *ngIf="!outfit.addon1 && !outfit.addon2 && outfit.base">
+                  <span class="flavor-text">Os artefatos finais ainda não foram domados...</span>
+                  <div class="disclaimer-row">
+                    <div class="medieval-disclaimer"><span>❌</span> addon 1</div>
+                    <div class="medieval-disclaimer"><span>❌</span> addon 2</div>
+                  </div>
+                </ng-container>
+            
+                <ng-container *ngIf="!outfit.addon1 && outfit.addon2">
+                  <span class="flavor-text">O primeiro selo ainda resiste.</span>
+                  <div class="disclaimer-row">
+                    <div class="medieval-disclaimer"><span>❌</span> addon 1</div>
+                  </div>
+                </ng-container>
+            
+                <ng-container *ngIf="!outfit.addon2 && outfit.addon1">
+                  <span class="flavor-text">O último fragmento não foi forjado.</span>
+                  <div class="disclaimer-row">
+                    <div class="medieval-disclaimer"><span>❌</span> addon 2</div>
+                  </div>
+                </ng-container>
+            
+                <ng-container *ngIf="!outfit.base && (outfit.addon1 || outfit.addon2)">
+                  <span class="flavor-text">A alma do traje ainda aguarda seu herói</span>
+                </ng-container>
+              </ng-container>
+            </span>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="parchment-card" *ngIf="characterData">
+      <!-- MONTARIAS A CONQUISTAR -->
+      <h2>🐺 Aliados das Terras Selvagens 🐺 </h2>
+      <hr />
+
+      <div class="conquista-row-custom">
+        <div class="conquista-card-custom" *ngFor="let mount of mountsNaoPossui">
+          <div class="conquista-image-container-custom">
+            <img [src]="mount.image" [alt]="mount.name" class="conquista-image-custom" />
+          </div>
+          <div class="conquista-info-custom">
+            <span class="conquista-name-custom">{{ mount.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
