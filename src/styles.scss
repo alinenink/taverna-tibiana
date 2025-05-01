@@ -1,14 +1,10 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-/* Caso ainda não tenha importado a fonte MedievalSharp, inclua, por exemplo:
-   @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
-*/
 
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  /* Fundo básico para evitar cor de fundo “padrão” */
   background-color: #f5f0d5;
 }
 
@@ -23,7 +19,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* Fundo existente com gradiente + imagem */
   background: linear-gradient(
       135deg,
       rgba(245, 240, 213, 0.85),
@@ -34,62 +29,41 @@ body {
   background-position: center;
   background-size: cover;
 
-  /* Para que o pseudo-elemento fique “por cima” das bordas */
   position: relative;
   z-index: 0;
 }
 
-/* Efeito de bordas queimadas */
 .parchment-background::before {
   content: "";
   position: absolute;
   inset: 0;
-  /* ocupa toda a área do elemento */
   pointer-events: none;
-  /* não interfere na interação do mouse */
   z-index: 1;
 
-  /* 
-       Use várias sombras insets para criar camadas de queimado.
-       Ajuste cor e tamanho à vontade (opacidade e spread).
-    */
   box-shadow: inset 0 0 35px 15px rgba(0, 0, 0, 0.45),
-    /* sombra mais escura perto das bordas */ inset 0 0 70px 40px
-      rgba(139, 69, 19, 0.25);
-  /* sombra em tom marrom, ampliando o 'queimado' */
+    inset 0 0 70px 40px rgba(139, 69, 19, 0.25);
 }
 
 /* ======= Título Principal ======= */
 .tavernatibiana-title {
-  /* Use a fonte medieval que você estiver importando no seu projeto */
   font-family: "MedievalSharp", serif;
-  /* Ajuste o tamanho conforme o layout */
   font-size: 3rem;
   text-align: center;
-  /* Cor de texto puxando um tom de marrom-escuro */
   color: #3e2f1c;
-  /* Sombra para dar destaque */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   margin-bottom: 2rem;
   position: relative;
   z-index: 1;
-  /* Para se sobrepor a pseudo-elementos de fundo caso haja */
-
-  /* Se quiser um leve efeito ornamentado, pode usar ::after ou ::before */
 }
 
 .tavernatibiana-title::after {
   content: "";
   display: block;
   width: 120px;
-  /* Largura da linha decorativa */
   height: 4px;
-  /* Espessura da “barra” */
   background-color: #7b5e3b;
   margin: 0.5rem auto 0;
-  /* Centraliza e espaça do texto */
   border-radius: 2px;
-  /* Deixa as pontas arredondadas */
 }
 
 /* ======= Rodapé ======= */
@@ -156,16 +130,11 @@ body {
   border: 2px solid #a07947;
   border-radius: 8px;
 
-  /* Fundo que simula pergaminho */
   background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
   background-blend-mode: multiply;
 
-  /* Sombreamento externo + sombra interna */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2),
-    /* sombra externa suave */ inset 0 0 6px rgba(0, 0, 0, 0.15),
-    /* sombra interna para realçar o “desgaste” */ 2px 2px 10px
-      rgba(0, 0, 0, 0.1);
-  /* você pode ajustar ou remover para suavizar */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 0 6px rgba(0, 0, 0, 0.15),
+    2px 2px 10px rgba(0, 0, 0, 0.1);
 
   position: relative;
   text-align: center;
@@ -173,9 +142,7 @@ body {
   font-family: "Georgia", serif;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
-  /* garante que pseudo-elementos fiquem contidos */
 
-  /* Textura sutil no “papel” */
   &::before {
     content: "";
     position: absolute;
@@ -198,7 +165,6 @@ body {
     z-index: 0;
   }
 
-  /* Título do card */
   h2 {
     font-family: "MedievalSharp", serif;
     font-size: 1.5rem;
@@ -221,7 +187,6 @@ body {
     z-index: 1;
   }
 
-  /* Botão no card */
   button {
     margin-top: 1rem;
     padding: 0.5rem 1rem;
@@ -242,12 +207,17 @@ body {
     }
   }
 
-  /* Efeito de hover no card */
   &:hover {
-    transform: scale(1.02);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25),
-      /* intensifica a sombra ao passar o mouse */ inset 0 0 6px
-        rgba(0, 0, 0, 0.15);
+      inset 0 0 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.no-animation {
+  .parchment-card {
+    &:hover {
+      transition: none !important;
+    }
   }
 }
 
@@ -329,7 +299,7 @@ body {
 .conquista-card-custom {
   cursor: pointer;
   width: 150px;
-  min-height: 180px;
+  min-height: 207px;
   text-align: center;
   background: linear-gradient(#fdf1cc, #f1d9a4);
   border: 3px solid #b98b4e;
@@ -401,7 +371,7 @@ body {
 /* Detalhes de "faltam"                   */
 /******************************************/
 .missing-details-custom {
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-style: italic;
   color: #992e2e;
   display: block;
@@ -516,7 +486,6 @@ body {
   color: #5b3e1d;
 }
 
-/* Ajustes específicos para largura menor */
 @media (min-width: 300px) {
   .parchment-card {
     width: 100%;
@@ -616,7 +585,7 @@ body {
   }
 
   .missing-details-custom {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
   }
 
   .medieval-disclaimer {
@@ -625,13 +594,11 @@ body {
   }
 }
 
-/* Ícone do título maior */
 .svg-icon {
   width: 2em;
   height: auto;
   vertical-align: middle;
 }
-/* Animous Mastery */
 .tabela-pergaminho {
   width: 100%;
   border-collapse: collapse;
@@ -695,7 +662,11 @@ body {
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-/* Animações */
+.toast-medieval {
+  animation: fadein 0.5s ease-out forwards, fadeout 0.5s ease-in 2.5s forwards;
+  animation-fill-mode: both;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -777,7 +748,7 @@ body {
   .input-medieval,
   .select-medieval,
   .botao-buscar {
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -835,3 +806,441 @@ body {
 .svg-label {
   cursor: pointer;
 }
+
+.ordenavel {
+  cursor: pointer;
+  user-select: none;
+  font-family: "MedievalSharp", serif;
+  transition: color 0.3s;
+}
+
+.ordenavel:hover {
+  color: #a67c52;
+}
+
+.icone-ordenar {
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.medieval-disclaimer {
+  background: linear-gradient(#fdf8e4, #f4e6b3);
+  border: 2px solid #a67c52;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-family: "Georgia", serif;
+  font-size: 1rem;
+  color: #3b2a1a;
+  box-shadow: inset 0 0 8px rgba(139, 69, 19, 0.15),
+    2px 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+
+  p {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+
+  strong {
+    color: #5b3e1d;
+  }
+
+  u {
+    text-decoration-color: #a67c52;
+    text-underline-offset: 3px;
+    font-weight: bold;
+  }
+}
+
+.acao-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "MedievalSharp", serif;
+  color: #3e2f1c;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.acao-item:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 5px gold);
+}
+
+.acao-item span {
+  font-size: 0.9rem;
+}
+
+@media (min-width: 769px) {
+  #tabela-desktop {
+    display: block !important;
+  }
+
+  .cards-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  #tabela-desktop {
+    display: none;
+  }
+
+  .cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-card {
+    background: linear-gradient(#fdf8e4, #e8d9a5);
+    border: 2px solid #a67c52;
+    border-radius: 10px;
+    padding: 1rem;
+    font-family: "MedievalSharp", serif;
+    color: #3e2f1c;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .card-body p {
+    margin: 0.2rem 0;
+  }
+
+  .acoes-icons {
+    flex-direction: column;
+  }
+}
+
+.cards-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  .mobile-card {
+    background: linear-gradient(#fdf8e4, #e8d9a5);
+    border: 2px solid #a67c52;
+    border-radius: 10px;
+    padding: 1rem;
+    font-family: "MedievalSharp", serif;
+    color: #3e2f1c;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    .card-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-info {
+      font-size: 0.95rem;
+      margin: 0.1rem 0;
+    }
+
+    &:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 6px #8b5e3c;
+    }
+
+    &.selecionado {
+      border: 2px solid #347c3c;
+      background: linear-gradient(#ecffe6, #c2e8c7);
+    }
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modal-conteudo {
+  background: linear-gradient(#fef8e7, #f5e4bc);
+  border: 2px solid #8b5e3c;
+  border-radius: 10px;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'MedievalSharp', cursive;
+}
+
+/* Opcional: garante rolagem interna do conteúdo em telas pequenas */
+@media (max-width: 600px) {
+  .modal-conteudo {
+    font-size: 0.95rem;
+    padding: 16px;
+  }
+}
+
+
+.modal-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #5b3e1d;
+}
+
+.modal-opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-checkbox {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1em;
+}
+
+.modal-botoes button {
+  padding: 0.4rem 1rem;
+  background-color: #d4aa7d;
+  color: #2d1a05;
+  border: 2px solid #8b5a2b;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Cinzel", serif;
+  transition: background 0.3s ease;
+}
+
+.modal-botoes button:hover {
+  background-color: #c89b6d;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.svg-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-loader svg {
+  stroke: #ffffff;
+  stroke-width: 2;
+  fill: none;
+}
+
+.svg-loader path {
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  animation: drawLine 3s linear infinite;
+}
+
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: 1800;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.exportar-pdf-opcao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.exportar-pdf-opcao img {
+  width: 24px;
+  height: 24px;
+}
+
+.conquistado {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.nao-conquistado {
+  color: #999;
+}
+
+.tooltip-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 6px;
+  color: #5a4b3c;
+  font-size: 1rem;
+}
+
+.grid-3-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.achivement-possui {
+  font-weight: bold;
+  color: #222;
+}
+
+.achivement-nao-possui {
+  color: #999;
+}
+
+.tooltip {
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  text-decoration: underline;
+}
+
+.quests-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+
+  div {
+    flex: 1;
+
+    h4 {
+      text-align: left;
+    }
+
+    ul {
+      padding-left: 0;
+      text-align: left; // Garante que todos os itens fiquem alinhados
+    }
+
+    li {
+      list-style: none;
+      font-size: 14px;
+      margin-bottom: 4px;
+      text-align: left;
+
+      &.concluida {
+        font-weight: bold;
+        color: #2f2f2f;
+      }
+
+      &.incompleta {
+        color: #999;
+      }
+    }
+  }
+}
+
+.paginacao-gems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  span {
+    font-size: 14px;
+  }
+}
+
+.button-medieval {
+  background-color: #d2b48c;
+  border: 2px solid #8b5e3c;
+  color: #4b3621;
+  font-family: 'MedievalSharp', cursive;
+  padding: 6px 14px;
+  margin: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #c1a176;
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    background-color: #eee0c9;
+    color: #999;
+    border-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.space-elements {
+  margin-top: 1em;
+}
+
+.title-bar {
+  position: relative;
+  margin-bottom: 1rem;
+  right: 32em;
+}
+
+.voltar-button {
+  position: absolute;
+  left: 0;
+  background-color: #e6caa1;
+  border: 2px solid #8b5e3c;
+  color: #3e2c1a;
+  font-family: 'MedievalSharp', cursive;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d1b48a;
+  }
+}
+

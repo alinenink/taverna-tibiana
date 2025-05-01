@@ -3,11 +3,9 @@
     align-items: center;
     justify-content: space-between;
     max-width: 1200px;
-    /* alinhar com os cards, se desejado */
     margin: 0 auto;
     gap: 1rem;
     padding: 0 1rem;
-    /* margem interna lateral */
 }
 
 /* ====== VERSÃO DESKTOP ====== */
@@ -21,11 +19,9 @@
     padding: 0 1rem;
 }
 
-/* Imagens na versão Desktop */
 .side-image {
     flex: 0 0 auto;
     max-width: 180px;
-    /* Ajuste conforme desejar */
 }
 
 .side-image img {
@@ -34,20 +30,16 @@
     display: block;
 }
 
-/* Texto central na versão Desktop */
 .center-text {
     flex: 1;
     text-align: center;
-    /* Opcional */
     max-width: 600px;
-    /* Limite a largura do texto */
     margin: 0 1rem;
 }
 
 /* ====== VERSÃO MOBILE ====== */
 .mobile-images {
     display: none;
-    /* Escondida no desktop */
 }
 
 /* ======= Texto de Introdução ======= */
@@ -65,12 +57,9 @@
     text-shadow: 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
-/* Ícone ao lado do título */
 .info-icon {
     cursor: pointer;
     margin-left: 8px;
-
-    /* Animação de pulsar */
     animation: pulsate 1.5s infinite;
 }
 
@@ -110,15 +99,11 @@
     }
 }
 
-/* Conteúdo central (título, parágrafos, botão) */
 .card-content {
     max-width: 275px;
-    /* Limite de largura para que o texto fique bem centralizado */
     margin: 0 auto;
-    /* Centraliza horizontalmente dentro do card */
 }
 
-/* Título: ícone + texto na mesma linha */
 .card-content h2 {
     display: inline-flex;
     align-items: center;
@@ -126,7 +111,6 @@
     margin: 0 0 1rem;
 }
 
-/* Tooltip no canto superior direito */
 .info-icon {
     position: absolute;
     top: 0.5rem;
@@ -134,63 +118,51 @@
     cursor: pointer;
 }
 
-/* Ícone do tooltip (lightbulb) menor */
 .tooltip-icon {
     width: 1.2em;
     height: auto;
     vertical-align: middle;
 }
 
-/* Texto do título */
 .title-text {
     vertical-align: middle;
     font-family: 'MedievalSharp', serif;
-    font-size: 1.6rem;
 }
 
 /* ======= MOBILE: as duas imagens lado a lado (1ª e 3ª), texto abaixo ======= */
 @media (max-width: 768px) {
     .tavernatibiana-layout {
         flex-wrap: wrap;
-        /* permite quebrar linha */
         flex-direction: row;
-        /* mantém orientação em row */
         justify-content: center;
     }
 
-    /* Forçamos a primeira imagem (child 1) a vir primeiro */
     .side-image:nth-child(1) {
         order: 1;
         flex: 0 0 50%;
         max-width: 50%;
     }
 
-    /* Texto será o último (child 2), para ficar abaixo das imagens */
     .center-text {
         order: 3;
-        /* ele vira o 3º na ordem */
         flex: 0 0 100%;
         max-width: 100%;
         margin-top: 1rem;
     }
 
-    /* Segunda imagem (child 3) vem logo depois da primeira imagem */
     .side-image:nth-child(3) {
         order: 2;
         flex: 0 0 50%;
         max-width: 50%;
     }
 
-    /* No mobile, a versão Desktop é oculta */
     .desktop-images {
         display: none;
     }
 
-    /* Exibimos a versão Mobile */
     .mobile-images {
         display: flex;
         flex-direction: row;
-        /* As duas imagens lado a lado */
         justify-content: center;
         gap: 1rem;
         max-width: 1100px;
@@ -200,12 +172,12 @@
 
     .mobile-images img {
         width: 45%;
-        /* ou 50%, conforme desejar */
         height: auto;
     }
 }
 
 .home-size {
-    max-width: 360px; // novo
-    flex: 1 1 300px; // ajuda no alinhamento flexível
+    max-width: 360px; 
+    flex: 1 1 300px; 
 }
+
