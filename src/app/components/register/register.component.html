@@ -1,0 +1,376 @@
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="tavernatibiana-title">Registro do Aventureiro</h1>
+
+    <!-- Formulário de Registro -->
+    <form
+      *ngIf="!showVerification"
+      class="parchment-card"
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Mensagem do taberneiro -->
+      <div class="medieval-disclaimer">
+        <p>🍺 <strong>Saudações, nobre aventureiro!</strong></p>
+        <p>
+          Para registrar-se em nossa taverna, preencha o pergaminho abaixo com
+          seus dados mágicos.<br />
+          <strong>IMPORTANTE:</strong>
+          <span style="color: #b97a1a">
+            NÃO use a mesma senha da sua conta do Tibia!</span
+          ><br />
+          A senha do portal deve ter pelo menos 8 caracteres, incluindo letras e
+          números.<br />
+          E <strong>lembre-se:</strong> aqui, sua privacidade é respeitada como
+          a receita do melhor hidromel!
+        </p>
+      </div>
+
+      <div *ngIf="erro" class="login-error">{{ erro }}</div>
+
+      <!-- Email Field -->
+      <div class="input-icon-group">
+        <img src="assets/id-card.svg" alt="Email" class="svg-icon" />
+        <input
+          id="email"
+          class="input-medieval"
+          type="email"
+          formControlName="email"
+          placeholder="Email mágico"
+          required
+        />
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched
+        "
+        class="login-error"
+      >
+        <span *ngIf="registerForm.get('email')?.errors?.['required']"
+          >Email é obrigatório</span
+        >
+        <span *ngIf="registerForm.get('email')?.errors?.['email']"
+          >Formato de email inválido</span
+        >
+        <span *ngIf="registerForm.get('email')?.errors?.['invalidDomain']"
+          >Domínio de email não permitido</span
+        >
+      </div>
+
+      <!-- Character Name Field -->
+      <div class="input-icon-group">
+        <img src="assets/swordsman.svg" alt="Personagem" class="svg-icon" />
+        <input
+          id="char"
+          class="input-medieval"
+          type="text"
+          formControlName="char"
+          placeholder="Nome do personagem no Tibia"
+          required
+        />
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('char')?.invalid &&
+          registerForm.get('char')?.touched
+        "
+        class="login-error"
+      >
+        <span *ngIf="registerForm.get('char')?.errors?.['required']"
+          >Nome do personagem é obrigatório</span
+        >
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-icon-group">
+        <img src="assets/key-skills.svg" alt="Senha" class="svg-icon" />
+        <input
+          id="password"
+          class="input-medieval"
+          type="password"
+          formControlName="password"
+          placeholder="Senha do portal (mín. 8 caracteres)"
+          required
+        />
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched
+        "
+        class="login-error"
+      >
+        <span *ngIf="registerForm.get('password')?.errors?.['required']"
+          >Senha é obrigatória</span
+        >
+        <span *ngIf="registerForm.get('password')?.errors?.['minlength']"
+          >Senha deve ter pelo menos 8 caracteres</span
+        >
+        <span *ngIf="registerForm.get('password')?.errors?.['pattern']"
+          >Senha deve conter letras e números</span
+        >
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="input-icon-group">
+        <img
+          src="assets/key-skills.svg"
+          alt="Confirmar Senha"
+          class="svg-icon"
+        />
+        <input
+          id="confirmPassword"
+          class="input-medieval"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirmar senha"
+          required
+        />
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('confirmPassword')?.invalid &&
+          registerForm.get('confirmPassword')?.touched
+        "
+        class="login-error"
+      >
+        <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']"
+          >Confirmação de senha é obrigatória</span
+        >
+        <span
+          *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']"
+          >Senhas não coincidem</span
+        >
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="terms-section">
+        <div class="terms-checkbox">
+    
+          <p for="acceptTerms">
+            <input
+            type="checkbox"
+            id="acceptTerms"
+            formControlName="acceptTerms"
+          />
+            Li e aceito os
+            <button
+              type="button"
+              class="medieval-link"
+              (click)="openTermsModal()"
+            >
+              Termos de Uso e Política de Privacidade
+            </button>
+          </p>
+        </div>
+        <div
+          *ngIf="
+            registerForm.get('acceptTerms')?.invalid &&
+            registerForm.get('acceptTerms')?.touched
+          "
+          class="login-error"
+        >
+          <span *ngIf="registerForm.get('acceptTerms')?.errors?.['required']"
+            >Você deve aceitar os termos para continuar</span
+          >
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        class="button-medieval"
+        type="submit"
+        [disabled]="registerForm.invalid || carregando"
+      >
+        <span *ngIf="!carregando">Alistar-se na Guilda</span>
+        <span *ngIf="carregando">Registrando...</span>
+      </button>
+
+    </form>
+
+    <!-- Login Links -->
+    <div class="login-links">
+      <button class="medieval-link" (click)="goToLogin()">Já tens uma conta? Entrar na Taverna</button>
+    </div>
+
+    <!-- Formulário de Validação -->
+    <form
+      *ngIf="showVerification"
+      class="parchment-card"
+      [formGroup]="verificationForm"
+      (ngSubmit)="onVerifyCode()"
+    >
+      <!-- Mensagem da taberneira -->
+      <div class="medieval-disclaimer">
+        <p>🍺 <strong>Excelente, aventureiro!</strong></p>
+        <p>
+          Seu registro foi realizado com sucesso! Agora, para completar sua entrada
+          em nossa guilda, precisamos que você valide seu email mágico.<br />
+          <strong>Verifique sua caixa de entrada</strong> em 
+          <span style="color: #b97a1a">{{ registeredEmail }}</span><br />
+          e insira o código de 6 dígitos que enviamos para você.<br />
+          <em>Se não encontrar o email, verifique também a pasta de spam!</em>
+        </p>
+      </div>
+
+      <!-- Código de Verificação Field -->
+      <div *ngIf="verificacaoErro" class="login-error">{{ verificacaoErro }}</div>
+      <div class="input-icon-group">
+        <img src="assets/key-skills.svg" alt="Código" class="svg-icon" />
+        <input
+          id="code"
+          class="input-medieval"
+          type="text"
+          formControlName="code"
+          placeholder="Código de verificação (6 dígitos)"
+          required
+          maxlength="6"
+          pattern="[0-9]{6}"
+        />
+      </div>
+      <div
+        *ngIf="
+          verificationForm.get('code')?.invalid &&
+          verificationForm.get('code')?.touched
+        "
+        class="login-error"
+      >
+        <span *ngIf="verificationForm.get('code')?.errors?.['required']"
+          >Código é obrigatório</span
+        >
+        <span *ngIf="verificationForm.get('code')?.errors?.['minlength'] || verificationForm.get('code')?.errors?.['maxlength']"
+          >Código deve ter exatamente 6 dígitos</span
+        >
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        class="button-medieval"
+        type="submit"
+        [disabled]="verificationForm.invalid || carregando"
+      >
+        <span *ngIf="!carregando">Validar Código</span>
+        <span *ngIf="carregando">Validando...</span>
+      </button>
+
+      <!-- Back Button -->
+      <div class="login-links">
+        <button
+          type="button"
+          class="medieval-link"
+          (click)="backToRegister()"
+        >
+          ← Voltar ao Registro
+        </button>
+      </div>
+    </form>
+
+    <!-- Loader -->
+    <div *ngIf="carregando" class="svg-loader-overlay">
+      <div class="svg-loader">
+        <svg
+          fill="#000000"
+          height="80px"
+          width="80px"
+          viewBox="0 0 452.022 452.022"
+        >
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905,3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal-overlay" *ngIf="showTermsModal" (click)="closeTermsModal()">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <h3 class="modal-titulo">📋 Termos de Uso e Política de Privacidade</h3>
+
+    <div class="modal-opcoes">
+      <h4>🔒 Política de Privacidade (LGPD)</h4>
+      <p>
+        Em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº
+        13.709/2018), informamos que:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Coleta de Dados:</strong> Coletamos apenas informações
+          necessárias para o funcionamento do portal (email, nome do personagem
+          e senha do portal).
+        </li>
+        <li>
+          <strong>Uso dos Dados:</strong> Seus dados são utilizados
+          exclusivamente para autenticação e funcionalidades do portal Animous
+          Mastery.
+        </li>
+        <li>
+          <strong>Segurança:</strong> Implementamos medidas técnicas e
+          organizacionais para proteger seus dados pessoais.
+        </li>
+        <li>
+          <strong>Não Compartilhamento:</strong> Não compartilhamos, vendemos ou
+          alugamos suas informações pessoais a terceiros.
+        </li>
+        <li>
+          <strong>Seus Direitos:</strong> Você tem direito de acessar, corrigir,
+          excluir ou portar seus dados pessoais.
+        </li>
+      </ul>
+
+      <h4>⚠️ Declarações Importantes</h4>
+      <ul>
+        <li>
+          <strong>Não Malicioso:</strong> Este portal não possui fins maliciosos
+          e não coleta dados para prejudicar usuários.
+        </li>
+        <li>
+          <strong>Sem Acesso ao Tibia:</strong> Não temos e não tentaremos obter
+          acesso à sua conta do Tibia ou informações relacionadas ao jogo.
+        </li>
+        <li>
+          <strong>Independência:</strong> Este é um portal independente, não
+          afiliado oficialmente ao Tibia ou CipSoft.
+        </li>
+        <li>
+          <strong>Responsabilidade:</strong> O usuário é responsável por manter
+          a segurança de suas credenciais.
+        </li>
+      </ul>
+
+      <h4>📜 Termos de Uso</h4>
+      <ul>
+        <li>O uso deste portal é voluntário e gratuito.</li>
+        <li>
+          É proibido o uso para fins ilegais ou que violem os direitos de
+          terceiros.
+        </li>
+        <li>
+          Reservamo-nos o direito de modificar estes termos a qualquer momento.
+        </li>
+        <li>
+          O uso continuado do portal após mudanças nos termos constitui
+          aceitação das modificações.
+        </li>
+      </ul>
+
+      <p class="contact-info">
+        Para dúvidas sobre esta política, entre em contato através do portal.
+      </p>
+    </div>
+
+    <div class="modal-botoes">
+      <button type="button" class="button-medieval" (click)="acceptTerms()">
+        Aceitar Termos
+      </button>
+      <button type="button" class="button-medieval" (click)="closeTermsModal()">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>

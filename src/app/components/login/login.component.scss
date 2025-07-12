@@ -1,0 +1,61 @@
+.consulta-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.parchment-card {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+input.input-medieval {
+  margin-bottom: 1rem;
+}
+
+.button-medieval {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.login-error {
+  color: #992e2e;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: 'MedievalSharp', serif;
+}
+
+.input-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.login-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  font-family: 'MedievalSharp', serif;
+}
+
+.medieval-link {
+  color: #7b5e3b;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.medieval-link:hover {
+  color: #a88d5a;
+}
+
+.medieval-link-sep {
+  color: #a67c52;
+  font-weight: bold;
+} 

@@ -72,7 +72,14 @@ export class ConsultComponent implements OnInit {
     private achievementsService: AchievementsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http
+      .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
+      .subscribe({
+        next: (data) => console.log(data),
+        error: (err) => console.error('Erro:', err),
+      });
+  }
 
   consultarPersonagem(): void {
     this.carregando = true;
@@ -498,17 +505,17 @@ export class ConsultComponent implements OnInit {
     const fim = this.paginaGemsAtual * this.gemsPorPagina;
     return this.greaterGems.slice(inicio, fim);
   }
-  
+
   get totalPaginasGems(): number {
     return Math.ceil(this.greaterGems.length / this.gemsPorPagina);
   }
-  
+
   proximaPaginaGems(): void {
     if (this.paginaGemsAtual < this.totalPaginasGems) {
       this.paginaGemsAtual++;
     }
   }
-  
+
   paginaAnteriorGems(): void {
     if (this.paginaGemsAtual > 1) {
       this.paginaGemsAtual--;
