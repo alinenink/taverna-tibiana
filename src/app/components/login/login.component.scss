@@ -12,6 +12,7 @@
 }
 
 input.input-medieval {
+  flex: 1;
   margin-bottom: 1rem;
 }
 
@@ -38,8 +39,9 @@ input.input-medieval {
 .login-links {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.2rem;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
   font-family: 'MedievalSharp', serif;
 }
 
@@ -58,4 +60,7 @@ input.input-medieval {
 .medieval-link-sep {
   color: #a67c52;
   font-weight: bold;
+  font-size: 1.2em;
+  margin: 0 0.2em;
+  user-select: none;
 } 

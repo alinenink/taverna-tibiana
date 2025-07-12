@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environments';
+import { AuthService } from './auth.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { medievalFontBase64 } from './medievalfont.js';
@@ -16,6 +17,7 @@ export interface Mastery {
 @Injectable({ providedIn: 'root' })
 export class MasteryService {
   private baseUrl = environment.apiUrl + '/animous-mastery/animous';
+  private userMasteryUrl = environment.apiUrl + '/animous-mastery';
 
   dados = signal<Mastery[]>([]);
   selecionados = signal<Mastery[]>([]);
@@ -24,12 +26,101 @@ export class MasteryService {
   totalResultados = signal(0);
   toastMessage = signal<string | null>(null);
   private _dadosTodos: Mastery[] = [];
+  filtros = { nome: '', dificuldade: '', classe: '' };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  // Carregar masteries do usuário ao inicializar
+  carregarMasteriesUsuario(onFinish?: () => void) {
+    const userId = this.authService.getUserId();
+    const token = this.authService.getToken();
+    console.log('[DEBUG] userId:', userId);
+    console.log('[DEBUG] token:', token);
+    if (!userId) {
+      console.error('User ID não encontrado');
+      if (onFinish) onFinish();
+      return;
+    }
+    if (!token) {
+      console.error('Token não encontrado');
+      if (onFinish) onFinish();
+      return;
+    }
+    // HttpClient do Angular será usado, o interceptor deve adicionar o token
+    this.http.get<any>(`${this.userMasteryUrl}/${userId}`).subscribe({
+      next: (response) => {
+        // Log completo do response para debug
+        console.log('[DEBUG] response recebido:', response);
+        let payload: any[] = [];
+        if (Array.isArray(response)) {
+          payload = response[0]?.payload;
+        } else if (response && response.payload) {
+          payload = typeof response.payload === 'string'
+            ? JSON.parse(response.payload)
+            : response.payload;
+        }
+        console.log('[DEBUG] payload extraído:', payload);
+        if (Array.isArray(payload) && payload.length > 0) {
+          this.selecionados.set(payload);
+          this.toastMessage.set('Masteries carregados do servidor!');
+          this.preencherTabelaComMasteries(payload, onFinish);
+          setTimeout(() => this.toastMessage.set(null), 3000);
+        } else {
+          // Se não houver payload, pode buscar lista geral
+          this.buscar(this.filtros, 1, onFinish);
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar masteries do usuário:', error);
+        this.buscar(this.filtros, 1, onFinish);
+      }
+    });
+  }
+
+  // Preencher tabela com masteries do usuário
+  private preencherTabelaComMasteries(masteriesUsuario: any[], onFinish?: () => void) {
+    // Primeiro, carrega todos os masteries disponíveis
+    this.http.get<any>(`${this.baseUrl}?page=1&pageSize=9999`).subscribe((res) => {
+      const todos = res.data.map((item: any) => ({
+        ...item,
+        difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+        image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+      }));
+
+      // Marca os masteries do usuário como selecionados
+      const masteriesUsuarioIds = new Set(masteriesUsuario.map((m: any) => m.id));
+      this.selecionados.set(todos.filter((item: any) => masteriesUsuarioIds.has(item.id)));
+
+      // Ordena com os selecionados primeiro
+      const ordenado = todos.sort((a, b) => {
+        const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
+        const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
+        return (
+          aSel - bSel ||
+          a.name.localeCompare(b.name) ||
+          a.class.name.localeCompare(b.class.name)
+        );
+      });
+
+      const pageSize = 20;
+      const primeiraPagina = ordenado.slice(0, pageSize);
+
+      this.dados.set(primeiraPagina);
+      this._dadosTodos = ordenado;
+      this.totalResultados.set(ordenado.length);
+      this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+      this.paginaAtual.set(1);
+      if (onFinish) onFinish();
+    });
+  }
 
   buscar(
     filtros: { nome?: string; dificuldade?: string; classe?: string },
-    page = 1
+    page = 1,
+    onFinish?: () => void
   ) {
     const isRare = filtros.dificuldade?.toLowerCase() === 'rare';
 
@@ -57,7 +148,7 @@ export class MasteryService {
       const start = (page - 1) * 20;
       const end = start + 20;
       this.dados.set(dadosFiltrados.slice(start, end));
-
+      if (onFinish) onFinish();
       return;
     }
 
@@ -98,6 +189,7 @@ export class MasteryService {
         this.totalPaginas.set(res.totalPages);
         this.totalResultados.set(res.total);
         this.paginaAtual.set(res.page);
+        if (onFinish) onFinish();
       });
   }
 
@@ -180,61 +272,94 @@ export class MasteryService {
     doc.save('meus-masteries.pdf');
   }
 
-  importarJson(file: File) {
+  importarJson(file: File, onFinish?: () => void) {
     const reader = new FileReader();
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string) as any[];
-  
+
         if (Array.isArray(data)) {
           const reconstruidos = data.map((m: any) => ({
             ...m,
             class: typeof m.class === 'string' ? { name: m.class } : m.class,
           }));
-  
-          this.selecionados.set(reconstruidos);
-          this.toastMessage.set('Masteries carregados com sucesso!');
-  
-          const selecionadosIds = new Set(reconstruidos.map((m) => m.id));
-  
-          this.http.get<any>(`${this.baseUrl}?page=1&pageSize=9999`).subscribe((res) => {
-            const todos = res.data.map((item: any) => ({
-              ...item,
-              difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-              image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
-            }));
-  
-            const ordenado = todos.sort((a, b) => {
-              const aSel = selecionadosIds.has(a.id) ? 0 : 1;
-              const bSel = selecionadosIds.has(b.id) ? 0 : 1;
-              return (
-                aSel - bSel ||
-                a.name.localeCompare(b.name) ||
-                a.class.name.localeCompare(b.class.name)
-              );
+
+          // Enviar dados para o backend PRIMEIRO
+          this.salvarMasteriesUsuario(reconstruidos, () => {
+            // Só preenche a tela após sucesso no banco
+            this.selecionados.set(reconstruidos);
+            this.toastMessage.set('Masteries carregados com sucesso!');
+
+            const selecionadosIds = new Set(reconstruidos.map((m) => m.id));
+
+            this.http.get<any>(`${this.baseUrl}?page=1&pageSize=9999`).subscribe((res) => {
+              const todos = res.data.map((item: any) => ({
+                ...item,
+                difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+                image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+              }));
+
+              const ordenado = todos.sort((a, b) => {
+                const aSel = selecionadosIds.has(a.id) ? 0 : 1;
+                const bSel = selecionadosIds.has(b.id) ? 0 : 1;
+                return (
+                  aSel - bSel ||
+                  a.name.localeCompare(b.name) ||
+                  a.class.name.localeCompare(b.class.name)
+                );
+              });
+
+              const pageSize = 20;
+              const primeiraPagina = ordenado.slice(0, pageSize);
+
+              this.dados.set(primeiraPagina);
+              this._dadosTodos = ordenado;
+              this.totalResultados.set(ordenado.length);
+              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+              this.paginaAtual.set(1);
+              if (onFinish) onFinish();
             });
-  
-            const pageSize = 20;
-            const primeiraPagina = ordenado.slice(0, pageSize);
-  
-            this.dados.set(primeiraPagina);
-            this._dadosTodos = ordenado;
-            this.totalResultados.set(ordenado.length);
-            this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-            this.paginaAtual.set(1);
+
+            setTimeout(() => this.toastMessage.set(null), 3000);
           });
-  
-          setTimeout(() => this.toastMessage.set(null), 3000);
         } else {
           this.toastMessage.set('Arquivo inválido!');
+          if (onFinish) onFinish();
         }
       } catch (e) {
         this.toastMessage.set('Erro ao ler o arquivo!');
+        if (onFinish) onFinish();
       }
     };
     reader.readAsText(file);
   }
-  
+
+  salvarSelecionados() {
+    const selecionados = this.selecionados();
+    if (selecionados.length > 0) {
+      this.salvarMasteriesUsuario(selecionados);
+    } else {
+      this.toastMessage.set('Nenhum mastery selecionado para salvar!');
+    }
+  }
+
+  // Atualize salvarMasteriesUsuario para aceitar um callback opcional
+  private salvarMasteriesUsuario(masteries: any[], onSuccess?: () => void) {
+    const payload = {
+      payload: masteries
+    };
+    this.http.post(`${this.userMasteryUrl}`, payload).subscribe({
+      next: (response) => {
+        console.log('Masteries salvos com sucesso:', response);
+        this.toastMessage.set('Masteries salvos no servidor!');
+        if (onSuccess) onSuccess();
+      },
+      error: (error) => {
+        console.error('Erro ao salvar masteries:', error);
+        this.toastMessage.set('Erro ao salvar no servidor!');
+      }
+    });
+  }
 
   ordenarDados(
     campo: 'name' | 'difficulty' | 'class.name',

@@ -19,7 +19,7 @@
           "options": {
             "allowedCommonJsDependencies": ["jspdf"],
             "outputPath": "docs",
-            "baseHref": "/taverna-tibiana/",
+            "baseHref": "/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -52,7 +52,7 @@
                   "maximumError": "8kB"
                 }
               ],
-              "baseHref": "/taverna-tibiana/"
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,

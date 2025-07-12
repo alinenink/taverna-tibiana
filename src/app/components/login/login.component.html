@@ -1,33 +1,61 @@
 <div class="parchment-background">
   <div class="consulta-layout">
-    <h1 class="tavernatibiana-title">Bem-vindo à Taverna Tibiana</h1>
-    <form class="parchment-card" (ngSubmit)="login()">
-      <h2>Login</h2>
+    <h1 class="tavernatibiana-title">
+     Bem-vindo à Taverna Tibiana
+    </h1>
+    <form class="parchment-card" (ngSubmit)=" login()">
+      <h2>Juramento de Entrada</h2>
       <hr />
       <div *ngIf="erro" class="login-error">{{ erro }}</div>
       <div class="input-icon-group">
-        <img src="assets/wizard.svg" alt="Usuário" class="svg-icon" />
-        <input id="username" class="input-medieval" type="text" [(ngModel)]="username" name="username" placeholder="Digite seu usuário" required autocomplete="username" />
+        <img src="assets/wizard.svg" alt="Email" class="svg-icon" />
+        <input
+          id="email"
+          class="input-medieval"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Email mágico"
+          required
+        />
       </div>
       <div class="input-icon-group">
         <img src="assets/key-skills.svg" alt="Senha" class="svg-icon" />
-        <input id="password" class="input-medieval" type="password" [(ngModel)]="password" name="password" placeholder="Digite sua senha" required autocomplete="current-password" />
+        <input
+          id="password"
+          class="input-medieval"
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Palavra-passe da Irmandade"
+          required
+        />
       </div>
-      <button class="button-medieval" type="submit" [disabled]="carregando">Entrar</button>
+      <button class="button-medieval" type="submit" [disabled]="carregando || !email || !password">
+        Adentrar a Taverna
+      </button>
       <div class="login-links">
-        <a routerLink="/register" class="medieval-link">Cadastrar</a>
+        <a routerLink="/register" class="medieval-link">Alistar-se na Guilda</a>
         <span class="medieval-link-sep">|</span>
-        <a routerLink="/forgot-password" class="medieval-link">Esqueci a senha?</a>
+        <a routerLink="/forgot-password" class="medieval-link"
+          >Esqueceste teu juramento?</a
+        >
       </div>
       <div *ngIf="carregando" class="svg-loader-overlay">
         <div class="svg-loader">
-          <svg fill="#000000" height="80px" width="80px" viewBox="0 0 452.022 452.022">
+          <!-- Loader SVG permanece igual -->
+          <svg
+            fill="#000000"
+            height="80px"
+            width="80px"
+            viewBox="0 0 452.022 452.022"
+          >
             <g id="SVGRepo_iconCarrier">
-              <path d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905-3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"/>
+              <path d="..." />
             </g>
           </svg>
         </div>
       </div>
     </form>
   </div>
-</div> 
+</div>

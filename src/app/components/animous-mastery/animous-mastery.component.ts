@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Mastery, MasteryService } from '../../services/animous.service';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-animous-mastery.',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   providers: [MasteryService],
   templateUrl: './animous-mastery.component.html',
 })
@@ -21,6 +20,8 @@ export class AnimousMasteryComponent implements OnInit {
   ordenarPorAlfabetica = false;
   carregando: boolean = true;
 
+  // classOptions: { id: number, name: string }[] = [];
+
   ordenacoes: { [key: string]: boolean } = {
     name: true,
     difficulty: true,
@@ -28,10 +29,12 @@ export class AnimousMasteryComponent implements OnInit {
   };
 
   constructor(public service: MasteryService) {
-    this.service.buscar(this.filtros);
-    setTimeout(() => {
+    // Carregar masteries do usuário ao inicializar
+    this.carregando = true;
+    this.service.carregarMasteriesUsuario(() => {
       this.carregando = false;
-    }, 1000);
+    });
+    // this.classOptions = this.getUniqueClasses();
   }
 
   ngOnInit() {
@@ -39,6 +42,16 @@ export class AnimousMasteryComponent implements OnInit {
       this.isMobile = window.innerWidth <= 768;
     });
   }
+
+  // getUniqueClasses(): { id: number, name: string }[] {
+  //   const seen = new Map<number, string>();
+  //   (bestData as any[]).forEach((item) => {
+  //     if (item.class && !seen.has(item.class.id)) {
+  //       seen.set(item.class.id, item.class.name);
+  //     }
+  //   });
+  //   return Array.from(seen.entries()).map(([id, name]) => ({ id, name }));
+  // }
 
   abrirModalExportar() {
     this.exibirModalExportar = true;
@@ -84,21 +97,29 @@ export class AnimousMasteryComponent implements OnInit {
 
   buscar(event?: Event) {
     event?.preventDefault();
-    this.service.buscar(this.filtros, 1);
-    this.carregando = false;
+    this.carregando = true;
+    this.service.buscar(this.filtros, 1, () => {
+      this.carregando = false;
+    });
   }
 
   paginaAnterior() {
     const novaPagina = this.service.paginaAtual() - 1;
     if (novaPagina >= 1) {
-      this.service.buscar(this.filtros, novaPagina);
+      this.carregando = true;
+      this.service.buscar(this.filtros, novaPagina, () => {
+        this.carregando = false;
+      });
     }
   }
 
   proximaPagina() {
     const novaPagina = this.service.paginaAtual() + 1;
     if (novaPagina <= this.service.totalPaginas()) {
-      this.service.buscar(this.filtros, novaPagina);
+      this.carregando = true;
+      this.service.buscar(this.filtros, novaPagina, () => {
+        this.carregando = false;
+      });
     }
   }
 
@@ -118,12 +139,19 @@ export class AnimousMasteryComponent implements OnInit {
   onUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.service.importarJson(file);
+      this.carregando = true;
+      this.service.importarJson(file, () => {
+        this.carregando = false;
+      });
     }
   }
 
   toggleSelecao(item: Mastery) {
     const isSelected = this.isSelecionado(item.id);
     this.service.alternarSelecao(item, !isSelected);
+  }
+
+  salvarSelecionados() {
+    this.service.salvarSelecionados();
   }
 }

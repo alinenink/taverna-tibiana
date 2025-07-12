@@ -73,11 +73,12 @@ export class ConsultComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.carregando = true;
     this.http
       .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
       .subscribe({
-        next: (data) => console.log(data),
-        error: (err) => console.error('Erro:', err),
+        next: (data) => { console.log(data); this.carregando = false; },
+        error: (err) => { console.error('Erro:', err); this.carregando = false; },
       });
   }
 

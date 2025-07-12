@@ -1,0 +1,2382 @@
+[
+    {
+      "id": 765,
+      "name": "Spellreaper Inferniarch",
+      "order": 37,
+      "hitpoints": 11800,
+      "experience": 8350,
+      "speed": 180,
+      "mitigation": "2.13",
+      "armor": 74,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Castle Catacombs",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Spellreaper_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 766,
+      "name": "Hellhunter Inferniarch",
+      "order": 38,
+      "hitpoints": 11300,
+      "experience": 8100,
+      "speed": 175,
+      "mitigation": "2.19",
+      "armor": 73,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Castle Catacombs",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Hellhunter_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 767,
+      "name": "Brinebrute Inferniarch",
+      "order": 39,
+      "hitpoints": 32000,
+      "experience": 20300,
+      "speed": 160,
+      "mitigation": "2.45",
+      "armor": 80,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Castle Catacombs",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Brinebrute_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 768,
+      "name": "Sineater Inferniarch",
+      "order": 40,
+      "hitpoints": 9150,
+      "experience": 6750,
+      "speed": 160,
+      "mitigation": "1.94",
+      "armor": 68,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Azzilon Castle",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Sineater_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 769,
+      "name": "Broodrider Inferniarch",
+      "order": 41,
+      "hitpoints": 9600,
+      "experience": 7400,
+      "speed": 165,
+      "mitigation": "2.05",
+      "armor": 70,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Azzilon Castle",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Broodrider_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 770,
+      "name": "Gorger Inferniarch",
+      "order": 42,
+      "hitpoints": 9450,
+      "experience": 7180,
+      "speed": 160,
+      "mitigation": "1.99",
+      "armor": 74,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Azzilon Castle",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2024",
+      "notes": null,
+      "image": "/images/monsters/Gorger_Inferniarch.gif",
+      "class": {
+        "id": 5,
+        "name": "Demon",
+        "image": "/images/classes/Demon.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 666,
+      "name": "Hulking Carnisylvan",
+      "order": 73,
+      "hitpoints": 8600,
+      "experience": 4700,
+      "speed": 110,
+      "mitigation": "1.32",
+      "armor": 51,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Forest of Life",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Summer Update 2021",
+      "notes": null,
+      "image": "/images/monsters/Hulking_Carnisylvan.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 673,
+      "name": "Poisonous Carnisylvan",
+      "order": 74,
+      "hitpoints": 8000,
+      "experience": 4400,
+      "speed": 105,
+      "mitigation": "1.13",
+      "armor": 37,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Forest of Life",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Summer Update 2021",
+      "notes": null,
+      "image": "/images/monsters/Poisonous_Carnisylvan.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["earth"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 663,
+      "name": "Dark Carnisylvan",
+      "order": 75,
+      "hitpoints": 7500,
+      "experience": 4400,
+      "speed": 120,
+      "mitigation": "0.91",
+      "armor": 41,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Forest of Life",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Summer Update 2021",
+      "notes": null,
+      "image": "/images/monsters/Dark_Carnisylvan.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 313,
+      "name": "Barkless Devotee",
+      "order": 64,
+      "hitpoints": 2800,
+      "experience": 2200,
+      "speed": 150,
+      "mitigation": "0.78",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Ab'Dendriel Underground, Barkless Sulphur Pit, Barkless Tar Pit",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Barkless_Devotee.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "life drain"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 314,
+      "name": "Barkless Fanatic",
+      "order": 65,
+      "hitpoints": 3200,
+      "experience": 2500,
+      "speed": 150,
+      "mitigation": "0.78",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Ab'Dendriel Underground, Barkless Ice Cavern",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Barkless_Fanatic.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 248,
+      "name": "Cult Believer",
+      "order": 61,
+      "hitpoints": 975,
+      "experience": 850,
+      "speed": 130,
+      "mitigation": "1.18",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Carlin Underground",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Cult_Believer.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 249,
+      "name": "Cult Enforcer",
+      "order": 62,
+      "hitpoints": 1150,
+      "experience": 1000,
+      "speed": 130,
+      "mitigation": "1.24",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Carlin Underground",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Cult_Enforcer.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 250,
+      "name": "Cult Scholar",
+      "order": 63,
+      "hitpoints": 1650,
+      "experience": 1100,
+      "speed": 130,
+      "mitigation": "1.18",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Uncommon",
+      "locations": "Carlin Underground",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Cult_Scholar.png",
+      "class": {
+        "id": 11,
+        "name": "Human",
+        "image": "/images/classes/Human.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "death", "earth"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 315,
+      "name": "Orc Cultist",
+      "order": 66,
+      "hitpoints": 1350,
+      "experience": 950,
+      "speed": 95,
+      "mitigation": "1.26",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Uncommon",
+      "locations": "Edron Orc Lands",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Orc_Cultist.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 316,
+      "name": "Orc Cult Priest",
+      "order": 67,
+      "hitpoints": 1300,
+      "experience": 1000,
+      "speed": 70,
+      "mitigation": "1.18",
+      "armor": 27,
+      "difficulty": "Medium",
+      "occurrence": "Uncommon",
+      "locations": "Edron Orc Lands",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Orc_Cult_Priest.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "energy", "fire"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 317,
+      "name": "Orc Cult Inquisitor",
+      "order": 68,
+      "hitpoints": 1500,
+      "experience": 1150,
+      "speed": 125,
+      "mitigation": "1.46",
+      "armor": 40,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Edron Orc Lands",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Orc_Cult_Inquisitor.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 318,
+      "name": "Orc Cult Fanatic",
+      "order": 69,
+      "hitpoints": 1300,
+      "experience": 1100,
+      "speed": 115,
+      "mitigation": "0.99",
+      "armor": 22,
+      "difficulty": "Medium",
+      "occurrence": "Uncommon",
+      "locations": "Edron Orc Lands",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Orc_Cult_Fanatic.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 319,
+      "name": "Orc Cult Minion",
+      "order": 70,
+      "hitpoints": 1000,
+      "experience": 850,
+      "speed": 105,
+      "mitigation": "1.18",
+      "armor": 30,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Edron Orc Lands",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Orc_Cult_Minion.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 308,
+      "name": "Minotaur Invader",
+      "order": 58,
+      "hitpoints": 1850,
+      "experience": 1760,
+      "speed": 120,
+      "mitigation": "1.76",
+      "armor": 40,
+      "difficulty": "Medium",
+      "occurrence": "Rare",
+      "locations": "Lower Glooth Factory East",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Minotaur_Invader.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 307,
+      "name": "Worm Priestess",
+      "order": 57,
+      "hitpoints": 1100,
+      "experience": 1500,
+      "speed": 99,
+      "mitigation": "1.37",
+      "armor": 36,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Lower Glooth Factory East, Oramond Marshes, Oramond Minotaur Camp",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Worm_Priestess.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["earth", "energy", "death", "life drain", "physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 308,
+      "name": "Minotaur Invader",
+      "order": 58,
+      "hitpoints": 1850,
+      "experience": 1760,
+      "speed": 120,
+      "mitigation": "1.76",
+      "armor": 40,
+      "difficulty": "Medium",
+      "occurrence": "Rare",
+      "locations": "Lower Glooth Factory East",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Minotaur_Invader.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 304,
+      "name": "Execowtioner",
+      "order": 54,
+      "hitpoints": 3500,
+      "experience": 2400,
+      "speed": 135,
+      "mitigation": "1.60",
+      "armor": 41,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Lower Glooth Factory East, Oramond, Oramond Minotaur Camp, Rathleton Catacombs",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Execowtioner.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 0,
+      "negative_conditions": [],
+      "damage_types": ["physical", "life drain"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 305,
+      "name": "Mooh'tah Warrior",
+      "order": 55,
+      "hitpoints": 1200,
+      "experience": 900,
+      "speed": 110,
+      "mitigation": "1.35",
+      "armor": 37,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Lower Glooth Factory East, Oramond Marshes, Oramond Minotaur Camp",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Mooh'tah_Warrior.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "energy"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 302,
+      "name": "Moohtant",
+      "order": 52,
+      "hitpoints": 3200,
+      "experience": 2600,
+      "speed": 130,
+      "mitigation": "1.10",
+      "armor": 42,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Lower Glooth Factory East, Oramond, Oramond Minotaur Camp, Rathleton Catacombs",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": null,
+      "notes": null,
+      "image": "/images/monsters/Moohtant.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 652,
+      "name": "Pirat Cutthroat",
+      "order": 81,
+      "hitpoints": 2600,
+      "experience": 1800,
+      "speed": 160,
+      "mitigation": "1.88",
+      "armor": 72,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Krailos Steppe, Liberty Bay Surroundings, Northern Darama Desert, Port Hope Surroundings, Thais Surroundings, Trail to Rascacoon, Wreckoning",
+      "is_premium": 0,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2020",
+      "notes": null,
+      "image": "/images/monsters/Pirat_Cutthroat.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "energy"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 653,
+      "name": "Pirat Scoundrel",
+      "order": 82,
+      "hitpoints": 2200,
+      "experience": 1600,
+      "speed": 190,
+      "mitigation": "1.74",
+      "armor": 60,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Krailos Steppe, Liberty Bay Surroundings, Northern Darama Desert, Port Hope Surroundings, Thais Surroundings, Trail to Rascacoon, Wreckoning",
+      "is_premium": 0,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2020",
+      "notes": null,
+      "image": "/images/monsters/Pirat_Scoundrel.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["energy", "physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 654,
+      "name": "Pirat Bombardier",
+      "order": 83,
+      "hitpoints": 2300,
+      "experience": 1700,
+      "speed": 185,
+      "mitigation": "1.82",
+      "armor": 65,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Krailos Steppe, Liberty Bay Surroundings, Northern Darama Desert, Port Hope Surroundings, Thais Surroundings, Trail to Rascacoon, Wreckoning",
+      "is_premium": 0,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2020",
+      "notes": null,
+      "image": "/images/monsters/Pirat_Bombardier.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["energy", "physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 655,
+      "name": "Pirat Mate",
+      "order": 84,
+      "hitpoints": 3200,
+      "experience": 2400,
+      "speed": 175,
+      "mitigation": "1.94",
+      "armor": 75,
+      "difficulty": "Medium",
+      "occurrence": "Common",
+      "locations": "Krailos Steppe, Liberty Bay Surroundings, Northern Darama Desert, Port Hope Surroundings, Thais Surroundings, Wreckoning",
+      "is_premium": 0,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2020",
+      "notes": null,
+      "image": "/images/monsters/Pirat_Mate.png",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["energy", "physical"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 50,
+        "second_stage": 500,
+        "third_stage": 1000,
+        "charm_points": 25
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 734,
+      "name": "Bulltaur Brute",
+      "order": 89,
+      "hitpoints": 6560,
+      "experience": 4700,
+      "speed": 170,
+      "mitigation": "2.22",
+      "armor": 78,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Bulltaur Lair",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Bulltaur_Brute.gif",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 733,
+      "name": "Bulltaur Alchemist",
+      "order": 90,
+      "hitpoints": 5690,
+      "experience": 4500,
+      "speed": 160,
+      "mitigation": "2.11",
+      "armor": 67,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Bulltaur Lair",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Bulltaur_Alchemist.gif",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 735,
+      "name": "Bulltaur Forgepriest",
+      "order": 91,
+      "hitpoints": 6840,
+      "experience": 6400,
+      "speed": 73,
+      "mitigation": "2.05",
+      "armor": 73,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Bulltaur Lair",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 1,
+      "released_in": "Winter Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Bulltaur_Forgepriest.gif",
+      "class": {
+        "id": 12,
+        "name": "Humanoid",
+        "image": "/images/classes/Humanoid.png"
+      },
+      "attack_type": "Distance",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+ {
+      "id": 719,
+      "name": "Werecrocodile",
+      "order": 12,
+      "hitpoints": 5280,
+      "experience": 4140,
+      "speed": 115,
+      "mitigation": "2.28",
+      "armor": 82,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Murky Caverns, Oskayaat",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": "Summer Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Werecrocodile.png",
+      "class": {
+        "id": 13,
+        "name": "Lycanthrope",
+        "image": "/images/classes/Lycanthrope.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": ["physical", "death"],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 721,
+      "name": "Weretiger",
+      "order": 10,
+      "hitpoints": 5000,
+      "experience": 3920,
+      "speed": 125,
+      "mitigation": "2.16",
+      "armor": 76,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Oskayaat, Oskayaat Undercity",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": "Summer Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Weretiger.png",
+      "class": {
+        "id": 13,
+        "name": "Lycanthrope",
+        "image": "/images/classes/Lycanthrope.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    },
+    {
+      "id": 716,
+      "name": "Cunning Werepanther",
+      "order": 15,
+      "hitpoints": 4300,
+      "experience": 3620,
+      "speed": 125,
+      "mitigation": "2.05",
+      "armor": 72,
+      "difficulty": "Hard",
+      "occurrence": "Common",
+      "locations": "Oskayaat, Oskayaat Undercity",
+      "is_premium": 1,
+      "is_active": 1,
+      "can_be_boosted": 0,
+      "released_in": "Summer Update 2023",
+      "notes": null,
+      "image": "/images/monsters/Cunning_Werepanther.png",
+      "class": {
+        "id": 13,
+        "name": "Lycanthrope",
+        "image": "/images/classes/Lycanthrope.png"
+      },
+      "attack_type": "Melee",
+      "cast_spells": 1,
+      "negative_conditions": [],
+      "damage_types": [],
+      "resistances": [
+        {
+          "type": "physical",
+          "value": null
+        },
+        {
+          "type": "earth",
+          "value": null
+        },
+        {
+          "type": "fire",
+          "value": null
+        },
+        {
+          "type": "death",
+          "value": null
+        },
+        {
+          "type": "energy",
+          "value": null
+        },
+        {
+          "type": "holy",
+          "value": null
+        },
+        {
+          "type": "ice",
+          "value": null
+        }
+      ],
+      "charm_details": {
+        "first_stage": 100,
+        "second_stage": 1000,
+        "third_stage": 2500,
+        "charm_points": 50
+      },
+      "user_data": {
+        "progress": 0,
+        "kills": 0
+      }
+    }
+]
