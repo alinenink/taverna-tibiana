@@ -66,7 +66,7 @@ export class CalculatorsComponent {
     loyaltyBonus: 0,
     hasDummy: false,
     isDouble: false,
-    weaponType: 'auto',
+    weaponType: 'regular',
   };
   exerciseWeaponsResult: ExerciseWeaponsResult | null = null;
   exerciseWeaponsError: string | null = null;
@@ -171,6 +171,21 @@ export class CalculatorsComponent {
     return this.lootSplitResult.transactions.reduce((sum, t) => sum + t.amount, 0);
   }
 
+  get selectedWeaponName() {
+    const weaponNames = {
+      'regular': 'Regular',
+      'durable': 'Durable', 
+      'lasting': 'Lasting'
+    };
+    return weaponNames[this.exerciseWeaponForm.weaponType as keyof typeof weaponNames] || 'Regular';
+  }
+
+  get selectedWeaponCount() {
+    if (!this.exerciseWeaponsResult) return 0;
+    const weaponType = this.exerciseWeaponForm.weaponType;
+    return this.exerciseWeaponsResult.weaponsRequired[weaponType as keyof typeof this.exerciseWeaponsResult.weaponsRequired] || 0;
+  }
+
   constructor(private calculatorsService: CalculatorsService) {}
 
   ngOnInit() {
@@ -237,7 +252,7 @@ export class CalculatorsComponent {
       loyaltyBonus: 0,
       hasDummy: false,
       isDouble: false,
-      weaponType: 'auto',
+      weaponType: 'regular',
     };
     this.exerciseWeaponsResult = null;
     this.exerciseWeaponsError = null;

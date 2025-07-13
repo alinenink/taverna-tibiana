@@ -229,7 +229,6 @@
                 required
               >
                 <option value="" disabled selected hidden>Selecione</option>
-                <option value="auto">Auto</option>
                 <option value="regular">Regular</option>
                 <option value="durable">Durable</option>
                 <option value="lasting">Lasting</option>
@@ -302,20 +301,7 @@
               class="result-icon"
             />
             <span class="result-label">Armas necessárias:</span>
-            <span
-              >Lasting:
-              <b>{{ exerciseWeaponsResult.weaponsRequired.lasting }}x</b></span
-            >
-            |
-            <span
-              >Durable:
-              <b>{{ exerciseWeaponsResult.weaponsRequired.durable }}x</b></span
-            >
-            |
-            <span
-              >Regular:
-              <b>{{ exerciseWeaponsResult.weaponsRequired.regular }}x</b></span
-            >
+            <span>{{ selectedWeaponName }}: <b>{{ selectedWeaponCount }}x</b></span>
           </div>
           <div class="result-row">
             <img src="assets/coin.svg" alt="Gold" class="result-icon" />
