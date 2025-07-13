@@ -1,9 +1,7 @@
 <div class="parchment-background">
   <div class="consulta-layout">
-    <h1 class="tavernatibiana-title">
-     Bem-vindo à Taverna Tibiana
-    </h1>
-    <form class="parchment-card" (ngSubmit)=" login()">
+    <h1 class="tavernatibiana-title">Bem-vindo à Taverna Tibiana</h1>
+    <form class="parchment-card" (ngSubmit)="login()">
       <h2>Juramento de Entrada</h2>
       <hr />
       <div *ngIf="erro" class="login-error">{{ erro }}</div>
@@ -31,7 +29,11 @@
           required
         />
       </div>
-      <button class="button-medieval" type="submit" [disabled]="carregando || !email || !password">
+      <button
+        class="button-medieval"
+        type="submit"
+        [disabled]="carregando || !email || !password"
+      >
         Adentrar a Taverna
       </button>
       <div class="login-links">
