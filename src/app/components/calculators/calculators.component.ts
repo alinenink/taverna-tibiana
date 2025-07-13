@@ -190,9 +190,15 @@ export class CalculatorsComponent {
     this.exerciseWeaponsResult = null;
     this.exerciseWeaponsError = null;
 
-    // Converter skill para 'melee' se for físico
+    // Converter skill para 'melee' se for físico, exceto fist para monk
     let skill = this.exerciseWeaponForm.skill;
-    if (["axe", "club", "sword", "fist"].includes(skill)) {
+    if (["axe", "club", "sword"].includes(skill)) {
+      skill = "melee";
+    }
+    // Para monk com fist, manter como "fist"
+    if (this.exerciseWeaponForm.vocation === "monk" && skill === "fist") {
+      skill = "fist";
+    } else if (skill === "fist") {
       skill = "melee";
     }
 
