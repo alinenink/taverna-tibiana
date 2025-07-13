@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Mastery, MasteryService } from '../../services/animous.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-animous-mastery.',
+  styleUrls: ['./animous-mastery.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   providers: [MasteryService],
@@ -20,6 +21,10 @@ export class AnimousMasteryComponent implements OnInit {
   ordenarPorAlfabetica = false;
   carregando: boolean = true;
 
+  // Modal visitante
+  exibirModalVisitante = false;
+  mensagemVisitante = '';
+
   // classOptions: { id: number, name: string }[] = [];
 
   ordenacoes: { [key: string]: boolean } = {
@@ -28,7 +33,7 @@ export class AnimousMasteryComponent implements OnInit {
     'class.name': true,
   };
 
-  constructor(public service: MasteryService) {
+  constructor(public service: MasteryService, private router: Router) {
     // Carregar masteries do usuário ao inicializar
     this.carregando = true;
     this.service.carregarMasteriesUsuario(() => {
@@ -152,6 +157,28 @@ export class AnimousMasteryComponent implements OnInit {
   }
 
   salvarSelecionados() {
-    this.service.salvarSelecionados();
+    this.service.salvarSelecionados().then((errorMsg) => {
+      console.log('Error message from service:', errorMsg); // Debug log
+      if (
+        errorMsg &&
+        (errorMsg.includes('Usuário não cadastrado') || 
+         errorMsg.toLowerCase().includes('usuário não cadastrado') ||
+         errorMsg.includes('nao cadastrado') ||
+         errorMsg.toLowerCase().includes('nao cadastrado'))
+      ) {
+        this.mensagemVisitante =
+          'Percebi que você está tentando salvar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
+        this.exibirModalVisitante = true;
+      }
+    });
+  }
+
+  fecharModalVisitante() {
+    this.exibirModalVisitante = false;
+  }
+
+  irParaRegister() {
+    this.fecharModalVisitante();
+    this.router.navigate(['/register']);
   }
 }

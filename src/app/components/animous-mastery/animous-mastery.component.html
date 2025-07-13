@@ -27,19 +27,8 @@
   </div>
 </div>
 
-<!-- Botão Voltar fixo no canto superior esquerdo -->
-
 <div class="parchment-background">
   <div class="consulta-layout">
-    <div class="title-bar">
-      <!-- Remover o antigo botão voltar da title-bar -->
-      <!-- <div class="title-bar">
-        <button class="voltar-button" [routerLink]="'/'">
-          Voltar
-        </button>
-      </div> -->
-    </div>
-
     <h1 class="tavernatibiana-title">Biblioteca Animous</h1>
 
     <div *ngIf="service.toastMessage()" class="toast-medieval">
@@ -49,28 +38,29 @@
     <!-- Disclaimer Medieval -->
     <div class="parchment-card medieval-disclaimer">
       <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
-      <p>
-        🍺
-        <strong
+      <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
+        <img
+          src="assets/spellbook.svg"
+          alt="Criatura"
+          class="svg-icon intro-icon"
+        />
+        <strong class="medieval-text"
           >Bem-vindo à Biblioteca de Animous Masteries, aventureiro!</strong
-        ><br />
-        Aqui, teus feitos são registrados com honra. Marque os
-        <strong>Animous Masteries</strong> que já conquistaste em tuas jornadas.
+        >
+      </div>
+      <p class="medieval-intro">
+        Aqui, na taverna, teus feitos são registrados com honra! Marque os
+        <strong>Animous Masteries</strong> que já conquistaste em tuas jornadas
+        e mantenha viva a lenda do teu personagem.<br />
+        Agora, seus registros são salvos automaticamente na nuvem. Se você já
+        possuía um arquivo JSON antigo, basta fazer o upload para restaurar seus
+        feitos.<br />
+        Sempre que quiser salvar suas conquistas atuais, clique em
+        <strong>Salvar</strong>.<br />
+        Que teus passos sejam firmes e tua lista, lendária!
       </p>
-      <p>
-        📜 Agora, seus registros são salvos automaticamente na nuvem.<br />
-        Se você já possuía um arquivo JSON antigo, basta fazer o upload para
-        restaurar seus feitos.
-      </p>
-      <p>
-        💾 Sempre que quiser salvar suas conquistas atuais, clique em
-        <strong>Salvar</strong>.
-      </p>
-      <p>⚔️ Que teus passos sejam firmes e tua lista, lendária!</p>
-
       <!-- Filtros -->
       <div class="parchment-card filtro-container">
-        🧙‍♂️ <strong>Aventureiro, refine tua busca!</strong><br />
         Use os campos abaixo para localizar criaturas por nome, classe ou nível
         de dificuldade. Quanto mais preciso, mais certeiro será teu resultado!
 
@@ -244,6 +234,29 @@
     <div class="modal-botoes">
       <button (click)="confirmarExportacaoPdf()">Exportar</button>
       <button (click)="fecharModalExportar()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Visitante -->
+<div class="modal-overlay" *ngIf="exibirModalVisitante">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <h3 class="modal-titulo">
+      <img src="assets/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
+      Atenção, aventureiro!
+    </h3>
+    <div class="modal-opcoes">
+      <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0;">
+        Percebi que você está tentando salvar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!
+      </p>
+    </div>
+    <div class="modal-botoes">
+      <button type="button" class="button-medieval" (click)="irParaRegister()">
+        Me registrar agora
+      </button>
+      <button type="button" class="button-medieval" (click)="fecharModalVisitante()">
+        Cancelar
+      </button>
     </div>
   </div>
 </div>

@@ -4,6 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 input.input-medieval {
@@ -36,9 +38,12 @@ input.input-medieval {
 .login-links {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.2rem;
-  font-family: 'MedievalSharp', serif;
+  margin-top: 1.5rem;
+  margin-bottom: 1em;
+}
+
+.login-links .medieval-link {
+  text-decoration: underline;
 }
 
 .medieval-link {
@@ -93,8 +98,10 @@ input.input-medieval {
   .terms-checkbox {
     display: flex;
     align-items: center;
-    gap: 0.3em;
-    white-space: nowrap;
+    flex-direction: row;
+    gap: 0.5em;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     
     input[type="checkbox"] {
       width: 20px;
@@ -108,23 +115,23 @@ input.input-medieval {
     }
     
     label {
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
       margin: 0;
       font-size: 1rem;
       line-height: 1.4;
       color: #3b2a1a;
       font-family: "Georgia", serif;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.3em;
-      white-space: nowrap;
-      text-align: center;
+      flex-wrap: wrap;
     }
     
     .medieval-link {
       display: inline;
       margin-left: 0.3em;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-word;
     }
   }
 }
@@ -149,13 +156,14 @@ input.input-medieval {
   background: linear-gradient(#fef8e7, #f5e4bc);
   border: 2px solid #8b5e3c;
   border-radius: 10px;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 95vw;
+  max-height: 95vh;
   width: 100%;
   overflow-y: auto;
   padding: 20px;
   box-sizing: border-box;
   font-family: 'MedievalSharp', cursive;
+  position: relative;
 }
 
 .modal-titulo {
@@ -225,14 +233,21 @@ input.input-medieval {
 
 // Responsividade
 @media (max-width: 768px) {
+  .consulta-layout {
+    padding: 0.5rem;
+    justify-content: flex-start;
+    min-height: auto;
+  }
+  
   .parchment-card {
-    max-width: 95%;
+    max-width: 100%;
     padding: 1rem;
+    margin: 1rem 0;
   }
   
   .medieval-disclaimer {
-    font-size: 1rem;
-    padding: 1rem 0.7rem;
+    font-size: 0.95rem;
+    padding: 1rem 0.8rem;
   }
   
   .terms-section .terms-checkbox {
@@ -241,14 +256,17 @@ input.input-medieval {
       height: 22px;
     }
     
-    label {
-      font-size: 1rem;
+    p {
+      font-size: 0.95rem;
+      text-align: center;
     }
   }
   
   .modal-conteudo {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     padding: 16px;
+    max-width: 98vw;
+    max-height: 98vh;
   }
   
   .modal-opcoes {
@@ -260,15 +278,55 @@ input.input-medieval {
       font-size: 0.85rem;
     }
   }
+  
+  .modal-titulo {
+    font-size: 1.3rem;
+  }
+  
+  .button-medieval {
+    width: 85%;
+  }
 }
 
 @media (max-width: 480px) {
   .consulta-layout {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   
   .parchment-card {
     max-width: 100%;
+    padding: 0.8rem;
+  }
+  
+  .medieval-disclaimer {
+    font-size: 0.9rem;
+    padding: 0.8rem 0.6rem;
+  }
+  
+  .terms-section .terms-checkbox {
+    p {
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+  }
+  
+  .modal-conteudo {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+  
+  .modal-opcoes {
+    h4 {
+      font-size: 0.95rem;
+    }
+    
+    p, ul li {
+      font-size: 0.8rem;
+    }
+  }
+  
+  .modal-titulo {
+    font-size: 1.2rem;
   }
   
   .modal-botoes {
@@ -278,5 +336,18 @@ input.input-medieval {
     .button-medieval {
       width: 100%;
     }
+  }
+  
+  .button-medieval {
+    width: 90%;
+  }
+  
+  .input-icon-group {
+    gap: 0.3rem;
+  }
+  
+  .svg-icon {
+    width: 20px;
+    height: 20px;
   }
 } 

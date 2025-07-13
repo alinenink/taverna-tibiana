@@ -16,8 +16,8 @@ export interface Mastery {
 
 @Injectable({ providedIn: 'root' })
 export class MasteryService {
-  private baseUrl = environment.apiUrl + '/animous-mastery/animous';
-  private userMasteryUrl = environment.apiUrl + '/animous-mastery';
+  private baseUrl = environment.apiUrl + '/animous';
+  private userMasteryUrl = environment.apiUrl + '/animous';
 
   dados = signal<Mastery[]>([]);
   selecionados = signal<Mastery[]>([]);
@@ -49,8 +49,14 @@ export class MasteryService {
       if (onFinish) onFinish();
       return;
     }
-    // HttpClient do Angular será usado, o interceptor deve adicionar o token
-    this.http.get<any>(`${this.userMasteryUrl}/${userId}`).subscribe({
+    
+    // Usar GET request para buscar masteries do usuário
+    this.http.get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).subscribe({
       next: (response) => {
         // Log completo do response para debug
         console.log('[DEBUG] response recebido:', response);
@@ -83,7 +89,12 @@ export class MasteryService {
   // Preencher tabela com masteries do usuário
   private preencherTabelaComMasteries(masteriesUsuario: any[], onFinish?: () => void) {
     // Primeiro, carrega todos os masteries disponíveis
-    this.http.get<any>(`${this.baseUrl}?page=1&pageSize=9999`).subscribe((res) => {
+    this.http.post<any>(`${this.baseUrl}?action=list`, { page: 1, pageSize: 9999 }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      }
+    }).subscribe((res) => {
       const todos = res.data.map((item: any) => ({
         ...item,
         difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
@@ -153,6 +164,7 @@ export class MasteryService {
     }
 
     const params = new URLSearchParams({
+      action: 'list',
       page: isRare ? '1' : page.toString(),
       pageSize: isRare ? '9999' : '20', // busca tudo se rare
       name: filtros.nome || '',
@@ -161,7 +173,19 @@ export class MasteryService {
     });
 
     this.http
-      .get<any>(`${this.baseUrl}?${params.toString()}`)
+      .post<any>(`${this.baseUrl}?${params.toString()}`, {
+        action: 'list',
+        page: isRare ? '1' : page.toString(),
+        pageSize: isRare ? '9999' : '20', // busca tudo se rare
+        name: filtros.nome || '',
+        difficulty: isRare ? '' : filtros.dificuldade || '',
+        class: filtros.classe || '',
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.authService.getToken()}`
+        }
+      })
       .subscribe((res) => {
         const filtrados = isRare
           ? res.data.filter((item: any) => item.occurrence === 'Very Rare')
@@ -292,7 +316,12 @@ export class MasteryService {
 
             const selecionadosIds = new Set(reconstruidos.map((m) => m.id));
 
-            this.http.get<any>(`${this.baseUrl}?page=1&pageSize=9999`).subscribe((res) => {
+            this.http.post<any>(`${this.baseUrl}?action=list`, { page: 1, pageSize: 9999 }, {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.authService.getToken()}`
+              }
+            }).subscribe((res) => {
               const todos = res.data.map((item: any) => ({
                 ...item,
                 difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
@@ -334,29 +363,52 @@ export class MasteryService {
     reader.readAsText(file);
   }
 
-  salvarSelecionados() {
-    const selecionados = this.selecionados();
-    if (selecionados.length > 0) {
-      this.salvarMasteriesUsuario(selecionados);
-    } else {
-      this.toastMessage.set('Nenhum mastery selecionado para salvar!');
-    }
+  salvarSelecionados(): Promise<string | null> {
+    return new Promise((resolve) => {
+      const selecionados = this.selecionados();
+      if (selecionados.length > 0) {
+        this.salvarMasteriesUsuario(selecionados, undefined, (errorMsg) => {
+          resolve(errorMsg);
+        });
+      } else {
+        this.toastMessage.set('Nenhum mastery selecionado para salvar!');
+        resolve(null);
+      }
+    });
   }
 
-  // Atualize salvarMasteriesUsuario para aceitar um callback opcional
-  private salvarMasteriesUsuario(masteries: any[], onSuccess?: () => void) {
+  // Atualize salvarMasteriesUsuario para aceitar um callback opcional de erro
+  private salvarMasteriesUsuario(masteries: any[], onSuccess?: () => void, onError?: (errorMsg: string | null) => void) {
     const payload = {
       payload: masteries
     };
-    this.http.post(`${this.userMasteryUrl}`, payload).subscribe({
+    console.log('Sending payload to save:', payload); // Debug log
+    
+    this.http.post<any>(`${this.userMasteryUrl}?action=save`, payload).subscribe({
       next: (response) => {
-        console.log('Masteries salvos com sucesso:', response);
+        console.log('Response received:', response); // Debug log
+        if (response && response.success === false && response.message) {
+          console.log('Backend returned error:', response.message); // Debug log
+          if (onError) onError(response.message);
+          return;
+        }
         this.toastMessage.set('Masteries salvos no servidor!');
         if (onSuccess) onSuccess();
+        if (onError) onError(null);
       },
       error: (error) => {
-        console.error('Erro ao salvar masteries:', error);
-        this.toastMessage.set('Erro ao salvar no servidor!');
+        console.log('HTTP error received:', error); // Debug log
+        console.log('Error status:', error.status); // Debug log
+        console.log('Error body:', error.error); // Debug log
+        
+        // Se o erro tem uma mensagem no body, use ela
+        if (error.error && error.error.message) {
+          console.log('Using error message from body:', error.error.message); // Debug log
+          if (onError) onError(error.error.message);
+        } else {
+          this.toastMessage.set('Erro ao salvar no servidor!');
+          if (onError) onError('Erro ao salvar no servidor!');
+        }
       }
     });
   }
@@ -393,5 +445,19 @@ export class MasteryService {
       );
 
     this.dados.set(ordenado);
+  }
+
+  // Exemplo de salvar animous
+  salvarAnimous(payload: any, token: string) {
+    return this.http.post(
+      `${this.baseUrl}?action=save`,
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
   }
 }
