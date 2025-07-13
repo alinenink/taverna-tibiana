@@ -22,11 +22,6 @@ export class LoginComponent {
     private authService: AuthService
   ) {}
 
-  loginMock() {
-    this.authService.setAuthData('mock-token', 'mock-user', 'mock-user-id');
-    this.router.navigate(['/home']);
-  }
-  
   async login() {
     this.carregando = true;
     this.erro = '';
