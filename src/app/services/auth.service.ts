@@ -53,27 +53,51 @@ export class AuthService {
       email: credentials.email,
       password: hashedPassword
     };
-    return this.http.post<AuthResponse>(`${this.apiUrl}/authenticate`, secureCredentials);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth?action=login`, secureCredentials, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   registerUser(userData: RegisterRequest): Observable<AuthResponse> {
     return from(this.hashPassword(userData.password)).pipe(
       switchMap(hashedPassword => {
-        return this.http.post<AuthResponse>(`${this.apiUrl}/registerUser`, {
+        return this.http.post<AuthResponse>(`${this.apiUrl}/auth?action=register`, {
           email: userData.email,
           password: hashedPassword,
           char: userData.char
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
       })
     );
   }
 
+  sendVerificationCode(email: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth?action=send-code`, { email }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   validateVerificationCode(validateData: ValidateCodeRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/validateVerificationCode`, validateData);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth?action=validate-code`, validateData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   resetPassword(email: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/resetPassword`, { email });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth?action=reset-password`, { email }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   logout(): void {

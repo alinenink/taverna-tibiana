@@ -17,9 +17,12 @@ export class RegisterComponent {
   carregando = false;
   showTermsModal = false;
   showVerification = false;
+  showSuccessModal = false;
   registeredEmail = '';
   erro = '';
   verificacaoErro = '';
+  teleportTimer = 5;
+  teleportInterval: any;
 
   // Lista de domínios de email válidos
   private validEmailDomains = [
@@ -157,8 +160,8 @@ export class RegisterComponent {
 
         if (response?.success) {
           this.carregando = false;
-          // Redirecionar para login após sucesso
-          this.router.navigate(['/login']);
+          this.showSuccessModal = true;
+          this.startTeleportTimer();
         } else {
           if (response?.message === 'Código inválido') {
             this.verificacaoErro = '⚠️ O código mágico informado está incorreto. Confira o pergaminho enviado ao seu email e tente novamente!';
@@ -182,6 +185,31 @@ export class RegisterComponent {
         control?.markAsTouched();
       });
     }
+  }
+
+  // Iniciar timer de teleporte
+  startTeleportTimer() {
+    this.teleportTimer = 5;
+    this.teleportInterval = setInterval(() => {
+      this.teleportTimer--;
+      if (this.teleportTimer <= 0) {
+        this.teleportToLogin();
+      }
+    }, 1000);
+  }
+
+  // Teleportar para login
+  teleportToLogin() {
+    if (this.teleportInterval) {
+      clearInterval(this.teleportInterval);
+    }
+    this.showSuccessModal = false;
+    this.router.navigate(['/login']);
+  }
+
+  // Teleportar agora (botão)
+  teleportNow() {
+    this.teleportToLogin();
   }
 
   // Voltar para o formulário de registro

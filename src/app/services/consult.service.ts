@@ -1,8 +1,9 @@
 // achievements.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environments';
+import { AuthService } from './auth.service';
 
 // achievement.model.ts
 export interface Achievement {
@@ -39,19 +40,44 @@ export class AchievementsService {
   private apiUrl =   `${environment.apiUrl}/achievements-missing`;
   private outfitsUrl = `${environment.apiUrl}/outfits`; 
   private mountsUrl = `${environment.apiUrl}/mounts`;
-  constructor(private http: HttpClient) {}
+  
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   getAchievements(auctionId: string): Observable<Achievement[]> {
-    return this.http.get<Achievement[]>(`${this.apiUrl}/${auctionId}`);
+    const token = this.authService.getToken();
+    let headers = new HttpHeaders();
+    
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    
+    return this.http.get<Achievement[]>(`${this.apiUrl}/${auctionId}`, { headers });
   }
 
   // Método para obter os outfits
   getOutfits(): Observable<Outfit[]> {
-    return this.http.get<Outfit[]>(this.outfitsUrl);
+    const token = this.authService.getToken();
+    let headers = new HttpHeaders();
+    
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    
+    return this.http.get<Outfit[]>(this.outfitsUrl, { headers });
   }
 
   // Método para obter os mounts
   getMounts(): Observable<Mount[]> {
-    return this.http.get<Mount[]>(this.mountsUrl);
+    const token = this.authService.getToken();
+    let headers = new HttpHeaders();
+    
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    
+    return this.http.get<Mount[]>(this.mountsUrl, { headers });
   }
 }

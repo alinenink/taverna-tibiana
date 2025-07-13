@@ -1,0 +1,772 @@
+<div class="svg-loader-overlay" *ngIf="carregando">
+  <div class="svg-loader">
+    <svg
+      fill="#000000"
+      height="200px"
+      width="200px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 452.022 452.022"
+      xml:space="preserve"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905,3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+        ></path>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="tavernatibiana-title">Calculadoras Mágicas</h1>
+
+    <!-- Disclaimer Medieval -->
+    <div class="parchment-card medieval-disclaimer">
+      <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          margin-bottom: 0.5rem;
+        "
+      >
+        <img
+          src="assets/budget.svg"
+          alt="Calculadora"
+          class="svg-icon intro-icon"
+        />
+        <strong class="medieval-text"
+          >Bem-vindo ao Laboratório de Cálculos, aventureiro!</strong
+        >
+      </div>
+      <p class="medieval-intro">
+        Aqui, na taverna, os números também contam histórias! Use nossas
+        ferramentas mágicas para planejar suas <strong>armas de treino</strong>,
+        recuperar <strong>stamina</strong> e dividir o <strong>loot</strong> do
+        seu grupo com justiça.<br />
+        Escolha a calculadora desejada, preencha os campos e deixe a magia dos
+        cálculos facilitar sua jornada. Que seus resultados sejam sempre
+        lendários!
+      </p>
+
+      <!-- Abas de seleção -->
+      <div class="filtro-topo">
+        <button
+          class="button-medieval"
+          [class.ordenavel]="activeCalculator === 'exercise-weapons'"
+          (click)="setCalculator('exercise-weapons')"
+        >
+          <img
+            src="assets/exerciseweapons.svg"
+            alt="Exercise Weapons"
+            class="svg-icon"
+          />
+          Exercise Weapons
+        </button>
+        <button
+          class="button-medieval"
+          [class.ordenavel]="activeCalculator === 'stamina'"
+          (click)="setCalculator('stamina')"
+        >
+          <img src="assets/stamina.svg" alt="Stamina" class="svg-icon" />
+          Stamina
+        </button>
+        <!--
+        <button class="button-medieval" [class.ordenavel]="activeCalculator === 'charm-damage'" (click)="setCalculator('charm-damage')">
+          <img src="assets/star.svg" alt="Charm Damage" class="svg-icon" />
+          Charm Damage
+        </button>
+        -->
+        <button
+          class="button-medieval"
+          [class.ordenavel]="activeCalculator === 'loot-split'"
+          (click)="setCalculator('loot-split')"
+        >
+          <img
+            src="assets/item-bag-svgrepo-com.svg"
+            alt="Loot Split"
+            class="svg-icon"
+          />
+          Loot Split
+        </button>
+      </div>
+
+
+
+      <!-- Exercise Weapons Calculator -->
+      <div
+        class="parchment-card"
+        *ngIf="activeCalculator === 'exercise-weapons'"
+      >
+        <h2>Calculadora de Exercise Weapons</h2>
+        <hr />
+        <form class="calculator-form" (ngSubmit)="submitExerciseWeapons()">
+          <div class="form-row">
+            <div class="form-col">
+              <label>Vocação:</label>
+              <select
+                class="input-medieval select-medieval"
+                [(ngModel)]="exerciseWeaponForm.vocation"
+                name="vocation"
+                required
+              >
+                <option value="" disabled selected hidden>Selecione</option>
+                <option value="knight">Knight</option>
+                <option value="paladin">Paladin</option>
+                <option value="sorcerer">Sorcerer</option>
+                <option value="druid">Druid</option>
+                <option value="monk">Monk</option>
+              </select>
+            </div>
+            <div class="form-col">
+              <label>Skill:</label>
+              <select
+                class="input-medieval select-medieval"
+                [(ngModel)]="exerciseWeaponForm.skill"
+                name="skill"
+                required
+              >
+                <option value="" disabled selected hidden>Selecione</option>
+                <option value="melee">Axe/Club/Sword</option>
+                <option value="distance">Distance</option>
+                <option value="magic">Magic level</option>
+                <option value="shield">Shield</option>
+                <option value="fist">Fist</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <label>Skill atual:</label>
+              <input
+                type="number"
+                class="input-medieval"
+                [(ngModel)]="exerciseWeaponForm.currentSkill"
+                name="currentSkill"
+                min="1"
+                max="200"
+                required
+              />
+            </div>
+            <div class="form-col">
+              <label>Skill desejado:</label>
+              <input
+                type="number"
+                class="input-medieval"
+                [(ngModel)]="exerciseWeaponForm.targetSkill"
+                name="targetSkill"
+                min="1"
+                max="200"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <label>% Restante:</label>
+              <input
+                type="range"
+                class="input-medieval range-medieval"
+                [(ngModel)]="exerciseWeaponForm.percentageLeft"
+                name="percentageLeft"
+                min="0"
+                max="100"
+              />
+              <span>{{ exerciseWeaponForm.percentageLeft }}%</span>
+            </div>
+            <div class="form-col">
+              <label>Loyalty:</label>
+              <input
+                type="range"
+                class="input-medieval range-medieval"
+                [(ngModel)]="exerciseWeaponForm.loyaltyBonus"
+                name="loyaltyBonus"
+                min="0"
+                max="50"
+                step="5"
+              />
+              <span>{{ exerciseWeaponForm.loyaltyBonus }}%</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <label
+                ><input
+                  type="checkbox"
+                  class="checkbox-medieval"
+                  [(ngModel)]="exerciseWeaponForm.hasDummy"
+                  name="hasDummy"
+                />
+                Exercise dummy</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="checkbox-medieval"
+                  [(ngModel)]="exerciseWeaponForm.isDouble"
+                  name="isDouble"
+                />
+                Double event</label
+              >
+            </div>
+            <div class="form-col">
+              <label>Tipo de arma:</label>
+              <select
+                class="input-medieval select-medieval"
+                [(ngModel)]="exerciseWeaponForm.weaponType"
+                name="weaponType"
+                required
+              >
+                <option value="" disabled selected hidden>Selecione</option>
+                <option value="auto">Auto</option>
+                <option value="regular">Regular</option>
+                <option value="durable">Durable</option>
+                <option value="lasting">Lasting</option>
+              </select>
+            </div>
+          </div>
+          <div class="calculator-actions">
+            <button
+              type="submit"
+              class="button-medieval"
+              [disabled]="
+                isLoadingExercise ||
+                !exerciseWeaponForm.vocation ||
+                !exerciseWeaponForm.skill ||
+                !exerciseWeaponForm.weaponType
+              "
+            >
+              Calcular
+            </button>
+            <button
+              type="button"
+              class="button-medieval"
+              (click)="resetExerciseWeapons()"
+            >
+              Limpar
+            </button>
+          </div>
+        </form>
+        <div *ngIf="isLoadingExercise" class="result-display">
+          <div class="svg-loader-overlay" style="position: relative; height: 100px;">
+            <div class="svg-loader">
+              <svg
+                fill="#000000"
+                height="200px"
+                width="200px"
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 452.022 452.022"
+                xml:space="preserve"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905,3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p style="text-align: center; margin-top: 1rem; font-family: 'MedievalSharp', serif; color: #7a5a2f;">
+            Calculando armas de treino...
+          </p>
+        </div>
+        <div *ngIf="exerciseWeaponsError" class="result-display">
+          {{ exerciseWeaponsError }}
+        </div>
+        <div *ngIf="exerciseWeaponsResult" class="exercise-result-medieval">
+          <h3>Resultado:</h3>
+          <div class="result-row">
+            <img
+              src="assets/exerciseweapons.svg"
+              alt="Armas"
+              class="result-icon"
+            />
+            <span class="result-label">Armas necessárias:</span>
+            <span
+              >Lasting:
+              <b>{{ exerciseWeaponsResult.weaponsRequired.lasting }}x</b></span
+            >
+            |
+            <span
+              >Durable:
+              <b>{{ exerciseWeaponsResult.weaponsRequired.durable }}x</b></span
+            >
+            |
+            <span
+              >Regular:
+              <b>{{ exerciseWeaponsResult.weaponsRequired.regular }}x</b></span
+            >
+          </div>
+          <div class="result-row">
+            <img src="assets/coin.svg" alt="Gold" class="result-icon" />
+            <span class="result-label">Gold:</span>
+            <span
+              ><b>{{ exerciseWeaponsResult.cost.gold | number }}</b></span
+            >
+            |
+            <img
+              src="assets/tibiacoin.svg"
+              alt="TC"
+              class="result-icon"
+              style="margin-left: 1.2em"
+            />
+            <span class="result-label">TC:</span>
+            <span
+              ><b>{{ exerciseWeaponsResult.cost.tc }}</b></span
+            >
+          </div>
+          <div class="result-row">
+            <img src="assets/tempo.svg" alt="Tempo" class="result-icon" />
+            <span class="result-label">Tempo necessário:</span>
+            <span
+              ><b>{{ exerciseWeaponsResult.timeRequired }}</b></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Stamina Calculator -->
+      <div class="parchment-card" *ngIf="activeCalculator === 'stamina'">
+        <h2><span style="color: #bfa66b; font-size: 1.3em;">⭐</span> Calculadora de Stamina</h2>
+        <hr />
+        <form class="calculator-form stamina-form-medieval" (ngSubmit)="submitStamina()" autocomplete="off">
+          <div class="stamina-fields-row grid-stamina">
+            <div class="stamina-field-col">
+              <label for="currentStamina">Stamina atual:</label>
+              <div class="time-input-group">
+                <input
+                  id="currentStaminaHours"
+                  type="text"
+                  min="0"
+                  max="42"
+                  maxlength="2"
+                  [ngModel]="staminaCurrent.hours"
+                  (ngModelChange)="onStaminaTimeChange('current', $event + ':' + staminaCurrent.minutes)"
+                  (input)="onTimeInput($event, 'current', 'hours')"
+                  name="currentStaminaHours"
+                  class="input-medieval time-input"
+                  [class.input-error]="staminaInvalid"
+                  (keydown.arrowup)="incHour('current')"
+                  (keydown.arrowdown)="decHour('current')"
+                  autocomplete="off"
+                />
+                <span class="time-sep">:</span>
+                <input
+                  id="currentStaminaMinutes"
+                  type="text"
+                  min="0"
+                  max="59"
+                  maxlength="2"
+                  [ngModel]="staminaCurrent.minutes"
+                  (ngModelChange)="onStaminaTimeChange('current', staminaCurrent.hours + ':' + $event)"
+                  (input)="onTimeInput($event, 'current', 'minutes')"
+                  name="currentStaminaMinutes"
+                  class="input-medieval time-input"
+                  [class.input-error]="staminaInvalid"
+                  (keydown.arrowup)="incMin('current')"
+                  (keydown.arrowdown)="decMin('current')"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="stamina-chevron">
+              <svg [ngClass]="{'chevron-error': staminaInvalid}" width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+            </div>
+            <div class="stamina-field-col">
+              <label for="targetStamina">Stamina desejada:</label>
+              <div class="time-input-group">
+                <input
+                  id="targetStaminaHours"
+                  type="text"
+                  min="0"
+                  max="42"
+                  maxlength="2"
+                  [ngModel]="staminaTarget.hours"
+                  (ngModelChange)="onStaminaTimeChange('target', $event + ':' + staminaTarget.minutes)"
+                  (input)="onTimeInput($event, 'target', 'hours')"
+                  name="targetStaminaHours"
+                  class="input-medieval time-input"
+                  [class.input-error]="staminaInvalid"
+                  (keydown.arrowup)="incHour('target')"
+                  (keydown.arrowdown)="decHour('target')"
+                  autocomplete="off"
+                />
+                <span class="time-sep">:</span>
+                <input
+                  id="targetStaminaMinutes"
+                  type="text"
+                  min="0"
+                  max="59"
+                  maxlength="2"
+                  [ngModel]="staminaTarget.minutes"
+                  (ngModelChange)="onStaminaTimeChange('target', staminaTarget.hours + ':' + $event)"
+                  (input)="onTimeInput($event, 'target', 'minutes')"
+                  name="targetStaminaMinutes"
+                  class="input-medieval time-input"
+                  [class.input-error]="staminaInvalid"
+                  (keydown.arrowup)="incMin('target')"
+                  (keydown.arrowdown)="decMin('target')"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="stamina-actions-row">
+            <button
+              type="submit"
+              class="button-medieval"
+              [disabled]="isLoadingStamina || staminaInvalid"
+            >
+              Calcular
+            </button>
+            <button
+              type="button"
+              class="button-medieval"
+              (click)="resetStamina()"
+            >
+              Limpar
+            </button>
+          </div>
+        </form>
+        <div *ngIf="isLoadingStamina" class="result-display">
+          <div class="svg-loader-overlay" style="position: relative; height: 100px;">
+            <div class="svg-loader">
+              <svg
+                fill="#000000"
+                height="200px"
+                width="200px"
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 452.022 452.022"
+                xml:space="preserve"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905-3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p style="text-align: center; margin-top: 1rem; font-family: 'MedievalSharp', serif; color: #7a5a2f;">
+            Calculando stamina...
+          </p>
+        </div>
+        <div *ngIf="staminaError" class="result-display">
+          {{ staminaError }}
+        </div>
+        <div *ngIf="staminaResult" class="stamina-result-medieval">
+          <h3>Resultado:</h3>
+          <div class="stamina-result-row" style="justify-content: center;">
+            <img src="assets/tempo.svg" alt="Tempo" class="result-icon" style="margin-right: 0.7em;" />
+            <span class="stamina-result-value">
+              Tempo estimado:
+              {{ staminaResult.estimatedTime.hours }}:{{ staminaResult.estimatedTime.minutes.toString().padStart(2, '0') }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charm Damage Calculator -->
+      <div class="parchment-card" *ngIf="activeCalculator === 'charm-damage'">
+        <h2>✨ Calculadora de Dano de Charm</h2>
+        <hr />
+        <form class="calculator-form" (ngSubmit)="submitCharmDamage()">
+          <div class="input-icon-group">
+            <label>Dano médio:</label>
+            <input
+              type="number"
+              class="input-medieval"
+              [(ngModel)]="charmDamageForm.averageDamage"
+              name="averageDamage"
+              min="1"
+            />
+          </div>
+          <div class="input-icon-group">
+            <label>HP da criatura:</label>
+            <input
+              type="number"
+              class="input-medieval"
+              [(ngModel)]="charmDamageForm.creatureHp"
+              name="creatureHp"
+              min="1"
+            />
+          </div>
+          <div class="input-icon-group">
+            <label>Resistência bônus (%):</label>
+            <input
+              type="number"
+              class="input-medieval"
+              [(ngModel)]="charmDamageForm.bonusResistance"
+              name="bonusResistance"
+              min="0"
+              max="100"
+            />
+          </div>
+          <div class="input-icon-group">
+            <label
+              ><input
+                type="checkbox"
+                [(ngModel)]="charmDamageForm.powerful"
+                name="powerful"
+              />
+              Powerful</label
+            >
+          </div>
+          <div class="calculator-actions">
+            <button
+              type="submit"
+              class="button-medieval"
+              [disabled]="isLoadingCharm"
+            >
+              Calcular
+            </button>
+            <button
+              type="button"
+              class="button-medieval"
+              (click)="resetCharmDamage()"
+            >
+              Limpar
+            </button>
+          </div>
+        </form>
+        <div *ngIf="isLoadingCharm" class="result-display">
+          <div class="svg-loader-overlay" style="position: relative; height: 100px;">
+            <div class="svg-loader">
+              <svg
+                fill="#000000"
+                height="200px"
+                width="200px"
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 452.022 452.022"
+                xml:space="preserve"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905,3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p style="text-align: center; margin-top: 1rem; font-family: 'MedievalSharp', serif; color: #7a5a2f;">
+            Calculando dano de charm...
+          </p>
+        </div>
+        <div *ngIf="charmDamageError" class="result-display">
+          {{ charmDamageError }}
+        </div>
+        <div *ngIf="charmDamageResult" class="result-display">
+          <h3>Resultado:</h3>
+          <div>
+            <strong>Dano médio final (Low Blow):</strong>
+            <span>{{ charmDamageResult.lowBlowAverage }}</span>
+          </div>
+          <div>
+            <strong>Dano médio final (Elemental):</strong>
+            <span>{{ charmDamageResult.elementalAverage }}</span>
+          </div>
+          <div *ngIf="charmDamageResult.constants">
+            <strong>Constantes:</strong>
+            <ul>
+              <li>
+                LOW_BLOW_MULTIPLIER:
+                {{ charmDamageResult.constants.LOW_BLOW_MULTIPLIER }}
+              </li>
+              <li>
+                ELEMENTAL_DAMAGE:
+                {{ charmDamageResult.constants.ELEMENTAL_DAMAGE }}
+              </li>
+              <li>
+                ELEMENTAL_PROC_CHANCE:
+                {{ charmDamageResult.constants.ELEMENTAL_PROC_CHANCE }}
+              </li>
+              <li>
+                POWERFUL_MULTIPLIER:
+                {{ charmDamageResult.constants.POWERFUL_MULTIPLIER }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loot Split Calculator -->
+      <div class="parchment-card" *ngIf="activeCalculator === 'loot-split'">
+        <h2>Calculadora de Divisão de Loot</h2>
+        <hr />
+        <form class="calculator-form" (ngSubmit)="submitLootSplit()">
+          <div class="input-icon-group">
+            <label>Log da sessão:</label>
+            <textarea
+              class="input-medieval"
+              [(ngModel)]="lootSplitForm.session"
+              name="session"
+              rows="8"
+              style="width: 100%"
+            ></textarea>
+          </div>
+          <div class="calculator-actions">
+            <button
+              type="submit"
+              class="button-medieval"
+              [disabled]="isLoadingLootSplit"
+            >
+              Calcular
+            </button>
+            <button
+              type="button"
+              class="button-medieval"
+              (click)="resetLootSplit()"
+            >
+              Limpar
+            </button>
+          </div>
+        </form>
+        <div *ngIf="isLoadingLootSplit" class="result-display">
+          <div class="svg-loader-overlay" style="position: relative; height: 100px;">
+            <div class="svg-loader">
+              <svg
+                fill="#000000"
+                height="200px"
+                width="200px"
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 452.022 452.022"
+                xml:space="preserve"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905,3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p style="text-align: center; margin-top: 1rem; font-family: 'MedievalSharp', serif; color: #7a5a2f;">
+            Processando log da sessão...
+          </p>
+        </div>
+        <div *ngIf="lootSplitError" class="result-display">
+          {{ lootSplitError }}
+        </div>
+        <div *ngIf="lootSplitResult" class="loot-result-medieval">
+          <div class="result-label" style="margin-bottom: 1em">
+           Sessão do time:
+          </div>
+          <div class="loot-totals-row">
+            <span class="loot-total loot-total-loot">
+              <img src="assets/coin.svg" class="loot-icon-big" alt="Loot" />
+              Loot: <b>{{ lootSplitResult.teamReceipt.loot | number }}</b>
+            </span>
+            <span class="loot-total loot-total-supplies">
+              <img
+                src="assets/supplies.svg"
+                class="loot-icon-big"
+                alt="Supplies"
+              />
+              Supplies:
+              <b>{{ lootSplitResult.teamReceipt.supplies | number }}</b>
+            </span>
+            <span class="loot-total loot-total-balance">
+              <img
+                src="assets/budget.svg"
+                class="loot-icon-big"
+                alt="Balance"
+              />
+              Balance: <b>{{ lootSplitResult.teamReceipt.balance | number }}</b>
+            </span>
+          </div>
+          <br />
+          <div class="result-label" style="margin-top: 1em">
+            Transferências:
+          </div>
+          <div
+            *ngFor="let t of sortedTransfers; let i = index"
+            class="loot-transfer-row"
+          >
+            <span class="loot-transfer-names"
+              >{{ t.from }} <span class="arrow">→</span> {{ t.to }}:</span
+            >
+            <span class="loot-gold-group">
+              <img src="assets/coin.svg" class="result-icon" alt="Gold" />
+              <span class="loot-gold">{{ t.amount | number }}</span>
+              <button
+                class="copy-btn"
+                (click)="copyTransfer(t)"
+                title="Copiar transferência"
+              >
+                <img src="assets/copy.svg" alt="Copiar" />
+              </button>
+              <img
+                *ngIf="copiedTransferIndex === i"
+                src="assets/success.svg"
+                class="copy-check"
+                alt="Copiado"
+              />
+            </span>
+          </div>
+          <div style="margin-top: 1.2em; text-align: right">
+            <button
+              class="copy-btn copy-all-btn"
+              (click)="copyAllLootResult()"
+              title="Copiar todos os resultados"
+            >
+              <img src="assets/copy.svg" alt="Copiar tudo" /> Copiar tudo
+            </button>
+            <img
+              *ngIf="copiedAll"
+              src="assets/success.svg"
+              class="copy-check"
+              alt="Copiado"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

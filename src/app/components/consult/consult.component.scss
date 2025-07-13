@@ -25,6 +25,13 @@
   flex-shrink: 0;
 }
 
+.input-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .parchment-card strong {
   color: #4b2e1e;
   font-weight: bold;

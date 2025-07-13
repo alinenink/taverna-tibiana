@@ -1,6 +1,17 @@
 <div class="parchment-background">
   <div class="consulta-layout">
     <h1 class="tavernatibiana-title">Bem-vindo à Taverna Tibiana</h1>
+    <!-- Novo disclaimer taberneiro -->
+    <div class="parchment-card" style="margin-bottom: 1.2rem; text-align: center;">
+      <img src="assets/beer-mug.svg" alt="Beer" class="svg-icon" style="width: 2em; height: 2em; margin-bottom: 0.2em; vertical-align: middle;" />
+      <strong style="margin-left: 5px; vertical-align: middle;">Quer dar só uma espiada?</strong>
+      <br />
+      <span style="font-size: 0.98em; color: #7a5a2f;">Entre como visitante e explore a taverna sem compromisso!</span>
+      <br />
+      <button class="button-medieval" style="margin-top: 0.7em; width: 80%; max-width: 220px;" (click)="entrarComoVisitante()">
+        Entrar como Visitante
+      </button>
+    </div>
     <form class="parchment-card" (ngSubmit)="login()">
       <h2>Juramento de Entrada</h2>
       <hr />

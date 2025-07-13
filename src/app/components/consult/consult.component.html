@@ -29,11 +29,6 @@
 
 <div class="parchment-background">
   <div class="consulta-layout">
-    <div class="title-bar">
-      <button class="voltar-button" [routerLink]="'/'">
-        Voltar
-      </button>
-    </div>
     <h1 class="tavernatibiana-title">Sempre Começa na Taverna</h1>
 
     <p class="consulta-intro">
@@ -45,16 +40,18 @@
 
     <!-- Formulário de Consulta -->
     <form class="parchment-card" (submit)="consultarPersonagem()">
+      <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
       <h2>🔍 Consulta de Personagem</h2>
       <hr />
-      <label for="char-id">ID do Personagem:</label>
-      <input
-        type="text"
-        id="char-id"
-        placeholder="Ex: 123456"
-        [(ngModel)]="characterId"
-        name="characterId"
-      />
+      <div class="input-icon-group">
+        <input
+          type="text"
+          id="char-id"
+          placeholder="Ex: 123456"
+          [(ngModel)]="characterId"
+          name="characterId"
+        />
+      </div>
       <button type="submit">Consultar</button>
     </form>
 

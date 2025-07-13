@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { CommonModule, NgClass } from '@angular/common';
 import {
   Achievement,
@@ -15,6 +15,7 @@ import { environment } from '../../environments/environments';
 import { rareAchievements as rareAchievementsList } from '../../models/rareAchievements';
 import { quests as questModel } from '../../models/quests';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -69,23 +70,31 @@ export class ConsultComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(AchievementsService)
-    private achievementsService: AchievementsService
+    private achievementsService: AchievementsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.carregando = true;
-    this.http
-      .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
-      .subscribe({
-        next: (data) => { console.log(data); this.carregando = false; },
-        error: (err) => { console.error('Erro:', err); this.carregando = false; },
-      });
+    // this.http
+    //   .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
+    //   .subscribe({
+    //     next: (data) => { console.log(data); this.carregando = false; },
+    //     error: (err) => { console.error('Erro:', err); this.carregando = false; },
+    //   });
   }
 
   consultarPersonagem(): void {
     this.carregando = true;
+    
+    const token = this.authService.getToken();
+    let headers = new HttpHeaders();
+    
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    
     this.http
-      .get(`${environment.apiUrl}/auction/${this.characterId}`)
+      .get(`${environment.apiUrl}/auction/${this.characterId}`, { headers })
       .subscribe({
         next: (data: any) => {
           this.characterData = data.details;

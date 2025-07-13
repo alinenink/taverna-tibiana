@@ -9,6 +9,32 @@
 .parchment-card {
   max-width: 350px;
   margin: 0 auto;
+  width: 100%;
+}
+
+.medieval-disclaimer {
+  max-width: 350px;
+  margin: 0 auto 1.2rem auto;
+  width: 100%;
+  background: linear-gradient(#fdf8e4, #f4e6b3);
+  border: 2px solid #a67c52;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  font-family: "Georgia", serif;
+  font-size: 1.08rem;
+  color: #3b2a1a;
+  box-shadow: inset 0 0 8px rgba(139, 69, 19, 0.15),
+    2px 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .parchment-card,
+  .medieval-disclaimer {
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+  }
 }
 
 input.input-medieval {

@@ -32,118 +32,137 @@
 
   <!-- Texto explicativo -->
   <div class="tavernatibiana-layout">
-
     <!-- VERSÃO MOBILE: Apenas as duas imagens lado a lado -->
     <div class="mobile-images">
-      <img src="assets/LineArte.png" alt="Guerreiro tavernatibiana">
-      <img src="assets/HugoArte.png" alt="Mago tavernatibiana">
+      <img src="assets/LineArte.png" alt="Guerreiro tavernatibiana" />
+      <img src="assets/HugoArte.png" alt="Mago tavernatibiana" />
     </div>
 
     <div class="desktop-images">
       <!-- Imagem Lateral Esquerda -->
       <div class="side-image">
-        <img src="assets/LineArte.png" alt="Guerreiro tavernatibiana">
+        <img src="assets/LineArte.png" alt="Guerreiro tavernatibiana" />
       </div>
     </div>
     <!-- Texto Central -->
     <div class="center-text">
       <p class="intro-text">
-        Saudações, bravos viajantes! Sentem-se à mesa, peguem uma caneca e me deixem contar-lhes sobre o caminho
-        para se tornarem verdadeiros <span class="highlight">charlovers</span>.
-
+        Saudações, bravos viajantes! Sentem-se à mesa, peguem uma caneca e me
+        deixem contar-lhes sobre o caminho para se tornarem verdadeiros
+        <span class="highlight">charlovers</span>.
       </p>
 
-      <p class="intro-text"> Nesta taverna, vocês poderão consultar
-        seu personagem do <strong class="highlight">Tibia</strong> e descobrir o que ainda lhes falta para reclamar
-        todas as
-        <span class="highlight">conquistas</span>, exibir os mais raros <span class="highlight">outfits</span> e
-        cavalgar imponentes <span class="highlight">montarias</span>.
+      <p class="intro-text">
+        Nesta taverna, vocês poderão consultar seu personagem do
+        <strong class="highlight">Tibia</strong> e descobrir o que ainda lhes
+        falta para reclamar todas as <span class="highlight">conquistas</span>,
+        exibir os mais raros <span class="highlight">outfits</span> e cavalgar
+        imponentes <span class="highlight">montarias</span>.
       </p>
 
       <!-- Separador marrom escuro como o do footer -->
       <hr class="footer-separator" />
 
       <p class="intro-text">
-        Mas não se detenham aí! Também podem planejar seus passos rumo à grandeza, simulando a própria vida de um
-        <span class="highlight">aventureiro lendário</span>. Bebam dos relatos épicos e saiam daqui prontos para
-        gravar seus nomes na história!
+        Mas não se detenham aí! Também podem planejar seus passos rumo à
+        grandeza, simulando a própria vida de um
+        <span class="highlight">aventureiro lendário</span>. Bebam dos relatos
+        épicos e saiam daqui prontos para gravar seus nomes na história!
       </p>
     </div>
 
-
-
     <div class="desktop-images">
-
       <!-- Imagem Lateral Direita -->
       <div class="side-image">
-        <img src="assets/HugoArte.png" alt="Mago tavernatibiana">
+        <img src="assets/HugoArte.png" alt="Mago tavernatibiana" />
       </div>
-
     </div>
   </div>
 
   <div class="card-buttons three-cards">
     <!-- Card 1: Consulta de Leilão -->
-    <div class="parchment-card  home-size clickable-card">
+    <div class="parchment-card home-size clickable-card">
       <!-- Tooltip no canto direito -->
-      <span class="info-icon" (click)="openAuctionIdModal()" aria-label="Como obter o ID do Leilão?">
+      <span
+        class="info-icon"
+        (click)="openAuctionIdModal()"
+        aria-label="Como obter o ID do Leilão?"
+      >
         <img src="assets/lightbulb.svg" alt="Tooltip" class="tooltip-icon" />
       </span>
 
       <!-- Conteúdo central do card -->
       <div class="card-content">
         <h2>
-          <img src="assets/item-bag-svgrepo-com.svg" alt="Pesquisa" class="svg-icon" />
+          <img
+            src="assets/item-bag-svgrepo-com.svg"
+            alt="Pesquisa"
+            class="svg-icon"
+          />
           <span class="title-text">Consulte o seu Leilão</span>
         </h2>
         <hr />
         <p>
-          Pensando em arrematar um novo herói no bazar do Tibia? Informe o ID do personagem
-          leiloado e descubra quais <strong class="highlight">conquistas</strong>,
-          <span class="highlight">outfits</span> e <span class="highlight">montarias</span>
-          ainda faltam para ele se tornar um verdadeiro <strong class="highlight">charlover</strong>!
+          Pensando em arrematar um novo herói no bazar do Tibia? Informe o ID do
+          personagem leiloado e descubra quais
+          <strong class="highlight">conquistas</strong>,
+          <span class="highlight">outfits</span> e
+          <span class="highlight">montarias</span> ainda faltam para ele se
+          tornar um verdadeiro <strong class="highlight">charlover</strong>!
         </p>
         <button [routerLink]="'/consult'">Acessar Consulta</button>
       </div>
     </div>
 
-
     <!-- Modal (filho) - reativo ao isAuctionIdModalOpen -->
-    <app-auction-id-modal [isOpen]="isAuctionIdModalOpen" (modalClosed)="onModalClosed()">
+    <app-auction-id-modal
+      [isOpen]="isAuctionIdModalOpen"
+      (modalClosed)="onModalClosed()"
+    >
     </app-auction-id-modal>
 
     <!-- Card 2: Links Úteis -->
-    <div class="parchment-card  home-size clickable-card">
+    <div class="parchment-card home-size clickable-card">
       <div class="card-content">
-
         <h2>
-          <img src="assets/spell-scroll-svgrepo-com.svg" alt="Pesquisa" class="svg-icon" />
+          <img
+            src="assets/spell-scroll-svgrepo-com.svg"
+            alt="Pesquisa"
+            class="svg-icon"
+          />
           Pergaminhos Valiosos
         </h2>
         <hr />
         <ul class="useful-links">
           <li>
-
             <a href="https://www.tibia.com/news" target="_blank">
-              <img src="assets/king-svgrepo-com.svg" alt="Pesquisa" class="svg-icon" />
+              <img
+                src="assets/king-svgrepo-com.svg"
+                alt="Pesquisa"
+                class="svg-icon"
+              />
               Decretos Reais do Tibia
             </a>
           </li>
           <li>
-            <a href="https://www.exevopan.com/pt" target="_blank">
-              <img src="assets/item-bag-svgrepo-com.svg" alt="Pesquisa" class="svg-icon" />
-              Registros de Leilões (Exevo Pan)
+            <a [routerLink]="'/calculators'">
+              <img src="assets/calculator.svg" alt="Pesquisa" class="svg-icon" />
+              Calculadoras Mágicas
             </a>
           </li>
           <li>
             <a href="https://www.tibiawiki.com.br" target="_blank">
-              <img src="assets/spell-book-svgrepo-com.svg" alt="Pesquisa" class="svg-icon" />
+              <img
+                src="assets/spell-book-svgrepo-com.svg"
+                alt="Pesquisa"
+                class="svg-icon"
+              />
               Biblioteca Tibia Wiki BR
             </a>
           </li>
 
           <li>
-            <a style="cursor: pointer;" [routerLink]="'/animous-mastery'">
+            <a style="cursor: pointer" [routerLink]="'/animous-mastery'">
               <img src="assets/mastery.svg" alt="Pesquisa" class="svg-icon" />
               Animous Mastery
             </a>
@@ -153,7 +172,7 @@
     </div>
 
     <!-- Card 3: Simulação -->
-    <div class="parchment-card  home-size clickable-card">
+    <div class="parchment-card home-size clickable-card">
       <div class="card-content">
         <h2>
           <img src="assets/role-playing.svg" alt="Pesquisa" class="svg-icon" />
@@ -161,32 +180,40 @@
         </h2>
         <hr />
         <p>
-          Quer vislumbrar sua jornada gloriosa? Escolha suas <span class="highlight">conquistas</span>,
-          <span class="highlight">outfits</span> e <span class="highlight">montarias</span> para projetar sua
-          ascensão como um verdadeiro <strong class="highlight">charlover</strong>.
+          Quer vislumbrar sua jornada gloriosa? Escolha suas
+          <span class="highlight">conquistas</span>,
+          <span class="highlight">outfits</span> e
+          <span class="highlight">montarias</span> para projetar sua ascensão
+          como um verdadeiro <strong class="highlight">charlover</strong>.
         </p>
-        <button (click)="navigateToSimulacao()">Em Breve</button>
+        <button>Em Breve</button>
       </div>
     </div>
   </div>
 
-
   <footer class="tavernatibiana-footer">
-    <hr class="footer-separator">
-    <p>© 2025 Sempre Começa na Taverna | Design by <strong>Aline Nink</strong></p>
+    <hr class="footer-separator" />
+    <p>
+      © Taverna Tibiana | Design by <strong>Aline Nink</strong>
+    </p>
     <div class="footer-links">
-      <a href="https://github.com/alinenink" target="_blank" aria-label="GitHub">
+      <a
+        href="https://github.com/alinenink"
+        target="_blank"
+        aria-label="GitHub"
+      >
         <i class="fab fa-github"></i>
       </a>
       <a href="mailto:alinenink@outlook.com" aria-label="Email">
         <i class="fas fa-envelope"></i>
       </a>
-      <a href="https://linkedin.com/in/alinenink" target="_blank" aria-label="LinkedIn">
+      <a
+        href="https://linkedin.com/in/alinenink"
+        target="_blank"
+        aria-label="LinkedIn"
+      >
         <i class="fab fa-linkedin"></i>
       </a>
     </div>
   </footer>
-
-
-
 </div>
