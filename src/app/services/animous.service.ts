@@ -365,15 +365,15 @@ export class MasteryService {
 
   salvarSelecionados(): Promise<string | null> {
     return new Promise((resolve) => {
-      const selecionados = this.selecionados();
-      if (selecionados.length > 0) {
+    const selecionados = this.selecionados();
+    if (selecionados.length > 0) {
         this.salvarMasteriesUsuario(selecionados, undefined, (errorMsg) => {
           resolve(errorMsg);
         });
-      } else {
-        this.toastMessage.set('Nenhum mastery selecionado para salvar!');
+    } else {
+      this.toastMessage.set('Nenhum mastery selecionado para salvar!');
         resolve(null);
-      }
+    }
     });
   }
 
@@ -406,7 +406,7 @@ export class MasteryService {
           console.log('Using error message from body:', error.error.message); // Debug log
           if (onError) onError(error.error.message);
         } else {
-          this.toastMessage.set('Erro ao salvar no servidor!');
+        this.toastMessage.set('Erro ao salvar no servidor!');
           if (onError) onError('Erro ao salvar no servidor!');
         }
       }
