@@ -356,7 +356,24 @@ export class MasteryService {
 
             const selecionadosIds = new Set(reconstruidos.map((m) => m.id));
 
-            this.http.post<any>(`${this.baseUrl}?action=list`, { page: 1, pageSize: 9999 }, {
+            // Usar a mesma estrutura da chamada inicial para garantir consistência
+            const params = new URLSearchParams({
+              action: 'list',
+              page: '1',
+              pageSize: '9999',
+              name: '',
+              difficulty: '',
+              class: ''
+            });
+
+            this.http.post<any>(`${this.baseUrl}?${params.toString()}`, {
+              action: 'list',
+              page: '1',
+              pageSize: '9999',
+              name: '',
+              difficulty: '',
+              class: ''
+            }, {
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authService.getToken()}`
