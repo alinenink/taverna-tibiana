@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Mastery, MasteryService } from '../../services/animous.service';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-animous-mastery.',
@@ -25,7 +26,7 @@ export class AnimousMasteryComponent implements OnInit {
   exibirModalVisitante = false;
   mensagemVisitante = '';
 
-  constructor(public service: MasteryService, private router: Router) {
+  constructor(public service: MasteryService, private router: Router, private authService: AuthService) {
     // Carregar masteries do usuário ao inicializar
     this.carregando = true;
     this.service.carregarMasteriesUsuario(() => {
@@ -189,6 +190,8 @@ export class AnimousMasteryComponent implements OnInit {
 
   irParaRegister() {
     this.fecharModalVisitante();
+    // Limpar session local antes de ir para register
+    this.authService.logout();
     this.router.navigate(['/register']);
   }
 }

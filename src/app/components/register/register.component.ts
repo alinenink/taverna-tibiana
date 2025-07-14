@@ -224,6 +224,8 @@ export class RegisterComponent {
   }
 
   goToLogin() {
+    // Limpar session local antes de ir para login
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 } 
