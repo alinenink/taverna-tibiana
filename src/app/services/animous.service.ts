@@ -95,37 +95,44 @@ export class MasteryService {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.authService.getToken()}`
       }
-    }).subscribe((res) => {
-      const todos = res.data.map((item: any) => ({
-        ...item,
-        difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-        image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
-      }));
+    }).subscribe({
+      next: (res) => {
+        const todos = res.data.map((item: any) => ({
+          ...item,
+          difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+          image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+        }));
 
-      // Marca os masteries do usuário como selecionados
-      const masteriesUsuarioIds = new Set(masteriesUsuario.map((m: any) => m.id));
-      this.selecionados.set(todos.filter((item: any) => masteriesUsuarioIds.has(item.id)));
+        // Marca os masteries do usuário como selecionados
+        const masteriesUsuarioIds = new Set(masteriesUsuario.map((m: any) => m.id));
+        this.selecionados.set(todos.filter((item: any) => masteriesUsuarioIds.has(item.id)));
 
-      // Ordena com os selecionados primeiro
-      const ordenado = todos.sort((a, b) => {
-        const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
-        const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
-        return (
-          aSel - bSel ||
-          a.name.localeCompare(b.name) ||
-          a.class.name.localeCompare(b.class.name)
-        );
-      });
+        // Ordena com os selecionados primeiro
+        const ordenado = todos.sort((a, b) => {
+          const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
+          const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
+          return (
+            aSel - bSel ||
+            a.name.localeCompare(b.name) ||
+            a.class.name.localeCompare(b.class.name)
+          );
+        });
 
-      const pageSize = 20;
-      const primeiraPagina = ordenado.slice(0, pageSize);
+        const pageSize = 20;
+        const primeiraPagina = ordenado.slice(0, pageSize);
 
-      this.dados.set(primeiraPagina);
-      this._dadosTodos = ordenado;
-      this.totalResultados.set(ordenado.length);
-      this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-      this.paginaAtual.set(1);
-      if (onFinish) onFinish();
+        this.dados.set(primeiraPagina);
+        this._dadosTodos = ordenado;
+        this.totalResultados.set(ordenado.length);
+        this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+        this.paginaAtual.set(1);
+        if (onFinish) onFinish();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar lista de masteries:', error);
+        this.toastMessage.set('Erro ao carregar lista de masteries!');
+        if (onFinish) onFinish();
+      }
     });
   }
 
@@ -187,34 +194,41 @@ export class MasteryService {
           'Authorization': `Bearer ${this.authService.getToken()}`
         }
       })
-      .subscribe((res) => {
-        const filtrados = isRare
-          ? res.data.filter((item: any) => item.occurrence === 'Very Rare')
-          : res.data;
+      .subscribe({
+        next: (res) => {
+          const filtrados = isRare
+            ? res.data.filter((item: any) => item.occurrence === 'Very Rare')
+            : res.data;
 
-        const dadosFormatados = filtrados
-          .map((item: any) => ({
-            ...item,
-            difficulty:
-              item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-            image: `https://static.tibia.com/images/library/${item.name
-              .replace(/\s+/g, '')
-              .toLowerCase()}.gif`,
-          }))
-          .sort((a: any, b: any) => {
-            const dificuldade = { Easy: 0, Medium: 1, Hard: 2, Rare: 3 };
-            return (
-              dificuldade[a.difficulty] - dificuldade[b.difficulty] ||
-              a.name.localeCompare(b.name) ||
-              a.class.name.localeCompare(b.class.name)
-            );
-          });
+          const dadosFormatados = filtrados
+            .map((item: any) => ({
+              ...item,
+              difficulty:
+                item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+              image: `https://static.tibia.com/images/library/${item.name
+                .replace(/\s+/g, '')
+                .toLowerCase()}.gif`,
+            }))
+            .sort((a: any, b: any) => {
+              const dificuldade = { Easy: 0, Medium: 1, Hard: 2, Rare: 3 };
+              return (
+                dificuldade[a.difficulty] - dificuldade[b.difficulty] ||
+                a.name.localeCompare(b.name) ||
+                a.class.name.localeCompare(b.class.name)
+              );
+            });
 
-        this.dados.set(dadosFormatados);
-        this.totalPaginas.set(res.totalPages);
-        this.totalResultados.set(res.total);
-        this.paginaAtual.set(res.page);
-        if (onFinish) onFinish();
+          this.dados.set(dadosFormatados);
+          this.totalPaginas.set(res.totalPages);
+          this.totalResultados.set(res.total);
+          this.paginaAtual.set(res.page);
+          if (onFinish) onFinish();
+        },
+        error: (error) => {
+          console.error('Erro ao buscar masteries:', error);
+          this.toastMessage.set('Erro ao buscar masteries!');
+          if (onFinish) onFinish();
+        }
       });
   }
 
@@ -322,32 +336,39 @@ export class MasteryService {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authService.getToken()}`
               }
-            }).subscribe((res) => {
-              const todos = res.data.map((item: any) => ({
-                ...item,
-                difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-                image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
-              }));
+            }).subscribe({
+              next: (res) => {
+                const todos = res.data.map((item: any) => ({
+                  ...item,
+                  difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+                  image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+                }));
 
-              const ordenado = todos.sort((a, b) => {
-                const aSel = selecionadosIds.has(a.id) ? 0 : 1;
-                const bSel = selecionadosIds.has(b.id) ? 0 : 1;
-                return (
-                  aSel - bSel ||
-                  a.name.localeCompare(b.name) ||
-                  a.class.name.localeCompare(b.class.name)
-                );
-              });
+                const ordenado = todos.sort((a, b) => {
+                  const aSel = selecionadosIds.has(a.id) ? 0 : 1;
+                  const bSel = selecionadosIds.has(b.id) ? 0 : 1;
+                  return (
+                    aSel - bSel ||
+                    a.name.localeCompare(b.name) ||
+                    a.class.name.localeCompare(b.class.name)
+                  );
+                });
 
-              const pageSize = 20;
-              const primeiraPagina = ordenado.slice(0, pageSize);
+                const pageSize = 20;
+                const primeiraPagina = ordenado.slice(0, pageSize);
 
-              this.dados.set(primeiraPagina);
-              this._dadosTodos = ordenado;
-              this.totalResultados.set(ordenado.length);
-              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-              this.paginaAtual.set(1);
-              if (onFinish) onFinish();
+                this.dados.set(primeiraPagina);
+                this._dadosTodos = ordenado;
+                this.totalResultados.set(ordenado.length);
+                this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+                this.paginaAtual.set(1);
+                if (onFinish) onFinish();
+              },
+              error: (error) => {
+                console.error('Erro ao carregar lista de masteries:', error);
+                this.toastMessage.set('Erro ao carregar lista de masteries!');
+                if (onFinish) onFinish();
+              }
             });
 
             setTimeout(() => this.toastMessage.set(null), 3000);
@@ -402,11 +423,25 @@ export class MasteryService {
     this.http.post<any>(`${this.userMasteryUrl}?action=save`, payload).subscribe({
       next: (response) => {
         console.log('Response received:', response); // Debug log
+        
+        // Verificar se a resposta indica erro
         if (response && response.success === false && response.message) {
           console.log('Backend returned error:', response.message); // Debug log
           if (onError) onError(response.message);
           return;
         }
+        
+        // Verificar se a resposta indica sucesso (success: true ou status 201)
+        if (response && (response.success === true || response.hash)) {
+          console.log('Backend returned success:', response); // Debug log
+          this.toastMessage.set('Masteries salvos no servidor!');
+          if (onSuccess) onSuccess();
+          if (onError) onError(null);
+          return;
+        }
+        
+        // Caso padrão: tratar como sucesso se não for explicitamente um erro
+        console.log('Treating as success (default case):', response); // Debug log
         this.toastMessage.set('Masteries salvos no servidor!');
         if (onSuccess) onSuccess();
         if (onError) onError(null);
@@ -421,7 +456,7 @@ export class MasteryService {
           console.log('Using error message from body:', error.error.message); // Debug log
           if (onError) onError(error.error.message);
         } else {
-        this.toastMessage.set('Erro ao salvar no servidor!');
+          this.toastMessage.set('Erro ao salvar no servidor!');
           if (onError) onError('Erro ao salvar no servidor!');
         }
       }
