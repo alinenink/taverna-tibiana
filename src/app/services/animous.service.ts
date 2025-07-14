@@ -89,19 +89,39 @@ export class MasteryService {
 
   // Preencher tabela com masteries do usuário
   private preencherTabelaComMasteries(masteriesUsuario: any[], onFinish?: () => void) {
-    // Primeiro, carrega todos os masteries disponíveis
-    this.http.post<any>(`${this.baseUrl}?action=list`, { page: 1, pageSize: 9999 }, {
+    // Primeiro, carrega todos os masteries disponíveis usando a mesma lógica do método buscar
+    const params = new URLSearchParams({
+      action: 'list',
+      page: '1',
+      pageSize: '9999', // Buscar todos os masteries
+      name: '',
+      difficulty: '',
+      class: '',
+    });
+
+    this.http.post<any>(`${this.baseUrl}?${params.toString()}`, {
+      action: 'list',
+      page: '1',
+      pageSize: '9999',
+      name: '',
+      difficulty: '',
+      class: '',
+    }, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.authService.getToken()}`
       }
     }).subscribe({
       next: (res) => {
+        console.log('[DEBUG] Resposta do servidor:', res);
+        
         const todos = res.data.map((item: any) => ({
           ...item,
           difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
           image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
         }));
+
+        console.log('[DEBUG] Total de masteries carregados:', todos.length);
 
         // Marca os masteries do usuário como selecionados
         const masteriesUsuarioIds = new Set(masteriesUsuario.map((m: any) => m.id));
@@ -121,11 +141,16 @@ export class MasteryService {
         const pageSize = 20;
         const primeiraPagina = ordenado.slice(0, pageSize);
 
+        console.log('[DEBUG] Primeira página:', primeiraPagina.length);
+        console.log('[DEBUG] Total ordenado:', ordenado.length);
+        console.log('[DEBUG] Total páginas:', Math.ceil(ordenado.length / pageSize));
+
         this.dados.set(primeiraPagina);
         this._dadosTodos = ordenado;
         this.totalResultados.set(ordenado.length);
         this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
         this.paginaAtual.set(1);
+        
         if (onFinish) onFinish();
       },
       error: (error) => {
