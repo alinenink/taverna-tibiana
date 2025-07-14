@@ -66,7 +66,7 @@ export class CalculatorsComponent {
     loyaltyBonus: 0,
     hasDummy: false,
     isDouble: false,
-    weaponType: 'regular',
+    weaponType: 'auto',
   };
   exerciseWeaponsResult: ExerciseWeaponsResult | null = null;
   exerciseWeaponsError: string | null = null;
@@ -173,11 +173,12 @@ export class CalculatorsComponent {
 
   get selectedWeaponName() {
     const weaponNames = {
+      'auto': 'Auto',
       'regular': 'Regular',
       'durable': 'Durable', 
       'lasting': 'Lasting'
     };
-    return weaponNames[this.exerciseWeaponForm.weaponType as keyof typeof weaponNames] || 'Regular';
+    return weaponNames[this.exerciseWeaponForm.weaponType as keyof typeof weaponNames] || 'Auto';
   }
 
   get selectedWeaponCount() {
@@ -252,7 +253,7 @@ export class CalculatorsComponent {
       loyaltyBonus: 0,
       hasDummy: false,
       isDouble: false,
-      weaponType: 'regular',
+      weaponType: 'auto',
     };
     this.exerciseWeaponsResult = null;
     this.exerciseWeaponsError = null;
