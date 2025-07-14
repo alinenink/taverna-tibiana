@@ -25,6 +25,7 @@ export class MasteryService {
   totalPaginas = signal(1);
   totalResultados = signal(0);
   toastMessage = signal<string | null>(null);
+  showVisitorModal = signal<boolean>(false);
   private _dadosTodos: Mastery[] = [];
   filtros = { nome: '', dificuldade: '', classe: '' };
 
@@ -350,6 +351,20 @@ export class MasteryService {
             });
 
             setTimeout(() => this.toastMessage.set(null), 3000);
+          }, (errorMsg) => {
+            // Tratamento de erro para usuário não cadastrado
+            if (errorMsg && 
+                (errorMsg.includes('Usuário não cadastrado') || 
+                 errorMsg.toLowerCase().includes('usuário não cadastrado') ||
+                 errorMsg.includes('nao cadastrado') ||
+                 errorMsg.toLowerCase().includes('nao cadastrado'))) {
+              // Ativar o modal de visitante
+              this.showVisitorModal.set(true);
+              if (onFinish) onFinish();
+            } else {
+              this.toastMessage.set('Erro ao importar: ' + (errorMsg || 'Erro desconhecido'));
+              if (onFinish) onFinish();
+            }
           });
         } else {
           this.toastMessage.set('Arquivo inválido!');

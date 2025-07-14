@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Mastery, MasteryService } from '../../services/animous.service';
@@ -25,6 +25,23 @@ export class AnimousMasteryComponent implements OnInit {
   exibirModalVisitante = false;
   mensagemVisitante = '';
 
+  constructor(public service: MasteryService, private router: Router) {
+    // Carregar masteries do usuário ao inicializar
+    this.carregando = true;
+    this.service.carregarMasteriesUsuario(() => {
+      this.carregando = false;
+    });
+
+    // Observar mudanças no signal do serviço para mostrar o modal
+    effect(() => {
+      if (this.service.showVisitorModal()) {
+        this.mensagemVisitante = 'Percebi que você está tentando importar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
+        this.exibirModalVisitante = true;
+        this.service.showVisitorModal.set(false); // Reset do signal
+      }
+    });
+  }
+
   // classOptions: { id: number, name: string }[] = [];
 
   ordenacoes: { [key: string]: boolean } = {
@@ -32,15 +49,6 @@ export class AnimousMasteryComponent implements OnInit {
     difficulty: true,
     'class.name': true,
   };
-
-  constructor(public service: MasteryService, private router: Router) {
-    // Carregar masteries do usuário ao inicializar
-    this.carregando = true;
-    this.service.carregarMasteriesUsuario(() => {
-      this.carregando = false;
-    });
-    // this.classOptions = this.getUniqueClasses();
-  }
 
   ngOnInit() {
     window.addEventListener('resize', () => {
@@ -169,12 +177,14 @@ export class AnimousMasteryComponent implements OnInit {
         this.mensagemVisitante =
           'Percebi que você está tentando salvar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
         this.exibirModalVisitante = true;
+        this.service.showVisitorModal.set(true);
       }
     });
   }
 
   fecharModalVisitante() {
     this.exibirModalVisitante = false;
+    this.service.showVisitorModal.set(false);
   }
 
   irParaRegister() {

@@ -239,7 +239,7 @@
 </div>
 
 <!-- Modal Visitante -->
-<div class="modal-overlay" *ngIf="exibirModalVisitante">
+<div class="modal-overlay" *ngIf="exibirModalVisitante || service.showVisitorModal()">
   <div class="modal-conteudo" (click)="$event.stopPropagation()">
     <h3 class="modal-titulo">
       <img src="assets/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
@@ -247,7 +247,7 @@
     </h3>
     <div class="modal-opcoes">
       <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0;">
-        Percebi que você está tentando salvar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!
+        {{ mensagemVisitante }}
       </p>
     </div>
     <div class="modal-botoes">
