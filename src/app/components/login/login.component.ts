@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     
     // Login real como visitante
     const credentials = {
-      email: 'alinenink@gmail.com',
+      email: 'visitante@gmail.com',
       password: 'Visitante123*'
     };
     this.carregando = true;

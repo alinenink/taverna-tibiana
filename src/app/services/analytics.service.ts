@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 
 declare global {
   interface Window {
-    dataLayer: any[];
+    gtag: (...args: any[]) => void;
   }
 }
 
@@ -27,9 +27,8 @@ export class AnalyticsService {
 
   // Track page views
   trackPageView(pagePath: string): void {
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({
-        event: 'page_view',
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'page_view', {
         page_path: pagePath
       });
     }
@@ -37,11 +36,8 @@ export class AnalyticsService {
 
   // Track custom events
   trackEvent(eventName: string, parameters?: { [key: string]: any }): void {
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({
-        event: eventName,
-        ...parameters
-      });
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', eventName, parameters);
     }
   }
 

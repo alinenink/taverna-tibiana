@@ -1,350 +1,432 @@
-// Script de Teste de Disparos - Google Tag Manager
-// Execute este script no console do navegador para testar todos os eventos
+// Script de Teste para Google Analytics - Charlovinho
+// Execute este script no console do navegador para testar os disparos de eventos
 
-console.log('🚀 Iniciando testes de disparos do GTM...');
+console.log('🚀 Iniciando testes do Google Analytics...');
 
-// Verificar se o dataLayer está disponível
-if (typeof window === 'undefined' || !window.dataLayer) {
-  console.error('❌ DataLayer não encontrado. Verifique se o GTM está carregado.');
-  console.log('💡 Dica: Certifique-se de que o script do GTM está no index.html');
-} else {
-  console.log('✅ DataLayer encontrado e ativo!');
-  console.log('📊 DataLayer atual:', window.dataLayer);
-}
-
-// Função para simular disparos de eventos
-function simularDisparo(evento, parametros = {}) {
-  const eventoCompleto = {
-    event: evento,
-    timestamp: new Date().toISOString(),
-    ...parametros
-  };
+// Função para testar se o gtag está disponível
+function testGtagAvailability() {
+  console.log('📊 Verificando disponibilidade do gtag...');
   
-  if (window.dataLayer) {
-    window.dataLayer.push(eventoCompleto);
-    console.log(`📤 Disparo: ${evento}`, eventoCompleto);
+  if (typeof window.gtag === 'function') {
+    console.log('✅ gtag está disponível');
     return true;
   } else {
-    console.error(`❌ Falha no disparo: ${evento} - DataLayer não disponível`);
+    console.log('❌ gtag não está disponível');
     return false;
   }
 }
 
-// Função para aguardar um tempo entre disparos
-function aguardar(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+// Função para testar eventos básicos
+function testBasicEvents() {
+  console.log('\n🎯 Testando eventos básicos...');
+  
+  // Teste de evento customizado
+  window.gtag('event', 'test_event', {
+    'event_category': 'test',
+    'event_label': 'basic_test',
+    'value': 1
+  });
+  console.log('✅ Evento customizado disparado');
+  
+  // Teste de page_view
+  window.gtag('event', 'page_view', {
+    'page_title': 'Test Page',
+    'page_location': window.location.href
+  });
+  console.log('✅ Page view disparado');
 }
 
-// Função para executar disparos sequenciais
-async function executarDisparosSequenciais() {
-  console.log('\n🎯 Iniciando disparos sequenciais...');
+// Função para testar eventos de autenticação
+function testAuthEvents() {
+  console.log('\n🔐 Testando eventos de autenticação...');
   
-  // 1. Disparos de Navegação
-  console.log('\n📱 Testando disparos de navegação...');
-  simularDisparo('page_view', { page_path: '/home' });
-  await aguardar(500);
-  simularDisparo('page_view', { page_path: '/calculators' });
-  await aguardar(500);
-  simularDisparo('page_view', { page_path: '/consult' });
-  
-  // 2. Disparos de Autenticação
-  console.log('\n🔐 Testando disparos de autenticação...');
-  simularDisparo('login', { method: 'email' });
-  await aguardar(300);
-  simularDisparo('sign_up', { method: 'email' });
-  await aguardar(300);
-  simularDisparo('logout');
-  
-  // 3. Disparos de Calculadora
-  console.log('\n🧮 Testando disparos de calculadora...');
-  simularDisparo('calculator_used', {
-    calculator_type: 'exercise-weapons',
-    parameters: JSON.stringify({
-      vocation: 'knight',
-      skill: 'melee',
-      currentSkill: 100,
-      targetSkill: 110
-    })
+  // Login
+  window.gtag('event', 'login', {
+    'method': 'email'
   });
-  await aguardar(300);
+  console.log('✅ Login disparado');
   
-  simularDisparo('calculator_used', {
-    calculator_type: 'stamina',
-    parameters: JSON.stringify({
-      currentStamina: 3600,
-      targetStamina: 7200
-    })
+  // Logout
+  window.gtag('event', 'logout');
+  console.log('✅ Logout disparado');
+  
+  // Registro
+  window.gtag('event', 'sign_up', {
+    'method': 'email'
   });
-  await aguardar(300);
-  
-  simularDisparo('calculator_used', {
-    calculator_type: 'charm-damage',
-    parameters: JSON.stringify({
-      averageDamage: 500,
-      creatureHp: 1000,
-      bonusResistance: 0
-    })
-  });
-  await aguardar(300);
-  
-  simularDisparo('calculator_used', {
-    calculator_type: 'loot-split',
-    parameters: JSON.stringify({
-      session: 'test-session-123'
-    })
-  });
-  
-  // 4. Disparos de Consulta
-  console.log('\n👤 Testando disparos de consulta...');
-  simularDisparo('character_consultation', { character_id: 'Aureleaf' });
-  await aguardar(300);
-  simularDisparo('character_consultation', { character_id: 'TestCharacter' });
-  
-  // 5. Disparos de Mastery
-  console.log('\n⚔️ Testando disparos de mastery...');
-  simularDisparo('mastery_action', { action: 'select', mastery_type: 'Hard' });
-  await aguardar(300);
-  simularDisparo('mastery_action', { action: 'deselect', mastery_type: 'Easy' });
-  await aguardar(300);
-  simularDisparo('mastery_action', { action: 'upload', mastery_type: 'mastery-file.json' });
-  await aguardar(300);
-  simularDisparo('mastery_action', { action: 'save', mastery_type: 'selected_masteries' });
-  
-  // 6. Disparos de Simulação
-  console.log('\n🎮 Testando disparos de simulação...');
-  simularDisparo('simulation_used', { 
-    simulation_type: 'tab_selection', 
-    parameters: JSON.stringify({ tab: 'achievements' }) 
-  });
-  await aguardar(300);
-  
-  simularDisparo('simulation_used', { 
-    simulation_type: 'start',
-    parameters: JSON.stringify({ charName: 'TestChar', totalProgress: 75 }) 
-  });
-  await aguardar(300);
-  
-  simularDisparo('simulation_used', { 
-    simulation_type: 'export_json',
-    parameters: JSON.stringify({ charName: 'TestChar', totalProgress: 80 }) 
-  });
-  
-  // 7. Disparos de Formulário
-  console.log('\n📋 Testando disparos de formulário...');
-  simularDisparo('form_submit', { form_name: 'login', success: true });
-  await aguardar(300);
-  simularDisparo('form_submit', { form_name: 'login', success: false });
-  await aguardar(300);
-  simularDisparo('form_submit', { form_name: 'registration', success: true });
-  await aguardar(300);
-  simularDisparo('form_submit', { form_name: 'verification', success: true });
-  await aguardar(300);
-  simularDisparo('form_submit', { form_name: 'password_recovery', success: true });
-  
-  // 8. Disparos de Botão
-  console.log('\n🔘 Testando disparos de botão...');
-  simularDisparo('button_click', { button_name: 'help_modal', page: 'home' });
-  await aguardar(300);
-  simularDisparo('button_click', { button_name: 'navigate_simulation', page: 'home' });
-  await aguardar(300);
-  simularDisparo('button_click', { button_name: 'submit_calculator', page: 'calculators' });
-  await aguardar(300);
-  simularDisparo('button_click', { button_name: 'search_character', page: 'consult' });
-  
-  // 9. Disparos de Busca
-  console.log('\n🔍 Testando disparos de busca...');
-  simularDisparo('search', { search_term: 'Aureleaf', search_type: 'character' });
-  await aguardar(300);
-  simularDisparo('search', { search_term: 'Hard', search_type: 'mastery' });
-  await aguardar(300);
-  simularDisparo('search', { search_term: 'knight', search_type: 'calculator' });
-  
-  // 10. Disparos de Erro
-  console.log('\n🚨 Testando disparos de erro...');
-  simularDisparo('error', { 
-    event_category: 'error',
-    event_label: 'api_error',
-    error_message: 'Network Error',
-    error_stack: 'Error stack trace'
-  });
-  await aguardar(300);
-  
-  simularDisparo('error', { 
-    event_category: 'error',
-    event_label: 'validation_error',
-    error_message: 'Invalid email format',
-    error_stack: 'Form validation'
-  });
-  
-  // 11. Disparos de API
-  console.log('\n🌐 Testando disparos de API...');
-  simularDisparo('api_call', { 
-    event_category: 'api',
-    event_label: 'POST /auth/login',
-    value: 200,
-    response_time: 1500
-  });
-  await aguardar(300);
-  
-  simularDisparo('api_call', { 
-    event_category: 'api',
-    event_label: 'GET /auction/Aureleaf',
-    value: 200,
-    response_time: 800
-  });
-  await aguardar(300);
-  
-  simularDisparo('api_call', { 
-    event_category: 'api',
-    event_label: 'POST /calculators/exercise-weapons',
-    value: 200,
-    response_time: 1200
-  });
-  await aguardar(300);
-  
-  simularDisparo('api_call', { 
-    event_category: 'api',
-    event_label: 'POST /auth/login',
-    value: 401,
-    response_time: 500
-  });
-  
-  // 12. Disparos de Engajamento
-  console.log('\n⏱️ Testando disparos de engajamento...');
-  simularDisparo('engagement', { action: 'scroll', content: 'home_page' });
-  await aguardar(300);
-  simularDisparo('engagement', { action: 'click', content: 'calculator_button' });
-  await aguardar(300);
-  simularDisparo('engagement', { action: 'hover', content: 'mastery_item' });
-  
-  console.log('\n🎉 Todos os disparos foram executados!');
-  
-  // Relatório final
-  gerarRelatorioFinal();
+  console.log('✅ Registro disparado');
 }
 
-// Função para gerar relatório final
-function gerarRelatorioFinal() {
-  console.log('\n📊 RELATÓRIO FINAL DOS DISPAROS');
-  console.log('================================');
+// Função para testar eventos de calculadoras
+function testCalculatorEvents() {
+  console.log('\n🧮 Testando eventos de calculadoras...');
   
-  if (window.dataLayer) {
-    const eventos = window.dataLayer.filter(item => item.event);
-    const totalEventos = eventos.length;
-    
-    console.log(`📈 Total de eventos disparados: ${totalEventos}`);
-    
-    // Contagem por tipo
-    const contagemPorTipo = {};
-    eventos.forEach(evento => {
-      contagemPorTipo[evento.event] = (contagemPorTipo[evento.event] || 0) + 1;
-    });
-    
-    console.log('\n📋 Contagem por tipo de evento:');
-    Object.entries(contagemPorTipo).forEach(([tipo, quantidade]) => {
-      console.log(`   ${tipo}: ${quantidade} disparos`);
-    });
-    
-    // Últimos 5 eventos
-    console.log('\n🕒 Últimos 5 eventos disparados:');
-    eventos.slice(-5).forEach((evento, index) => {
-      console.log(`   ${index + 1}. ${evento.event} - ${new Date(evento.timestamp).toLocaleTimeString()}`);
-    });
-    
-    // Status do GTM
-    console.log('\n✅ Status do GTM:');
-    console.log('   - DataLayer: Ativo');
-    console.log('   - Eventos: Enviados com sucesso');
-    console.log('   - Timestamp: Incluído em todos os eventos');
-    
-    // Próximos passos
-    console.log('\n🔍 Próximos passos para validação:');
-    console.log('   1. Acesse o Google Tag Manager');
-    console.log('   2. Ative o Preview Mode');
-    console.log('   3. Navegue pela aplicação');
-    console.log('   4. Verifique se os eventos aparecem');
-    console.log('   5. Configure tags para capturar os eventos');
-    
+  // Exercise Weapons
+  window.gtag('event', 'calculator_used', {
+    'calculator_type': 'exercise-weapons',
+    'parameters': JSON.stringify({
+      'vocation': 'knight',
+      'skill': 'melee',
+      'current_level': 100,
+      'target_level': 110
+    })
+  });
+  console.log('✅ Calculadora Exercise Weapons disparada');
+  
+  // Stamina
+  window.gtag('event', 'calculator_used', {
+    'calculator_type': 'stamina',
+    'parameters': JSON.stringify({
+      'current_stamina': 42,
+      'target_stamina': 50
+    })
+  });
+  console.log('✅ Calculadora Stamina disparada');
+  
+  // Charm Damage
+  window.gtag('event', 'calculator_used', {
+    'calculator_type': 'charm-damage',
+    'parameters': JSON.stringify({
+      'damage': 1000,
+      'creature_hp': 5000,
+      'resistance': 0.5
+    })
+  });
+  console.log('✅ Calculadora Charm Damage disparada');
+  
+  // Loot Split
+  window.gtag('event', 'calculator_used', {
+    'calculator_type': 'loot-split',
+    'parameters': JSON.stringify({
+      'session_value': 50000,
+      'participants': 4
+    })
+  });
+  console.log('✅ Calculadora Loot Split disparada');
+}
+
+// Função para testar eventos de consulta
+function testConsultEvents() {
+  console.log('\n👤 Testando eventos de consulta...');
+  
+  // Consulta de personagem
+  window.gtag('event', 'character_consultation', {
+    'character_id': 'Aureleaf'
+  });
+  console.log('✅ Consulta de personagem disparada');
+  
+  // Busca
+  window.gtag('event', 'search', {
+    'search_term': 'Aureleaf',
+    'search_type': 'character'
+  });
+  console.log('✅ Busca disparada');
+}
+
+// Função para testar eventos de maestria
+function testMasteryEvents() {
+  console.log('\n⚔️ Testando eventos de maestria...');
+  
+  // Seleção de maestria
+  window.gtag('event', 'mastery_action', {
+    'action': 'select',
+    'mastery_type': 'Hard'
+  });
+  console.log('✅ Seleção de maestria disparada');
+  
+  // Upload de arquivo
+  window.gtag('event', 'mastery_action', {
+    'action': 'upload',
+    'mastery_type': 'file_upload'
+  });
+  console.log('✅ Upload de maestria disparado');
+  
+  // Salvamento
+  window.gtag('event', 'mastery_action', {
+    'action': 'save',
+    'mastery_type': 'selection'
+  });
+  console.log('✅ Salvamento de maestria disparado');
+}
+
+// Função para testar eventos de simulação
+function testSimulationEvents() {
+  console.log('\n🎮 Testando eventos de simulação...');
+  
+  // Início de simulação
+  window.gtag('event', 'simulation_used', {
+    'simulation_type': 'start',
+    'parameters': JSON.stringify({
+      'charName': 'Aureleaf',
+      'totalProgress': 75
+    })
+  });
+  console.log('✅ Início de simulação disparado');
+  
+  // Exportação
+  window.gtag('event', 'simulation_used', {
+    'simulation_type': 'export',
+    'parameters': JSON.stringify({
+      'format': 'json'
+    })
+  });
+  console.log('✅ Exportação de simulação disparada');
+  
+  // Importação
+  window.gtag('event', 'simulation_used', {
+    'simulation_type': 'import',
+    'parameters': JSON.stringify({
+      'format': 'json',
+      'success': true
+    })
+  });
+  console.log('✅ Importação de simulação disparada');
+}
+
+// Função para testar eventos de formulários
+function testFormEvents() {
+  console.log('\n📋 Testando eventos de formulários...');
+  
+  // Submissão de formulário
+  window.gtag('event', 'form_submit', {
+    'form_name': 'login',
+    'success': true
+  });
+  console.log('✅ Submissão de formulário disparada');
+  
+  // Erro de formulário
+  window.gtag('event', 'form_submit', {
+    'form_name': 'registration',
+    'success': false
+  });
+  console.log('✅ Erro de formulário disparado');
+}
+
+// Função para testar eventos de botões
+function testButtonEvents() {
+  console.log('\n🔘 Testando eventos de botões...');
+  
+  // Clique em botão
+  window.gtag('event', 'button_click', {
+    'button_name': 'login_button',
+    'page': '/login'
+  });
+  console.log('✅ Clique em botão disparado');
+  
+  // Clique em botão de navegação
+  window.gtag('event', 'button_click', {
+    'button_name': 'home_button',
+    'page': '/home'
+  });
+  console.log('✅ Clique em botão de navegação disparado');
+}
+
+// Função para testar eventos de erro
+function testErrorEvents() {
+  console.log('\n🚨 Testando eventos de erro...');
+  
+  // Erro de API
+  window.gtag('event', 'error', {
+    'event_category': 'error',
+    'event_label': 'api_error',
+    'error_message': 'Network Error',
+    'error_stack': 'Error: Network Error'
+  });
+  console.log('✅ Erro de API disparado');
+  
+  // Erro de validação
+  window.gtag('event', 'error', {
+    'event_category': 'error',
+    'event_label': 'validation_error',
+    'error_message': 'Invalid email format'
+  });
+  console.log('✅ Erro de validação disparado');
+}
+
+// Função para testar eventos de API
+function testApiEvents() {
+  console.log('\n🌐 Testando eventos de API...');
+  
+  // Chamada de API bem-sucedida
+  window.gtag('event', 'api_call', {
+    'event_category': 'api',
+    'event_label': 'GET /auction/Aureleaf',
+    'value': 200,
+    'response_time': 1500
+  });
+  console.log('✅ Chamada de API bem-sucedida disparada');
+  
+  // Chamada de API com erro
+  window.gtag('event', 'api_call', {
+    'event_category': 'api',
+    'event_label': 'POST /login',
+    'value': 401,
+    'response_time': 800
+  });
+  console.log('✅ Chamada de API com erro disparada');
+}
+
+// Função para testar eventos de engajamento
+function testEngagementEvents() {
+  console.log('\n💫 Testando eventos de engajamento...');
+  
+  // Tempo na página
+  window.gtag('event', 'time_on_page', {
+    'page': '/home',
+    'time_spent': 300
+  });
+  console.log('✅ Tempo na página disparado');
+  
+  // Engajamento
+  window.gtag('event', 'engagement', {
+    'action': 'scroll',
+    'content': 'home_page'
+  });
+  console.log('✅ Engajamento disparado');
+}
+
+// Função para testar eventos de conquistas
+function testAchievementEvents() {
+  console.log('\n🏆 Testando eventos de conquistas...');
+  
+  // Visualização de conquista
+  window.gtag('event', 'achievement_action', {
+    'action': 'view',
+    'achievement_type': 'rare'
+  });
+  console.log('✅ Visualização de conquista disparada');
+  
+  // Busca de conquista
+  window.gtag('event', 'achievement_action', {
+    'action': 'search',
+    'achievement_type': 'quest'
+  });
+  console.log('✅ Busca de conquista disparada');
+}
+
+// Função para testar eventos de roupas/montarias
+function testOutfitMountEvents() {
+  console.log('\n👕 Testando eventos de roupas/montarias...');
+  
+  // Visualização de roupa
+  window.gtag('event', 'outfit_mount_action', {
+    'action': 'view',
+    'item_type': 'outfit',
+    'item_name': 'Knight Outfit'
+  });
+  console.log('✅ Visualização de roupa disparada');
+  
+  // Visualização de montaria
+  window.gtag('event', 'outfit_mount_action', {
+    'action': 'view',
+    'item_type': 'mount',
+    'item_name': 'War Horse'
+  });
+  console.log('✅ Visualização de montaria disparada');
+}
+
+// Função para testar eventos de quests
+function testQuestEvents() {
+  console.log('\n📜 Testando eventos de quests...');
+  
+  // Visualização de quest
+  window.gtag('event', 'quest_action', {
+    'action': 'view',
+    'quest_name': 'The Ancient Tomes'
+  });
+  console.log('✅ Visualização de quest disparada');
+  
+  // Busca de quest
+  window.gtag('event', 'quest_action', {
+    'action': 'search',
+    'quest_name': 'dragon'
+  });
+  console.log('✅ Busca de quest disparada');
+}
+
+// Função para testar eventos de gemas
+function testGemEvents() {
+  console.log('\n💎 Testando eventos de gemas...');
+  
+  // Visualização de gema
+  window.gtag('event', 'gem_action', {
+    'action': 'view',
+    'gem_type': 'damage'
+  });
+  console.log('✅ Visualização de gema disparada');
+  
+  // Busca de gema
+  window.gtag('event', 'gem_action', {
+    'action': 'search',
+    'gem_type': 'healing'
+  });
+  console.log('✅ Busca de gema disparada');
+}
+
+// Função principal para executar todos os testes
+function runAllTests() {
+  console.log('🎯 Iniciando todos os testes do Google Analytics...\n');
+  
+  if (!testGtagAvailability()) {
+    console.log('❌ Testes interrompidos - gtag não disponível');
+    return;
+  }
+  
+  testBasicEvents();
+  testAuthEvents();
+  testCalculatorEvents();
+  testConsultEvents();
+  testMasteryEvents();
+  testSimulationEvents();
+  testFormEvents();
+  testButtonEvents();
+  testErrorEvents();
+  testApiEvents();
+  testEngagementEvents();
+  testAchievementEvents();
+  testOutfitMountEvents();
+  testQuestEvents();
+  testGemEvents();
+  
+  console.log('\n🎉 Todos os testes foram executados!');
+  console.log('📊 Verifique o Google Analytics Real-Time para confirmar os eventos.');
+}
+
+// Função para testar eventos específicos
+function testSpecificEvent(eventName, parameters = {}) {
+  console.log(`🎯 Testando evento específico: ${eventName}`);
+  
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, parameters);
+    console.log('✅ Evento disparado com sucesso');
+    console.log('📊 Parâmetros:', parameters);
   } else {
-    console.log('❌ DataLayer não disponível para relatório');
+    console.log('❌ gtag não disponível');
   }
 }
 
-// Função para disparo rápido (sem delays)
-function disparoRapido() {
-  console.log('\n⚡ Executando disparo rápido...');
-  
-  const eventos = [
-    { evento: 'page_view', params: { page_path: '/test' } },
-    { evento: 'login', params: { method: 'email' } },
-    { evento: 'calculator_used', params: { calculator_type: 'exercise-weapons' } },
-    { evento: 'character_consultation', params: { character_id: 'TestChar' } },
-    { evento: 'button_click', params: { button_name: 'test_button', page: 'test' } },
-    { evento: 'form_submit', params: { form_name: 'test_form', success: true } },
-    { evento: 'search', params: { search_term: 'test', search_type: 'test' } },
-    { evento: 'error', params: { event_category: 'error', event_label: 'test_error' } },
-    { evento: 'api_call', params: { event_category: 'api', event_label: 'GET /test', value: 200 } },
-    { evento: 'engagement', params: { action: 'test', content: 'test_content' } }
-  ];
-  
-  eventos.forEach((item, index) => {
-    simularDisparo(item.evento, item.params);
-    console.log(`   ${index + 1}/${eventos.length} - ${item.evento}`);
-  });
-  
-  console.log('✅ Disparo rápido concluído!');
-  gerarRelatorioFinal();
-}
-
-// Função para limpar dataLayer
-function limparDataLayer() {
-  if (window.dataLayer) {
-    window.dataLayer = [];
-    console.log('🧹 DataLayer limpo!');
-  } else {
-    console.log('❌ DataLayer não disponível para limpeza');
-  }
-}
-
-// Função para verificar status atual
-function verificarStatus() {
-  console.log('\n🔍 STATUS ATUAL');
-  console.log('==============');
-  
-  if (window.dataLayer) {
-    console.log(`✅ DataLayer: Ativo (${window.dataLayer.length} eventos)`);
-    
-    if (window.dataLayer.length > 0) {
-      const ultimoEvento = window.dataLayer[window.dataLayer.length - 1];
-      console.log(`📤 Último evento: ${ultimoEvento.event || 'N/A'}`);
-      console.log(`🕒 Timestamp: ${ultimoEvento.timestamp || 'N/A'}`);
-    }
-  } else {
-    console.log('❌ DataLayer: Inativo');
-  }
-  
-  // Verificar se o GTM está carregado
-  const gtmScript = document.querySelector('script[src*="googletagmanager"]');
-  console.log(`🔧 Script GTM: ${gtmScript ? '✅ Carregado' : '❌ Não encontrado'}`);
-}
-
-// Expor funções globalmente para uso no console
-window.testarDisparos = {
-  executarCompleto: executarDisparosSequenciais,
-  executarRapido: disparoRapido,
-  limpar: limparDataLayer,
-  status: verificarStatus,
-  disparo: simularDisparo
+// Expor funções para uso no console
+window.analyticsTests = {
+  runAllTests,
+  testSpecificEvent,
+  testGtagAvailability,
+  testBasicEvents,
+  testAuthEvents,
+  testCalculatorEvents,
+  testConsultEvents,
+  testMasteryEvents,
+  testSimulationEvents,
+  testFormEvents,
+  testButtonEvents,
+  testErrorEvents,
+  testApiEvents,
+  testEngagementEvents,
+  testAchievementEvents,
+  testOutfitMountEvents,
+  testQuestEvents,
+  testGemEvents
 };
 
-console.log('\n🎯 FUNÇÕES DISPONÍVEIS:');
-console.log('   testarDisparos.executarCompleto() - Executa todos os disparos com delays');
-console.log('   testarDisparos.executarRapido() - Executa disparos rápidos');
-console.log('   testarDisparos.limpar() - Limpa o dataLayer');
-console.log('   testarDisparos.status() - Verifica status atual');
-console.log('   testarDisparos.disparo(evento, parametros) - Dispara evento específico');
-
-// Verificar status inicial
-verificarStatus();
-
-console.log('\n🚀 Pronto para executar disparos! Use as funções acima.'); 
+console.log('📚 Funções de teste disponíveis em window.analyticsTests');
+console.log('🚀 Execute window.analyticsTests.runAllTests() para testar todos os eventos');
+console.log('🎯 Execute window.analyticsTests.testSpecificEvent("event_name", {param: "value"}) para testar evento específico'); 
