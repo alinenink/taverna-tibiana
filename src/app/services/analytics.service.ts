@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 declare global {
   interface Window {
     gtag: (...args: any[]) => void;
+    dataLayer: any[];
   }
 }
 
