@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Mastery, MasteryService } from '../../services/animous.service';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-animous-mastery.',
@@ -26,7 +27,12 @@ export class AnimousMasteryComponent implements OnInit {
   exibirModalVisitante = false;
   mensagemVisitante = '';
 
-  constructor(public service: MasteryService, private router: Router, private authService: AuthService) {
+  constructor(
+    public service: MasteryService, 
+    private router: Router, 
+    private authService: AuthService,
+    private analyticsService: AnalyticsService
+  ) {
     // Carregar masteries do usuário ao inicializar
     this.carregando = true;
     this.service.carregarMasteriesUsuario(() => {
@@ -111,6 +117,9 @@ export class AnimousMasteryComponent implements OnInit {
 
   buscar(event?: Event) {
     event?.preventDefault();
+    // Track search action
+    this.analyticsService.trackSearch(this.filtros.nome, 'mastery');
+    
     this.carregando = true;
     this.service.buscar(this.filtros, 1, () => {
       this.carregando = false;
@@ -140,6 +149,9 @@ export class AnimousMasteryComponent implements OnInit {
   selecionar(event: any, mastery: any) {
     const checked = event.target.checked;
     this.service.alternarSelecao(mastery, checked);
+    
+    // Track mastery selection
+    this.analyticsService.trackMasteryAction(checked ? 'select' : 'deselect', mastery.difficulty);
   }
 
   isSelecionado(id: number): boolean {
@@ -153,6 +165,9 @@ export class AnimousMasteryComponent implements OnInit {
   onUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
+      // Track file upload
+      this.analyticsService.trackMasteryAction('upload', file.name);
+      
       this.carregando = true;
       this.service.importarJson(file, () => {
         this.carregando = false;
@@ -166,6 +181,9 @@ export class AnimousMasteryComponent implements OnInit {
   }
 
   salvarSelecionados() {
+    // Track save action
+    this.analyticsService.trackMasteryAction('save', 'selected_masteries');
+    
     this.service.salvarSelecionados().then((errorMsg) => {
       console.log('Error message from service:', errorMsg); // Debug log
       if (

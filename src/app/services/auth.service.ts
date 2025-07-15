@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { environment } from '../environments/environments';
+import { AnalyticsService } from './analytics.service';
 
 export interface LoginRequest {
   email: string;
@@ -35,7 +36,10 @@ export interface AuthResponse {
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private analyticsService: AnalyticsService
+  ) {}
 
   // Função para fazer hash da senha usando SHA-256
   private async hashPassword(password: string): Promise<string> {
@@ -101,6 +105,9 @@ export class AuthService {
   }
 
   logout(): void {
+    // Track logout
+    this.analyticsService.trackLogout();
+    
     // Limpar dados de autenticação do localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');

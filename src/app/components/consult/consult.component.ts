@@ -16,6 +16,7 @@ import { rareAchievements as rareAchievementsList } from '../../models/rareAchie
 import { quests as questModel } from '../../models/quests';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -71,7 +72,8 @@ export class ConsultComponent implements OnInit {
     private http: HttpClient,
     @Inject(AchievementsService)
     private achievementsService: AchievementsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +86,9 @@ export class ConsultComponent implements OnInit {
   }
 
   consultarPersonagem(): void {
+    // Track character consultation
+    this.analyticsService.trackCharacterConsultation(this.characterId);
+    
     this.carregando = true;
     
     const token = this.authService.getToken();

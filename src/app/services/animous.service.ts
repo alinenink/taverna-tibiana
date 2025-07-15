@@ -51,45 +51,8 @@ export class MasteryService {
       return;
     }
     
-    // Usar GET request para buscar masteries do usuário
-    this.http.get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).subscribe({
-      next: (response) => {
-        // Log completo do response para debug
-        console.log('[DEBUG] response recebido:', response);
-        let payload: any[] = [];
-        if (Array.isArray(response)) {
-          payload = response[0]?.payload;
-        } else if (response && response.payload) {
-          payload = typeof response.payload === 'string'
-            ? JSON.parse(response.payload)
-            : response.payload;
-        }
-        console.log('[DEBUG] payload extraído:', payload);
-        if (Array.isArray(payload) && payload.length > 0) {
-          this.selecionados.set(payload);
-          this.toastMessage.set('Masteries carregados do servidor!');
-          this.preencherTabelaComMasteries(payload, onFinish);
-          setTimeout(() => this.toastMessage.set(null), 3000);
-        } else {
-          // Se não houver payload, pode buscar lista geral
-          this.buscar(this.filtros, 1, onFinish);
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar masteries do usuário:', error);
-        this.buscar(this.filtros, 1, onFinish);
-      }
-    });
-  }
-
-  // Preencher tabela com masteries do usuário
-  private preencherTabelaComMasteries(masteriesUsuario: any[], onFinish?: () => void) {
-    // Primeiro, carrega todos os masteries disponíveis usando a mesma lógica do método buscar
+    // PRIMEIRO: Carregar todos os masteries disponíveis
+    console.log('[DEBUG] Carregando todos os masteries disponíveis...');
     const params = new URLSearchParams({
       action: 'list',
       page: '1',
@@ -109,11 +72,11 @@ export class MasteryService {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.authService.getToken()}`
+        'Authorization': `Bearer ${token}`
       }
     }).subscribe({
       next: (res) => {
-        console.log('[DEBUG] Resposta do servidor:', res);
+        console.log('[DEBUG] Todos os masteries carregados:', res.data.length);
         
         const todos = res.data.map((item: any) => ({
           ...item,
@@ -121,37 +84,100 @@ export class MasteryService {
           image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
         }));
 
-        console.log('[DEBUG] Total de masteries carregados:', todos.length);
-
-        // Marca os masteries do usuário como selecionados
-        const masteriesUsuarioIds = new Set(masteriesUsuario.map((m: any) => m.id));
-        this.selecionados.set(todos.filter((item: any) => masteriesUsuarioIds.has(item.id)));
-
-        // Ordena com os selecionados primeiro
-        const ordenado = todos.sort((a, b) => {
-          const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
-          const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
-          return (
-            aSel - bSel ||
-            a.name.localeCompare(b.name) ||
-            a.class.name.localeCompare(b.class.name)
-          );
-        });
-
-        const pageSize = 20;
-        const primeiraPagina = ordenado.slice(0, pageSize);
-
-        console.log('[DEBUG] Primeira página:', primeiraPagina.length);
-        console.log('[DEBUG] Total ordenado:', ordenado.length);
-        console.log('[DEBUG] Total páginas:', Math.ceil(ordenado.length / pageSize));
-
-        this.dados.set(primeiraPagina);
-        this._dadosTodos = ordenado;
-        this.totalResultados.set(ordenado.length);
-        this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-        this.paginaAtual.set(1);
+        // Armazenar todos os masteries
+        this._dadosTodos = todos;
         
-        if (onFinish) onFinish();
+        // SEGUNDO: Buscar masteries do usuário
+        console.log('[DEBUG] Buscando masteries do usuário...');
+        this.http.get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).subscribe({
+          next: (response) => {
+            console.log('[DEBUG] Response do usuário recebido:', response);
+            let payload: any[] = [];
+            if (Array.isArray(response)) {
+              payload = response[0]?.payload;
+            } else if (response && response.payload) {
+              payload = typeof response.payload === 'string'
+                ? JSON.parse(response.payload)
+                : response.payload;
+            }
+            console.log('[DEBUG] Payload extraído:', payload);
+            
+            if (Array.isArray(payload) && payload.length > 0) {
+              // Marcar os masteries do usuário como selecionados
+              const masteriesUsuarioIds = new Set(payload.map((m: any) => m.id));
+              const selecionados = todos.filter((item: any) => masteriesUsuarioIds.has(item.id));
+              this.selecionados.set(selecionados);
+              
+              console.log('[DEBUG] Masteries selecionados:', selecionados.length);
+              
+              // Ordenar com os selecionados primeiro
+              const ordenado = todos.sort((a, b) => {
+                const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
+                const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
+                return (
+                  aSel - bSel ||
+                  a.name.localeCompare(b.name) ||
+                  a.class.name.localeCompare(b.class.name)
+                );
+              });
+
+              const pageSize = 20;
+              const primeiraPagina = ordenado.slice(0, pageSize);
+
+              console.log('[DEBUG] Primeira página:', primeiraPagina.length);
+              console.log('[DEBUG] Total ordenado:', ordenado.length);
+              console.log('[DEBUG] Total páginas:', Math.ceil(ordenado.length / pageSize));
+
+              this.dados.set(primeiraPagina);
+              this.totalResultados.set(ordenado.length);
+              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+              this.paginaAtual.set(1);
+              
+              this.toastMessage.set('Masteries carregados do servidor!');
+              setTimeout(() => this.toastMessage.set(null), 3000);
+            } else {
+              // Se não houver masteries salvos, apenas mostrar todos
+              console.log('[DEBUG] Nenhum mastery salvo encontrado, mostrando todos');
+              const ordenado = todos.sort((a, b) => 
+                a.name.localeCompare(b.name) ||
+                a.class.name.localeCompare(b.class.name)
+              );
+
+              const pageSize = 20;
+              const primeiraPagina = ordenado.slice(0, pageSize);
+
+              this.dados.set(primeiraPagina);
+              this.totalResultados.set(ordenado.length);
+              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+              this.paginaAtual.set(1);
+            }
+            
+            if (onFinish) onFinish();
+          },
+          error: (error) => {
+            console.error('Erro ao carregar masteries do usuário:', error);
+            // Em caso de erro, mostrar todos os masteries sem seleção
+            const ordenado = todos.sort((a, b) => 
+              a.name.localeCompare(b.name) ||
+              a.class.name.localeCompare(b.class.name)
+            );
+
+            const pageSize = 20;
+            const primeiraPagina = ordenado.slice(0, pageSize);
+
+            this.dados.set(primeiraPagina);
+            this.totalResultados.set(ordenado.length);
+            this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+            this.paginaAtual.set(1);
+            
+            if (onFinish) onFinish();
+          }
+        });
       },
       error: (error) => {
         console.error('Erro ao carregar lista de masteries:', error);
@@ -160,6 +186,8 @@ export class MasteryService {
       }
     });
   }
+
+
 
   buscar(
     filtros: { nome?: string; dificuldade?: string; classe?: string },

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,11 @@ export class LoginComponent implements OnInit {
   carregando = false;
   erro = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    private analyticsService: AnalyticsService
+  ) {}
 
   ngOnInit() {
     // Verifica se existe token no localStorage ou sessionStorage
@@ -28,6 +33,9 @@ export class LoginComponent implements OnInit {
   }
 
   entrarComoVisitante() {
+    // Track guest login attempt
+    this.analyticsService.trackLogin('guest');
+    
     // Login real como visitante
     const credentials = {
       email: 'alinenink@gmail.com',
@@ -43,23 +51,29 @@ export class LoginComponent implements OnInit {
               response.user,
               response.user_id
             );
+            this.analyticsService.trackFormSubmission('guest_login', true);
             this.router.navigate(['/home']);
           } else {
             this.erro =
               response.message ||
               'Erro ao entrar como visitante. Tente novamente.';
             this.carregando = false;
+            this.analyticsService.trackFormSubmission('guest_login', false);
           }
         },
         error: (error) => {
           this.carregando = false;
           this.erro = 'Erro ao entrar como visitante. Tente novamente.';
+          this.analyticsService.trackFormSubmission('guest_login', false);
         }
       });
     });
   }
 
   async login() {
+    // Track login attempt
+    this.analyticsService.trackLogin('email');
+    
     this.carregando = true;
     this.erro = '';
 
@@ -79,17 +93,20 @@ export class LoginComponent implements OnInit {
               response.user_id
             );
             this.carregando = false;
+            this.analyticsService.trackFormSubmission('login', true);
             this.router.navigate(['/home']);
           } else {
             this.erro =
               response.message ||
               'Erro na autenticação. Verifique suas credenciais.';
             this.carregando = false;
+            this.analyticsService.trackFormSubmission('login', false);
           }
         },
         error: (error) => {
           this.carregando = false;
           console.error('Erro na autenticação:', error);
+          this.analyticsService.trackFormSubmission('login', false);
           if (error.status === 401) {
             this.erro = '🍺 Opa, nobre aventureiro! Tuas credenciais não foram reconhecidas pelo taberneiro. Confere teu email mágico e tua palavra-passe, e tenta novamente!';
           } else {
@@ -100,6 +117,7 @@ export class LoginComponent implements OnInit {
     } catch (error) {
       this.carregando = false;
       console.error('Erro ao processar autenticação:', error);
+      this.analyticsService.trackFormSubmission('login', false);
       this.erro = 'Erro interno. Tente novamente.';
     }
   }

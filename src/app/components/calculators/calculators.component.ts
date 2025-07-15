@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CalculatorsService } from '../../services/calculators.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 interface ExerciseWeaponsResult {
   weaponsRequired: {
@@ -187,7 +188,10 @@ export class CalculatorsComponent {
     return this.exerciseWeaponsResult.weaponsRequired[weaponType as keyof typeof this.exerciseWeaponsResult.weaponsRequired] || 0;
   }
 
-  constructor(private calculatorsService: CalculatorsService) {}
+  constructor(
+    private calculatorsService: CalculatorsService,
+    private analyticsService: AnalyticsService
+  ) {}
 
   ngOnInit() {
     this.carregando = true;
@@ -198,10 +202,17 @@ export class CalculatorsComponent {
   }
 
   setCalculator(type: 'exercise-weapons' | 'stamina' | 'charm-damage' | 'loot-split' | null) {
+    // Track calculator selection
+    if (type) {
+      this.analyticsService.trackCalculatorUsage(type, { action: 'select' });
+    }
     this.activeCalculator = type;
   }
 
   submitExerciseWeapons() {
+    // Track calculator usage
+    this.analyticsService.trackCalculatorUsage('exercise-weapons', this.exerciseWeaponForm);
+    
     this.isLoadingExercise = true;
     this.exerciseWeaponsResult = null;
     this.exerciseWeaponsError = null;
@@ -260,6 +271,12 @@ export class CalculatorsComponent {
   }
 
   submitStamina() {
+    // Track calculator usage
+    this.analyticsService.trackCalculatorUsage('stamina', {
+      currentStamina: this.staminaCurrent.seconds,
+      targetStamina: this.staminaTarget.seconds
+    });
+    
     this.staminaError = null;
     this.staminaResult = null;
     // Validar e converter
@@ -305,6 +322,9 @@ export class CalculatorsComponent {
   }
 
   submitCharmDamage() {
+    // Track calculator usage
+    this.analyticsService.trackCalculatorUsage('charm-damage', this.charmDamageForm);
+    
     this.isLoadingCharm = true;
     this.charmDamageResult = null;
     this.charmDamageError = null;
@@ -332,6 +352,9 @@ export class CalculatorsComponent {
   }
 
   submitLootSplit() {
+    // Track calculator usage
+    this.analyticsService.trackCalculatorUsage('loot-split', { session: this.lootSplitForm.session });
+    
     this.isLoadingLootSplit = true;
     this.lootSplitResult = null;
     this.lootSplitError = null;

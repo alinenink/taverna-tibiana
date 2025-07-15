@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-simulation',
@@ -40,7 +41,10 @@ export class SimulationComponent {
 
   carregando: boolean = true;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private analyticsService: AnalyticsService
+  ) {
     setTimeout(() => {
       this.carregando = false;
     }, 2000);
@@ -70,13 +74,26 @@ export class SimulationComponent {
 
   setTab(tab: 'achievements' | 'outfits' | 'mounts' | 'quests') {
     this.activeTab = tab;
+    // Track tab selection
+    this.analyticsService.trackSimulationUsage('tab_selection', { tab: tab });
   }
 
   startSimulation() {
+    // Track simulation start
+    this.analyticsService.trackSimulationUsage('start', { 
+      charName: this.charName,
+      totalProgress: this.totalProgress 
+    });
     console.log(`Iniciando simulação para ${this.charName}`);
   }
 
   exportToJson() {
+    // Track export action
+    this.analyticsService.trackSimulationUsage('export_json', { 
+      charName: this.charName,
+      totalProgress: this.totalProgress 
+    });
+    
     const data = {
       charName: this.charName,
       achievements: this.achievements,
@@ -95,6 +112,9 @@ export class SimulationComponent {
   }
 
   importFromJson() {
+    // Track import action
+    this.analyticsService.trackSimulationUsage('import_json', {});
+    
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
@@ -111,8 +131,15 @@ export class SimulationComponent {
           this.outfits = data.outfits || [];
           this.mounts = data.mounts || [];
           this.quests = data.quests || [];
+          
+          // Track successful import
+          this.analyticsService.trackSimulationUsage('import_success', { 
+            charName: this.charName 
+          });
         } catch (e) {
           alert('Erro ao importar arquivo.');
+          // Track import error
+          this.analyticsService.trackSimulationUsage('import_error', { error: 'parse_error' });
         }
       };
       reader.readAsText(file);

@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuctionIdModalComponent } from '../auction-id-modal/auction-id-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,10 @@ export class HomeComponent {
   isAuctionIdModalOpen = false;
   carregando: boolean = true;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private analyticsService: AnalyticsService
+  ) {
     setTimeout(() => {
       this.carregando = false;
     }, 2000);
@@ -23,6 +27,7 @@ export class HomeComponent {
 
   // Chamada ao clicar no ícone de ajuda (abrir modal)
   openAuctionIdModal(): void {
+    this.analyticsService.trackButtonClick('help_modal', 'home');
     this.isAuctionIdModalOpen = true;
   }
 
@@ -32,6 +37,7 @@ export class HomeComponent {
   }
 
   navigateToSimulacao(): void {
+    this.analyticsService.trackButtonClick('navigate_simulation', 'home');
     this.router.navigate(['/simulacao']);
   }
 }

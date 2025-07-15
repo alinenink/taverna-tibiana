@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +36,8 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private analyticsService: AnalyticsService
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator.bind(this)]],
@@ -111,6 +113,9 @@ export class RegisterComponent {
   // Submeter formulário
   onSubmit() {
     if (this.registerForm.valid) {
+      // Track registration attempt
+      this.analyticsService.trackRegistration('email');
+      
       this.carregando = true;
       this.erro = '';
       const formData = this.registerForm.value;
@@ -123,13 +128,16 @@ export class RegisterComponent {
           if (response?.success) {
             this.registeredEmail = formData.email;
             this.showVerification = true;
+            this.analyticsService.trackFormSubmission('registration', true);
           } else {
             this.erro = response.message || 'Erro no registro. Tente novamente.';
+            this.analyticsService.trackFormSubmission('registration', false);
           }
           this.carregando = false;
         },
         error: (error) => {
           this.carregando = false;
+          this.analyticsService.trackFormSubmission('registration', false);
           if (error.status === 400 && error.error?.message === 'Email já cadastrado') {
             this.erro = '🍺 Este email mágico já está registrado na taverna. Tente outro ou recupere seu juramento.';
           } else {
@@ -161,6 +169,7 @@ export class RegisterComponent {
         if (response?.success) {
           this.carregando = false;
           this.showSuccessModal = true;
+          this.analyticsService.trackFormSubmission('verification', true);
           this.startTeleportTimer();
         } else {
           if (response?.message === 'Código inválido') {
@@ -169,6 +178,7 @@ export class RegisterComponent {
             this.verificacaoErro = response?.message || 'Erro na validação do código.';
           }
           this.carregando = false;
+          this.analyticsService.trackFormSubmission('verification', false);
         }
       } catch (error: any) {
         if (error?.status === 400 && error?.error?.message === 'Código inválido') {
@@ -177,6 +187,7 @@ export class RegisterComponent {
           this.verificacaoErro = 'Erro ao validar o código. Tente novamente.';
         }
         this.carregando = false;
+        this.analyticsService.trackFormSubmission('verification', false);
       }
     } else {
       // Marcar todos os campos como touched para mostrar erros

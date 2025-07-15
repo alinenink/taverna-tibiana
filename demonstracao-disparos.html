@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração de Disparos - GTM Taverna Tibiana</title>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WZR6F9FM');</script>
+    <!-- End Google Tag Manager -->
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .status-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .status-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .status-value {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+            color: white;
+        }
+        
+        .log-panel {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #4a5568;
+        }
+        
+        .log-timestamp {
+            color: #a0aec0;
+            font-size: 12px;
+        }
+        
+        .log-event {
+            color: #68d391;
+            font-weight: bold;
+        }
+        
+        .log-error {
+            color: #fc8181;
+        }
+        
+        .log-success {
+            color: #68d391;
+        }
+        
+        .log-info {
+            color: #63b3ed;
+        }
+        
+        .log-warning {
+            color: #f6e05e;
+        }
+        
+        .event-counter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .counter-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 4px solid #007bff;
+        }
+        
+        .counter-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        
+        .counter-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-counter {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZR6F9FM"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Demonstração de Disparos</h1>
+            <p>Google Tag Manager - Taverna Tibiana</p>
+        </div>
+        
+        <div class="content">
+            <div class="status-panel">
+                <h3>📊 Status do Sistema</h3>
+                <div class="status-item">
+                    <span class="status-label">DataLayer:</span>
+                    <span class="status-value" id="dataLayerStatus">Verificando...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">GTM Script:</span>
+                    <span class="status-value" id="gtmScriptStatus">Verificando...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Total de Eventos:</span>
+                    <span class="status-value" id="totalEvents">0</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Último Evento:</span>
+                    <span class="status-value" id="lastEvent">Nenhum</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-primary" onclick="executarDisparosCompletos()">
+                    🚀 Executar Todos os Disparos
+                </button>
+                <button class="btn btn-success" onclick="executarDisparosRapidos()">
+                    ⚡ Disparo Rápido
+                </button>
+                <button class="btn btn-warning" onclick="testarEventoEspecifico()">
+                    🎯 Teste Específico
+                </button>
+                <button class="btn btn-danger" onclick="limparDataLayer()">
+                    🧹 Limpar DataLayer
+                </button>
+                <button class="btn btn-secondary" onclick="verificarStatus()">
+                    🔍 Verificar Status
+                </button>
+            </div>
+            
+            <div class="event-counter">
+                <div class="counter-card">
+                    <div class="counter-number" id="pageViewCount">0</div>
+                    <div class="counter-label">Page Views</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="pageViewProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="loginCount">0</div>
+                    <div class="counter-label">Logins</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="loginProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="calculatorCount">0</div>
+                    <div class="counter-label">Calculadoras</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="calculatorProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="errorCount">0</div>
+                    <div class="counter-label">Erros</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="errorProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="log-panel" id="logPanel">
+                <div class="log-entry">
+                    <span class="log-timestamp">[Inicializando...]</span>
+                    <span class="log-info">Sistema de demonstração carregado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Variáveis globais
+        let eventCounts = {
+            page_view: 0,
+            login: 0,
+            calculator_used: 0,
+            error: 0,
+            total: 0
+        };
+        
+        let maxEvents = 50; // Máximo para calcular progresso
+        
+        // Função para adicionar log
+        function addLog(message, type = 'info') {
+            const logPanel = document.getElementById('logPanel');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `
+                <span class="log-timestamp">[${timestamp}]</span>
+                <span class="log-${type}">${message}</span>
+            `;
+            logPanel.appendChild(logEntry);
+            logPanel.scrollTop = logPanel.scrollHeight;
+        }
+        
+        // Função para atualizar contadores
+        function updateCounters() {
+            document.getElementById('pageViewCount').textContent = eventCounts.page_view;
+            document.getElementById('loginCount').textContent = eventCounts.login;
+            document.getElementById('calculatorCount').textContent = eventCounts.calculator_used;
+            document.getElementById('errorCount').textContent = eventCounts.error;
+            document.getElementById('totalEvents').textContent = eventCounts.total;
+            
+            // Atualizar barras de progresso
+            document.getElementById('pageViewProgress').style.width = `${(eventCounts.page_view / maxEvents) * 100}%`;
+            document.getElementById('loginProgress').style.width = `${(eventCounts.login / maxEvents) * 100}%`;
+            document.getElementById('calculatorProgress').style.width = `${(eventCounts.calculator_used / maxEvents) * 100}%`;
+            document.getElementById('errorProgress').style.width = `${(eventCounts.error / maxEvents) * 100}%`;
+        }
+        
+        // Função para simular disparo
+        function simularDisparo(evento, parametros = {}) {
+            const eventoCompleto = {
+                event: evento,
+                timestamp: new Date().toISOString(),
+                ...parametros
+            };
+            
+            if (window.dataLayer) {
+                window.dataLayer.push(eventoCompleto);
+                
+                // Atualizar contadores
+                eventCounts.total++;
+                if (eventCounts.hasOwnProperty(evento)) {
+                    eventCounts[evento]++;
+                }
+                
+                // Atualizar último evento
+                document.getElementById('lastEvent').textContent = evento;
+                
+                // Adicionar log
+                addLog(`📤 Disparo: ${evento}`, 'success');
+                
+                updateCounters();
+                return true;
+            } else {
+                addLog(`❌ Falha no disparo: ${evento} - DataLayer não disponível`, 'error');
+                return false;
+            }
+        }
+        
+        // Função para aguardar
+        function aguardar(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        // Função para executar disparos completos
+        async function executarDisparosCompletos() {
+            addLog('🚀 Iniciando disparos completos...', 'info');
+            
+            // Disparos de navegação
+            addLog('📱 Testando disparos de navegação...', 'info');
+            simularDisparo('page_view', { page_path: '/home' });
+            await aguardar(500);
+            simularDisparo('page_view', { page_path: '/calculators' });
+            await aguardar(500);
+            simularDisparo('page_view', { page_path: '/consult' });
+            
+            // Disparos de autenticação
+            addLog('🔐 Testando disparos de autenticação...', 'info');
+            simularDisparo('login', { method: 'email' });
+            await aguardar(300);
+            simularDisparo('sign_up', { method: 'email' });
+            await aguardar(300);
+            simularDisparo('logout');
+            
+            // Disparos de calculadora
+            addLog('🧮 Testando disparos de calculadora...', 'info');
+            simularDisparo('calculator_used', {
+                calculator_type: 'exercise-weapons',
+                parameters: JSON.stringify({
+                    vocation: 'knight',
+                    skill: 'melee',
+                    currentSkill: 100,
+                    targetSkill: 110
+                })
+            });
+            await aguardar(300);
+            
+            simularDisparo('calculator_used', {
+                calculator_type: 'stamina',
+                parameters: JSON.stringify({
+                    currentStamina: 3600,
+                    targetStamina: 7200
+                })
+            });
+            await aguardar(300);
+            
+            simularDisparo('calculator_used', {
+                calculator_type: 'charm-damage',
+                parameters: JSON.stringify({
+                    averageDamage: 500,
+                    creatureHp: 1000,
+                    bonusResistance: 0
+                })
+            });
+            
+            // Disparos de consulta
+            addLog('👤 Testando disparos de consulta...', 'info');
+            simularDisparo('character_consultation', { character_id: 'Aureleaf' });
+            await aguardar(300);
+            simularDisparo('character_consultation', { character_id: 'TestCharacter' });
+            
+            // Disparos de mastery
+            addLog('⚔️ Testando disparos de mastery...', 'info');
+            simularDisparo('mastery_action', { action: 'select', mastery_type: 'Hard' });
+            await aguardar(300);
+            simularDisparo('mastery_action', { action: 'deselect', mastery_type: 'Easy' });
+            await aguardar(300);
+            simularDisparo('mastery_action', { action: 'upload', mastery_type: 'mastery-file.json' });
+            
+            // Disparos de simulação
+            addLog('🎮 Testando disparos de simulação...', 'info');
+            simularDisparo('simulation_used', { 
+                simulation_type: 'tab_selection', 
+                parameters: JSON.stringify({ tab: 'achievements' }) 
+            });
+            await aguardar(300);
+            
+            simularDisparo('simulation_used', { 
+                simulation_type: 'start',
+                parameters: JSON.stringify({ charName: 'TestChar', totalProgress: 75 }) 
+            });
+            
+            // Disparos de formulário
+            addLog('📋 Testando disparos de formulário...', 'info');
+            simularDisparo('form_submit', { form_name: 'login', success: true });
+            await aguardar(300);
+            simularDisparo('form_submit', { form_name: 'registration', success: true });
+            await aguardar(300);
+            simularDisparo('form_submit', { form_name: 'verification', success: true });
+            
+            // Disparos de botão
+            addLog('🔘 Testando disparos de botão...', 'info');
+            simularDisparo('button_click', { button_name: 'help_modal', page: 'home' });
+            await aguardar(300);
+            simularDisparo('button_click', { button_name: 'navigate_simulation', page: 'home' });
+            await aguardar(300);
+            simularDisparo('button_click', { button_name: 'submit_calculator', page: 'calculators' });
+            
+            // Disparos de busca
+            addLog('🔍 Testando disparos de busca...', 'info');
+            simularDisparo('search', { search_term: 'Aureleaf', search_type: 'character' });
+            await aguardar(300);
+            simularDisparo('search', { search_term: 'Hard', search_type: 'mastery' });
+            await aguardar(300);
+            simularDisparo('search', { search_term: 'knight', search_type: 'calculator' });
+            
+            // Disparos de erro
+            addLog('🚨 Testando disparos de erro...', 'info');
+            simularDisparo('error', { 
+                event_category: 'error',
+                event_label: 'api_error',
+                error_message: 'Network Error',
+                error_stack: 'Error stack trace'
+            });
+            await aguardar(300);
+            
+            simularDisparo('error', { 
+                event_category: 'error',
+                event_label: 'validation_error',
+                error_message: 'Invalid email format',
+                error_stack: 'Form validation'
+            });
+            
+            // Disparos de API
+            addLog('🌐 Testando disparos de API...', 'info');
+            simularDisparo('api_call', { 
+                event_category: 'api',
+                event_label: 'POST /auth/login',
+                value: 200,
+                response_time: 1500
+            });
+            await aguardar(300);
+            
+            simularDisparo('api_call', { 
+                event_category: 'api',
+                event_label: 'GET /auction/Aureleaf',
+                value: 200,
+                response_time: 800
+            });
+            await aguardar(300);
+            
+            simularDisparo('api_call', { 
+                event_category: 'api',
+                event_label: 'POST /calculators/exercise-weapons',
+                value: 200,
+                response_time: 1200
+            });
+            
+            // Disparos de engajamento
+            addLog('⏱️ Testando disparos de engajamento...', 'info');
+            simularDisparo('engagement', { action: 'scroll', content: 'home_page' });
+            await aguardar(300);
+            simularDisparo('engagement', { action: 'click', content: 'calculator_button' });
+            await aguardar(300);
+            simularDisparo('engagement', { action: 'hover', content: 'mastery_item' });
+            
+            addLog('🎉 Todos os disparos foram executados!', 'success');
+            addLog(`📊 Total de eventos: ${eventCounts.total}`, 'info');
+        }
+        
+        // Função para disparo rápido
+        async function executarDisparosRapidos() {
+            addLog('⚡ Executando disparo rápido...', 'info');
+            
+            const eventos = [
+                { evento: 'page_view', params: { page_path: '/test' } },
+                { evento: 'login', params: { method: 'email' } },
+                { evento: 'calculator_used', params: { calculator_type: 'exercise-weapons' } },
+                { evento: 'character_consultation', params: { character_id: 'TestChar' } },
+                { evento: 'button_click', params: { button_name: 'test_button', page: 'test' } },
+                { evento: 'form_submit', params: { form_name: 'test_form', success: true } },
+                { evento: 'search', params: { search_term: 'test', search_type: 'test' } },
+                { evento: 'error', params: { event_category: 'error', event_label: 'test_error' } },
+                { evento: 'api_call', params: { event_category: 'api', event_label: 'GET /test', value: 200 } },
+                { evento: 'engagement', params: { action: 'test', content: 'test_content' } }
+            ];
+            
+            for (let i = 0; i < eventos.length; i++) {
+                simularDisparo(eventos[i].evento, eventos[i].params);
+                await aguardar(200);
+            }
+            
+            addLog('✅ Disparo rápido concluído!', 'success');
+        }
+        
+        // Função para teste específico
+        function testarEventoEspecifico() {
+            const evento = prompt('Digite o nome do evento (ex: page_view, login, calculator_used):');
+            if (evento) {
+                simularDisparo(evento, { test_param: 'test_value' });
+                addLog(`🎯 Teste específico: ${evento}`, 'info');
+            }
+        }
+        
+        // Função para limpar dataLayer
+        function limparDataLayer() {
+            if (window.dataLayer) {
+                window.dataLayer = [];
+                eventCounts = {
+                    page_view: 0,
+                    login: 0,
+                    calculator_used: 0,
+                    error: 0,
+                    total: 0
+                };
+                updateCounters();
+                document.getElementById('lastEvent').textContent = 'Nenhum';
+                addLog('🧹 DataLayer limpo!', 'warning');
+            } else {
+                addLog('❌ DataLayer não disponível para limpeza', 'error');
+            }
+        }
+        
+        // Função para verificar status
+        function verificarStatus() {
+            addLog('🔍 Verificando status...', 'info');
+            
+            if (window.dataLayer) {
+                document.getElementById('dataLayerStatus').textContent = 'Ativo';
+                document.getElementById('dataLayerStatus').className = 'status-value status-success';
+                addLog('✅ DataLayer: Ativo', 'success');
+            } else {
+                document.getElementById('dataLayerStatus').textContent = 'Inativo';
+                document.getElementById('dataLayerStatus').className = 'status-value status-error';
+                addLog('❌ DataLayer: Inativo', 'error');
+            }
+            
+            const gtmScript = document.querySelector('script[src*="googletagmanager"]');
+            if (gtmScript) {
+                document.getElementById('gtmScriptStatus').textContent = 'Carregado';
+                document.getElementById('gtmScriptStatus').className = 'status-value status-success';
+                addLog('✅ Script GTM: Carregado', 'success');
+            } else {
+                document.getElementById('gtmScriptStatus').textContent = 'Não encontrado';
+                document.getElementById('gtmScriptStatus').className = 'status-value status-error';
+                addLog('❌ Script GTM: Não encontrado', 'error');
+            }
+        }
+        
+        // Inicialização
+        window.addEventListener('load', function() {
+            addLog('🚀 Sistema de demonstração inicializado', 'info');
+            verificarStatus();
+            updateCounters();
+        });
+        
+        // Monitorar mudanças no dataLayer
+        if (window.dataLayer) {
+            const originalPush = window.dataLayer.push;
+            window.dataLayer.push = function(...args) {
+                const result = originalPush.apply(this, args);
+                if (args[0] && args[0].event) {
+                    addLog(`📤 Evento detectado: ${args[0].event}`, 'info');
+                }
+                return result;
+            };
+        }
+    </script>
+</body>
+</html> 

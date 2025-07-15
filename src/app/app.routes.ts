@@ -16,4 +16,5 @@ export const appRoutes: Routes = [
   { path: 'animous-mastery', component: AnimousMasteryComponent, canActivate: [authGuard] },
   { path: 'simulacao', component: SimulationComponent, canActivate: [authGuard] },
   { path: 'calculators', loadComponent: () => import('./components/calculators/calculators.component').then(m => m.CalculatorsComponent), canActivate: [authGuard] },
+  { path: 'analytics-test', loadComponent: () => import('./components/analytics-test/analytics-test.component').then(m => m.AnalyticsTestComponent) },
 ];
