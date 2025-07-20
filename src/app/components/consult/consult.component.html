@@ -76,35 +76,35 @@
         </li>
         <li [ngSwitch]="characterData.vocation">
           <ng-container *ngSwitchCase="'Royal Paladin'">
-            <img src="assets/bow.svg" alt="Paladin" class="svg-icon" />
+            <img src="assets/icons-svg/bow.svg" alt="Paladin" class="svg-icon" />
           </ng-container>
           <ng-container *ngSwitchCase="'Paladin'">
-            <img src="assets/bow.svg" alt="Paladin" class="svg-icon" />
+            <img src="assets/icons-svg/bow.svg" alt="Paladin" class="svg-icon" />
           </ng-container>
 
           <ng-container *ngSwitchCase="'Elder Druid'">
-            <img src="assets/priest.svg" alt="Druid" class="svg-icon" />
+            <img src="assets/icons-svg/priest.svg" alt="Druid" class="svg-icon" />
           </ng-container>
           <ng-container *ngSwitchCase="'Druid'">
-            <img src="assets/priest.svg" alt="Druid" class="svg-icon" />
+            <img src="assets/icons-svg/priest.svg" alt="Druid" class="svg-icon" />
           </ng-container>
 
           <ng-container *ngSwitchCase="'Elite Knight'">
-            <img src="assets/swordsman.svg" alt="Knight" class="svg-icon" />
+            <img src="assets/icons-svg/swordsman.svg" alt="Knight" class="svg-icon" />
           </ng-container>
           <ng-container *ngSwitchCase="'Knight'">
-            <img src="assets/swordsman.svg" alt="Knight" class="svg-icon" />
+            <img src="assets/icons-svg/swordsman.svg" alt="Knight" class="svg-icon" />
           </ng-container>
 
           <ng-container *ngSwitchCase="'Master Sorcerer'">
-            <img src="assets/magician.svg" alt="Sorcerer" class="svg-icon" />
+            <img src="assets/icons-svg/magician.svg" alt="Sorcerer" class="svg-icon" />
           </ng-container>
           <ng-container *ngSwitchCase="'Sorcerer'">
-            <img src="assets/magician.svg" alt="Sorcerer" class="svg-icon" />
+            <img src="assets/icons-svg/magician.svg" alt="Sorcerer" class="svg-icon" />
           </ng-container>
           <!-- Fallback genérico -->
           <ng-container *ngSwitchDefault>
-            <img src="assets/question.svg" alt="Unknown" class="svg-icon" />
+            <img src="assets/icons-svg/star.svg" alt="Unknown" class="svg-icon" />
           </ng-container>
 
           <strong>Vocação:</strong> {{ characterData.vocation }}
@@ -112,40 +112,40 @@
 
         <li>
           <img
-            src="assets/planet-earth.svg"
+            src="assets/icons-svg/planet-earth.svg"
             alt="world"
             class="svg-icon"
           /><strong>Mundo:</strong> {{ characterData.world }}
         </li>
         <li>
           <img
-            src="assets/armor-svgrepo-com.svg"
+            src="assets/icons-svg/armor-svgrepo-com.svg"
             alt="outfit"
             class="svg-icon"
           /><strong>Outfits Desbloqueados:</strong> {{ outfitsPossui.length }} /
           {{ outfitsPossui.length + outfitsNaoPossui.length }}
         </li>
         <li>
-          <img src="assets/horse.svg" alt="mounts" class="svg-icon" />
+          <img src="assets/icons-svg/horse.svg" alt="mounts" class="svg-icon" />
           <strong>Montarias Desbloqueadas:</strong>
           {{ mountsPossui.length }} /
           {{ mountsPossui.length + mountsNaoPossui.length }}
         </li>
         <li>
           <img
-            src="assets/success.svg"
+            src="assets/icons-svg/success.svg"
             alt="achiviement"
             class="svg-icon"
           /><strong>Conquistas:</strong> {{ allAchievements?.acquired }} /
           {{ allAchievements?.total }}
         </li>
         <li>
-          <img src="assets/badge.svg" alt="quest" class="svg-icon" />
+          <img src="assets/icons-svg/badge.svg" alt="quest" class="svg-icon" />
           <strong>Achivements Raros:</strong>
           {{ rareAchiviements.length }}
           <span (click)="abrirModalRaros()">
             <img
-              src="assets/information.svg"
+              src="assets/icons-svg/information.svg"
               alt="informations"
               class="svg-icon"
             />
@@ -154,25 +154,25 @@
 
         <!-- Tooltip com modal de Quests -->
         <li>
-          <img src="assets/quest.svg" alt="quest" class="svg-icon" />
+          <img src="assets/icons-svg/quest.svg" alt="quest" class="svg-icon" />
           <strong>Quests Principais:</strong>
           {{ quests.countDone }} / {{ quests.total }}
           <span (click)="abrirModalQuests()">
             <img
-              src="assets/information.svg"
+              src="assets/icons-svg/information.svg"
               alt="informations"
               class="svg-icon"
           /></span>
         </li>
 
         <li>
-          <img src="assets/gems.svg" alt="quest" class="svg-icon" />
+          <img src="assets/icons-svg/gems.svg" alt="quest" class="svg-icon" />
           <strong>Gemas:</strong>
           L: {{ gemCount.lesser }} / R: {{ gemCount.regular }} /
           G: {{ gemCount.greater }}
           <span (click)="abrirModalGems()">
             <img
-              src="assets/information.svg"
+              src="assets/icons-svg/information.svg"
               alt="informations"
               class="svg-icon"
           /></span>
@@ -180,7 +180,7 @@
       </ul>
 
       <div class="exportar-pdf-opcao" (click)="abrirModalExportarPdf()">
-        <img src="assets/pdf-file.svg" alt="Salvar em PDF" class="svg-button" />
+        <img src="assets/icons-svg/pdf-file.svg" alt="Salvar em PDF" class="svg-button" />
         <span>Salvar em PDF</span>
       </div>
     </div>

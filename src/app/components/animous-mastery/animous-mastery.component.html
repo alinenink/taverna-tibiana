@@ -40,7 +40,7 @@
       <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
       <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
         <img
-          src="assets/spellbook.svg"
+          src="assets/icons-svg/spellbook.svg"
           alt="Criatura"
           class="svg-icon intro-icon"
         />
@@ -102,7 +102,7 @@
         <div class="acoes-icons acoes-centralizadas">
           <span class="acao-item" (click)="limparSelecao()">
             <img
-              src="assets/eraser.svg"
+              src="assets/icons-svg/eraser.svg"
               alt="Limpar Seleção"
               class="svg-button"
             />
@@ -110,19 +110,19 @@
           </span>
           <span class="acao-item" (click)="abrirModalExportar()">
             <img
-              src="assets/pdf-file.svg"
+              src="assets/icons-svg/pdf-file.svg"
               alt="Exportar PDF"
               class="svg-button"
             />
             <span>Exportar PDF</span>
           </span>
           <span class="acao-item" (click)="salvarSelecionados()">
-            <img src="assets/floppy-disk.svg" alt="Salvar" class="svg-button" />
+            <img src="assets/icons-svg/floppy-disk.svg" alt="Salvar" class="svg-button" />
             <span>Salvar</span>
           </span>
           <label for="upload-json" class="acao-item svg-label">
             <img
-              src="assets/document.svg"
+              src="assets/icons-svg/document.svg"
               alt="Importar JSON"
               class="svg-button"
             />
@@ -242,7 +242,7 @@
 <div class="modal-overlay" *ngIf="exibirModalVisitante || service.showVisitorModal()">
   <div class="modal-conteudo" (click)="$event.stopPropagation()">
     <h3 class="modal-titulo">
-      <img src="assets/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
+              <img src="assets/icons-svg/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
       Atenção, aventureiro!
     </h3>
     <div class="modal-opcoes">
