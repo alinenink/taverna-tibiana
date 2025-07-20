@@ -32,7 +32,8 @@
     <h1 class="tavernatibiana-title">Capítulo das Armas Domadas</h1>
 
     <div class="parchment-card medieval-disclaimer">
-      <button class="voltar-button-card" [routerLink]="'/grimorio'">Voltar</button>
+      <button class="voltar-button-card" [routerLink]="'/grimorio'" *ngIf="!showCategoryList()">Voltar</button>
+      <button class="voltar-button-card" (click)="onBackToCategories()" *ngIf="showCategoryList()">Voltar para categorias</button>
       <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
         <img
           src="assets/icons-svg/arsenalweapons.svg"
@@ -91,6 +92,51 @@
           <button class="button-medieval" (click)="showSavedWeaponsSection()">
             Espiar o Registro de Batalhas
           </button>
+        </div>
+      </div>
+
+      <!-- Weapons List (dentro do card principal) -->
+      <div *ngIf="showCategoryList()" class="weapons-section-inside">
+        <hr style="margin: 1.5rem 0;" />
+        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
+          <img [src]="getCategoryIcon(currentCategory())" [alt]="weaponsService.getCategoryDisplayName(currentCategory())" class="svg-icon" />
+          <strong class="medieval-text">{{ weaponsService.getCategoryDisplayName(currentCategory()) }} ({{ weapons().length }})</strong>
+        </div>
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearch()"
+            placeholder="Buscar armas..."
+            class="search-input">
+        </div>
+        <div *ngIf="weapons().length === 0" class="no-weapons">
+          <p>Nenhuma arma encontrada com os filtros aplicados.</p>
+        </div>
+        <div class="weapons-grid">
+          <div 
+            *ngFor="let weapon of weapons(); trackBy: trackByWeaponName" 
+            class="weapon-card"
+            (click)="onWeaponClick(weapon)">
+            <div class="weapon-content">
+              <div class="weapon-icon">
+                <img 
+                  *ngIf="hasWeaponImage(weapon)" 
+                  [src]="getWeaponImageUrlDirect(weapon)" 
+                  [alt]="weapon.name" 
+                  class="weapon-image"
+                  loading="lazy"
+                  (error)="onImageError($event, weapon)"
+                  (load)="onImageLoad($event, weapon)" />
+                <span 
+                  *ngIf="!hasWeaponImage(weapon)" 
+                  class="weapon-emoji">
+                  {{ getWeaponImageUrl(weapon) }}
+                </span>
+              </div>
+              <h3 class="weapon-name">{{ weapon.name }}</h3>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -191,60 +237,9 @@
       </div>
     </div>
 
-    <!-- Botão Voltar -->
-    <div class="back-section" *ngIf="showCategoryList()">
-      <button class="back-btn" (click)="onBackToCategories()">
-        Voltar para categorias
-      </button>
-    </div>
 
-    <!-- Weapons List -->
-    <div class="weapons-section" *ngIf="showCategoryList()">
-      <div class="parchment-card weapons-card">
-        <h2>
-          <img [src]="getCategoryIcon(currentCategory())" [alt]="weaponsService.getCategoryDisplayName(currentCategory())" class="svg-icon" />
-          {{ weaponsService.getCategoryDisplayName(currentCategory()) }} ({{ weapons().length }})
-        </h2>
-        <hr />
-        <div class="search-box">
-          <input 
-            type="text" 
-            [(ngModel)]="searchTerm" 
-            (input)="onSearch()"
-            placeholder="Buscar armas..."
-            class="search-input">
-        </div>
-        <div *ngIf="weapons().length === 0" class="no-weapons">
-          <p>Nenhuma arma encontrada com os filtros aplicados.</p>
-          <p>Debug: Categoria: {{ currentCategory() }} | Total: {{ weapons().length }} | Loading: {{ loading() }} | Error: {{ error() }}</p>
-        </div>
-        <div class="weapons-grid">
-          <div 
-            *ngFor="let weapon of weapons(); trackBy: trackByWeaponName" 
-            class="weapon-card"
-            (click)="onWeaponClick(weapon)">
-            <div class="weapon-content">
-              <div class="weapon-icon">
-                <img 
-                  *ngIf="hasWeaponImage(weapon)" 
-                  [src]="getWeaponImageUrlDirect(weapon)" 
-                  [alt]="weapon.name" 
-                  class="weapon-image"
-                  loading="lazy"
-                  (error)="onImageError($event, weapon)"
-                  (load)="onImageLoad($event, weapon)" />
-                <span 
-                  *ngIf="!hasWeaponImage(weapon)" 
-                  class="weapon-emoji">
-                  {{ getWeaponImageUrl(weapon) }}
-                </span>
-              </div>
-              <h3 class="weapon-name">{{ weapon.name }}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
 
 
   </div>

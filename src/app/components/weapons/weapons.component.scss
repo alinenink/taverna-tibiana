@@ -124,10 +124,10 @@
 }
 
 .weapons-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
-  justify-content: center;
+  margin-top: 1rem;
 }
 .weapon-card {
   background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
@@ -197,12 +197,11 @@
 }
 
 .search-box {
-  text-align: center;
   margin-bottom: 1rem;
 }
 .search-input {
   width: 100%;
-  max-width: 350px;
+  max-width: 100%;
   padding: 0.7rem 1rem;
   font-size: 1rem;
   border: 2px solid #a07947;
@@ -733,6 +732,7 @@
 
   // Weapons grid mobile
   .weapons-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
   }
 
