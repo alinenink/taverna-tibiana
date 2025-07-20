@@ -57,11 +57,11 @@
       <!-- Category Selection (dentro do card principal) -->
       <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
         <hr style="margin: 1.5rem 0;" />
-        <h3>
+        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
           <img src="assets/icons-svg/role-playing-game.svg" alt="Espada" class="svg-icon" />
-          Escolha sua Arma
-        </h3>
-        <div class="category-grid">
+          <strong class="medieval-text">Escolha sua Arma</strong>
+        </div>
+        <div class="category-grid-improved">
           <button 
             *ngFor="let cat of categories()" 
             (click)="onCategoryChange(cat.id)"
@@ -75,7 +75,7 @@
       <!-- Seção de Armas Salvas (dentro do card principal) -->
       <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
         <hr style="margin: 1.5rem 0;" />
-        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
           <img src="assets/icons-svg/refine.svg" alt="Armas Domadas" class="svg-icon" />
           <strong class="medieval-text">Relíquias já conquistadas, afiadas e prontas pra briga.</strong>
         </div>
