@@ -55,7 +55,7 @@ function toTimeValue(time: string): TimeValue {
 })
 export class CalculatorsComponent {
   carregando: boolean = false;
-  activeCalculator: any = null;
+  activeCalculator: any = 'exercise-weapons';
 
   // Exercise Weapons Calculator
   exerciseWeaponForm = {

@@ -82,12 +82,10 @@
                       <img src="assets/icons-svg/stamina.svg" alt="Stamina" class="svg-icon" />
           Stamina
         </button>
-        <!--
         <button class="button-medieval" [class.ordenavel]="activeCalculator === 'charm-damage'" (click)="setCalculator('charm-damage')">
                       <img src="assets/icons-svg/star.svg" alt="Charm Damage" class="svg-icon" />
           Charm Damage
         </button>
-        -->
         <button
           class="button-medieval"
           [class.ordenavel]="activeCalculator === 'loot-split'"
@@ -261,8 +259,8 @@
         <div *ngIf="isLoadingExercise" class="result-display loading-container">
           <div class="loading-content">
             <img src="assets/icons-svg/calculator.svg" alt="Calculando" class="loading-icon rotating" />
-            <p class="loading-text">Calculando armas de treino...
-          </p>
+            <p class="loading-text">Calculando armas de treino...</p>
+          </div>
         </div>
         <div *ngIf="exerciseWeaponsError" class="result-display">
           {{ exerciseWeaponsError }}

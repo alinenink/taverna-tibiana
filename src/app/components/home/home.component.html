@@ -47,24 +47,37 @@
     <!-- Texto Central -->
     <div class="center-text">
       <p class="intro-text">
-        Saudações, bravos viajantes!<br>
-        Acomodem-se junto ao fogo, encham suas canecas e deixem que este velho taberneiro lhes conte um segredo ancestral: toda grande jornada...<br>
+        Saudações, bravos viajantes!<br />
+        Acomodem-se junto ao fogo, encham suas canecas e deixem que este velho
+        taberneiro lhes conte um segredo ancestral: toda grande jornada...<br />
         <strong class="highlight">Sempre Começa na Taverna</strong>!
       </p>
 
       <p class="intro-text">
-        Aqui nesta humilde <strong class="highlight">Taverna Tibiana</strong> você poderá espiar o que ainda falta para o seu grande herói: <span class="highlight">montarias lendárias</span>, <span class="highlight">trajes místicos</span> e <span class="highlight">conquistas ocultas</span>! <br> Venha, aventureiro, e descubra o que ainda o separa do cobiçado título de verdadeiro <span class="highlight">Charlover</span>!
+        Aqui nesta humilde
+        <strong class="highlight">Taverna Tibiana</strong> você poderá espiar o
+        que ainda falta para o seu grande herói:
+        <span class="highlight">montarias lendárias</span>,
+        <span class="highlight">trajes místicos</span> e
+        <span class="highlight">conquistas ocultas</span>! <br />
+        Venha, aventureiro, e descubra o que ainda o separa do cobiçado título
+        de verdadeiro <span class="highlight">Charlover</span>!
       </p>
 
       <!-- Separador marrom escuro como o do footer -->
       <hr class="footer-separator" />
 
       <p class="intro-text">
-        Mas isso é só o começo! Por aqui, também é possível planejar seus próximos feitos, graças às nossas ferramentas místicas <span class="highlight">simuladores</span> e <span class="highlight">calculadoras encantadas</span> que os ajudarão a traçar o caminho da fama.
+        Mas isso é só o começo! Por aqui, também é possível planejar seus
+        próximos feitos, graças às nossas ferramentas místicas
+        <span class="highlight">simuladores</span> e
+        <span class="highlight">calculadoras encantadas</span> que os ajudarão a
+        traçar o caminho da fama.
       </p>
 
       <p class="intro-text">
-        Então, bebam dos relatos épicos, compartilhem suas histórias e preparem-se...<br>
+        Então, bebam dos relatos épicos, compartilhem suas histórias e
+        preparem-se...<br />
         Pois o destino dos heróis começa entre canecos e mapas antigos.
       </p>
     </div>
@@ -86,7 +99,11 @@
         (click)="openAuctionIdModal()"
         aria-label="Como obter o ID do Leilão?"
       >
-        <img src="assets/icons-svg/lightbulb.svg" alt="Tooltip" class="tooltip-icon" />
+        <img
+          src="assets/icons-svg/lightbulb.svg"
+          alt="Tooltip"
+          class="tooltip-icon"
+        />
       </span>
 
       <!-- Conteúdo central do card -->
@@ -101,8 +118,8 @@
         </h2>
         <hr />
         <p>
-          Aventuras trocam de mãos nas praças de leilão, mas só aqui você descobre o que ainda falta para conquistar tudo!
-          
+          Aventuras trocam de mãos nas praças de leilão, mas só aqui você
+          descobre o que ainda falta para conquistar tudo!
         </p>
         <button [routerLink]="'/consult'">Acessar Consulta</button>
       </div>
@@ -140,31 +157,33 @@
           </li>
           <li>
             <a [routerLink]="'/calculators'">
-              <img src="assets/icons-svg/calculator.svg" alt="Pesquisa" class="svg-icon" />
+              <img
+                src="assets/icons-svg/calculator.svg"
+                alt="Pesquisa"
+                class="svg-icon"
+              />
               Calculadoras Mágicas
             </a>
           </li>
           <li>
-            <a href="https://www.tibiawiki.com.br" target="_blank">
+            <a [routerLink]="'/weapons'">
               <img
                 src="assets/icons-svg/spell-book-svgrepo-com.svg"
                 alt="Pesquisa"
                 class="svg-icon"
               />
-              Biblioteca Tibia Wiki BR
+              Grimório das Jornadas
             </a>
           </li>
 
           <li>
             <a style="cursor: pointer" [routerLink]="'/animous-mastery'">
-              <img src="assets/icons-svg/mastery.svg" alt="Pesquisa" class="svg-icon" />
+              <img
+                src="assets/icons-svg/mastery.svg"
+                alt="Pesquisa"
+                class="svg-icon"
+              />
               Animous Mastery
-            </a>
-          </li>
-          <li>
-            <a style="cursor: pointer" [routerLink]="'/weapons'">
-              <img src="assets/icons-svg/notes.svg" alt="Armas" class="svg-icon" />
-              Grimório das Jornadas
             </a>
           </li>
         </ul>
@@ -175,7 +194,11 @@
     <div class="parchment-card home-size clickable-card">
       <div class="card-content">
         <h2>
-          <img src="assets/icons-svg/role-playing.svg" alt="Pesquisa" class="svg-icon" />
+          <img
+            src="assets/icons-svg/role-playing.svg"
+            alt="Pesquisa"
+            class="svg-icon"
+          />
           Simulação Charlover
         </h2>
         <hr />
@@ -193,9 +216,7 @@
 
   <footer class="tavernatibiana-footer">
     <hr class="footer-separator" />
-    <p>
-      © Taverna Tibiana | Design by <strong>Aline Nink</strong>
-    </p>
+    <p>© Taverna Tibiana | Design by <strong>Aline Nink</strong></p>
     <div class="footer-links">
       <a
         href="https://github.com/alinenink"
