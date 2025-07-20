@@ -200,6 +200,44 @@ export class AnimousMasteryComponent implements OnInit {
     });
   }
 
+  salvarComo(item: Mastery, event: Event): void {
+    // Prevenir que o click do botão acione o toggleSelecao do card
+    event.stopPropagation();
+
+    // Criar objeto com dados do animous mastery
+    const animousMasteryData = {
+      animous: {
+        id: item.id,
+        name: item.name,
+        difficulty: item.difficulty,
+        class: {
+          id: item.class.id,
+          name: item.class.name,
+          image: item.class.image
+        },
+        occurrence: item.occurrence
+      },
+      createdAt: new Date().toISOString(),
+      version: '1.0'
+    };
+
+    // Gerar e baixar arquivo JSON
+    const jsonString = JSON.stringify(animousMasteryData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${item.name.replace(/\s+/g, '_')}_animous.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    URL.revokeObjectURL(url);
+
+    console.log('Animous Mastery salvo:', animousMasteryData);
+  }
+
   fecharModalVisitante() {
     this.exibirModalVisitante = false;
     this.service.showVisitorModal.set(false);

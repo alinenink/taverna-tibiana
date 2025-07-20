@@ -945,10 +945,49 @@ body {
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
+    .card-title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
     .card-title {
       font-weight: bold;
       font-size: 1.1rem;
-      margin-bottom: 0.4rem;
+      flex: 1;
+    }
+
+    .save-as-btn {
+      background: #4caf50;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 0.9rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-left: 0.5rem;
+      min-width: 36px;
+      height: 32px;
+      justify-content: center;
+
+      &:hover {
+        background: #388e3c;
+        transform: scale(1.05);
+        box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      i {
+        font-size: 0.85rem;
+      }
     }
 
     .card-info {
