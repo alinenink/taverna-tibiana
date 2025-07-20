@@ -52,7 +52,7 @@ export class ProficiencyApiService {
 
   async save(data: ProficiencyData): Promise<APIResponse> {
     try {
-      const response = await fetch(`${this.baseURL}/api/weapons?action=save-perks`, {
+      const response = await fetch(`${this.baseURL}/weapons?action=save-perks`, {
         method: 'POST',
         headers: this.getHeaders(),
         body: JSON.stringify(data)
@@ -71,7 +71,7 @@ export class ProficiencyApiService {
 
   async get(weaponName: string, category: string): Promise<APIResponse> {
     try {
-      const url = `${this.baseURL}/api/weapons?action=get-perks&weapon_name=${encodeURIComponent(weaponName)}&weapon_category=${category}`;
+      const url = `${this.baseURL}/weapons?action=get-perks&weapon_name=${encodeURIComponent(weaponName)}&weapon_category=${category}`;
       const response = await fetch(url, {
         headers: this.getHeaders()
       });
@@ -90,7 +90,7 @@ export class ProficiencyApiService {
   async list(category: string = '', page: number = 1, limit: number = 10): Promise<APIResponse> {
     try {
       const params = `action=list-perks&page=${page}&limit=${limit}${category ? `&weapon_category=${category}` : ''}`;
-      const response = await fetch(`${this.baseURL}/api/weapons?${params}`, {
+      const response = await fetch(`${this.baseURL}/weapons?${params}`, {
         headers: this.getHeaders()
       });
       
