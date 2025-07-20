@@ -91,6 +91,14 @@ export class CalculatorsComponent {
 
   staminaInvalid: boolean = false;
 
+  // Getter para verificar se stamina form é válido
+  get isStaminaFormValid(): boolean {
+    return !!(this.staminaForm.currentStaminaStr && 
+              this.staminaForm.targetStaminaStr && 
+              this.staminaForm.currentStaminaStr.trim() !== '' && 
+              this.staminaForm.targetStaminaStr.trim() !== '');
+  }
+
   // Utilitário para converter hh:mm para segundos
   private parseStaminaStr(str: string): number {
     if (!str) return 0;
@@ -159,6 +167,12 @@ export class CalculatorsComponent {
   lootSplitResult: any = null;
   lootSplitError: string | null = null;
   isLoadingLootSplit: boolean = false;
+
+  // Getter para verificar se loot split form é válido
+  get isLootSplitFormValid(): boolean {
+    return !!(this.lootSplitForm.session && 
+              this.lootSplitForm.session.trim() !== '');
+  }
 
 
 

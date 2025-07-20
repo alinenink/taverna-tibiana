@@ -403,7 +403,7 @@
             <button
               type="submit"
               class="button-medieval"
-              [disabled]="isLoadingStamina || staminaInvalid"
+              [disabled]="isLoadingStamina || !isStaminaFormValid"
             >
               Calcular
             </button>
@@ -562,7 +562,7 @@
             <button
               type="submit"
               class="button-medieval"
-              [disabled]="isLoadingLootSplit"
+              [disabled]="isLoadingLootSplit || !isLootSplitFormValid"
             >
               Calcular
             </button>
