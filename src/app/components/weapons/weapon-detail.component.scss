@@ -121,7 +121,7 @@
 }
 
 .weapon_proficiency_border {
-  border:1px solid #a7947;
+  border: 1px solid #a07947;
 }
 
 .perk-block {
@@ -201,9 +201,7 @@
   transition: transform 0.2s ease;
 }
 
-.icon-first:hover, .icon-second:hover {
-  transform: scale(1.1);
-}
+
 
 /* Layout para 3 ícones: sobrepostos */
 .three-icons-layout {
@@ -257,9 +255,7 @@
   transform: scale(0.4);
 }
 
-.background-icon:hover, .final-icon:hover {
-  transform: scale(1.1);
-}
+
 
 /* Layout para 1 ícone */
 .single-icon-layout {
@@ -279,9 +275,7 @@
   transition: transform 0.2s ease;
 }
 
-.single-icon:hover {
-  transform: scale(1.1);
-}
+
 
 .proficiency-icon-placeholder {
   width: 40px;
@@ -297,10 +291,6 @@
   transition: transform 0.2s ease;
 }
 
-.proficiency-icon-placeholder:hover {
-  transform: scale(1.1);
-}
-
 .proficiency-icon {
   width: 40px;
   height: 40px;
@@ -310,10 +300,6 @@
   box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
   background: #fffbe9;
   transition: transform 0.2s ease;
-}
-
-.proficiency-icon:hover {
-  transform: scale(1.1);
 }
 
 .weapon_proficiency_text {
