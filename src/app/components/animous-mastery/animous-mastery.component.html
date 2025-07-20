@@ -165,6 +165,7 @@
                 <span *ngIf="ordenacoes['class.name']">&#x25B2;</span>
                 <span *ngIf="!ordenacoes['class.name']">&#x25BC;</span>
               </th>
+              <th class="acoes-header">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -179,6 +180,11 @@
               <td>{{ item.name }}</td>
               <td>{{ item.difficulty }}</td>
               <td>{{ item.class.name }}</td>
+              <td class="acoes-cell">
+                <button class="save-as-btn-table" (click)="salvarComo(item, $event)" title="Salvar Como">
+                  <i class="fas fa-download"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
