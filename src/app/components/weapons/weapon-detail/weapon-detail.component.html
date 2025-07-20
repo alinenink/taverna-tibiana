@@ -54,7 +54,10 @@
             <tr>
               <td *ngFor="let level of weapon()?.levels" class="proficiency-level-cell" [attr.data-level]="level.level">
                 <div class="weapon_proficiency_block weapon_proficiency_border">
-                  <div *ngFor="let perk of level.perks" class="perk-block">
+                  <div *ngFor="let perk of level.perks; let perkIndex = index" 
+                       class="perk-block"
+                       [class.disabled-perk]="!perk.enabled"
+                       [class.selected-perk]="perk.selected">
                     <div class="weapon_proficiency_icon" [title]="perk.title">
                       <!-- Ícones das proficiências -->
                       <div *ngIf="perk.icons && perk.icons.length > 0" class="icon-container">
@@ -110,8 +113,9 @@
                     </div>
                     <div 
                       class="weapon_proficiency_text weapon_proficiency_border"
-                      [class.selected-perk]="level.selectedPerk === perk.title"
-                      (click)="onPerkSelect(level, perk)">
+                      [class.selected-perk]="perk.selected"
+                      [class.disabled-perk]="!perk.enabled"
+                      (click)="onPerkSelect(level, perk, perkIndex)">
                       {{ perk.title }}
                     </div>
                   </div>

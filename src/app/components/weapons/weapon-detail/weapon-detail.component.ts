@@ -12,6 +12,8 @@ interface WeaponLevel {
     icons: string[];
     description: string;
     title: string;
+    enabled?: boolean;
+    selected?: boolean;
   }>;
   selectedPerk?: string;
 }
@@ -35,6 +37,9 @@ export class WeaponDetailComponent implements OnInit {
   weapon = signal<WeaponDetail | null>(null);
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
+  
+  // Signal para gerenciar seleções das perks (nível → índice da perk selecionada)
+  selectedPerks = signal<{ [level: number]: number }>({});
 
   constructor(
     private route: ActivatedRoute,
@@ -149,20 +154,94 @@ export class WeaponDetailComponent implements OnInit {
       return this.generateWeaponLevels();
     }
 
-    return apiLevels.map(apiLevel => ({
+    return apiLevels.map((apiLevel, levelIndex) => ({
       level: apiLevel.level,
-      perks: apiLevel.perks || [],
+      perks: (apiLevel.perks || []).map((perk, perkIndex) => ({
+        ...perk,
+        enabled: levelIndex === 0 && perkIndex === 0, // Apenas a primeira perk do primeiro nível inicia habilitada
+        selected: false
+      })),
       selectedPerk: undefined
     }));
   }
 
-  onPerkSelect(level: WeaponLevel, perk: any) {
-    // Se já tem uma perk selecionada neste nível, desmarca
-    if (level.selectedPerk === perk.title) {
+  onPerkSelect(level: WeaponLevel, perk: any, perkIndex: number) {
+    // Verificar se a perk está habilitada
+    if (!perk.enabled) {
+      return;
+    }
+
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    // Encontrar o índice do nível atual
+    const levelIndex = currentWeapon.levels.findIndex(l => l.level === level.level);
+    if (levelIndex === -1) return;
+
+    // Se a perk já está selecionada, desselecioná-la
+    if (perk.selected) {
+      perk.selected = false;
       level.selectedPerk = undefined;
+      
+      // Desabilitar e limpar seleções de todas as perks posteriores
+      this.disableSubsequentPerks(levelIndex, perkIndex);
     } else {
-      // Se tem outra perk selecionada, substitui
+      // Limpar outras seleções no mesmo nível
+      level.perks.forEach(p => p.selected = false);
+      
+      // Selecionar a perk atual
+      perk.selected = true;
       level.selectedPerk = perk.title;
+      
+      // Desabilitar e limpar seleções de todas as perks posteriores
+      this.disableSubsequentPerks(levelIndex, perkIndex);
+      
+      // Habilitar a próxima perk na sequência
+      this.enableNextPerk(levelIndex, perkIndex);
+    }
+
+    // Atualizar o signal para reatividade
+    this.weapon.set({...currentWeapon});
+  }
+
+  private disableSubsequentPerks(currentLevelIndex: number, currentPerkIndex: number) {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    // Desabilitar perks posteriores no mesmo nível
+    const currentLevel = currentWeapon.levels[currentLevelIndex];
+    for (let i = currentPerkIndex + 1; i < currentLevel.perks.length; i++) {
+      currentLevel.perks[i].enabled = false;
+      currentLevel.perks[i].selected = false;
+    }
+
+    // Desabilitar todas as perks dos níveis posteriores
+    for (let levelIdx = currentLevelIndex + 1; levelIdx < currentWeapon.levels.length; levelIdx++) {
+      const level = currentWeapon.levels[levelIdx];
+      level.selectedPerk = undefined;
+      level.perks.forEach(perk => {
+        perk.enabled = false;
+        perk.selected = false;
+      });
+    }
+  }
+
+  private enableNextPerk(currentLevelIndex: number, currentPerkIndex: number) {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    const currentLevel = currentWeapon.levels[currentLevelIndex];
+    
+    // Se há uma próxima perk no mesmo nível, habilitá-la
+    if (currentPerkIndex + 1 < currentLevel.perks.length) {
+      currentLevel.perks[currentPerkIndex + 1].enabled = true;
+    } 
+    // Se não há mais perks no nível atual, habilitar a primeira perk do próximo nível
+    else if (currentLevelIndex + 1 < currentWeapon.levels.length) {
+      const nextLevel = currentWeapon.levels[currentLevelIndex + 1];
+      if (nextLevel.perks.length > 0) {
+        nextLevel.perks[0].enabled = true;
+      }
     }
   }
 
