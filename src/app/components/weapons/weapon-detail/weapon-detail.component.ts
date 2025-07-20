@@ -74,12 +74,17 @@ export class WeaponDetailComponent implements OnInit {
           
           if (response.success && response.weapon) {
             // Converter dados da API para o formato do componente
-            this.weapon.set({
+            const weaponDetail = {
               name: response.weapon.name,
               category: response.category.id,
               image_url: `assets/itens/${response.weapon.name}.webp`, // Fallback para imagem
               levels: this.convertProficiencyLevels(response.weapon.proficiency?.levels || [])
-            });
+            };
+            
+            this.weapon.set(weaponDetail);
+            
+            // Carregar perks salvas do usuário para esta arma
+            this.loadSavedPerks(weaponDetail.name, weaponDetail.category);
           } else {
             this.error.set(response.message || 'Erro ao carregar detalhes da arma');
           }
@@ -308,6 +313,69 @@ export class WeaponDetailComponent implements OnInit {
   }
 
 
+
+  private async loadSavedPerks(weaponName: string, weaponCategory: string): Promise<void> {
+    try {
+      const response = await this.proficiencyApiService.get(weaponName, weaponCategory);
+      
+      if (response.success && response.data) {
+        const savedData = response.data.proficiency_data;
+        
+        if (savedData && savedData.selectedPerks) {
+          this.applySavedPerks(savedData.selectedPerks);
+          console.log('Perks carregadas:', savedData.selectedPerks);
+        }
+      }
+      // Se não houver dados salvos ou erro, não mostra mensagem (comportamento silencioso)
+    } catch (error) {
+      // Erro silencioso - não mostra para o usuário se não houver perks salvas
+      console.log('Nenhuma proficiência salva encontrada para esta arma');
+    }
+  }
+
+  private applySavedPerks(savedPerks: Array<{ level: number; selectedPerks: any[] }>): void {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    // Limpar seleções atuais
+    currentWeapon.levels.forEach(level => {
+      level.perks.forEach(perk => {
+        perk.selected = false;
+        perk.enabled = level.level === 1; // Resetar estado habilitado
+      });
+      level.selectedPerk = undefined;
+    });
+
+    // Aplicar seleções salvas
+    savedPerks.forEach(savedLevel => {
+      const level = currentWeapon.levels.find(l => l.level === savedLevel.level);
+      if (level && savedLevel.selectedPerks.length > 0) {
+        // Habilitar o nível
+        level.perks.forEach(perk => perk.enabled = true);
+        
+        // Aplicar seleções
+        savedLevel.selectedPerks.forEach(savedPerk => {
+          const perk = level.perks.find(p => 
+            p.description === savedPerk.description && p.title === savedPerk.title
+          );
+          if (perk) {
+            perk.selected = true;
+            level.selectedPerk = perk.description;
+          }
+        });
+
+        // Habilitar próximo nível se houver seleção
+        const levelIndex = currentWeapon.levels.findIndex(l => l.level === savedLevel.level);
+        if (levelIndex !== -1 && levelIndex + 1 < currentWeapon.levels.length) {
+          const nextLevel = currentWeapon.levels[levelIndex + 1];
+          nextLevel.perks.forEach(perk => perk.enabled = true);
+        }
+      }
+    });
+
+    // Atualizar o signal
+    this.weapon.set({...currentWeapon});
+  }
 
   private clearSaveMessage(): void {
     setTimeout(() => {
