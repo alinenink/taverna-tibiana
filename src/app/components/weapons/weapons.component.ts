@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { WeaponsService, WeaponCategoryType, WeaponCategory, WeaponBasic, WeaponDetailed, ProficiencyLevel } from '../../services/weapons.service';
 import { ProficiencyApiService } from '../../services/proficiency-api.service';
 
@@ -44,12 +44,27 @@ export class WeaponsComponent implements OnInit {
   constructor(
     public weaponsService: WeaponsService,
     private router: Router,
+    private route: ActivatedRoute,
     private proficiencyApiService: ProficiencyApiService
   ) {}
 
   ngOnInit() {
-    
     this.loadCategories();
+    
+    // Verificar query parameters para navegação de retorno
+    this.route.queryParams.subscribe(params => {
+      if (params['showSaved'] === 'true') {
+        // Voltando da tela de detail de uma arma salva
+        this.showSavedWeaponsSection();
+        // Limpar query params
+        this.router.navigate(['/weapons'], { replaceUrl: true });
+      } else if (params['showList'] === 'true' && params['category']) {
+        // Voltando da tela de detail de uma categoria específica
+        this.onCategoryChange(params['category']);
+        // Limpar query params
+        this.router.navigate(['/weapons'], { replaceUrl: true });
+      }
+    });
   }
 
   // ====================================
@@ -185,7 +200,12 @@ export class WeaponsComponent implements OnInit {
 
   onWeaponClick(weapon: WeaponBasic) {
     // Navegar para a página de detalhes da arma
-    this.router.navigate(['/weapons', weapon.category?.id || this.currentCategory(), weapon.name]);
+    this.router.navigate(['/weapons', weapon.category?.id || this.currentCategory(), weapon.name], {
+      queryParams: { 
+        from: 'category-list',
+        category: weapon.category?.id || this.currentCategory()
+      }
+    });
   }
 
   private resetFilters() {
@@ -730,7 +750,11 @@ export class WeaponsComponent implements OnInit {
 
   onSavedWeaponClick(savedWeapon: any) {
     // Navegar para a tela de detail da arma salva
-    this.router.navigate(['/weapons', savedWeapon.weapon_category, savedWeapon.weapon_name]);
+    this.router.navigate(['/weapons', savedWeapon.weapon_category, savedWeapon.weapon_name], {
+      queryParams: { 
+        from: 'saved-weapons'
+      }
+    });
   }
 
   formatSavedDate(dateString: string): string {

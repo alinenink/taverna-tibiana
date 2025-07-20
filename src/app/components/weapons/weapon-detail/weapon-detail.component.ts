@@ -386,7 +386,28 @@ export class WeaponDetailComponent implements OnInit {
 
 
   voltarParaLista() {
-    this.router.navigate(['/weapons']);
+    // Capturar query parameters para determinar a origem
+    const queryParams = this.route.snapshot.queryParams;
+    const from = queryParams['from'];
+    const category = queryParams['category'];
+
+    if (from === 'saved-weapons') {
+      // Volta para a seção de armas salvas
+      this.router.navigate(['/weapons'], {
+        queryParams: { showSaved: 'true' }
+      });
+    } else if (from === 'category-list' && category) {
+      // Volta para a lista da categoria específica
+      this.router.navigate(['/weapons'], {
+        queryParams: { 
+          category: category,
+          showList: 'true'
+        }
+      });
+    } else {
+      // Fallback: volta para a tela principal de weapons
+      this.router.navigate(['/weapons']);
+    }
   }
 
   getWeaponImagePath(itemName: string): string | null {
