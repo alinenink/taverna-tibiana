@@ -55,7 +55,7 @@ function toTimeValue(time: string): TimeValue {
 })
 export class CalculatorsComponent {
   carregando: boolean = false;
-  activeCalculator: 'exercise-weapons' | 'stamina' | 'charm-damage' | 'loot-split' | null = null;
+  activeCalculator: any = null;
 
   // Exercise Weapons Calculator
   exerciseWeaponForm = {

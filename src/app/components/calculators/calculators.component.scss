@@ -988,3 +988,43 @@
  
 
  
+
+// ====================================
+// Loading States Melhorados
+// ====================================
+
+.loading-container {
+  text-align: center;
+  padding: 2rem;
+  
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    
+    .loading-icon {
+      width: 50px;
+      height: 50px;
+      color: #8B4513;
+      filter: sepia(1) saturate(2) hue-rotate(15deg);
+      
+      &.rotating {
+        animation: rotate 2s linear infinite;
+      }
+    }
+    
+    .loading-text {
+      font-family: 'MedievalSharp', serif;
+      color: #7a5a2f;
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: bold;
+    }
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
