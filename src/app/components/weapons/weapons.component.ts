@@ -29,9 +29,6 @@ export class WeaponsComponent implements OnInit {
   showSavedWeapons = signal<boolean>(false);
   loadingSavedWeapons = signal<boolean>(false);
   
-  // Loading state (mesmo padrão do animous-mastery)
-  carregando: boolean = true;
-  
   // Filtros
   searchTerm = '';
   selectedVocation = '';
@@ -49,6 +46,7 @@ export class WeaponsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading.set(true);
     this.loadCategories();
     
     // Verificar query parameters para navegação de retorno
@@ -72,7 +70,7 @@ export class WeaponsComponent implements OnInit {
   // ====================================
 
   loadCategories() {
-    this.carregando = true;
+    this.loading.set(true);
     this.error.set(null);
     
     this.weaponsService.getCategories()
@@ -114,20 +112,20 @@ export class WeaponsComponent implements OnInit {
             this.categories.set(this.getDefaultCategories());
           }
           
-          this.carregando = false;
+          this.loading.set(false);
         },
         error: (error) => {
           console.error('Erro ao carregar categorias:', error);
           
           this.categories.set(this.getDefaultCategories());
           this.error.set(null); // Não mostrar erro para o usuário se temos fallback
-          this.carregando = false;
+          this.loading.set(false);
         }
       });
   }
 
   loadWeapons() {
-    this.carregando = true;
+    this.loading.set(true);
     
     this.weaponsService.getWeaponsByCategory(this.currentCategory()).subscribe({
       next: (response) => {
@@ -144,12 +142,14 @@ export class WeaponsComponent implements OnInit {
           this.error.set('Resposta inválida da API');
         }
         
-        this.carregando = false;
+        setTimeout(() => {
+          this.loading.set(false);
+        }, 1500);
       },
       error: (error) => {
         console.error('Erro ao carregar armas:', error);
         this.error.set(error.message);
-        this.carregando = false;
+        this.loading.set(false);
       }
     });
   }
@@ -170,7 +170,7 @@ export class WeaponsComponent implements OnInit {
     this.currentCategory.set(categoryId as WeaponCategoryType);
     this.showCategoryList.set(true);
     this.resetFilters();
-    this.carregando = true;
+    this.loading.set(true);
     this.loadWeapons();
   }
 
@@ -726,6 +726,7 @@ export class WeaponsComponent implements OnInit {
   }
 
   async loadSavedWeapons() {
+    this.loading.set(true);
     this.loadingSavedWeapons.set(true);
     this.error.set(null);
 
@@ -746,6 +747,10 @@ export class WeaponsComponent implements OnInit {
     } finally {
       this.loadingSavedWeapons.set(false);
     }
+
+    setTimeout(() => {
+      this.loading.set(false);
+    }, 1500);
   }
 
   onSavedWeaponClick(savedWeapon: any) {

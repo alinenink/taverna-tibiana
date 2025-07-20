@@ -1,5 +1,5 @@
-<!-- Loading State -->
-<div class="svg-loader-overlay" *ngIf="carregando">
+<!-- Fundo total com aparência de pergaminho medieval -->
+<div class="svg-loader-overlay" *ngIf="loading()">
   <div class="svg-loader">
     <svg
       fill="#000000"
@@ -32,59 +32,131 @@
     <h1 class="tavernatibiana-title">Capítulo das Armas Domadas</h1>
 
     <div class="parchment-card medieval-disclaimer">
-      <button class="voltar-button-card" [routerLink]="'/grimorio'" *ngIf="!showCategoryList() && !showSavedWeapons()">Voltar</button>
-      <button class="voltar-button-card" (click)="onBackToCategories()" *ngIf="showCategoryList()">Voltar para categorias</button>
-      <button class="voltar-button-card" (click)="hideSavedWeaponsSection()" *ngIf="showSavedWeapons()">Voltar para categorias</button>
-      
-      <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem; margin-top: 3rem;">
+      <button
+        class="voltar-button-card"
+        [routerLink]="'/grimorio'"
+        *ngIf="!showCategoryList() && !showSavedWeapons()"
+      >
+        Voltar
+      </button>
+      <button
+        class="voltar-button-card"
+        (click)="onBackToCategories()"
+        *ngIf="showCategoryList()"
+      >
+        Voltar para categorias
+      </button>
+      <button
+        class="voltar-button-card"
+        (click)="hideSavedWeaponsSection()"
+        *ngIf="showSavedWeapons()"
+      >
+        Voltar para categorias
+      </button>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          margin-bottom: 0.5rem;
+          margin-top: 3rem;
+        "
+      >
         <img
           src="assets/icons-svg/arsenalweapons.svg"
           alt="Arsenal"
           class="svg-icon intro-icon"
         />
-        <h2 class="medieval-text">Onde o aço encontra o braço... e o treino evita tragédias.</h2>
+        <h2 class="medieval-text">
+          Onde o aço encontra o braço... e o treino evita tragédias.
+        </h2>
       </div>
       <p class="medieval-intro">
-        Ah, as armas! Fiéis companheiras de jornada… ou perigos ambulantes nas mãos erradas.
-        Neste capítulo do grimório, registramos quais lâminas, martelos, adagas e afins tu já aprendeu a manejar sem virar motivo de piada na taverna.
+        Ah, as armas! Fiéis companheiras de jornada… ou perigos ambulantes nas
+        mãos erradas. Neste capítulo do grimório, registramos quais lâminas,
+        martelos, adagas e afins tu já aprendeu a manejar sem virar motivo de
+        piada na taverna.
       </p>
       <p class="medieval-intro">
-        Aqui tu confere tua proficiência com cada arma, acompanha quais já estão sob teu domínio e quais ainda fazem teu braço doer só de olhar.
-        Com um pouco de suor e umas boas porradas (de preferência nos inimigos), vais ver tua maestria crescer página por página.
+        Aqui tu confere tua proficiência com cada arma, acompanha quais já estão
+        sob teu domínio e quais ainda fazem teu braço doer só de olhar. Com um
+        pouco de suor e umas boas porradas (de preferência nos inimigos), vais
+        ver tua maestria crescer página por página.
       </p>
       <p class="medieval-intro">
-        Porque, convenhamos: até um ogro acerta com uma clava... mas só um verdadeiro herói sabe quando, como e com estilo.
-        Então bora, guerreiro! Domina teu arsenal e mostra ao mundo que tu não é só mais um que balança a espada sem saber pra onde vai!
+        Porque, convenhamos: até um ogro acerta com uma clava... mas só um
+        verdadeiro herói sabe quando, como e com estilo. Então bora, guerreiro!
+        Domina teu arsenal e mostra ao mundo que tu não é só mais um que balança
+        a espada sem saber pra onde vai!
       </p>
 
       <!-- Category Selection (dentro do card principal) -->
-      <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
-        <hr style="margin: 1.5rem 0;" />
-        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
-          <img src="assets/icons-svg/role-playing-game.svg" alt="Espada" class="svg-icon" />
+      <div
+        class="category-section"
+        *ngIf="!showCategoryList() && !showSavedWeapons()"
+      >
+        <hr style="margin: 1.5rem 0" />
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <img
+            src="assets/icons-svg/role-playing-game.svg"
+            alt="Espada"
+            class="svg-icon"
+          />
           <strong class="medieval-text">Escolha sua Arma</strong>
         </div>
         <div class="category-grid-improved">
-          <button 
-            *ngFor="let cat of categories()" 
+          <button
+            *ngFor="let cat of categories()"
             (click)="onCategoryChange(cat.id)"
-            class="category-btn">
-            <img [src]="getCategoryIcon(cat.id)" [alt]="cat.name" class="category-icon" />
+            class="category-btn"
+          >
+            <img
+              [src]="getCategoryIcon(cat.id)"
+              [alt]="cat.name"
+              class="category-icon"
+            />
             <span>{{ cat.name }}</span>
           </button>
         </div>
       </div>
 
       <!-- Seção de Armas Salvas (dentro do card principal) -->
-      <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
-        <hr style="margin: 1.5rem 0;" />
-        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
-          <img src="assets/icons-svg/refine.svg" alt="Armas Domadas" class="svg-icon" />
-          <strong class="medieval-text">Relíquias já conquistadas, afiadas e prontas pra briga.</strong>
+      <div
+        class="saved-weapons-section"
+        *ngIf="!showCategoryList() && !showSavedWeapons()"
+      >
+        <hr style="margin: 1.5rem 0" />
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <img
+            src="assets/icons-svg/refine.svg"
+            alt="Armas Domadas"
+            class="svg-icon"
+          />
+          <strong class="medieval-text"
+            >Maestrias já conquistadas, afiadas e prontas pra briga.</strong
+          >
         </div>
         <p class="medieval-intro">
-          Aqui estão registradas as armas que tu já dominaste! Cada uma com história, suor e talvez um ou dois dedos perdidos no processo.
-          Seja uma espada encantada, uma clava enferrujada ou aquele machado que quase caiu no próprio pé — se está aqui, é porque tu já provou que sabe usá-la (ou quase).
+          Aqui estão registradas as armas que tu já dominaste! Cada uma com
+          história, suor e talvez um ou dois dedos perdidos no processo. Seja
+          uma espada encantada, uma clava enferrujada ou aquele machado que
+          quase caiu no próprio pé — se está aqui, é porque tu já provou que
+          sabe usá-la (ou quase).
         </p>
         <div class="saved-weapons-actions">
           <button class="button-medieval" (click)="showSavedWeaponsSection()">
@@ -95,63 +167,117 @@
 
       <!-- Seção de Armas Salvas Lista (dentro do card principal) -->
       <div class="saved-weapons-list-section" *ngIf="showSavedWeapons()">
-        <hr style="margin: 1.5rem 0;" />
-        
-        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
-          <img src="assets/icons-svg/refine.svg" alt="Armas Domadas" class="svg-icon" />
-          <strong class="medieval-text">Tuas Armas Domadas ({{ savedWeapons().length }})</strong>
+        <hr style="margin: 1.5rem 0" />
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <img
+            src="assets/icons-svg/refine.svg"
+            alt="Armas Domadas"
+            class="svg-icon"
+          />
+          <strong class="medieval-text"
+            >Tuas Armas Domadas ({{ savedWeapons().length }})</strong
+          >
         </div>
 
         <!-- Loading das Armas Salvas -->
         <div *ngIf="loadingSavedWeapons()" class="loading-saved">
           <div class="loading-content">
-            <img src="assets/icons-svg/arsenalweapons.svg" alt="Carregando" class="svg-icon rotating" />
+            <img
+              src="assets/icons-svg/arsenalweapons.svg"
+              alt="Carregando"
+              class="svg-icon rotating"
+            />
             <p>Carregando tuas armas domadas...</p>
           </div>
         </div>
 
         <!-- Mensagem se não há armas salvas -->
-        <div *ngIf="!loadingSavedWeapons() && savedWeapons().length === 0" class="no-saved-weapons">
+        <div
+          *ngIf="!loadingSavedWeapons() && savedWeapons().length === 0"
+          class="no-saved-weapons"
+        >
           <div class="empty-state">
-            <img src="assets/icons-svg/information.svg" alt="Vazio" class="empty-icon" />
+            <img
+              src="assets/icons-svg/information.svg"
+              alt="Vazio"
+              class="empty-icon"
+            />
             <h3>Nenhuma Arma Domada</h3>
-            <p>Tu ainda não domaste nenhuma arma, aventureiro! Explora o arsenal e registra tuas conquistas para que a taverna lembre de tua maestria!</p>
+            <p>
+              Tu ainda não domaste nenhuma arma, aventureiro! Explora o arsenal
+              e registra tuas conquistas para que a taverna lembre de tua
+              maestria!
+            </p>
           </div>
         </div>
 
         <!-- Grid das Armas Salvas -->
-        <div *ngIf="!loadingSavedWeapons() && savedWeapons().length > 0" class="saved-weapons-grid">
-          <div 
-            *ngFor="let savedWeapon of savedWeapons()" 
+        <div
+          *ngIf="!loadingSavedWeapons() && savedWeapons().length > 0"
+          class="saved-weapons-grid"
+        >
+          <div
+            *ngFor="let savedWeapon of savedWeapons()"
             class="saved-weapon-card"
-            (click)="onSavedWeaponClick(savedWeapon)">
+            (click)="onSavedWeaponClick(savedWeapon)"
+          >
             <div class="saved-weapon-content">
               <div class="saved-weapon-header">
                 <div class="weapon-icon">
-                  <img 
-                    [src]="getSavedWeaponImageUrl(savedWeapon.weapon_name)" 
-                    [alt]="savedWeapon.weapon_name" 
+                  <img
+                    [src]="getSavedWeaponImageUrl(savedWeapon.weapon_name)"
+                    [alt]="savedWeapon.weapon_name"
                     class="weapon-image"
                     loading="lazy"
-                    (error)="onSavedWeaponImageError($event, savedWeapon.weapon_name)" />
-                  <span 
-                    *ngIf="!hasSavedWeaponImage(savedWeapon.weapon_name)" 
-                    class="weapon-emoji">⚔️</span>
+                    (error)="
+                      onSavedWeaponImageError($event, savedWeapon.weapon_name)
+                    "
+                  />
+                  <span
+                    *ngIf="!hasSavedWeaponImage(savedWeapon.weapon_name)"
+                    class="weapon-emoji"
+                    >⚔️</span
+                  >
                 </div>
                 <div class="weapon-info">
                   <h3 class="weapon-name">{{ savedWeapon.weapon_name }}</h3>
-                  <p class="weapon-category">{{ weaponsService.getCategoryDisplayName(savedWeapon.weapon_category) }}</p>
+                  <p class="weapon-category">
+                    {{
+                      weaponsService.getCategoryDisplayName(
+                        savedWeapon.weapon_category
+                      )
+                    }}
+                  </p>
                 </div>
               </div>
-              
+
               <div class="saved-weapon-details">
                 <div class="saved-date">
-                  <span>Data: {{ formatSavedDate(savedWeapon.created_at) }}</span>
+                  <span
+                    >Data: {{ formatSavedDate(savedWeapon.created_at) }}</span
+                  >
                 </div>
-                
+
                 <div class="perks-count">
-                  <img src="assets/icons-svg/xp.svg" alt="Perks" class="detail-icon" />
-                  <span>{{ savedWeapon.proficiency_data?.selectedPerks?.length || 0 }} níveis configurados</span>
+                  <img
+                    src="assets/icons-svg/xp.svg"
+                    alt="Perks"
+                    class="detail-icon"
+                  />
+                  <span
+                    >{{
+                      savedWeapon.proficiency_data?.selectedPerks?.length || 0
+                    }}
+                    níveis configurados</span
+                  >
                 </div>
               </div>
 
@@ -165,40 +291,56 @@
 
       <!-- Weapons List (dentro do card principal) -->
       <div *ngIf="showCategoryList()" class="weapons-section-inside">
-        <hr style="margin: 1.5rem 0;" />
-        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
-          <img [src]="getCategoryIcon(currentCategory())" [alt]="weaponsService.getCategoryDisplayName(currentCategory())" class="svg-icon" />
-          <strong class="medieval-text">{{ weaponsService.getCategoryDisplayName(currentCategory()) }} ({{ weapons().length }})</strong>
+        <hr style="margin: 1.5rem 0" />
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <img
+            [src]="getCategoryIcon(currentCategory())"
+            [alt]="weaponsService.getCategoryDisplayName(currentCategory())"
+            class="svg-icon"
+          />
+          <strong class="medieval-text"
+            >{{ weaponsService.getCategoryDisplayName(currentCategory()) }} ({{
+              weapons().length
+            }})</strong
+          >
         </div>
         <div class="search-box">
-          <input 
-            type="text" 
-            [(ngModel)]="searchTerm" 
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
             (input)="onSearch()"
             placeholder="Buscar armas..."
-            class="search-input">
+            class="search-input"
+          />
         </div>
         <div *ngIf="weapons().length === 0" class="no-weapons">
           <p>Nenhuma arma encontrada com os filtros aplicados.</p>
         </div>
         <div class="weapons-grid">
-          <div 
-            *ngFor="let weapon of weapons(); trackBy: trackByWeaponName" 
+          <div
+            *ngFor="let weapon of weapons(); trackBy: trackByWeaponName"
             class="weapon-card"
-            (click)="onWeaponClick(weapon)">
+            (click)="onWeaponClick(weapon)"
+          >
             <div class="weapon-content">
               <div class="weapon-icon">
-                <img 
-                  *ngIf="hasWeaponImage(weapon)" 
-                  [src]="getWeaponImageUrlDirect(weapon)" 
-                  [alt]="weapon.name" 
+                <img
+                  *ngIf="hasWeaponImage(weapon)"
+                  [src]="getWeaponImageUrlDirect(weapon)"
+                  [alt]="weapon.name"
                   class="weapon-image"
                   loading="lazy"
                   (error)="onImageError($event, weapon)"
-                  (load)="onImageLoad($event, weapon)" />
-                <span 
-                  *ngIf="!hasWeaponImage(weapon)" 
-                  class="weapon-emoji">
+                  (load)="onImageLoad($event, weapon)"
+                />
+                <span *ngIf="!hasWeaponImage(weapon)" class="weapon-emoji">
                   {{ getWeaponImageUrl(weapon) }}
                 </span>
               </div>
@@ -214,8 +356,10 @@
       <div class="parchment-card error-card">
         <h2>Erro no Arsenal</h2>
         <p>{{ error() }}</p>
-        <button (click)="loadCategories()" class="retry-btn">Tentar Novamente</button>
+        <button (click)="loadCategories()" class="retry-btn">
+          Tentar Novamente
+        </button>
       </div>
     </div>
   </div>
-</div> 
+</div>

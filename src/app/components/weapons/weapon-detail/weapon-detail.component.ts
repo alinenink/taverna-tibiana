@@ -46,6 +46,14 @@ export class WeaponDetailComponent implements OnInit {
   saving = signal<boolean>(false);
   saveMessage = signal<string | null>(null);
   saveSuccess = signal<boolean>(false);
+  
+  // Signals para exclusão
+  deleting = signal<boolean>(false);
+  deleteMessage = signal<string | null>(null);
+  deleteSuccess = signal<boolean>(false);
+  
+  // Signal para controlar o modal de confirmação de exclusão
+  showDeleteConfirmationModal = signal<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
@@ -453,5 +461,114 @@ export class WeaponDetailComponent implements OnInit {
   onIconError(event: any) {
     console.warn('Erro ao carregar ícone da proficiência:', event);
     event.target.style.display = 'none';
+  }
+
+  // ====================================
+  // Métodos para exclusão de proficiência
+  // ====================================
+
+  openDeleteConfirmationModal(): void {
+    this.showDeleteConfirmationModal.set(true);
+  }
+
+  closeDeleteConfirmationModal(event?: MouseEvent): void {
+    // Se o evento foi passado, verificar se foi clicado no backdrop
+    if (event && event.target !== event.currentTarget) {
+      return;
+    }
+    this.showDeleteConfirmationModal.set(false);
+  }
+
+  async confirmarExclusao(): Promise<void> {
+    if (!this.weapon()) {
+      return;
+    }
+
+    const weaponName = this.weapon()!.name;
+    const weaponCategory = this.weapon()!.category;
+
+    // Fechar o modal
+    this.showDeleteConfirmationModal.set(false);
+    
+    // Executar a exclusão
+    await this.excluirProficiencia(weaponName, weaponCategory);
+  }
+
+  async excluirProficiencia(weaponName: string, weaponCategory: string): Promise<void> {
+    this.deleting.set(true);
+    this.deleteMessage.set(null);
+    this.deleteSuccess.set(false);
+
+    try {
+      console.log(`Iniciando exclusão da proficiência: ${weaponName} (${weaponCategory})`);
+      
+      const response = await this.proficiencyApiService.delete(weaponName, weaponCategory);
+      
+      if (response.success) {
+        console.log('✅ Proficiência deletada com sucesso:', response);
+        this.deleteSuccess.set(true);
+        this.deleteMessage.set('Proficiência excluída com sucesso!');
+        
+        // Limpar completamente as seleções das perks
+        this.clearAllPerkSelections();
+        
+        // Limpar seleções locais
+        this.selectedPerks.set({});
+        
+        // Recarregar perks salvas (deve retornar vazio agora)
+        await this.loadSavedPerks(weaponName, weaponCategory);
+        
+        // Redirecionar para a seção de armas domadas após 2 segundos
+        setTimeout(() => {
+          this.clearDeleteMessage();
+          this.voltarParaLista();
+        }, 2000);
+        
+      } else {
+        console.error('❌ Erro ao deletar proficiência:', response);
+        this.deleteSuccess.set(false);
+        this.deleteMessage.set(response.message || 'Erro ao excluir proficiência');
+        
+        // Limpar mensagem após 5 segundos
+        setTimeout(() => {
+          this.clearDeleteMessage();
+        }, 5000);
+      }
+      
+    } catch (error) {
+      console.error('❌ Erro de rede ao deletar proficiência:', error);
+      this.deleteSuccess.set(false);
+      this.deleteMessage.set('Erro de conexão ao excluir proficiência. Tente novamente.');
+      
+      // Limpar mensagem após 5 segundos
+      setTimeout(() => {
+        this.clearDeleteMessage();
+      }, 5000);
+    } finally {
+      this.deleting.set(false);
+    }
+  }
+
+  private clearAllPerkSelections(): void {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    // Limpar todas as seleções de perks
+    currentWeapon.levels.forEach(level => {
+      level.perks.forEach(perk => {
+        perk.selected = false;
+        // Manter apenas o primeiro nível habilitado
+        perk.enabled = level.level === 1;
+      });
+      level.selectedPerk = undefined;
+    });
+
+    // Atualizar o signal para reatividade
+    this.weapon.set({...currentWeapon});
+  }
+
+  private clearDeleteMessage(): void {
+    this.deleteMessage.set(null);
+    this.deleteSuccess.set(false);
   }
 } 

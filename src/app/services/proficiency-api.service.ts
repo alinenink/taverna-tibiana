@@ -104,4 +104,25 @@ export class ProficiencyApiService {
       throw error;
     }
   }
+
+  async delete(weaponName: string, category: string): Promise<APIResponse> {
+    try {
+      const url = `${this.baseURL}/weapons?action=delete-perks&weapon_name=${encodeURIComponent(weaponName)}&weapon_category=${category}`;
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${this.authService.getToken()}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Erro ao deletar proficiência:', error);
+      throw error;
+    }
+  }
 } 
