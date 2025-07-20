@@ -238,7 +238,7 @@ export class WeaponDetailComponent implements OnInit {
     );
   }
 
-  salvarBuild(): void {
+  salvarSelecionados(): void {
     const currentWeapon = this.weapon();
     if (!currentWeapon) return;
 

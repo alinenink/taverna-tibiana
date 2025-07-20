@@ -47,50 +47,37 @@
   background: #c2a36e;
 }
 
-.weapon-name-container {
+.acao-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex: 1;
-}
-
-.save-as-btn-weapon {
-  background: #4caf50;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.5rem;
   cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: #f8f4e6;
+  border: 1px solid #d4c292;
+  border-radius: 8px;
+  font-family: 'MedievalSharp', serif;
+  color: #3e2f1c;
+  font-size: 1rem;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 28px;
-  margin-left: 0.5rem;
+  margin-bottom: 1rem;
+  width: fit-content;
 
-  &:hover:not(:disabled) {
-    background: #388e3c;
-    transform: scale(1.05);
-    box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4);
-  }
-
-  &:disabled {
-    background: #cccccc;
-    border-color: #999999;
-    color: #666666;
-    cursor: not-allowed;
-    opacity: 0.6;
+  &:hover {
+    background: #e8d9a5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(160, 121, 71, 0.2);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: translateY(0);
   }
+}
 
-  i {
-    font-size: 0.8rem;
-  }
+.svg-button {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(25%) sepia(15%) saturate(25%) hue-rotate(15deg) brightness(95%) contrast(90%);
 }
 
 .weapon-detail-body {
@@ -100,12 +87,10 @@
 .detail-row {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   gap: 2rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #ddd;
   font-size: 1.1rem;
-  width: 100%;
 }
 
 .detail-label {
