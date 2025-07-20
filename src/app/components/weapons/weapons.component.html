@@ -28,17 +28,28 @@
 </div>
 
 <div class="parchment-background">
-  <h1 class="tavernatibiana-title">Arsenal e Proficiências</h1>
-
   <div class="consulta-layout">
-    <p class="consulta-intro">
-      Bem-vindo ao arsenal da taverna, bravo guerreiro! Aqui, entre as lâminas afiadas e os arcos tensos, 
-      você encontrará o conhecimento ancestral de todas as armas que já cruzaram os reinos de Tibia. 
-      Explore as <span class="highlight">espadas cortantes</span>, os <span class="highlight">machados devastadores</span>, 
-      as <span class="highlight">clavas esmagadoras</span> e as <span class="highlight">armas de longo alcance</span> 
-      que já fizeram história nas mãos dos maiores heróis. Que cada clic revela os segredos de uma nova 
-      lâmina lendária!
-    </p>
+    <h1 class="tavernatibiana-title">Capítulo das Armas Domadas</h1>
+
+    <div class="parchment-card medieval-disclaimer">
+      <button class="voltar-button-card" [routerLink]="'/grimorio'">Voltar</button>
+      <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
+        <img
+          src="assets/icons-svg/arsenalweapons.svg"
+          alt="Arsenal"
+          class="svg-icon intro-icon"
+        />
+        <strong class="medieval-text">Onde o aço encontra o braço... e o treino evita tragédias.</strong>
+      </div>
+      <p class="medieval-intro">
+        Ah, as armas! Fiéis companheiras de jornada… ou perigos ambulantes nas mãos erradas.<br>
+        Neste capítulo do grimório, registramos quais lâminas, martelos, adagas e afins tu já aprendeu a manejar sem virar motivo de piada na taverna.<br><br>
+        Aqui tu confere tua proficiência com cada arma, acompanha quais já estão sob teu domínio e quais ainda fazem teu braço doer só de olhar.<br>
+        Com um pouco de suor e umas boas porradas (de preferência nos inimigos), vais ver tua maestria crescer página por página.<br><br>
+        Porque, convenhamos: até um ogro acerta com uma clava... mas só um verdadeiro herói sabe quando, como e com estilo.<br><br>
+        Então bora, guerreiro! Domina teu arsenal e mostra ao mundo que tu não é só mais um que balança a espada sem saber pra onde vai!
+      </p>
+    </div>
 
     <!-- Error State -->
     <div *ngIf="error()" class="error-message">
@@ -56,19 +67,23 @@
     <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
       <div class="parchment-card saved-weapons-card">
         <h2>
-          <img src="assets/icons-svg/folder.svg" alt="Armas Salvas" class="svg-icon" />
-          Suas Armas Salvas
+          <img src="assets/icons-svg/arsenalweapons.svg" alt="Armas Domadas" class="svg-icon" />
+          Armas Domadas pelo Aventureiro
         </h2>
         <hr />
-        <p class="saved-weapons-intro">
-          Explore suas proficiências já dominadas! Aqui estão as armas cujos segredos você já desvendou 
-          e cujas habilidades já foram aperfeiçoadas. Clique em qualquer uma para revisitar suas escolhas 
-          e aprimorar ainda mais seu domínio.
+        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
+          <strong class="medieval-text">Relíquias já conquistadas, afiadas e prontas pra briga.</strong>
+        </div>
+        <p class="medieval-intro">
+          Aqui estão registradas as armas que tu já dominaste, bravo herói! Cada uma com história, suor e talvez um ou dois dedos perdidos no processo.<br>
+          Seja uma espada encantada, uma clava enferrujada ou aquele machado que quase caiu no próprio pé — se está aqui, é porque tu já provou que sabe usá-la (ou quase).<br><br>
+          Consulta teu arsenal com orgulho, pois são essas belezinhas que abriram caminho entre monstros, quests e vergonhas evitadas na frente da guild.<br><br>
+          E lembra: quem guarda bem suas armas... evita virar loot alheio!
         </p>
         <div class="saved-weapons-actions">
           <button class="primary-btn" (click)="showSavedWeaponsSection()">
-            <img src="assets/icons-svg/folder.svg" alt="Ver" class="btn-icon" />
-            Ver Minhas Armas Salvas
+            <img src="assets/icons-svg/arsenalweapons.svg" alt="Ver" class="btn-icon" />
+            Ver Minhas Armas Domadas
           </button>
         </div>
       </div>
@@ -98,7 +113,7 @@
       <!-- Botão Voltar -->
       <div class="back-section">
         <button class="back-btn" (click)="hideSavedWeaponsSection()">
-          Voltar ao Arsenal
+          Voltar ao Capítulo
         </button>
       </div>
 
@@ -106,8 +121,8 @@
       <div *ngIf="loadingSavedWeapons()" class="loading-saved">
         <div class="parchment-card">
           <h2>
-            <img src="assets/icons-svg/folder.svg" alt="Carregando" class="svg-icon rotating" />
-            Carregando suas armas salvas...
+            <img src="assets/icons-svg/arsenalweapons.svg" alt="Carregando" class="svg-icon rotating" />
+            Carregando tuas armas domadas...
           </h2>
         </div>
       </div>
@@ -115,8 +130,8 @@
       <!-- Lista das Armas -->
       <div *ngIf="!loadingSavedWeapons()" class="parchment-card saved-weapons-list-card">
         <h2>
-          <img src="assets/icons-svg/folder.svg" alt="Armas Salvas" class="svg-icon" />
-          Suas Proficiências Salvas ({{ savedWeapons().length }})
+          <img src="assets/icons-svg/arsenalweapons.svg" alt="Armas Domadas" class="svg-icon" />
+          Tuas Armas Domadas ({{ savedWeapons().length }})
         </h2>
         <hr />
 
@@ -124,8 +139,8 @@
         <div *ngIf="savedWeapons().length === 0" class="no-saved-weapons">
           <div class="empty-state">
             <img src="assets/icons-svg/information.svg" alt="Vazio" class="empty-icon" />
-            <h3>Nenhuma Arma Salva</h3>
-            <p>Você ainda não salvou nenhuma proficiência. Explore o arsenal e salve suas configurações favoritas!</p>
+            <h3>Nenhuma Arma Domada</h3>
+            <p>Tu ainda não domaste nenhuma arma, aventureiro! Explora o arsenal e registra tuas conquistas para que a taverna lembre de tua maestria!</p>
             <button class="primary-btn" (click)="hideSavedWeaponsSection()">
               Explorar Arsenal
             </button>
@@ -230,37 +245,14 @@
       </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="navigation-section">
-      <div class="parchment-card navigation-card">
-        <h2>
-          <img src="assets/icons-svg/quest.svg" alt="Navegação" class="svg-icon" />
-          Outras Jornadas
-        </h2>
-        <hr />
-        <div class="nav-buttons">
-          <button [routerLink]="'/home'" class="nav-btn">
-            <img src="assets/icons-svg/star.svg" alt="Home" class="nav-icon" />
-            Voltar ao Lar
-          </button>
-          <button [routerLink]="'/animous-mastery'" class="nav-btn">
-            <img src="assets/icons-svg/mastery.svg" alt="Mastery" class="nav-icon" />
-            Animous Mastery
-          </button>
-          <button [routerLink]="'/calculators'" class="nav-btn">
-            <img src="assets/icons-svg/calculator.svg" alt="Calculators" class="nav-icon" />
-            Calculadoras
-          </button>
-        </div>
-      </div>
-    </div>
+
   </div>
   </div>
 
   <footer class="tavernatibiana-footer">
     <hr class="footer-separator" />
     <p>
-      © Taverna Tibiana | Arsenal e Proficiências
+      © Taverna Tibiana | Capítulo das Armas Domadas
     </p>
   </footer>
 </div> 
