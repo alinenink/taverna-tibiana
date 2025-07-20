@@ -188,14 +188,21 @@ export class WeaponDetailComponent implements OnInit {
         level.selectedPerk = undefined;
         // Desabilitar níveis posteriores apenas se não há mais perks selecionadas no nível atual
         this.disableSubsequentLevels(levelIndex);
+      } else {
+        // Atualizar selectedPerk para manter uma das perks selecionadas como referência
+        const firstSelectedPerk = level.perks.find(p => p.selected);
+        level.selectedPerk = firstSelectedPerk?.title;
       }
     } else {
       // Selecionar a perk atual
       perk.selected = true;
-      level.selectedPerk = perk.title;
       
-      // Habilitar o próximo nível
-      this.enableNextLevel(levelIndex);
+      // Se é a primeira perk selecionada no nível, habilitar próximo nível
+      const wasFirstSelection = !level.perks.some(p => p.selected && p !== perk);
+      if (wasFirstSelection) {
+        level.selectedPerk = perk.title;
+        this.enableNextLevel(levelIndex);
+      }
     }
 
     // Atualizar o signal para reatividade
