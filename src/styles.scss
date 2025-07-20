@@ -1438,3 +1438,38 @@ body {
   font-size: 1.18rem;
 }
 
+// ====================================
+// Resultados das Calculadoras
+// ====================================
+
+.exercise-result-medieval,
+.stamina-result-medieval,
+.loot-result-medieval,
+.result-display {
+  font-family: 'Georgia', serif;
+  
+  h3 {
+    font-family: 'MedievalSharp', serif; // Mantém título medieval
+  }
+  
+  .result-label,
+  .result-value,
+  .stamina-result-value,
+  .loot-total,
+  .loot-transfer-names,
+  .loot-gold,
+  span,
+  div {
+    font-family: 'Georgia', serif;
+  }
+}
+
+// Específico para valores de resultado
+.result-row span,
+.result-row b,
+.stamina-result-row span,
+.loot-totals-row span,
+.loot-transfer-row span {
+  font-family: 'Georgia', serif;
+}
+
