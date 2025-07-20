@@ -10,3 +10,25 @@
     box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
   }
 }
+
+// Cards dos capítulos mais finos e ocupando toda largura
+.filtro-container .conquista-row-custom {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  
+  .conquista-card-custom {
+    flex: 1;
+    min-height: 60px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    // Responsivo para mobile
+    @media (max-width: 768px) {
+      min-height: 50px;
+      padding: 0.8rem;
+    }
+  }
+}
