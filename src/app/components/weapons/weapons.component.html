@@ -32,15 +32,17 @@
     <h1 class="tavernatibiana-title">Capítulo das Armas Domadas</h1>
 
     <div class="parchment-card medieval-disclaimer">
-      <button class="voltar-button-card" [routerLink]="'/grimorio'" *ngIf="!showCategoryList()">Voltar</button>
+      <button class="voltar-button-card" [routerLink]="'/grimorio'" *ngIf="!showCategoryList() && !showSavedWeapons()">Voltar</button>
       <button class="voltar-button-card" (click)="onBackToCategories()" *ngIf="showCategoryList()">Voltar para categorias</button>
-      <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
+      <button class="voltar-button-card" (click)="hideSavedWeaponsSection()" *ngIf="showSavedWeapons()">Voltar para categorias</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem; margin-top: 3rem;">
         <img
           src="assets/icons-svg/arsenalweapons.svg"
           alt="Arsenal"
           class="svg-icon intro-icon"
         />
-        <strong class="medieval-text">Onde o aço encontra o braço... e o treino evita tragédias.</strong>
+        <h2 class="medieval-text">Onde o aço encontra o braço... e o treino evita tragédias.</h2>
       </div>
       <p class="medieval-intro">
         Ah, as armas! Fiéis companheiras de jornada… ou perigos ambulantes nas mãos erradas.
@@ -81,17 +83,83 @@
           <strong class="medieval-text">Relíquias já conquistadas, afiadas e prontas pra briga.</strong>
         </div>
         <p class="medieval-intro">
-          Aqui estão registradas as armas que tu já dominaste, bravo herói! Cada uma com história, suor e talvez um ou dois dedos perdidos no processo.
+          Aqui estão registradas as armas que tu já dominaste! Cada uma com história, suor e talvez um ou dois dedos perdidos no processo.
           Seja uma espada encantada, uma clava enferrujada ou aquele machado que quase caiu no próprio pé — se está aqui, é porque tu já provou que sabe usá-la (ou quase).
-        </p>
-        <p class="medieval-intro">
-          Consulta teu arsenal com orgulho, pois são essas belezinhas que abriram caminho entre monstros, quests e vergonhas evitadas na frente da guild.
-          E lembra: quem guarda bem suas armas... evita virar loot alheio!
         </p>
         <div class="saved-weapons-actions">
           <button class="button-medieval" (click)="showSavedWeaponsSection()">
             Espiar o Registro de Batalhas
           </button>
+        </div>
+      </div>
+
+      <!-- Seção de Armas Salvas Lista (dentro do card principal) -->
+      <div class="saved-weapons-list-section" *ngIf="showSavedWeapons()">
+        <hr style="margin: 1.5rem 0;" />
+        
+        <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 1rem;">
+          <img src="assets/icons-svg/refine.svg" alt="Armas Domadas" class="svg-icon" />
+          <strong class="medieval-text">Tuas Armas Domadas ({{ savedWeapons().length }})</strong>
+        </div>
+
+        <!-- Loading das Armas Salvas -->
+        <div *ngIf="loadingSavedWeapons()" class="loading-saved">
+          <div class="loading-content">
+            <img src="assets/icons-svg/arsenalweapons.svg" alt="Carregando" class="svg-icon rotating" />
+            <p>Carregando tuas armas domadas...</p>
+          </div>
+        </div>
+
+        <!-- Mensagem se não há armas salvas -->
+        <div *ngIf="!loadingSavedWeapons() && savedWeapons().length === 0" class="no-saved-weapons">
+          <div class="empty-state">
+            <img src="assets/icons-svg/information.svg" alt="Vazio" class="empty-icon" />
+            <h3>Nenhuma Arma Domada</h3>
+            <p>Tu ainda não domaste nenhuma arma, aventureiro! Explora o arsenal e registra tuas conquistas para que a taverna lembre de tua maestria!</p>
+          </div>
+        </div>
+
+        <!-- Grid das Armas Salvas -->
+        <div *ngIf="!loadingSavedWeapons() && savedWeapons().length > 0" class="saved-weapons-grid">
+          <div 
+            *ngFor="let savedWeapon of savedWeapons()" 
+            class="saved-weapon-card"
+            (click)="onSavedWeaponClick(savedWeapon)">
+            <div class="saved-weapon-content">
+              <div class="saved-weapon-header">
+                <div class="weapon-icon">
+                  <img 
+                    [src]="getSavedWeaponImageUrl(savedWeapon.weapon_name)" 
+                    [alt]="savedWeapon.weapon_name" 
+                    class="weapon-image"
+                    loading="lazy"
+                    (error)="onSavedWeaponImageError($event, savedWeapon.weapon_name)" />
+                  <span 
+                    *ngIf="!hasSavedWeaponImage(savedWeapon.weapon_name)" 
+                    class="weapon-emoji">⚔️</span>
+                </div>
+                <div class="weapon-info">
+                  <h3 class="weapon-name">{{ savedWeapon.weapon_name }}</h3>
+                  <p class="weapon-category">{{ weaponsService.getCategoryDisplayName(savedWeapon.weapon_category) }}</p>
+                </div>
+              </div>
+              
+              <div class="saved-weapon-details">
+                <div class="saved-date">
+                  <span>Data: {{ formatSavedDate(savedWeapon.created_at) }}</span>
+                </div>
+                
+                <div class="perks-count">
+                  <img src="assets/icons-svg/xp.svg" alt="Perks" class="detail-icon" />
+                  <span>{{ savedWeapon.proficiency_data?.selectedPerks?.length || 0 }} níveis configurados</span>
+                </div>
+              </div>
+
+              <div class="view-button">
+                <span class="btn-text">Ver Maestria</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -149,101 +217,5 @@
         <button (click)="loadCategories()" class="retry-btn">Tentar Novamente</button>
       </div>
     </div>
-    
-    <!-- Main Content -->
-    <div *ngIf="!carregando && !error()" class="weapons-container">
-    
-
-
-    <!-- Lista de Armas Salvas -->
-    <div class="saved-weapons-list-section" *ngIf="showSavedWeapons()">
-      <!-- Botão Voltar -->
-      <div class="back-section">
-        <button class="back-btn" (click)="hideSavedWeaponsSection()">
-          Voltar ao Capítulo
-        </button>
-      </div>
-
-      <!-- Loading das Armas Salvas -->
-      <div *ngIf="loadingSavedWeapons()" class="loading-saved">
-        <div class="parchment-card">
-          <h2>
-            <img src="assets/icons-svg/arsenalweapons.svg" alt="Carregando" class="svg-icon rotating" />
-            Carregando tuas armas domadas...
-          </h2>
-        </div>
-      </div>
-
-      <!-- Lista das Armas -->
-      <div *ngIf="!loadingSavedWeapons()" class="parchment-card saved-weapons-list-card">
-        <h2>
-          <img src="assets/icons-svg/arsenalweapons.svg" alt="Armas Domadas" class="svg-icon" />
-          Tuas Armas Domadas ({{ savedWeapons().length }})
-        </h2>
-        <hr />
-
-        <!-- Mensagem se não há armas salvas -->
-        <div *ngIf="savedWeapons().length === 0" class="no-saved-weapons">
-          <div class="empty-state">
-            <img src="assets/icons-svg/information.svg" alt="Vazio" class="empty-icon" />
-            <h3>Nenhuma Arma Domada</h3>
-            <p>Tu ainda não domaste nenhuma arma, aventureiro! Explora o arsenal e registra tuas conquistas para que a taverna lembre de tua maestria!</p>
-            <button class="button-medieval" (click)="hideSavedWeaponsSection()">
-              Explorar Arsenal
-            </button>
-          </div>
-        </div>
-
-        <!-- Grid das Armas Salvas -->
-        <div *ngIf="savedWeapons().length > 0" class="saved-weapons-grid">
-          <div 
-            *ngFor="let savedWeapon of savedWeapons()" 
-            class="saved-weapon-card"
-            (click)="onSavedWeaponClick(savedWeapon)">
-            <div class="saved-weapon-content">
-              <div class="saved-weapon-header">
-                <div class="weapon-icon">
-                  <img 
-                    [src]="'assets/itens/' + savedWeapon.weapon_name + '.webp'" 
-                    [alt]="savedWeapon.weapon_name" 
-                    class="weapon-image"
-                    loading="lazy" />
-                </div>
-                <div class="weapon-info">
-                  <h3 class="weapon-name">{{ savedWeapon.weapon_name }}</h3>
-                  <p class="weapon-category">{{ weaponsService.getCategoryDisplayName(savedWeapon.weapon_category) }}</p>
-                </div>
-              </div>
-              
-              <div class="saved-weapon-details">
-                <div class="saved-date">
-                  <img src="assets/icons-svg/calendar.svg" alt="Data" class="detail-icon" />
-                  <span>{{ formatSavedDate(savedWeapon.created_at) }}</span>
-                </div>
-                
-                <div class="perks-count">
-                  <img src="assets/icons-svg/mastery.svg" alt="Perks" class="detail-icon" />
-                  <span>{{ savedWeapon.proficiency_data?.selectedPerks?.length || 0 }} níveis configurados</span>
-                </div>
-              </div>
-
-              <div class="view-button">
-                <span class="btn-text">Ver Proficiência</span>
-                <img src="assets/icons-svg/arrow-right.svg" alt="Ver" class="arrow-icon" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
   </div>
-  </div>
-
-
 </div> 

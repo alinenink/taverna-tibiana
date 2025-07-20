@@ -318,226 +318,178 @@
 // Seção de Armas Salvas
 // ====================================
 
-.saved-weapons-section {
-  margin-bottom: 2rem;
-  
-  .saved-weapons-card {
-    text-align: center;
-    
-    .saved-weapons-intro {
-      color: #8B4513;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-      font-style: italic;
-    }
-
-    .saved-weapons-actions {
-      .primary-btn {
-        background: linear-gradient(135deg, #8B4513, #A0522D);
-        color: white;
-        border: 2px solid #654321;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-
-        .btn-icon {
-          width: 20px;
-          height: 20px;
-          filter: brightness(0) invert(1);
-        }
-
-        &:hover {
-          background: linear-gradient(135deg, #A0522D, #8B4513);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-      }
-    }
-  }
-}
-
+/* Seção de Armas Salvas Lista (dentro do card principal) */
 .saved-weapons-list-section {
+  margin-top: 1rem;
+  
   .loading-saved {
     text-align: center;
-    margin-bottom: 2rem;
-
-    .rotating {
-      animation: rotate 2s linear infinite;
+    padding: 2rem;
+    
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      
+      .rotating {
+        animation: rotate 2s linear infinite;
+      }
+      
+      p {
+        color: #7b5e3b;
+        font-family: 'MedievalSharp', serif;
+        font-size: 1.1rem;
+      }
     }
   }
 
-  .saved-weapons-list-card {
-    .no-saved-weapons {
-      text-align: center;
-      padding: 3rem 2rem;
+  .no-saved-weapons {
+    text-align: center;
+    padding: 2rem;
+    
+    .empty-state {
+      .empty-icon {
+        width: 4rem;
+        height: 4rem;
+        opacity: 0.6;
+        margin-bottom: 1rem;
+      }
+      
+      h3 {
+        color: #7b5e3b;
+        margin-bottom: 1rem;
+        font-family: 'MedievalSharp', serif;
+        font-size: 1.3rem;
+      }
+      
+      p {
+        color: #7b5e3b;
+        margin-bottom: 1.5rem;
+        font-family: Georgia, serif;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+    }
+  }
 
-      .empty-state {
-        .empty-icon {
-          width: 80px;
-          height: 80px;
-          opacity: 0.5;
-          margin-bottom: 1rem;
+  .saved-weapons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .saved-weapon-card {
+    background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
+    border: 2px solid #a07947;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(160, 121, 71, 0.1);
+  }
+
+  .saved-weapon-card:hover {
+    box-shadow: 0 8px 16px rgba(160, 121, 71, 0.18);
+    transform: translateY(-4px);
+  }
+
+  .saved-weapon-content {
+    .saved-weapon-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      
+      .weapon-icon {
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        overflow: hidden;
+        background: transparent;
+        flex-shrink: 0;
+        
+        .weapon-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+          border-radius: 6px;
         }
-
-        h3 {
-          color: #8B4513;
-          margin-bottom: 1rem;
-          font-size: 1.5rem;
-        }
-
-        p {
-          color: #666;
-          margin-bottom: 2rem;
-          font-size: 1.1rem;
-          line-height: 1.6;
-        }
-
-        .primary-btn {
-          background: linear-gradient(135deg, #8B4513, #A0522D);
-          color: white;
-          border: 2px solid #654321;
-          padding: 12px 24px;
-          border-radius: 8px;
-          font-size: 1.1rem;
+      }
+      
+      .weapon-info {
+        flex: 1;
+        
+        .weapon-name {
+          margin: 0 0 0.3rem 0;
+          color: #3e2f1c;
+          font-size: 1.2rem;
+          font-family: 'MedievalSharp', serif;
           font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-
-          &:hover {
-            background: linear-gradient(135deg, #A0522D, #8B4513);
-            transform: translateY(-2px);
-          }
+        }
+        
+        .weapon-category {
+          margin: 0;
+          color: #7b5e3b;
+          font-size: 0.9rem;
+          font-family: 'MedievalSharp', serif;
         }
       }
     }
-
-    .saved-weapons-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-
-      .saved-weapon-card {
-        background: linear-gradient(145deg, #f8f4e6, #f0e6d2);
-        border: 2px solid #d4af37;
-        border-radius: 12px;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-
-        &:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-          border-color: #b8860b;
+    
+    .saved-weapon-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      
+      .saved-date,
+      .perks-count {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #7b5e3b;
+        font-size: 0.9rem;
+        font-family: Georgia, serif;
+        
+        .detail-icon {
+          width: 1rem;
+          height: 1rem;
+          opacity: 0.7;
         }
-
-        .saved-weapon-content {
-          .saved-weapon-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-
-            .weapon-icon {
-              width: 50px;
-              height: 50px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: rgba(212, 175, 55, 0.1);
-              border-radius: 8px;
-              border: 1px solid #d4af37;
-
-              .weapon-image {
-                width: 40px;
-                height: 40px;
-                object-fit: cover;
-              }
-
-              .weapon-emoji {
-                font-size: 1.5rem;
-              }
-            }
-
-            .weapon-info {
-              flex: 1;
-
-              .weapon-name {
-                margin: 0;
-                color: #8B4513;
-                font-size: 1.2rem;
-                font-weight: bold;
-              }
-
-              .weapon-category {
-                margin: 0.25rem 0 0 0;
-                color: #666;
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-              }
-            }
-          }
-
-          .saved-weapon-details {
-            margin-bottom: 1rem;
-
-            > div {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-              margin-bottom: 0.5rem;
-              font-size: 0.9rem;
-              color: #666;
-
-              .detail-icon {
-                width: 16px;
-                height: 16px;
-                opacity: 0.7;
-              }
-            }
-          }
-
-          .view-button {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(135deg, #8B4513, #A0522D);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-top: 1rem;
-
-            .btn-text {
-              font-size: 0.9rem;
-            }
-
-            .arrow-icon {
-              width: 16px;
-              height: 16px;
-              filter: brightness(0) invert(1);
-              transition: transform 0.3s ease;
-            }
-          }
-        }
-
-        &:hover .view-button .arrow-icon {
-          transform: translateX(4px);
-        }
+      }
+    }
+    
+    .view-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 1rem;
+      background: #f5e1b8;
+      border: 2px solid #a88d5a;
+      border-radius: 8px;
+      transition: background 0.2s;
+      
+      &:hover {
+        background: #e8d9a5;
+      }
+      
+      .btn-text {
+        color: #3e2f1c;
+        font-family: 'MedievalSharp', serif;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      
+      .arrow-icon {
+        width: 1rem;
+        height: 1rem;
+        opacity: 0.7;
       }
     }
   }

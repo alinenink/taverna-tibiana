@@ -758,10 +758,89 @@ export class WeaponsComponent implements OnInit {
   }
 
   formatSavedDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
+    if (!dateString) {
+      console.log('Data vazia recebida da API');
+      return 'Data não disponível';
+    }
+    
+    console.log('Data recebida da API:', dateString);
+    
+    try {
+      const date = new Date(dateString);
+      
+      // Verifica se a data é válida
+      if (isNaN(date.getTime())) {
+        console.log('Data inválida:', dateString);
+        return 'Data inválida';
+      }
+      
+      const formattedDate = date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+      
+      console.log('Data formatada:', formattedDate);
+      return formattedDate;
+    } catch (error) {
+      console.error('Erro ao formatar data:', error, 'Data original:', dateString);
+      return 'Erro na data';
+    }
+  }
+
+  // ====================================
+  // Métodos para imagens das armas salvas
+  // ====================================
+
+  private savedWeaponImageCache = new Map<string, string>();
+
+  getSavedWeaponImageUrl(weaponName: string): string {
+    if (!weaponName) return '';
+    
+    // Verifica se já temos a URL no cache
+    if (this.savedWeaponImageCache.has(weaponName)) {
+      return this.savedWeaponImageCache.get(weaponName) || '';
+    }
+    
+    // Substitui espaços por underscore para nomes de arquivo
+    const fileName = weaponName.replace(/\s+/g, '_');
+    
+    // Primeiro tenta .webp
+    const webpPath = `assets/itens/${fileName}.webp`;
+    // Depois tenta .gif
+    const gifPath = `assets/itens/${fileName}.gif`;
+    
+    // Por enquanto retorna webp, o tratamento de erro vai lidar com fallback
+    this.savedWeaponImageCache.set(weaponName, webpPath);
+    return webpPath;
+  }
+
+  hasSavedWeaponImage(weaponName: string): boolean {
+    if (!weaponName) return false;
+    // Verifica se a imagem está no cache e não falhou
+    const cachedUrl = this.savedWeaponImageCache.get(weaponName);
+    return cachedUrl !== '⚔️' && cachedUrl !== '';
+  }
+
+  onSavedWeaponImageError(event: any, weaponName: string): void {
+    console.log(`Erro ao carregar imagem da arma salva: ${weaponName}`);
+    
+    const currentSrc = event.target?.src || '';
+    
+    // Substitui espaços por underscore para nomes de arquivo
+    const fileName = weaponName.replace(/\s+/g, '_');
+    
+    // Se estava tentando .webp, tenta .gif
+    if (currentSrc.includes('.webp')) {
+      const gifPath = `assets/itens/${fileName}.gif`;
+      this.savedWeaponImageCache.set(weaponName, gifPath);
+      event.target.src = gifPath;
+      return;
+    }
+    
+    // Se estava tentando .gif ou falhou novamente, usa emoji
+    this.savedWeaponImageCache.set(weaponName, '⚔️');
+    if (event.target) {
+      event.target.style.display = 'none';
+    }
   }
 } 
