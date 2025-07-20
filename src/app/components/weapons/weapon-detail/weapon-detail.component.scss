@@ -47,33 +47,50 @@
   background: #c2a36e;
 }
 
-.save-btn {
-  background: #4caf50;
-  border: 1.5px solid #388e3c;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  font-family: 'MedievalSharp', serif;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  margin-left: 1rem;
-  transition: all 0.2s;
+.weapon-name-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1;
 }
 
-.save-btn:hover:not(:disabled) {
-  background: #388e3c;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-}
+.save-as-btn-weapon {
+  background: #4caf50;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  margin-left: 0.5rem;
 
-.save-btn:disabled {
-  background: #cccccc;
-  border-color: #999999;
-  color: #666666;
-  cursor: not-allowed;
-  opacity: 0.6;
+  &:hover:not(:disabled) {
+    background: #388e3c;
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4);
+  }
+
+  &:disabled {
+    background: #cccccc;
+    border-color: #999999;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 0.8rem;
+  }
 }
 
 .weapon-detail-body {
@@ -83,10 +100,12 @@
 .detail-row {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   gap: 2rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #ddd;
   font-size: 1.1rem;
+  width: 100%;
 }
 
 .detail-label {

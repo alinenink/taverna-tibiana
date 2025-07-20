@@ -31,16 +31,18 @@
   <div class="weapon-detail-container">
     <div class="weapon-detail-header">
       <button class="back-btn" (click)="voltarParaLista()">Voltar</button>
-      <button class="save-btn" (click)="salvarBuild()" [disabled]="!hasSelectedPerks()">
-        <i class="fas fa-save"></i> Salvar Build
-      </button>
     </div>
     <div *ngIf="loading()" class="loading">Carregando...</div>
     <div *ngIf="error()" class="error">{{ error() }}</div>
     <div *ngIf="weapon()" class="weapon-detail-body">
       <div class="detail-row">
         <span class="detail-label">Arma Selecionada:</span>
-        <span class="detail-value">{{ weapon()?.name }}</span>
+        <div class="weapon-name-container">
+          <span class="detail-value">{{ weapon()?.name }}</span>
+          <button class="save-as-btn-weapon" (click)="salvarBuild()" [disabled]="!hasSelectedPerks()" title="Salvar Build">
+            <i class="fas fa-download"></i>
+          </button>
+        </div>
       </div>
       <!-- Proficiencies -->
       <div *ngIf="hasProficiencies" class="proficiencies">
