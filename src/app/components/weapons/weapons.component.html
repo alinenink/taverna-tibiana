@@ -51,8 +51,30 @@
     
     <!-- Main Content -->
     <div *ngIf="!carregando && !error()" class="weapons-container">
+    
+    <!-- Seção de Armas Salvas -->
+    <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
+      <div class="parchment-card saved-weapons-card">
+        <h2>
+          <img src="assets/icons-svg/folder.svg" alt="Armas Salvas" class="svg-icon" />
+          Suas Armas Salvas
+        </h2>
+        <hr />
+        <p class="saved-weapons-intro">
+          Explore suas proficiências já dominadas! Aqui estão as armas cujos segredos você já desvendou 
+          e cujas habilidades já foram aperfeiçoadas. Clique em qualquer uma para revisitar suas escolhas 
+          e aprimorar ainda mais seu domínio.
+        </p>
+        <div class="saved-weapons-actions">
+          <button class="primary-btn" (click)="showSavedWeaponsSection()">
+            <img src="assets/icons-svg/folder.svg" alt="Ver" class="btn-icon" />
+            Ver Minhas Armas Salvas
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- Category Selection -->
-    <div class="category-section" *ngIf="!showCategoryList()">
+    <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
       <div class="parchment-card category-card">
         <h2>
           <img src="assets/icons-svg/arsenalweapons.svg" alt="Espada" class="svg-icon" />
@@ -67,6 +89,88 @@
             <img [src]="getCategoryIcon(cat.id)" [alt]="cat.name" class="category-icon" />
             <span>{{ cat.name }}</span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Armas Salvas -->
+    <div class="saved-weapons-list-section" *ngIf="showSavedWeapons()">
+      <!-- Botão Voltar -->
+      <div class="back-section">
+        <button class="back-btn" (click)="hideSavedWeaponsSection()">
+          Voltar ao Arsenal
+        </button>
+      </div>
+
+      <!-- Loading das Armas Salvas -->
+      <div *ngIf="loadingSavedWeapons()" class="loading-saved">
+        <div class="parchment-card">
+          <h2>
+            <img src="assets/icons-svg/folder.svg" alt="Carregando" class="svg-icon rotating" />
+            Carregando suas armas salvas...
+          </h2>
+        </div>
+      </div>
+
+      <!-- Lista das Armas -->
+      <div *ngIf="!loadingSavedWeapons()" class="parchment-card saved-weapons-list-card">
+        <h2>
+          <img src="assets/icons-svg/folder.svg" alt="Armas Salvas" class="svg-icon" />
+          Suas Proficiências Salvas ({{ savedWeapons().length }})
+        </h2>
+        <hr />
+
+        <!-- Mensagem se não há armas salvas -->
+        <div *ngIf="savedWeapons().length === 0" class="no-saved-weapons">
+          <div class="empty-state">
+            <img src="assets/icons-svg/information.svg" alt="Vazio" class="empty-icon" />
+            <h3>Nenhuma Arma Salva</h3>
+            <p>Você ainda não salvou nenhuma proficiência. Explore o arsenal e salve suas configurações favoritas!</p>
+            <button class="primary-btn" (click)="hideSavedWeaponsSection()">
+              Explorar Arsenal
+            </button>
+          </div>
+        </div>
+
+        <!-- Grid das Armas Salvas -->
+        <div *ngIf="savedWeapons().length > 0" class="saved-weapons-grid">
+          <div 
+            *ngFor="let savedWeapon of savedWeapons()" 
+            class="saved-weapon-card"
+            (click)="onSavedWeaponClick(savedWeapon)">
+            <div class="saved-weapon-content">
+              <div class="saved-weapon-header">
+                <div class="weapon-icon">
+                  <img 
+                    [src]="'assets/itens/' + savedWeapon.weapon_name + '.webp'" 
+                    [alt]="savedWeapon.weapon_name" 
+                    class="weapon-image"
+                    loading="lazy" />
+                </div>
+                <div class="weapon-info">
+                  <h3 class="weapon-name">{{ savedWeapon.weapon_name }}</h3>
+                  <p class="weapon-category">{{ weaponsService.getCategoryDisplayName(savedWeapon.weapon_category) }}</p>
+                </div>
+              </div>
+              
+              <div class="saved-weapon-details">
+                <div class="saved-date">
+                  <img src="assets/icons-svg/calendar.svg" alt="Data" class="detail-icon" />
+                  <span>{{ formatSavedDate(savedWeapon.created_at) }}</span>
+                </div>
+                
+                <div class="perks-count">
+                  <img src="assets/icons-svg/mastery.svg" alt="Perks" class="detail-icon" />
+                  <span>{{ savedWeapon.proficiency_data?.selectedPerks?.length || 0 }} níveis configurados</span>
+                </div>
+              </div>
+
+              <div class="view-button">
+                <span class="btn-text">Ver Proficiência</span>
+                <img src="assets/icons-svg/arrow-right.svg" alt="Ver" class="arrow-icon" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

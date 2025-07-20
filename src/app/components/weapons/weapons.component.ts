@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { WeaponsService, WeaponCategoryType, WeaponCategory, WeaponBasic, WeaponDetailed, ProficiencyLevel } from '../../services/weapons.service';
+import { ProficiencyApiService } from '../../services/proficiency-api.service';
 
 @Component({
   selector: 'app-weapons',
@@ -23,6 +24,11 @@ export class WeaponsComponent implements OnInit {
   // Estados da interface
   showCategoryList = signal<boolean>(false);
   
+  // Seção de armas salvas
+  savedWeapons = signal<any[]>([]);
+  showSavedWeapons = signal<boolean>(false);
+  loadingSavedWeapons = signal<boolean>(false);
+  
   // Loading state (mesmo padrão do animous-mastery)
   carregando: boolean = true;
   
@@ -37,7 +43,8 @@ export class WeaponsComponent implements OnInit {
 
   constructor(
     public weaponsService: WeaponsService,
-    private router: Router
+    private router: Router,
+    private proficiencyApiService: ProficiencyApiService
   ) {}
 
   ngOnInit() {
@@ -681,5 +688,56 @@ export class WeaponsComponent implements OnInit {
         detail_endpoint: '/api/weapons?action=weapon&category=fist'
       }
     ];
+  }
+
+  // ====================================
+  // Seção de Armas Salvas
+  // ====================================
+
+  showSavedWeaponsSection() {
+    this.showSavedWeapons.set(true);
+    this.showCategoryList.set(false);
+    this.loadSavedWeapons();
+  }
+
+  hideSavedWeaponsSection() {
+    this.showSavedWeapons.set(false);
+    this.showCategoryList.set(false);
+  }
+
+  async loadSavedWeapons() {
+    this.loadingSavedWeapons.set(true);
+    this.error.set(null);
+
+    try {
+      const response = await this.proficiencyApiService.list();
+      
+      if (response.success && response.data) {
+        this.savedWeapons.set(response.data);
+        console.log('Armas salvas carregadas:', response.data);
+      } else {
+        this.savedWeapons.set([]);
+        console.log('Nenhuma arma salva encontrada');
+      }
+    } catch (error) {
+      console.error('Erro ao carregar armas salvas:', error);
+      this.error.set('Erro ao carregar suas armas salvas. Tente novamente.');
+      this.savedWeapons.set([]);
+    } finally {
+      this.loadingSavedWeapons.set(false);
+    }
+  }
+
+  onSavedWeaponClick(savedWeapon: any) {
+    // Navegar para a tela de detail da arma salva
+    this.router.navigate(['/weapons', savedWeapon.weapon_category, savedWeapon.weapon_name]);
+  }
+
+  formatSavedDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
   }
 } 
