@@ -406,7 +406,7 @@ export class WeaponDetailComponent implements OnInit {
       });
     } else {
       // Fallback: volta para a tela principal de weapons
-      this.router.navigate(['/weapons']);
+    this.router.navigate(['/weapons']);
     }
   }
 

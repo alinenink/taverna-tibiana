@@ -125,15 +125,15 @@
 
 .weapons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 .weapon-card {
   background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
   border: 2px solid #a07947;
-  border-radius: 10px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 1.8rem 1.2rem;
   min-width: 200px;
   max-width: 280px;
   flex: 1 1 220px;
@@ -152,16 +152,17 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.8rem;
+  gap: 1rem;
+  width: 100%;
 }
 .weapon-icon {
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  border-radius: 6px;
   overflow: hidden;
   background: transparent;
 }
@@ -197,7 +198,7 @@
 }
 
 .search-box {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 .search-input {
   width: 100%;
@@ -280,7 +281,8 @@
     height: 1.3em;
   }
   .weapons-grid {
-    gap: 1rem;
+    gap: 1.2rem;
+    margin-top: 1.2rem;
   }
 }
 @media (max-width: 600px) {
@@ -733,12 +735,13 @@
   // Weapons grid mobile
   .weapons-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .weapon-card {
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 1.2rem 0.8rem;
+    border-radius: 10px;
   }
 
   .weapon-name {
