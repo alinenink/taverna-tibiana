@@ -19,6 +19,5 @@ const workbook = xlsx.utils.book_new();
 xlsx.utils.book_append_sheet(workbook, worksheet, 'Monstros');
 
 // Salva o arquivo Excel
-xlsx.writeFile(workbook, 'monstros.xlsx');
-
-console.log('Planilha "monstros.xlsx" criada com sucesso.');
+const outputFileName = 'monstros.xlsx';
+xlsx.writeFile(workbook, outputFileName);

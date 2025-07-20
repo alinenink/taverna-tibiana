@@ -29,7 +29,7 @@
 
 <div class="parchment-background">
   <div class="consulta-layout">
-    <h1 class="tavernatibiana-title">Sempre Começa na Taverna</h1>
+    <h1 class="tavernatibiana-title">Consulte o seu Herói na Praça de Leilão</h1>
 
     <p class="consulta-intro">
       Aqui na nossa humilde taverna, os destinos se revelam a quem ousa
@@ -41,7 +41,10 @@
     <!-- Formulário de Consulta -->
     <form class="parchment-card" (submit)="consultarPersonagem()">
       <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
-      <h2>🔍 Consulta de Personagem</h2>
+      <h2 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+        <img src="assets/magnifier.svg" alt="Consulta" class="svg-icon" />
+        Consulta de Personagem
+      </h2>
       <hr />
       <div class="input-icon-group">
         <input
@@ -57,7 +60,7 @@
 
     <!-- Registro dos Feitos do Herói -->
     <div class="parchment-card" *ngIf="characterData">
-      <h2>📜 Jornada do Aventureiro 📜</h2>
+      <h2>Jornada do Aventureiro</h2>
       <hr />
 
       <ul>
@@ -184,7 +187,7 @@
 
     <!-- Itens a Conquistar (Outfits e Montarias) -->
     <div class="parchment-card" *ngIf="characterData">
-      <h2>🗡️ Capítulo das Vestes Épicas 🗡️</h2>
+      <h2>Capítulo das Vestes Épicas</h2>
       <hr />
 
       <div class="conquista-row-custom">
@@ -270,7 +273,7 @@
 
     <div class="parchment-card" *ngIf="characterData">
       <!-- MONTARIAS A CONQUISTAR -->
-      <h2>🐺 Aliados das Terras Selvagens 🐺</h2>
+      <h2>Aliados das Terras Selvagens</h2>
       <hr />
 
       <div class="conquista-row-custom">

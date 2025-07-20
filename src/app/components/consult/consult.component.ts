@@ -80,7 +80,7 @@ export class ConsultComponent implements OnInit {
     // this.http
     //   .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
     //   .subscribe({
-    //     next: (data) => { console.log(data); this.carregando = false; },
+    //     next: (data) => { this.carregando = false; },
     //     error: (err) => { console.error('Erro:', err); this.carregando = false; },
     //   });
   }

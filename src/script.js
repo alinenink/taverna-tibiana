@@ -21,5 +21,3 @@ XLSX.utils.book_append_sheet(workbook, worksheet, 'Conquistas');
 // Salva como arquivo Excel
 const outputFile = 'conquistas_charlover.xlsx';
 XLSX.writeFile(workbook, outputFile);
-
-console.log(`✅ Planilha gerada com sucesso: ${outputFile}`);

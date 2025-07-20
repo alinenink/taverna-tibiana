@@ -1,0 +1,558 @@
+.parchment-background {
+  background: #fdf8e4;
+  min-height: 100vh;
+  padding: 0 0 2rem 0;
+}
+
+.weapon-detail-container {
+  max-width: 85vw;
+  width: 85vw;
+  margin: 2rem auto;
+  background: #fdf8e4;
+  border-radius: 16px;
+  border: 2px solid #a07947;
+  box-shadow: 0 4px 24px rgba(160,121,71,0.08);
+  padding: 2rem;
+}
+
+.weapon-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.weapon-detail-header h1 {
+  font-family: 'MedievalSharp', serif;
+  color: #3e2f1c;
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.back-btn {
+  background: #d4c292;
+  border: 1.5px solid #a07947;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-family: 'MedievalSharp', serif;
+  color: #3e2f1c;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: #c2a36e;
+}
+
+.weapon-detail-body {
+  margin-top: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #7b5e3b;
+  font-family: 'MedievalSharp', serif;
+}
+
+.detail-value {
+  font-weight: bold;
+  color: #2E7D32;
+  font-family: 'MedievalSharp', serif;
+}
+
+.proficiencies {
+  margin-top: 2rem;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+}
+
+.proficiencies h2 {
+  text-align: center;
+  color: #7b5e3b;
+  font-family: 'MedievalSharp', serif;
+  margin-top: 0;
+}
+
+.weapon_proficiency_table {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.proficiency-level-header {
+  background: linear-gradient(135deg, #d4c292, #c2a36e);
+  color: #3e2f1c;
+  font-family: 'MedievalSharp', serif;
+  font-weight: bold;
+  padding: 1rem;
+  border: 2px solid #a07947;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.proficiency-level-cell {
+  vertical-align: top;
+  padding: 0.5rem 1.15rem;
+  border:1px solid #a07947;
+  background: #fffbe9;
+  min-width: 99px;
+}
+
+.weapon_proficiency_block {
+  background: #fdf8e4;
+  border:2px solid #a07947;
+  border-radius: 8px;
+  min-height: 120px;
+}
+
+.weapon_proficiency_border {
+  border:1px solid #a7947;
+}
+
+.perk-block {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #fdf6e3;
+  border: 1.5px solid #e8d9a5;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(160, 121, 71, 0.07);
+  min-width: 88px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.perk-block:hover {
+  background: #f5e1b8;
+  border-color: #a88d5a;
+  transform: translateX(4px);
+}
+
+.perk-block:last-child {
+  margin-bottom: 0;
+}
+
+.weapon_proficiency_icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.75rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Layout para 2 ícones: sobrepostos */
+.two-icons-layout {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.icon-first {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: #fffbe9;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.icon-second {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: transparent;
+  z-index: 20;
+  transition: transform 0.2s ease;
+}
+
+.icon-first:hover, .icon-second:hover {
+  transform: scale(1.1);
+}
+
+/* Layout para 3 ícones: sobrepostos */
+.three-icons-layout {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.background-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: #fffbe9;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.final-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: transparent;
+  z-index: 20;
+  transition: transform 0.2s ease;
+}
+
+.corner-icon-small {
+  position: absolute;
+  top: -17px;
+  right: -20px;
+  width: 6px;
+  height: 6px;
+  object-fit: contain;
+  border-radius: 1px;
+  border: 1px solid #d4c292;
+  box-shadow: 0 1px 2px rgba(160, 121, 71, 0.2);
+  background: #fffbe9;
+  z-index: 30;
+  transform: scale(0.4);
+}
+
+.background-icon:hover, .final-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Layout para 1 ícone */
+.single-icon-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.single-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: #fffbe9;
+  transition: transform 0.2s ease;
+}
+
+.single-icon:hover {
+  transform: scale(1.1);
+}
+
+.proficiency-icon-placeholder {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: #fffbe9;
+  transition: transform 0.2s ease;
+}
+
+.proficiency-icon-placeholder:hover {
+  transform: scale(1.1);
+}
+
+.proficiency-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #d4c292;
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.15);
+  background: #fffbe9;
+  transition: transform 0.2s ease;
+}
+
+.proficiency-icon:hover {
+  transform: scale(1.1);
+}
+
+.weapon_proficiency_text {
+  font-family: 'Georgia', serif;
+  color: #3e2f1c;
+  font-size: 1em;
+  line-height: 1.4;
+  font-weight: 500;
+  padding: 0.5rem;
+  background: #fffbe9;
+  border-radius: 6px;
+  border: 1px solid #d4c292;
+  text-align: center;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.weapon_proficiency_text:hover {
+  background: #f5e1b8;
+  border-color: #a88d5a;
+}
+
+.weapon_proficiency_text.selected-perk {
+  background: #e8f5e8;
+  border-color: #2e7d32;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.save-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  font-family: 'MedievalSharp', serif;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049, #388e3c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.save-btn:disabled {
+  background: #ccc;
+  border-color: #999;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.save-btn .svg-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+/* Tablet Layout */
+@media (max-width: 1240px) {
+  .weapon-detail-container {
+    width: 90vw;
+    max-width: 90vw;
+    padding: 1.5rem;
+  }
+
+  .weapon_proficiency_table {
+    display: block;
+  }
+
+  .weapon_proficiency_table thead {
+    display: none;
+  }
+
+  .weapon_proficiency_table tbody {
+    display: block;
+  }
+
+  .weapon_proficiency_table tr {
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .proficiency-level-cell {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    border: 2px solid #a07947;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .proficiency-level-cell::before {
+    content: attr(data-level);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: linear-gradient(135deg, #d4c292, #c2a36e);
+    color: #3e2f1c;
+    font-family: 'MedievalSharp', serif;
+    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border: 2px solid #a07947;
+    border-radius: 12px;
+    font-size: 0.9em;
+    z-index: 10;
+  }
+
+  .weapon_proficiency_block {
+    padding-top: 1.5rem;
+  }
+
+  .perk-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    min-width: auto;
+  }
+
+  .weapon_proficiency_icon {
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .weapon_proficiency_text {
+    flex: 1;
+    margin: 0;
+    text-align: left;
+  }
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+  .weapon-detail-container {
+    width: 95vw;
+    max-width: 95vw;
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .weapon-detail-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .weapon_proficiency_table {
+    display: block;
+  }
+
+  .weapon_proficiency_table thead {
+    display: none;
+  }
+
+  .weapon_proficiency_table tbody {
+    display: block;
+  }
+
+  .weapon_proficiency_table tr {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .proficiency-level-cell {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border: 2px solid #a07947;
+    border-radius: 8px;
+    position: relative;
+    padding: 0.5rem;
+  }
+
+  .proficiency-level-cell::before {
+    content: attr(data-level);
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background: linear-gradient(135deg, #d4c292, #c2a36e);
+    color: #3e2f1c;
+    font-family: 'MedievalSharp', serif;
+    font-weight: bold;
+    padding: 0.2rem 0.6rem;
+    border: 2px solid #a07947;
+    border-radius: 10px;
+    font-size: 0.8em;
+    z-index: 10;
+  }
+
+  .weapon_proficiency_block {
+    padding-top: 1.2rem;
+    padding: 0.5rem;
+  }
+
+  .perk-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    min-width: auto;
+  }
+
+  .weapon_proficiency_icon {
+    flex-shrink: 0;
+    margin: 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  .proficiency-icon-placeholder {
+    width: 32px;
+    height: 32px;
+  }
+
+  .weapon_proficiency_text {
+    flex: 1;
+    margin: 0;
+    text-align: left;
+    font-size: 0.9em;
+    padding: 0.4em;
+  }
+
+  .save-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+} 

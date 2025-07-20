@@ -185,7 +185,6 @@ export class AnimousMasteryComponent implements OnInit {
     this.analyticsService.trackMasteryAction('save', 'selected_masteries');
     
     this.service.salvarSelecionados().then((errorMsg) => {
-      console.log('Error message from service:', errorMsg); // Debug log
       if (
         errorMsg &&
         (errorMsg.includes('Usuário não cadastrado') || 

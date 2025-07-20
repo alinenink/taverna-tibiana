@@ -78,13 +78,13 @@ export class SimulationComponent {
     this.analyticsService.trackSimulationUsage('tab_selection', { tab: tab });
   }
 
-  startSimulation() {
+  onStartSimulation() {
     // Track simulation start
     this.analyticsService.trackSimulationUsage('start', { 
       charName: this.charName,
       totalProgress: this.totalProgress 
     });
-    console.log(`Iniciando simulação para ${this.charName}`);
+    
   }
 
   exportToJson() {

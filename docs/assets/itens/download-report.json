@@ -1,0 +1,2491 @@
+{
+  "summary": {
+    "total": 407,
+    "successful": 405,
+    "failed": 2,
+    "successRate": "99.51%"
+  },
+  "byCategory": {
+    "swords": {
+      "total": 77,
+      "successful": 76,
+      "failed": 1
+    },
+    "axes": {
+      "total": 83,
+      "successful": 82,
+      "failed": 1
+    },
+    "clavas": {
+      "total": 89,
+      "successful": 89,
+      "failed": 0
+    },
+    "ranged": {
+      "total": 60,
+      "successful": 60,
+      "failed": 0
+    },
+    "rods": {
+      "total": 33,
+      "successful": 33,
+      "failed": 0
+    },
+    "wands": {
+      "total": 35,
+      "successful": 35,
+      "failed": 0
+    },
+    "fist": {
+      "total": 30,
+      "successful": 30,
+      "failed": 0
+    }
+  },
+  "failedDownloads": [
+    {
+      "weapon": "Magic Longsword",
+      "category": "swords",
+      "success": false,
+      "error": "Invalid URL"
+    },
+    {
+      "weapon": "Mythril Axe",
+      "category": "axes",
+      "success": false,
+      "error": "Invalid URL"
+    }
+  ],
+  "successfulDownloads": [
+    {
+      "weapon": "Amber Sabre",
+      "category": "swords",
+      "success": true,
+      "filePath": "Amber_Sabre.webp"
+    },
+    {
+      "weapon": "Amber Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Amber_Slayer.webp"
+    },
+    {
+      "weapon": "Assassin Dagger",
+      "category": "swords",
+      "success": true,
+      "filePath": "Assassin_Dagger.webp"
+    },
+    {
+      "weapon": "Berserker",
+      "category": "swords",
+      "success": true,
+      "filePath": "Berserker.webp"
+    },
+    {
+      "weapon": "Blacksteel Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Blacksteel_Sword.webp"
+    },
+    {
+      "weapon": "Blade of Corruption",
+      "category": "swords",
+      "success": true,
+      "filePath": "Blade_of_Corruption.webp"
+    },
+    {
+      "weapon": "Blade of Destruction",
+      "category": "swords",
+      "success": true,
+      "filePath": "Blade_of_Destruction.webp"
+    },
+    {
+      "weapon": "Bloody Edge",
+      "category": "swords",
+      "success": true,
+      "filePath": "Bloody_Edge.webp"
+    },
+    {
+      "weapon": "Bright Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Bright_Sword.webp"
+    },
+    {
+      "weapon": "Cobra Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Cobra_Sword.webp"
+    },
+    {
+      "weapon": "Cowtana",
+      "category": "swords",
+      "success": true,
+      "filePath": "Cowtana.webp"
+    },
+    {
+      "weapon": "Crimson Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Crimson_Sword.webp"
+    },
+    {
+      "weapon": "Crude Umbral Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Crude_Umbral_Blade.webp"
+    },
+    {
+      "weapon": "Crude Umbral Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Crude_Umbral_Slayer.webp"
+    },
+    {
+      "weapon": "Crystal Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Crystal_Sword.webp"
+    },
+    {
+      "weapon": "Crystalline Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Crystalline_Sword.webp"
+    },
+    {
+      "weapon": "Demonrage Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Demonrage_Sword.webp"
+    },
+    {
+      "weapon": "Djinn Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Djinn_Blade.webp"
+    },
+    {
+      "weapon": "Dragon Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Dragon_Slayer.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Blade.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Slayer.webp"
+    },
+    {
+      "weapon": "Eldritch Claymore",
+      "category": "swords",
+      "success": true,
+      "filePath": "Eldritch_Claymore.webp"
+    },
+    {
+      "weapon": "Emerald Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Emerald_Sword.webp"
+    },
+    {
+      "weapon": "Epee",
+      "category": "swords",
+      "success": true,
+      "filePath": "Epee.webp"
+    },
+    {
+      "weapon": "Falcon Longsword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Falcon_Longsword.webp"
+    },
+    {
+      "weapon": "Fire Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Fire_Sword.webp"
+    },
+    {
+      "weapon": "Giant Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Giant_Sword.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Claymore",
+      "category": "swords",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Claymore.webp"
+    },
+    {
+      "weapon": "Glooth Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Glooth_Blade.webp"
+    },
+    {
+      "weapon": "Gnome Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Gnome_Sword.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Grand_Sanguine_Blade.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Razor",
+      "category": "swords",
+      "success": true,
+      "filePath": "Grand_Sanguine_Razor.webp"
+    },
+    {
+      "weapon": "Haunted Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Haunted_Blade.webp"
+    },
+    {
+      "weapon": "Havoc Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Havoc_Blade.webp"
+    },
+    {
+      "weapon": "Impaler of the Igniter",
+      "category": "swords",
+      "success": true,
+      "filePath": "Impaler_of_the_Igniter.webp"
+    },
+    {
+      "weapon": "Inferniarch Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Inferniarch_Blade.webp"
+    },
+    {
+      "weapon": "Inferniarch Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Inferniarch_Slayer.webp"
+    },
+    {
+      "weapon": "Lion Longsword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Lion_Longsword.webp"
+    },
+    {
+      "weapon": "Magic Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Magic_Sword.webp"
+    },
+    {
+      "weapon": "Mercenary Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Mercenary_Sword.webp"
+    },
+    {
+      "weapon": "Mystic Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Mystic_Blade.webp"
+    },
+    {
+      "weapon": "Naga Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Naga_Sword.webp"
+    },
+    {
+      "weapon": "Nightmare Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Nightmare_Blade.webp"
+    },
+    {
+      "weapon": "Pharaoh Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Pharaoh_Sword.webp"
+    },
+    {
+      "weapon": "Ratana",
+      "category": "swords",
+      "success": true,
+      "filePath": "Ratana.webp"
+    },
+    {
+      "weapon": "Relic Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Relic_Sword.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Blade.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Slayer.webp"
+    },
+    {
+      "weapon": "Runed Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Runed_Sword.webp"
+    },
+    {
+      "weapon": "Sanguine Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Sanguine_Blade.webp"
+    },
+    {
+      "weapon": "Sanguine Razor",
+      "category": "swords",
+      "success": true,
+      "filePath": "Sanguine_Razor.webp"
+    },
+    {
+      "weapon": "Shimmer Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Shimmer_Sword.webp"
+    },
+    {
+      "weapon": "Shiny Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Shiny_Blade.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Blade.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Slayer.webp"
+    },
+    {
+      "weapon": "Slayer of Destruction",
+      "category": "swords",
+      "success": true,
+      "filePath": "Slayer_of_Destruction.webp"
+    },
+    {
+      "weapon": "Soulcutter",
+      "category": "swords",
+      "success": true,
+      "filePath": "Soulcutter.webp"
+    },
+    {
+      "weapon": "Soulshredder",
+      "category": "swords",
+      "success": true,
+      "filePath": "Soulshredder.webp"
+    },
+    {
+      "weapon": "Summerblade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Summerblade.webp"
+    },
+    {
+      "weapon": "Tagralt Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Tagralt_Blade.webp"
+    },
+    {
+      "weapon": "Thaian Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Thaian_Sword.webp"
+    },
+    {
+      "weapon": "The Avenger",
+      "category": "swords",
+      "success": true,
+      "filePath": "The_Avenger.webp"
+    },
+    {
+      "weapon": "The Calamity",
+      "category": "swords",
+      "success": true,
+      "filePath": "The_Calamity.webp"
+    },
+    {
+      "weapon": "The Epiphany",
+      "category": "swords",
+      "success": true,
+      "filePath": "The_Epiphany.webp"
+    },
+    {
+      "weapon": "The Justice Seeker",
+      "category": "swords",
+      "success": true,
+      "filePath": "The_Justice_Seeker.webp"
+    },
+    {
+      "weapon": "Twiceslicer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Twiceslicer.webp"
+    },
+    {
+      "weapon": "Twin Hooks",
+      "category": "swords",
+      "success": true,
+      "filePath": "Twin_Hooks.webp"
+    },
+    {
+      "weapon": "Two Handed Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Two_Handed_Sword.webp"
+    },
+    {
+      "weapon": "Umbral Blade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Umbral_Blade.webp"
+    },
+    {
+      "weapon": "Umbral Master Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Umbral_Master_Slayer.webp"
+    },
+    {
+      "weapon": "Umbral Masterblade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Umbral_Masterblade.webp"
+    },
+    {
+      "weapon": "Umbral Slayer",
+      "category": "swords",
+      "success": true,
+      "filePath": "Umbral_Slayer.webp"
+    },
+    {
+      "weapon": "Warlord Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Warlord_Sword.webp"
+    },
+    {
+      "weapon": "Winterblade",
+      "category": "swords",
+      "success": true,
+      "filePath": "Winterblade.webp"
+    },
+    {
+      "weapon": "Wyvern Fang",
+      "category": "swords",
+      "success": true,
+      "filePath": "Wyvern_Fang.webp"
+    },
+    {
+      "weapon": "Zaoan Sword",
+      "category": "swords",
+      "success": true,
+      "filePath": "Zaoan_Sword.webp"
+    },
+    {
+      "weapon": "Amber Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Amber_Axe.webp"
+    },
+    {
+      "weapon": "Amber Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Amber_Greataxe.webp"
+    },
+    {
+      "weapon": "Angelic Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Angelic_Axe.webp"
+    },
+    {
+      "weapon": "Axe of Destruction",
+      "category": "axes",
+      "success": true,
+      "filePath": "Axe_of_Destruction.webp"
+    },
+    {
+      "weapon": "Barbarian Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Barbarian_Axe.webp"
+    },
+    {
+      "weapon": "Beastslayer Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Beastslayer_Axe.webp"
+    },
+    {
+      "weapon": "Butcher's Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Butcher's_Axe.gif"
+    },
+    {
+      "weapon": "Chopper of Destruction",
+      "category": "axes",
+      "success": true,
+      "filePath": "Chopper_of_Destruction.webp"
+    },
+    {
+      "weapon": "Cobra Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Cobra_Axe.webp"
+    },
+    {
+      "weapon": "Crude Umbral Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Crude_Umbral_Axe.webp"
+    },
+    {
+      "weapon": "Crude Umbral Chopper",
+      "category": "axes",
+      "success": true,
+      "filePath": "Crude_Umbral_Chopper.webp"
+    },
+    {
+      "weapon": "Crystalline Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Crystalline_Axe.webp"
+    },
+    {
+      "weapon": "Daramian Waraxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Daramian_Waraxe.webp"
+    },
+    {
+      "weapon": "Deepling Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Deepling_Axe.webp"
+    },
+    {
+      "weapon": "Demonwing Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Demonwing_Axe.webp"
+    },
+    {
+      "weapon": "Double Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Double_Axe.webp"
+    },
+    {
+      "weapon": "Dragon Lance",
+      "category": "axes",
+      "success": true,
+      "filePath": "Dragon_Lance.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Battleaxe.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Greataxe.webp"
+    },
+    {
+      "weapon": "Drakinata",
+      "category": "axes",
+      "success": true,
+      "filePath": "Drakinata.webp"
+    },
+    {
+      "weapon": "Dreaded Cleaver",
+      "category": "axes",
+      "success": true,
+      "filePath": "Dreaded_Cleaver.webp"
+    },
+    {
+      "weapon": "Dwarven Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Dwarven_Axe.webp"
+    },
+    {
+      "weapon": "Eldritch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Eldritch_Greataxe.webp"
+    },
+    {
+      "weapon": "Execowtioner Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Execowtioner_Axe.webp"
+    },
+    {
+      "weapon": "Executioner",
+      "category": "axes",
+      "success": true,
+      "filePath": "Executioner.webp"
+    },
+    {
+      "weapon": "Falcon Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Falcon_Battleaxe.webp"
+    },
+    {
+      "weapon": "Fire Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Fire_Axe.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Greataxe.webp"
+    },
+    {
+      "weapon": "Glooth Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Glooth_Axe.webp"
+    },
+    {
+      "weapon": "Glorious Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Glorious_Axe.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Grand_Sanguine_Battleaxe.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Hatchet",
+      "category": "axes",
+      "success": true,
+      "filePath": "Grand_Sanguine_Hatchet.webp"
+    },
+    {
+      "weapon": "Great Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Great_Axe.webp"
+    },
+    {
+      "weapon": "Guardian Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Guardian_Axe.webp"
+    },
+    {
+      "weapon": "Guardian Halberd",
+      "category": "axes",
+      "success": true,
+      "filePath": "Guardian_Halberd.webp"
+    },
+    {
+      "weapon": "Halberd",
+      "category": "axes",
+      "success": true,
+      "filePath": "Halberd.webp"
+    },
+    {
+      "weapon": "Headchopper",
+      "category": "axes",
+      "success": true,
+      "filePath": "Headchopper.webp"
+    },
+    {
+      "weapon": "Heavy Trident",
+      "category": "axes",
+      "success": true,
+      "filePath": "Heavy_Trident.webp"
+    },
+    {
+      "weapon": "Hellforged Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Hellforged_Axe.webp"
+    },
+    {
+      "weapon": "Heroic Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Heroic_Axe.webp"
+    },
+    {
+      "weapon": "Hive Scythe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Hive_Scythe.webp"
+    },
+    {
+      "weapon": "Impaler",
+      "category": "axes",
+      "success": true,
+      "filePath": "Impaler.webp"
+    },
+    {
+      "weapon": "Inferniarch Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Inferniarch_Battleaxe.webp"
+    },
+    {
+      "weapon": "Inferniarch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Inferniarch_Greataxe.webp"
+    },
+    {
+      "weapon": "Knight Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Knight_Axe.webp"
+    },
+    {
+      "weapon": "Lion Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Lion_Axe.webp"
+    },
+    {
+      "weapon": "Mino Lance",
+      "category": "axes",
+      "success": true,
+      "filePath": "Mino_Lance.webp"
+    },
+    {
+      "weapon": "Naga Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Naga_Axe.webp"
+    },
+    {
+      "weapon": "Naginata",
+      "category": "axes",
+      "success": true,
+      "filePath": "Naginata.webp"
+    },
+    {
+      "weapon": "Noble Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Noble_Axe.webp"
+    },
+    {
+      "weapon": "Obsidian Lance",
+      "category": "axes",
+      "success": true,
+      "filePath": "Obsidian_Lance.webp"
+    },
+    {
+      "weapon": "Ogre Choppa",
+      "category": "axes",
+      "success": true,
+      "filePath": "Ogre_Choppa.webp"
+    },
+    {
+      "weapon": "Ornamented Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Ornamented_Axe.webp"
+    },
+    {
+      "weapon": "Phantasmal Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Phantasmal_Axe.webp"
+    },
+    {
+      "weapon": "Plague Bite",
+      "category": "axes",
+      "success": true,
+      "filePath": "Plague_Bite.webp"
+    },
+    {
+      "weapon": "Ravager's Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Ravager's_Axe.webp"
+    },
+    {
+      "weapon": "Ravenwing",
+      "category": "axes",
+      "success": true,
+      "filePath": "Ravenwing.webp"
+    },
+    {
+      "weapon": "Reaper's Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Reaper's_Axe.gif"
+    },
+    {
+      "weapon": "Rending Inferniarch Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Battleaxe.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Greataxe.webp"
+    },
+    {
+      "weapon": "Rift Lance",
+      "category": "axes",
+      "success": true,
+      "filePath": "Rift_Lance.webp"
+    },
+    {
+      "weapon": "Royal Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Royal_Axe.webp"
+    },
+    {
+      "weapon": "Ruthless Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Ruthless_Axe.webp"
+    },
+    {
+      "weapon": "Sanguine Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Sanguine_Battleaxe.webp"
+    },
+    {
+      "weapon": "Sanguine Hatchet",
+      "category": "axes",
+      "success": true,
+      "filePath": "Sanguine_Hatchet.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Battleaxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Battleaxe.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Greataxe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Greataxe.webp"
+    },
+    {
+      "weapon": "Solar Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Solar_Axe.webp"
+    },
+    {
+      "weapon": "Soulbiter",
+      "category": "axes",
+      "success": true,
+      "filePath": "Soulbiter.webp"
+    },
+    {
+      "weapon": "Souleater (Axe)",
+      "category": "axes",
+      "success": true,
+      "filePath": "Souleater_(Axe).webp"
+    },
+    {
+      "weapon": "Stonecutter Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Stonecutter_Axe.webp"
+    },
+    {
+      "weapon": "Throwing Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Throwing_Axe.webp"
+    },
+    {
+      "weapon": "Titan Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Titan_Axe.webp"
+    },
+    {
+      "weapon": "Twin Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Twin_Axe.webp"
+    },
+    {
+      "weapon": "Umbral Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Umbral_Axe.webp"
+    },
+    {
+      "weapon": "Umbral Chopper",
+      "category": "axes",
+      "success": true,
+      "filePath": "Umbral_Chopper.webp"
+    },
+    {
+      "weapon": "Umbral Master Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Umbral_Master_Axe.webp"
+    },
+    {
+      "weapon": "Umbral Master Chopper",
+      "category": "axes",
+      "success": true,
+      "filePath": "Umbral_Master_Chopper.webp"
+    },
+    {
+      "weapon": "Vile Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Vile_Axe.webp"
+    },
+    {
+      "weapon": "War Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "War_Axe.webp"
+    },
+    {
+      "weapon": "Warrior's Axe",
+      "category": "axes",
+      "success": true,
+      "filePath": "Warrior's_Axe.gif"
+    },
+    {
+      "weapon": "Zaoan Halberd",
+      "category": "axes",
+      "success": true,
+      "filePath": "Zaoan_Halberd.webp"
+    },
+    {
+      "weapon": "Abyss Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Abyss_Hammer.webp"
+    },
+    {
+      "weapon": "Amber Bludgeon",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Amber_Bludgeon.webp"
+    },
+    {
+      "weapon": "Amber Cudgel",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Amber_Cudgel.webp"
+    },
+    {
+      "weapon": "Amber Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Amber_Staff.webp"
+    },
+    {
+      "weapon": "Arcane Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Arcane_Staff.webp"
+    },
+    {
+      "weapon": "Blessed Sceptre",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Blessed_Sceptre.webp"
+    },
+    {
+      "weapon": "Bonebreaker",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Bonebreaker.webp"
+    },
+    {
+      "weapon": "Brutetamer's Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Brutetamer's_Staff.webp"
+    },
+    {
+      "weapon": "Chaos Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Chaos_Mace.webp"
+    },
+    {
+      "weapon": "Clerical Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Clerical_Mace.webp"
+    },
+    {
+      "weapon": "Cobra Club",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Cobra_Club.webp"
+    },
+    {
+      "weapon": "Cranial Basher",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Cranial_Basher.webp"
+    },
+    {
+      "weapon": "Crude Umbral Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Crude_Umbral_Hammer.webp"
+    },
+    {
+      "weapon": "Crude Umbral Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Crude_Umbral_Mace.webp"
+    },
+    {
+      "weapon": "Crystal Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Crystal_Mace.webp"
+    },
+    {
+      "weapon": "Dark Trinity Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Dark_Trinity_Mace.webp"
+    },
+    {
+      "weapon": "Deepling Squelcher",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Deepling_Squelcher.webp"
+    },
+    {
+      "weapon": "Deepling Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Deepling_Staff.webp"
+    },
+    {
+      "weapon": "Demonbone",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Demonbone.webp"
+    },
+    {
+      "weapon": "Diamond Sceptre",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Diamond_Sceptre.webp"
+    },
+    {
+      "weapon": "Dragon Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Dragon_Hammer.webp"
+    },
+    {
+      "weapon": "Dragonbone Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Dragonbone_Staff.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Flail.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Warhammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Warhammer.webp"
+    },
+    {
+      "weapon": "Eldritch Warmace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Eldritch_Warmace.webp"
+    },
+    {
+      "weapon": "Energized Demonbone",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Energized_Demonbone.webp"
+    },
+    {
+      "weapon": "Falcon Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Falcon_Mace.webp"
+    },
+    {
+      "weapon": "Furry Club",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Furry_Club.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Warmace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Warmace.webp"
+    },
+    {
+      "weapon": "Glooth Club",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Glooth_Club.webp"
+    },
+    {
+      "weapon": "Glooth Whip",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Glooth_Whip.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Bludgeon",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Grand_Sanguine_Bludgeon.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Cudgel",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Grand_Sanguine_Cudgel.webp"
+    },
+    {
+      "weapon": "Hammer of Destruction",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Hammer_of_Destruction.webp"
+    },
+    {
+      "weapon": "Hammer of Prophecy",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Hammer_of_Prophecy.webp"
+    },
+    {
+      "weapon": "Hammer of Wrath",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Hammer_of_Wrath.webp"
+    },
+    {
+      "weapon": "Heavy Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Heavy_Mace.webp"
+    },
+    {
+      "weapon": "Inferniarch Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Inferniarch_Flail.webp"
+    },
+    {
+      "weapon": "Inferniarch Warhammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Inferniarch_Warhammer.webp"
+    },
+    {
+      "weapon": "Jade Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Jade_Hammer.webp"
+    },
+    {
+      "weapon": "Jungle Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Jungle_Flail.webp"
+    },
+    {
+      "weapon": "Lich Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Lich_Staff.webp"
+    },
+    {
+      "weapon": "Life Preserver",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Life_Preserver.webp"
+    },
+    {
+      "weapon": "Lion Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Lion_Hammer.webp"
+    },
+    {
+      "weapon": "Lunar Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Lunar_Staff.webp"
+    },
+    {
+      "weapon": "Mace of Destruction",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Mace_of_Destruction.webp"
+    },
+    {
+      "weapon": "Maimer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Maimer.webp"
+    },
+    {
+      "weapon": "Mammoth Whopper",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Mammoth_Whopper.webp"
+    },
+    {
+      "weapon": "Metal Bat",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Metal_Bat.webp"
+    },
+    {
+      "weapon": "Moohtant Cudgel",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Moohtant_Cudgel.webp"
+    },
+    {
+      "weapon": "Mortal Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Mortal_Mace.webp"
+    },
+    {
+      "weapon": "Mycological Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Mycological_Mace.webp"
+    },
+    {
+      "weapon": "Naga Club",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Naga_Club.webp"
+    },
+    {
+      "weapon": "Northern Star",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Northern_Star.webp"
+    },
+    {
+      "weapon": "Obsidian Truncheon",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Obsidian_Truncheon.webp"
+    },
+    {
+      "weapon": "Ogre Klubba",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Ogre_Klubba.webp"
+    },
+    {
+      "weapon": "One Hit Wonder",
+      "category": "clavas",
+      "success": true,
+      "filePath": "One_Hit_Wonder.webp"
+    },
+    {
+      "weapon": "Onyx Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Onyx_Flail.webp"
+    },
+    {
+      "weapon": "Orcish Maul",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Orcish_Maul.webp"
+    },
+    {
+      "weapon": "Ornate Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Ornate_Mace.webp"
+    },
+    {
+      "weapon": "Queen's Sceptre",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Queen's_Sceptre.gif"
+    },
+    {
+      "weapon": "Rending Inferniarch Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Flail.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Warhammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Warhammer.webp"
+    },
+    {
+      "weapon": "Resizer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Resizer.webp"
+    },
+    {
+      "weapon": "Rotten Demonbone",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Rotten_Demonbone.webp"
+    },
+    {
+      "weapon": "Sanguine Bludgeon",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Sanguine_Bludgeon.webp"
+    },
+    {
+      "weapon": "Sanguine Cudgel",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Sanguine_Cudgel.webp"
+    },
+    {
+      "weapon": "Sapphire Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Sapphire_Hammer.webp"
+    },
+    {
+      "weapon": "Shadow Sceptre",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Shadow_Sceptre.webp"
+    },
+    {
+      "weapon": "Silver Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Silver_Mace.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Flail",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Flail.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Warhammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Warhammer.webp"
+    },
+    {
+      "weapon": "Skull Staff",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Skull_Staff.webp"
+    },
+    {
+      "weapon": "Skullcrusher",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Skullcrusher.webp"
+    },
+    {
+      "weapon": "Snake God's Sceptre",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Snake_God's_Sceptre.gif"
+    },
+    {
+      "weapon": "Soulcrusher",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Soulcrusher.webp"
+    },
+    {
+      "weapon": "Soulmaimer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Soulmaimer.webp"
+    },
+    {
+      "weapon": "Spiked Squelcher",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Spiked_Squelcher.webp"
+    },
+    {
+      "weapon": "Spiky Club",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Spiky_Club.webp"
+    },
+    {
+      "weapon": "Sulphurous Demonbone",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Sulphurous_Demonbone.webp"
+    },
+    {
+      "weapon": "Taurus Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Taurus_Mace.webp"
+    },
+    {
+      "weapon": "The Stomper",
+      "category": "clavas",
+      "success": true,
+      "filePath": "The_Stomper.webp"
+    },
+    {
+      "weapon": "Thunder Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Thunder_Hammer.webp"
+    },
+    {
+      "weapon": "Umbral Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Umbral_Hammer.webp"
+    },
+    {
+      "weapon": "Umbral Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Umbral_Mace.webp"
+    },
+    {
+      "weapon": "Umbral Master Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Umbral_Master_Hammer.webp"
+    },
+    {
+      "weapon": "Umbral Master Mace",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Umbral_Master_Mace.webp"
+    },
+    {
+      "weapon": "Unliving Demonbone",
+      "category": "clavas",
+      "success": true,
+      "filePath": "Unliving_Demonbone.webp"
+    },
+    {
+      "weapon": "War Hammer",
+      "category": "clavas",
+      "success": true,
+      "filePath": "War_Hammer.webp"
+    },
+    {
+      "weapon": "Assassin Star",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Assassin_Star.webp"
+    },
+    {
+      "weapon": "Enchanted Spear",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Enchanted_Spear.webp"
+    },
+    {
+      "weapon": "Glooth Spear",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Glooth_Spear.webp"
+    },
+    {
+      "weapon": "Hunting Spear",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Hunting_Spear.webp"
+    },
+    {
+      "weapon": "Leaf Star",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Leaf_Star.webp"
+    },
+    {
+      "weapon": "Royal Spear",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Royal_Spear.webp"
+    },
+    {
+      "weapon": "Royal Star",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Royal_Star.webp"
+    },
+    {
+      "weapon": "Amber Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Amber_Crossbow.webp"
+    },
+    {
+      "weapon": "Arbalest",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Arbalest.webp"
+    },
+    {
+      "weapon": "Chain Bolter",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Chain_Bolter.webp"
+    },
+    {
+      "weapon": "Cobra Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Cobra_Crossbow.webp"
+    },
+    {
+      "weapon": "Crossbow of Destruction",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Crossbow_of_Destruction.webp"
+    },
+    {
+      "weapon": "Crude Umbral Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Crude_Umbral_Crossbow.webp"
+    },
+    {
+      "weapon": "Crystal Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Crystal_Crossbow.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Arbalest",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Arbalest.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Grand_Sanguine_Crossbow.webp"
+    },
+    {
+      "weapon": "Inferniarch Arbalest",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Inferniarch_Arbalest.webp"
+    },
+    {
+      "weapon": "Modified Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Modified_Crossbow.webp"
+    },
+    {
+      "weapon": "Naga Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Naga_Crossbow.webp"
+    },
+    {
+      "weapon": "Ornate Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Ornate_Crossbow.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Arbalest",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Arbalest.webp"
+    },
+    {
+      "weapon": "Rift Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Rift_Crossbow.webp"
+    },
+    {
+      "weapon": "Royal Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Royal_Crossbow.webp"
+    },
+    {
+      "weapon": "Sanguine Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Sanguine_Crossbow.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Arbalest",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Arbalest.webp"
+    },
+    {
+      "weapon": "Soulpiercer",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Soulpiercer.webp"
+    },
+    {
+      "weapon": "The Devileye",
+      "category": "ranged",
+      "success": true,
+      "filePath": "The_Devileye.webp"
+    },
+    {
+      "weapon": "The Ironworker",
+      "category": "ranged",
+      "success": true,
+      "filePath": "The_Ironworker.webp"
+    },
+    {
+      "weapon": "Thorn Spitter",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Thorn_Spitter.webp"
+    },
+    {
+      "weapon": "Triple Bolt Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Triple_Bolt_Crossbow.webp"
+    },
+    {
+      "weapon": "Umbral Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Umbral_Crossbow.webp"
+    },
+    {
+      "weapon": "Umbral Master Crossbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Umbral_Master_Crossbow.webp"
+    },
+    {
+      "weapon": "Amber Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Amber_Bow.webp"
+    },
+    {
+      "weapon": "Bow of Cataclysm",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Bow_of_Cataclysm.webp"
+    },
+    {
+      "weapon": "Bow of Destruction",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Bow_of_Destruction.webp"
+    },
+    {
+      "weapon": "Composite Hornbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Composite_Hornbow.webp"
+    },
+    {
+      "weapon": "Crude Umbral Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Crude_Umbral_Bow.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Bow.webp"
+    },
+    {
+      "weapon": "Eldritch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Eldritch_Bow.webp"
+    },
+    {
+      "weapon": "Elethriel's Elemental Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Elethriel's_Elemental_Bow.gif"
+    },
+    {
+      "weapon": "Falcon Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Falcon_Bow.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Bow.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Grand_Sanguine_Bow.webp"
+    },
+    {
+      "weapon": "Hive Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Hive_Bow.webp"
+    },
+    {
+      "weapon": "Inferniarch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Inferniarch_Bow.webp"
+    },
+    {
+      "weapon": "Jungle Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Jungle_Bow.webp"
+    },
+    {
+      "weapon": "Lion Longbow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Lion_Longbow.webp"
+    },
+    {
+      "weapon": "Living Vine Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Living_Vine_Bow.webp"
+    },
+    {
+      "weapon": "Mycological Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Mycological_Bow.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Bow.webp"
+    },
+    {
+      "weapon": "Rift Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Rift_Bow.webp"
+    },
+    {
+      "weapon": "Sanguine Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Sanguine_Bow.webp"
+    },
+    {
+      "weapon": "Shimmer Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Shimmer_Bow.webp"
+    },
+    {
+      "weapon": "Silkweaver Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Silkweaver_Bow.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Bow.webp"
+    },
+    {
+      "weapon": "Soulbleeder",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Soulbleeder.webp"
+    },
+    {
+      "weapon": "Umbral Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Umbral_Bow.webp"
+    },
+    {
+      "weapon": "Umbral Master Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Umbral_Master_Bow.webp"
+    },
+    {
+      "weapon": "Warsinger Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Warsinger_Bow.webp"
+    },
+    {
+      "weapon": "Yol's Bow",
+      "category": "ranged",
+      "success": true,
+      "filePath": "Yol's_Bow.gif"
+    },
+    {
+      "weapon": "Amber Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Amber_Rod.webp"
+    },
+    {
+      "weapon": "Cobra Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Cobra_Rod.webp"
+    },
+    {
+      "weapon": "Deepling Ceremonial Dagger",
+      "category": "rods",
+      "success": true,
+      "filePath": "Deepling_Ceremonial_Dagger.webp"
+    },
+    {
+      "weapon": "Deepling Fork",
+      "category": "rods",
+      "success": true,
+      "filePath": "Deepling_Fork.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Rod.webp"
+    },
+    {
+      "weapon": "Dream Blossom Staff",
+      "category": "rods",
+      "success": true,
+      "filePath": "Dream_Blossom_Staff.webp"
+    },
+    {
+      "weapon": "Eldritch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Eldritch_Rod.webp"
+    },
+    {
+      "weapon": "Energized Limb",
+      "category": "rods",
+      "success": true,
+      "filePath": "Energized_Limb.webp"
+    },
+    {
+      "weapon": "Falcon Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Falcon_Rod.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Rod.webp"
+    },
+    {
+      "weapon": "Glacial Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Glacial_Rod.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Grand_Sanguine_Rod.webp"
+    },
+    {
+      "weapon": "Hailstorm Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Hailstorm_Rod.webp"
+    },
+    {
+      "weapon": "Inferniarch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Inferniarch_Rod.webp"
+    },
+    {
+      "weapon": "Jungle Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Jungle_Rod.webp"
+    },
+    {
+      "weapon": "Lion Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Lion_Rod.webp"
+    },
+    {
+      "weapon": "Moonlight Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Moonlight_Rod.webp"
+    },
+    {
+      "weapon": "Muck Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Muck_Rod.webp"
+    },
+    {
+      "weapon": "Naga Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Naga_Rod.webp"
+    },
+    {
+      "weapon": "Necrotic Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Necrotic_Rod.webp"
+    },
+    {
+      "weapon": "Northwind Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Northwind_Rod.webp"
+    },
+    {
+      "weapon": "Ogre Scepta",
+      "category": "rods",
+      "success": true,
+      "filePath": "Ogre_Scepta.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Rod.webp"
+    },
+    {
+      "weapon": "Rod of Destruction",
+      "category": "rods",
+      "success": true,
+      "filePath": "Rod_of_Destruction.webp"
+    },
+    {
+      "weapon": "Sanguine Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Sanguine_Rod.webp"
+    },
+    {
+      "weapon": "Shimmer Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Shimmer_Rod.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Rod.webp"
+    },
+    {
+      "weapon": "Snakebite Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Snakebite_Rod.webp"
+    },
+    {
+      "weapon": "Soulhexer",
+      "category": "rods",
+      "success": true,
+      "filePath": "Soulhexer.webp"
+    },
+    {
+      "weapon": "Springsprout Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Springsprout_Rod.webp"
+    },
+    {
+      "weapon": "Terra Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Terra_Rod.webp"
+    },
+    {
+      "weapon": "The Chiller",
+      "category": "rods",
+      "success": true,
+      "filePath": "The_Chiller.webp"
+    },
+    {
+      "weapon": "Underworld Rod",
+      "category": "rods",
+      "success": true,
+      "filePath": "Underworld_Rod.webp"
+    },
+    {
+      "weapon": "Amber Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Amber_Wand.webp"
+    },
+    {
+      "weapon": "Cobra Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Cobra_Wand.webp"
+    },
+    {
+      "weapon": "Deepling Ceremonial Dagger",
+      "category": "wands",
+      "success": true,
+      "filePath": "Deepling_Ceremonial_Dagger.webp"
+    },
+    {
+      "weapon": "Deepling Fork",
+      "category": "wands",
+      "success": true,
+      "filePath": "Deepling_Fork.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Wand.webp"
+    },
+    {
+      "weapon": "Dream Blossom Staff",
+      "category": "wands",
+      "success": true,
+      "filePath": "Dream_Blossom_Staff.webp"
+    },
+    {
+      "weapon": "Eldritch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Eldritch_Wand.webp"
+    },
+    {
+      "weapon": "Energized Limb",
+      "category": "wands",
+      "success": true,
+      "filePath": "Energized_Limb.webp"
+    },
+    {
+      "weapon": "Falcon Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Falcon_Wand.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Wand.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Coil",
+      "category": "wands",
+      "success": true,
+      "filePath": "Grand_Sanguine_Coil.webp"
+    },
+    {
+      "weapon": "Inferniarch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Inferniarch_Wand.webp"
+    },
+    {
+      "weapon": "Jungle Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Jungle_Wand.webp"
+    },
+    {
+      "weapon": "Lion Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Lion_Wand.webp"
+    },
+    {
+      "weapon": "Naga Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Naga_Wand.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Wand.webp"
+    },
+    {
+      "weapon": "Sanguine Coil",
+      "category": "wands",
+      "success": true,
+      "filePath": "Sanguine_Coil.webp"
+    },
+    {
+      "weapon": "Shimmer Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Shimmer_Wand.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Wand",
+      "category": "wands",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Wand.webp"
+    },
+    {
+      "weapon": "Sorcerer and Druid Staff",
+      "category": "wands",
+      "success": true,
+      "filePath": "Sorcerer_and_Druid_Staff.webp"
+    },
+    {
+      "weapon": "Soultainter",
+      "category": "wands",
+      "success": true,
+      "filePath": "Soultainter.webp"
+    },
+    {
+      "weapon": "The Scorcher",
+      "category": "wands",
+      "success": true,
+      "filePath": "The_Scorcher.webp"
+    },
+    {
+      "weapon": "Wand of Cosmic Energy",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Cosmic_Energy.webp"
+    },
+    {
+      "weapon": "Wand of Darkness",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Darkness.webp"
+    },
+    {
+      "weapon": "Wand of Decay",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Decay.webp"
+    },
+    {
+      "weapon": "Wand of Defiance",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Defiance.webp"
+    },
+    {
+      "weapon": "Wand of Destruction",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Destruction.webp"
+    },
+    {
+      "weapon": "Wand of Dimensions",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Dimensions.webp"
+    },
+    {
+      "weapon": "Wand of Draconia",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Draconia.webp"
+    },
+    {
+      "weapon": "Wand of Dragonbreath",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Dragonbreath.webp"
+    },
+    {
+      "weapon": "Wand of Everblazing",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Everblazing.webp"
+    },
+    {
+      "weapon": "Wand of Inferno",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Inferno.webp"
+    },
+    {
+      "weapon": "Wand of Starstorm",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Starstorm.webp"
+    },
+    {
+      "weapon": "Wand of Voodoo",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Voodoo.webp"
+    },
+    {
+      "weapon": "Wand of Vortex",
+      "category": "wands",
+      "success": true,
+      "filePath": "Wand_of_Vortex.webp"
+    },
+    {
+      "weapon": "Amber Kusarigama",
+      "category": "fist",
+      "success": true,
+      "filePath": "Amber_Kusarigama.webp"
+    },
+    {
+      "weapon": "Bambus Jo",
+      "category": "fist",
+      "success": true,
+      "filePath": "Bambus_Jo.webp"
+    },
+    {
+      "weapon": "Cobra Bo",
+      "category": "fist",
+      "success": true,
+      "filePath": "Cobra_Bo.webp"
+    },
+    {
+      "weapon": "Crude Umbral Katar",
+      "category": "fist",
+      "success": true,
+      "filePath": "Crude_Umbral_Katar.webp"
+    },
+    {
+      "weapon": "Depth Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Depth_Claws.webp"
+    },
+    {
+      "weapon": "Drachaku",
+      "category": "fist",
+      "success": true,
+      "filePath": "Drachaku.webp"
+    },
+    {
+      "weapon": "Draining Inferniarch Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Draining_Inferniarch_Claws.webp"
+    },
+    {
+      "weapon": "Eldritch Crescent Moon Spade",
+      "category": "fist",
+      "success": true,
+      "filePath": "Eldritch_Crescent_Moon_Spade.webp"
+    },
+    {
+      "weapon": "Falcon Sai",
+      "category": "fist",
+      "success": true,
+      "filePath": "Falcon_Sai.webp"
+    },
+    {
+      "weapon": "Fists of Enlightenment",
+      "category": "fist",
+      "success": true,
+      "filePath": "Fists_of_Enlightenment.webp"
+    },
+    {
+      "weapon": "Gilded Eldritch Crescent Moon Spade",
+      "category": "fist",
+      "success": true,
+      "filePath": "Gilded_Eldritch_Crescent_Moon_Spade.webp"
+    },
+    {
+      "weapon": "Grand Sanguine Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Grand_Sanguine_Claws.webp"
+    },
+    {
+      "weapon": "Inferniarch Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Inferniarch_Claws.webp"
+    },
+    {
+      "weapon": "Lion Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Lion_Claws.webp"
+    },
+    {
+      "weapon": "Naga Katar",
+      "category": "fist",
+      "success": true,
+      "filePath": "Naga_Katar.webp"
+    },
+    {
+      "weapon": "Nunchaku",
+      "category": "fist",
+      "success": true,
+      "filePath": "Nunchaku.webp"
+    },
+    {
+      "weapon": "Nunchaku of Destruction",
+      "category": "fist",
+      "success": true,
+      "filePath": "Nunchaku_of_Destruction.webp"
+    },
+    {
+      "weapon": "Nunchaku of Enlightenment",
+      "category": "fist",
+      "success": true,
+      "filePath": "Nunchaku_of_Enlightenment.webp"
+    },
+    {
+      "weapon": "Pair of Iron Fists",
+      "category": "fist",
+      "success": true,
+      "filePath": "Pair_of_Iron_Fists.webp"
+    },
+    {
+      "weapon": "Pair of Monk Fists",
+      "category": "fist",
+      "success": true,
+      "filePath": "Pair_of_Monk_Fists.webp"
+    },
+    {
+      "weapon": "Rending Inferniarch Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Rending_Inferniarch_Claws.webp"
+    },
+    {
+      "weapon": "Sai",
+      "category": "fist",
+      "success": true,
+      "filePath": "Sai.webp"
+    },
+    {
+      "weapon": "Sai of Enlightenment",
+      "category": "fist",
+      "success": true,
+      "filePath": "Sai_of_Enlightenment.webp"
+    },
+    {
+      "weapon": "Sanguine Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Sanguine_Claws.webp"
+    },
+    {
+      "weapon": "Siphoning Inferniarch Claws",
+      "category": "fist",
+      "success": true,
+      "filePath": "Siphoning_Inferniarch_Claws.webp"
+    },
+    {
+      "weapon": "Soulkamas",
+      "category": "fist",
+      "success": true,
+      "filePath": "Soulkamas.webp"
+    },
+    {
+      "weapon": "Staff",
+      "category": "fist",
+      "success": true,
+      "filePath": "Staff.webp"
+    },
+    {
+      "weapon": "Traditional Sai",
+      "category": "fist",
+      "success": true,
+      "filePath": "Traditional_Sai.webp"
+    },
+    {
+      "weapon": "Umbral Katar",
+      "category": "fist",
+      "success": true,
+      "filePath": "Umbral_Katar.webp"
+    },
+    {
+      "weapon": "Umbral Master Katar",
+      "category": "fist",
+      "success": true,
+      "filePath": "Umbral_Master_Katar.webp"
+    }
+  ]
+}

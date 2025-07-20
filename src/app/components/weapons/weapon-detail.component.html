@@ -1,0 +1,130 @@
+<!-- Loading State -->
+<div class="svg-loader-overlay" *ngIf="carregando">
+  <div class="svg-loader">
+    <svg
+      fill="#000000"
+      height="200px"
+      width="200px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 452.022 452.022"
+      xml:space="preserve"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905-3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
+        ></path>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="parchment-background">
+  <div class="weapon-detail-container">
+    <div class="weapon-detail-header">
+      <button class="back-btn" (click)="voltarParaLista()">&larr; Voltar</button>
+    </div>
+    <div *ngIf="carregando" class="loading">Carregando...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="weapon" class="weapon-detail-body">
+      <div class="detail-row">
+        <span class="detail-label">Arma Selecionada:</span>
+        <span class="detail-value">{{ weapon.name }}</span>
+      </div>
+      <!-- Proficiencies -->
+      <div *ngIf="hasProficiencies" class="proficiencies">
+        <h2>Proficiências por Nível</h2>
+        <table class="weapon_proficiency_table">
+          <thead>
+            <tr>
+              <th *ngFor="let level of weapon.levels" class="proficiency-level-header">
+                Nível {{ level.level }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td *ngFor="let level of weapon.levels" class="proficiency-level-cell" [attr.data-level]="level.level">
+                <div class="weapon_proficiency_block weapon_proficiency_border">
+                  <div *ngFor="let perk of level.perks" class="perk-block">
+                    <div class="weapon_proficiency_icon" [title]="perk.title">
+                      <!-- Ícones das proficiências -->
+                      <div *ngIf="perk.icons && perk.icons.length > 0" class="icon-container">
+                        <!-- Para 2 ícones: index 0 e index 1 -->
+                        <div *ngIf="perk.icons.length === 2" class="two-icons-layout">
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon icon-first"
+                            (error)="onIconError($event)" />
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[1])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon icon-second"
+                            (error)="onIconError($event)" />
+                        </div>
+                        
+                        <!-- Para 3 ícones: index 0 (canto superior direito), index 1 (fundo), index 2 (final) -->
+                        <div *ngIf="perk.icons.length === 3" class="three-icons-layout">
+                          <!-- Ícone de fundo (index 1) -->
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[1])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon background-icon"
+                            (error)="onIconError($event)" />
+                          <!-- Ícone final (index 2) -->
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[2])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon final-icon"
+                            (error)="onIconError($event)" />
+                          <!-- Ícone no canto superior direito (index 0) - 80% menor -->
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon corner-icon-small"
+                            (error)="onIconError($event)" />
+                        </div>
+                        
+                        <!-- Para 1 ícone: apenas o primeiro -->
+                        <div *ngIf="perk.icons.length === 1" class="single-icon-layout">
+                          <img 
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])" 
+                            [alt]="perk.title"
+                            class="proficiency-icon single-icon"
+                            (error)="onIconError($event)" />
+                        </div>
+                      </div>
+                      <!-- Fallback para emoji se não houver ícone -->
+                      <div 
+                        *ngIf="!perk.icons || perk.icons.length === 0" 
+                        class="proficiency-icon-placeholder">⚔️</div>
+                    </div>
+                    <div 
+                      class="weapon_proficiency_text weapon_proficiency_border"
+                      [class.selected-perk]="level.selectedPerk === perk.title"
+                      (click)="onPerkSelect(level, perk)">
+                      {{ perk.title }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+ 

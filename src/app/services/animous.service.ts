@@ -38,8 +38,8 @@ export class MasteryService {
   carregarMasteriesUsuario(onFinish?: () => void) {
     const userId = this.authService.getUserId();
     const token = this.authService.getToken();
-    console.log('[DEBUG] userId:', userId);
-    console.log('[DEBUG] token:', token);
+    
+    
     if (!userId) {
       console.error('User ID não encontrado');
       if (onFinish) onFinish();
@@ -52,7 +52,7 @@ export class MasteryService {
     }
     
     // PRIMEIRO: Carregar todos os masteries disponíveis
-    console.log('[DEBUG] Carregando todos os masteries disponíveis...');
+    
     const params = new URLSearchParams({
       action: 'list',
       page: '1',
@@ -76,7 +76,7 @@ export class MasteryService {
       }
     }).subscribe({
       next: (res) => {
-        console.log('[DEBUG] Todos os masteries carregados:', res.data.length);
+        
         
         const todos = res.data.map((item: any) => ({
           ...item,
@@ -88,7 +88,7 @@ export class MasteryService {
         this._dadosTodos = todos;
         
         // SEGUNDO: Buscar masteries do usuário
-        console.log('[DEBUG] Buscando masteries do usuário...');
+        
         this.http.get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
           headers: {
             'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export class MasteryService {
           }
         }).subscribe({
           next: (response) => {
-            console.log('[DEBUG] Response do usuário recebido:', response);
+            
             let payload: any[] = [];
             if (Array.isArray(response)) {
               payload = response[0]?.payload;
@@ -105,7 +105,7 @@ export class MasteryService {
                 ? JSON.parse(response.payload)
                 : response.payload;
             }
-            console.log('[DEBUG] Payload extraído:', payload);
+            
             
             if (Array.isArray(payload) && payload.length > 0) {
               // Marcar os masteries do usuário como selecionados
@@ -113,7 +113,7 @@ export class MasteryService {
               const selecionados = todos.filter((item: any) => masteriesUsuarioIds.has(item.id));
               this.selecionados.set(selecionados);
               
-              console.log('[DEBUG] Masteries selecionados:', selecionados.length);
+              
               
               // Ordenar com os selecionados primeiro
               const ordenado = todos.sort((a, b) => {
@@ -129,9 +129,9 @@ export class MasteryService {
               const pageSize = 20;
               const primeiraPagina = ordenado.slice(0, pageSize);
 
-              console.log('[DEBUG] Primeira página:', primeiraPagina.length);
-              console.log('[DEBUG] Total ordenado:', ordenado.length);
-              console.log('[DEBUG] Total páginas:', Math.ceil(ordenado.length / pageSize));
+              
+              
+              
 
               this.dados.set(primeiraPagina);
               this.totalResultados.set(ordenado.length);
@@ -142,7 +142,7 @@ export class MasteryService {
               setTimeout(() => this.toastMessage.set(null), 3000);
             } else {
               // Se não houver masteries salvos, apenas mostrar todos
-              console.log('[DEBUG] Nenhum mastery salvo encontrado, mostrando todos');
+              
               const ordenado = todos.sort((a, b) => 
                 a.name.localeCompare(b.name) ||
                 a.class.name.localeCompare(b.class.name)
@@ -186,8 +186,6 @@ export class MasteryService {
       }
     });
   }
-
-
 
   buscar(
     filtros: { nome?: string; dificuldade?: string; classe?: string },
@@ -488,22 +486,22 @@ export class MasteryService {
     const payload = {
       payload: masteries
     };
-    console.log('Sending payload to save:', payload); // Debug log
+    
     
     this.http.post<any>(`${this.userMasteryUrl}?action=save`, payload).subscribe({
       next: (response) => {
-        console.log('Response received:', response); // Debug log
+        
         
         // Verificar se a resposta indica erro
         if (response && response.success === false && response.message) {
-          console.log('Backend returned error:', response.message); // Debug log
+          
           if (onError) onError(response.message);
           return;
         }
         
         // Verificar se a resposta indica sucesso (success: true ou status 201)
         if (response && (response.success === true || response.hash)) {
-          console.log('Backend returned success:', response); // Debug log
+          
           this.toastMessage.set('Masteries salvos no servidor!');
           if (onSuccess) onSuccess();
           if (onError) onError(null);
@@ -511,19 +509,19 @@ export class MasteryService {
         }
         
         // Caso padrão: tratar como sucesso se não for explicitamente um erro
-        console.log('Treating as success (default case):', response); // Debug log
+        
         this.toastMessage.set('Masteries salvos no servidor!');
         if (onSuccess) onSuccess();
         if (onError) onError(null);
       },
       error: (error) => {
-        console.log('HTTP error received:', error); // Debug log
-        console.log('Error status:', error.status); // Debug log
-        console.log('Error body:', error.error); // Debug log
+        
+        
+        
         
         // Se o erro tem uma mensagem no body, use ela
         if (error.error && error.error.message) {
-          console.log('Using error message from body:', error.error.message); // Debug log
+          
           if (onError) onError(error.error.message);
         } else {
           this.toastMessage.set('Erro ao salvar no servidor!');
