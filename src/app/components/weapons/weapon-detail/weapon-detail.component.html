@@ -40,12 +40,14 @@
         <span class="detail-value">{{ weapon()?.name }}</span>
       </div>
       <!-- Proficiencies -->
-      <div *ngIf="hasProficiencies" class="proficiencies">
-        <h2>Proficiências por Nível</h2>
-        <span class="acao-item" (click)="salvarSelecionados()">
-          <img src="assets/icons-svg/floppy-disk.svg" alt="Salvar" class="svg-button" />
-          <span>Salvar</span>
-        </span>
+              <div *ngIf="hasProficiencies" class="proficiencies">
+          <div class="proficiencies-header">
+            <h2>Proficiências por Nível</h2>
+            <span class="acao-item" (click)="salvarSelecionados()">
+              <img src="assets/icons-svg/floppy-disk.svg" alt="Salvar" class="svg-button" />
+              <span>Salvar</span>
+            </span>
+          </div>
         <table class="weapon_proficiency_table">
           <thead>
             <tr>
