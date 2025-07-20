@@ -39,10 +39,10 @@
 }
 
 .category-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
-  justify-content: center;
+  justify-items: center;
 }
 
 .category-btn {
@@ -517,4 +517,176 @@
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+// ====================================
+// Responsividade Mobile Melhorada
+// ====================================
+
+@media (max-width: 768px) {
+  .parchment-background {
+    padding: 0;
+  }
+
+  .consulta-layout {
+    padding: 0.5rem;
+  }
+
+  .tavernatibiana-title {
+    font-size: 2rem;
+    margin: 1rem 0;
+  }
+
+  .parchment-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  // Grid de categorias mais compacto
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .category-btn {
+    min-width: auto;
+    padding: 0.8rem 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .category-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  // Botões full-width
+  .button-medieval {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+  }
+
+  // Seções dentro do card principal
+  .saved-weapons-section,
+  .category-section {
+    hr {
+      margin: 1rem 0;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      
+      .svg-icon {
+        width: 1.2em;
+        height: 1.2em;
+      }
+    }
+
+    .medieval-text {
+      font-size: 0.9rem;
+    }
+
+    .medieval-intro {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+
+  // Grid de armas salvas
+  .saved-weapons-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .saved-weapon-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tavernatibiana-title {
+    font-size: 1.8rem;
+  }
+
+  .parchment-card {
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  // Voltar button mais compacto
+  .voltar-button-card {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  // Grid de categorias em uma coluna
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .category-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .category-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  // Textos menores
+  .medieval-text {
+    font-size: 0.9rem;
+  }
+
+  .medieval-intro {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  // Seções mais compactas
+  .saved-weapons-section,
+  .category-section {
+    hr {
+      margin: 0.8rem 0;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: center;
+    }
+  }
+
+  // Back button
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  // Search input
+  .search-input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  // Weapons grid mobile
+  .weapons-grid {
+    gap: 0.8rem;
+  }
+
+  .weapon-card {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .weapon-name {
+    font-size: 1rem;
+  }
 } 
