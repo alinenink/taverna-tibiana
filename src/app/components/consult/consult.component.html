@@ -42,7 +42,7 @@
     <form class="parchment-card" (submit)="consultarPersonagem()">
       <button class="voltar-button-card" [routerLink]="'/home'">Voltar</button>
       <h2 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-        <img src="assets/magnifier.svg" alt="Consulta" class="svg-icon" />
+        <img src="assets/icons-svg/magnifier.svg" alt="Consulta" class="svg-icon" />
         Consulta de Personagem
       </h2>
       <hr />
@@ -65,11 +65,11 @@
 
       <ul>
         <li>
-          <img src="assets/id-card.svg" alt="name" class="svg-icon" />
+          <img src="assets/icons-svg/id-card.svg" alt="name" class="svg-icon" />
           <strong>Nome:</strong> {{ characterData.name }}
         </li>
         <li>
-          <img src="assets/star.svg" alt="level" class="svg-icon" /><strong
+          <img src="assets/icons-svg/star.svg" alt="level" class="svg-icon" /><strong
             >Nível:</strong
           >
           {{ characterData.level }}

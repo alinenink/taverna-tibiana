@@ -223,18 +223,18 @@ export class WeaponsComponent implements OnInit {
     this.weapons.set(filteredWeapons);
   }
 
-  getCategoryIcon(categoryId: string): string {
+    getCategoryIcon(categoryId: string): string {
     const icons: { [key: string]: string } = {
-      swords: 'assets/swords.svg',
-      axes: 'assets/axes.svg',
-      clavas: 'assets/mace.svg',
-      ranged: 'assets/bow-and-arrow.svg',
-      rods: 'assets/magic-wand.svg',
-      wands: 'assets/wooden-stick.svg',
-      fist: 'assets/protest.svg'
+      swords: 'assets/icons-svg/swords.svg',
+      axes: 'assets/icons-svg/axes.svg',
+      clavas: 'assets/icons-svg/mace.svg',
+      ranged: 'assets/icons-svg/bow-and-arrow.svg',
+      rods: 'assets/icons-svg/magic-wand.svg',
+      wands: 'assets/icons-svg/wooden-stick.svg',
+      fist: 'assets/icons-svg/protest.svg'
     };
-    
-    return icons[categoryId] || 'assets/swords.svg';
+
+    return icons[categoryId] || 'assets/icons-svg/swords.svg';
   }
 
   /**

@@ -279,9 +279,9 @@ describe('WeaponsComponent', () => {
   });
 
   it('should get category icon', () => {
-    expect(component.getCategoryIcon('swords')).toBe('assets/sword-svgrepo-com.svg');
-    expect(component.getCategoryIcon('machados')).toBe('assets/exerciseweapons.svg');
-    expect(component.getCategoryIcon('unknown')).toBe('assets/sword-svgrepo-com.svg');
+    expect(component.getCategoryIcon('swords')).toBe('assets/icons-svg/swords.svg');
+    expect(component.getCategoryIcon('axes')).toBe('assets/icons-svg/axes.svg');
+    expect(component.getCategoryIcon('unknown')).toBe('assets/icons-svg/swords.svg');
   });
 
   it('should check if weapon has elemental damage', () => {
