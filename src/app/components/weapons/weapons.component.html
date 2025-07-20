@@ -49,28 +49,14 @@
         Porque, convenhamos: até um ogro acerta com uma clava... mas só um verdadeiro herói sabe quando, como e com estilo.<br><br>
         Então bora, guerreiro! Domina teu arsenal e mostra ao mundo que tu não é só mais um que balança a espada sem saber pra onde vai!
       </p>
-    </div>
 
-    <!-- Error State -->
-    <div *ngIf="error()" class="error-message">
-      <div class="parchment-card error-card">
-        <h2>Erro no Arsenal</h2>
-        <p>{{ error() }}</p>
-        <button (click)="loadCategories()" class="retry-btn">Tentar Novamente</button>
-      </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div *ngIf="!carregando && !error()" class="weapons-container">
-    
-    <!-- Seção de Armas Salvas -->
-    <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
-      <div class="parchment-card saved-weapons-card">
-        <h2>
+      <!-- Seção de Armas Salvas (dentro do card principal) -->
+      <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
+        <hr style="margin: 1.5rem 0;" />
+        <h3>
           <img src="assets/icons-svg/arsenalweapons.svg" alt="Armas Domadas" class="svg-icon" />
           Armas Domadas pelo Aventureiro
-        </h2>
-        <hr />
+        </h3>
         <div style="display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem;">
           <strong class="medieval-text">Relíquias já conquistadas, afiadas e prontas pra briga.</strong>
         </div>
@@ -87,15 +73,14 @@
           </button>
         </div>
       </div>
-    </div>
-    <!-- Category Selection -->
-    <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
-      <div class="parchment-card category-card">
-        <h2>
+
+      <!-- Category Selection (dentro do card principal) -->
+      <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
+        <hr style="margin: 1.5rem 0;" />
+        <h3>
           <img src="assets/icons-svg/arsenalweapons.svg" alt="Espada" class="svg-icon" />
           Escolha sua Arma
-        </h2>
-        <hr />
+        </h3>
         <div class="category-grid">
           <button 
             *ngFor="let cat of categories()" 
@@ -107,6 +92,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Error State -->
+    <div *ngIf="error()" class="error-message">
+      <div class="parchment-card error-card">
+        <h2>Erro no Arsenal</h2>
+        <p>{{ error() }}</p>
+        <button (click)="loadCategories()" class="retry-btn">Tentar Novamente</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div *ngIf="!carregando && !error()" class="weapons-container">
+    
+
 
     <!-- Lista de Armas Salvas -->
     <div class="saved-weapons-list-section" *ngIf="showSavedWeapons()">
