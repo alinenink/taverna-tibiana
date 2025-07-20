@@ -128,6 +128,8 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 .weapon-card {
   background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
@@ -142,6 +144,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .weapon-card:hover {
   box-shadow: 0 8px 24px rgba(160, 121, 71, 0.18);
@@ -287,17 +290,28 @@
   }
 }
 @media (max-width: 600px) {
+  .weapons-container {
+    padding: 0.3rem;
+  }
+  
   .category-grid {
     gap: 0.5rem;
   }
+  
   .weapons-grid {
-    flex-direction: column;
-    gap: 0.7rem;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
   }
+  
   .weapon-card {
     min-width: 0;
     max-width: 100%;
     width: 100%;
+    padding: 1rem 0.6rem;
+    box-sizing: border-box;
   }
   .parchment-card {
     padding: 0.7rem 0.2rem;
@@ -311,6 +325,15 @@
   .parchment-card h2 .svg-icon {
     width: 1.2em;
     height: 1.2em;
+  }
+  
+  .weapon-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .weapon-name {
+    font-size: 0.95rem;
   }
 }
 
@@ -509,6 +532,11 @@
     padding: 0;
   }
 
+  .weapons-container {
+    padding: 0.5rem;
+    max-width: 100%;
+  }
+
   .consulta-layout {
     padding: 0.5rem;
   }
@@ -522,6 +550,8 @@
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   // Grid de categorias mais compacto
@@ -581,13 +611,10 @@
     }
 
     .medieval-text {
-      font-size: 0.9rem;
+      font-size: 1.1rem;
     }
 
-    .medieval-intro {
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+   
   }
 
   // Grid de armas salvas
@@ -649,13 +676,10 @@
 
   // Textos menores
   .medieval-text {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 
-  .medieval-intro {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
+
 
   // Seções mais compactas
   .saved-weapons-section,
@@ -687,17 +711,66 @@
 
   // Weapons grid mobile
   .weapons-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1rem;
     margin-top: 1rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .weapon-card {
     padding: 1.2rem 0.8rem;
     border-radius: 10px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
   }
 
   .weapon-name {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .weapons-container {
+    padding: 0.2rem;
+  }
+  
+  .parchment-card {
+    padding: 0.8rem 0.5rem;
+    margin: 0.5rem 0;
+  }
+  
+  .weapons-grid {
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  .weapon-card {
+    padding: 0.8rem 0.5rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+  }
+  
+  .weapon-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .weapon-name {
+    font-size: 0.9rem;
+  }
+  
+  .search-input {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
 } 
