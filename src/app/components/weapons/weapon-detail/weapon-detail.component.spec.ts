@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { WeaponDetailComponent } from './weapon-detail.component';
-import { WeaponsService } from '../../services/weapons.service';
+import { WeaponsService } from '../../../services/weapons.service';
 
 // Importar tipos do Jasmine para resolver erros de linter
 declare var describe: any;

@@ -18,5 +18,5 @@ export const appRoutes: Routes = [
   { path: 'calculators', loadComponent: () => import('./components/calculators/calculators.component').then(m => m.CalculatorsComponent), canActivate: [authGuard] },
 
   { path: 'weapons', loadComponent: () => import('./components/weapons/weapons.component').then(m => m.WeaponsComponent), canActivate: [authGuard] },
-  { path: 'weapons/:category/:name', loadComponent: () => import('./components/weapons/weapon-detail.component').then(m => m.WeaponDetailComponent), canActivate: [authGuard] },
+  { path: 'weapons/:category/:name', loadComponent: () => import('./components/weapons/weapon-detail/weapon-detail.component').then(m => m.WeaponDetailComponent), canActivate: [authGuard] },
 ];
