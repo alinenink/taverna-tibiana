@@ -292,9 +292,6 @@ export class WeaponDetailComponent implements OnInit {
         this.saveMessage.set(response.message || 'Proficiência salva com sucesso!');
         this.saveSuccess.set(true);
         console.log('Build salvo na API:', response.data);
-        
-        // Opcionalmente, ainda baixar o JSON como backup
-        this.downloadJSON(weaponBuild);
       } else {
         this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
         this.saveSuccess.set(false);
@@ -304,54 +301,13 @@ export class WeaponDetailComponent implements OnInit {
       console.error('Erro ao salvar proficiência:', error);
       this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
       this.saveSuccess.set(false);
-      
-      // Em caso de erro, oferecer download como fallback
-      const currentWeapon = this.weapon();
-      if (currentWeapon) {
-        const selectedPerks = currentWeapon.levels.map(level => ({
-          level: level.level,
-          selectedPerks: level.perks
-            .filter(perk => perk.selected)
-            .map(perk => ({
-              icons: perk.icons,
-              description: perk.description,
-              title: perk.title
-            }))
-        })).filter(level => level.selectedPerks.length > 0);
-
-        const weaponBuild = {
-          weapon: {
-            name: currentWeapon.name,
-            category: currentWeapon.category,
-            image_url: currentWeapon.image_url
-          },
-          selectedPerks: selectedPerks,
-          createdAt: new Date().toISOString(),
-          version: '1.0'
-        };
-        
-        this.downloadJSON(weaponBuild);
-      }
     } finally {
       this.saving.set(false);
       this.clearSaveMessage();
     }
   }
 
-  private downloadJSON(weaponBuild: any): void {
-    const jsonString = JSON.stringify(weaponBuild, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${weaponBuild.weapon.name.replace(/\s+/g, '_')}_build.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    URL.revokeObjectURL(url);
-  }
+
 
   private clearSaveMessage(): void {
     setTimeout(() => {
