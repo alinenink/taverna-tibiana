@@ -132,15 +132,9 @@
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(160, 121, 71, 0.07);
   min-width: 88px;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.perk-block:hover {
-  background: #f5e1b8;
-  border-color: #a88d5a;
-  transform: translateX(4px);
-}
+
 
 .perk-block:last-child {
   margin-bottom: 0;
@@ -314,14 +308,9 @@
   border: 1px solid #d4c292;
   text-align: center;
   margin-top: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.weapon_proficiency_text:hover {
-  background: #f5e1b8;
-  border-color: #a88d5a;
-}
+
 
 .weapon_proficiency_text.selected-perk {
   background: #e8f5e8;
