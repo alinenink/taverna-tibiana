@@ -191,7 +191,7 @@ export class WeaponDetailComponent implements OnInit {
       
       // Selecionar a perk atual
       perk.selected = true;
-      level.selectedPerk = perk.title;
+      level.selectedPerk = perk.description;
       
       // Habilitar o próximo nível
       this.enableNextLevel(levelIndex);
