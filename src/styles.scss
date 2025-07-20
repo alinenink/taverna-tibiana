@@ -404,6 +404,14 @@ body {
   line-height: 1.6;
 }
 
+.intro-text {
+  font-family: 'MedievalSharp', serif;
+  font-size: 1.13rem;
+  margin-bottom: 1.5rem;
+  color: #4b2e1e;
+  line-height: 1.7;
+}
+
 /******************************************/
 /* Destaque de texto                      */
 /******************************************/
@@ -1385,6 +1393,7 @@ body {
 .medieval-text {
   margin: 1em;
   font-size: 1.3rem;
+  font-family: 'MedievalSharp', serif;
 }
 
 .medieval-intro {
