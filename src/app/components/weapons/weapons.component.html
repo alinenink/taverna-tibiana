@@ -50,6 +50,24 @@
         Então bora, guerreiro! Domina teu arsenal e mostra ao mundo que tu não é só mais um que balança a espada sem saber pra onde vai!
       </p>
 
+      <!-- Category Selection (dentro do card principal) -->
+      <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
+        <hr style="margin: 1.5rem 0;" />
+        <h3>
+          <img src="assets/icons-svg/arsenalweapons.svg" alt="Espada" class="svg-icon" />
+          Escolha sua Arma
+        </h3>
+        <div class="category-grid">
+          <button 
+            *ngFor="let cat of categories()" 
+            (click)="onCategoryChange(cat.id)"
+            class="category-btn">
+            <img [src]="getCategoryIcon(cat.id)" [alt]="cat.name" class="category-icon" />
+            <span>{{ cat.name }}</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Seção de Armas Salvas (dentro do card principal) -->
       <div class="saved-weapons-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
         <hr style="margin: 1.5rem 0;" />
@@ -70,24 +88,6 @@
           <button class="primary-btn" (click)="showSavedWeaponsSection()">
             <img src="assets/icons-svg/arsenalweapons.svg" alt="Ver" class="btn-icon" />
             Ver Minhas Armas Domadas
-          </button>
-        </div>
-      </div>
-
-      <!-- Category Selection (dentro do card principal) -->
-      <div class="category-section" *ngIf="!showCategoryList() && !showSavedWeapons()">
-        <hr style="margin: 1.5rem 0;" />
-        <h3>
-          <img src="assets/icons-svg/arsenalweapons.svg" alt="Espada" class="svg-icon" />
-          Escolha sua Arma
-        </h3>
-        <div class="category-grid">
-          <button 
-            *ngFor="let cat of categories()" 
-            (click)="onCategoryChange(cat.id)"
-            class="category-btn">
-            <img [src]="getCategoryIcon(cat.id)" [alt]="cat.name" class="category-icon" />
-            <span>{{ cat.name }}</span>
           </button>
         </div>
       </div>
