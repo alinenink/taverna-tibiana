@@ -1,5 +1,5 @@
 <!-- Loading State -->
-<div class="svg-loader-overlay" *ngIf="carregando">
+<div class="svg-loader-overlay" *ngIf="loading()">
   <div class="svg-loader">
     <svg
       fill="#000000"
@@ -32,12 +32,12 @@
     <div class="weapon-detail-header">
       <button class="back-btn" (click)="voltarParaLista()">&larr; Voltar</button>
     </div>
-    <div *ngIf="carregando" class="loading">Carregando...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
-    <div *ngIf="weapon" class="weapon-detail-body">
+    <div *ngIf="loading()" class="loading">Carregando...</div>
+    <div *ngIf="error()" class="error">{{ error() }}</div>
+    <div *ngIf="weapon()" class="weapon-detail-body">
       <div class="detail-row">
         <span class="detail-label">Arma Selecionada:</span>
-        <span class="detail-value">{{ weapon.name }}</span>
+        <span class="detail-value">{{ weapon()?.name }}</span>
       </div>
       <!-- Proficiencies -->
       <div *ngIf="hasProficiencies" class="proficiencies">
@@ -45,14 +45,14 @@
         <table class="weapon_proficiency_table">
           <thead>
             <tr>
-              <th *ngFor="let level of weapon.levels" class="proficiency-level-header">
+              <th *ngFor="let level of weapon()?.levels" class="proficiency-level-header">
                 Nível {{ level.level }}
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td *ngFor="let level of weapon.levels" class="proficiency-level-cell" [attr.data-level]="level.level">
+              <td *ngFor="let level of weapon()?.levels" class="proficiency-level-cell" [attr.data-level]="level.level">
                 <div class="weapon_proficiency_block weapon_proficiency_border">
                   <div *ngFor="let perk of level.perks" class="perk-block">
                     <div class="weapon_proficiency_icon" [title]="perk.title">

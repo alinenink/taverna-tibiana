@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
@@ -31,9 +31,10 @@ interface WeaponDetail {
   styleUrls: ['./weapon-detail.component.scss']
 })
 export class WeaponDetailComponent implements OnInit {
-  weapon: WeaponDetail | null = null;
-  carregando = true;
-  error: string | null = null;
+  // Angular Signals para estado reativo
+  weapon = signal<WeaponDetail | null>(null);
+  loading = signal<boolean>(true);
+  error = signal<string | null>(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -51,8 +52,8 @@ export class WeaponDetailComponent implements OnInit {
   }
 
   loadWeaponDetail(category: string, name: string) {
-    this.carregando = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
 
     // Buscar dados reais da API
     this.weaponsService.getWeaponDetails(category as any, decodeURIComponent(name))
@@ -61,21 +62,21 @@ export class WeaponDetailComponent implements OnInit {
           
           if (response.success && response.weapon) {
             // Converter dados da API para o formato do componente
-            this.weapon = {
+            this.weapon.set({
               name: response.weapon.name,
               category: response.category.id,
               image_url: `assets/itens/${response.weapon.name}.webp`, // Fallback para imagem
               levels: this.convertProficiencyLevels(response.weapon.proficiency?.levels || [])
-            };
+            });
           } else {
-            this.error = response.message || 'Erro ao carregar detalhes da arma';
+            this.error.set(response.message || 'Erro ao carregar detalhes da arma');
           }
-          this.carregando = false;
+          this.loading.set(false);
         },
         error: (error) => {
           console.error('Erro ao carregar detalhes da arma:', error);
-          this.error = 'Erro ao carregar detalhes da arma. Tente novamente.';
-          this.carregando = false;
+          this.error.set('Erro ao carregar detalhes da arma. Tente novamente.');
+          this.loading.set(false);
         }
       });
   }
@@ -205,7 +206,8 @@ export class WeaponDetailComponent implements OnInit {
   }
 
   get hasProficiencies(): boolean {
-    return !!(this.weapon?.levels && this.weapon.levels.length > 0);
+    const currentWeapon = this.weapon();
+    return !!(currentWeapon?.levels && currentWeapon.levels.length > 0);
   }
 
 

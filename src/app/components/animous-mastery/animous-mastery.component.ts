@@ -7,12 +7,12 @@ import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
-  selector: 'app-animous-mastery.',
-  styleUrls: ['./animous-mastery.component.scss'],
+  selector: 'app-animous-mastery',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   providers: [MasteryService],
   templateUrl: './animous-mastery.component.html',
+  styleUrls: ['./animous-mastery.component.scss']
 })
 export class AnimousMasteryComponent implements OnInit {
   filtros = { nome: '', dificuldade: '', classe: '' };
