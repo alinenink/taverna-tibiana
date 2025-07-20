@@ -4,6 +4,7 @@ import { ConsultComponent } from './components/consult/consult.component';
 import { AnimousMasteryComponent } from './components/animous-mastery/animous-mastery.component';
 import { SimulationComponent } from './components/simulation/simulation.component';
 import { LoginComponent } from './components/login/login.component';
+import { GrimorioComponent } from './components/grimorio/grimorio.component';
 import { authGuard } from './guards/auth.guard';
 
 export const appRoutes: Routes = [
@@ -15,6 +16,7 @@ export const appRoutes: Routes = [
   { path: 'consult', component: ConsultComponent, canActivate: [authGuard] },
   { path: 'animous-mastery', component: AnimousMasteryComponent, canActivate: [authGuard] },
   { path: 'simulacao', component: SimulationComponent, canActivate: [authGuard] },
+  { path: 'grimorio', component: GrimorioComponent, canActivate: [authGuard] },
   { path: 'calculators', loadComponent: () => import('./components/calculators/calculators.component').then(m => m.CalculatorsComponent), canActivate: [authGuard] },
 
   { path: 'weapons', loadComponent: () => import('./components/weapons/weapons.component').then(m => m.WeaponsComponent), canActivate: [authGuard] },

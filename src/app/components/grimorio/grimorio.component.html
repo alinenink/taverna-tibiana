@@ -1,0 +1,103 @@
+<div class="parchment-background">
+  <div class="grimorio-container">
+    <!-- Título Principal -->
+    <h1 class="tavernatibiana-title">Grimório das Jornadas</h1>
+
+    <!-- Card Principal com Descrição -->
+    <div class="parchment-card main-card">
+      <div class="grimorio-header">
+        <img src="assets/icons-svg/spell-book.svg" alt="Grimório" class="grimorio-icon" />
+        <h2>Aquele livrão onde tu anota o que vai fazer... se não esquecer, claro.</h2>
+      </div>
+      <hr />
+      
+      <div class="grimorio-description">
+        <p class="intro-text">
+          Ah, aventureiro! Sentai-vos aqui perto da lareira, que o velho taberneiro vai te mostrar um artefato raríssimo: o Grimório das Jornadas!
+        </p>
+        
+        <p class="warning-text">
+          Dizem que ele não morde, mas já deixou muito guerreiro em pânico ao ver quantas espadas ainda não domina e quantos bichos ainda faltam no bestiário!
+        </p>
+
+        <p class="features-title">Aqui tu pode anotar tudinho:</p>
+        <ul class="features-list">
+          <li>– Qual machado já sabes girar sem decepar o próprio pé,</li>
+          <li>– Qual criatura já enfrentaste sem sair correndo,</li>
+          <li>– E até planejar qual fera encarar na próxima lua cheia (com ou sem coragem, aí já é contigo).</li>
+        </ul>
+
+        <p class="purpose-text">
+          Serve pra botar ordem na bagunça e fingir que tens um plano — o que, convenhamos, já é meio caminho andado.
+        </p>
+
+        <p class="call-to-action">
+          Então abre logo esse grimório e começa a organizar tua glória... ou ao menos tenta.
+        </p>
+
+        <p class="final-warning">
+          <strong>E lembra:</strong> quem planeja, sobrevive. Quem não planeja… bem, a taverna agradece o loot deixado!
+        </p>
+      </div>
+    </div>
+
+    <!-- Cards dos Capítulos -->
+    <div class="capitulos-section">
+      <div class="capitulos-grid">
+        <!-- Capítulo das Armas Domadas -->
+        <div class="parchment-card capitulo-card" (click)="navigateToWeapons()">
+          <div class="capitulo-header">
+            <img src="assets/icons-svg/swords.svg" alt="Armas" class="capitulo-icon" />
+            <h3>Capítulo das Armas Domadas</h3>
+          </div>
+          <hr />
+          <div class="capitulo-content">
+            <p>
+              Registre suas conquistas com as lâminas, machados, clavas e armas de longo alcance. 
+              Anote quais proficiências já domina e quais ainda precisam ser aperfeiçoadas.
+            </p>
+            <div class="capitulo-footer">
+              <img src="assets/icons-svg/star.svg" alt="Acessar" class="arrow-icon" />
+              <span>Explorar Arsenal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo das Criaturas Enfrentadas -->
+        <div class="parchment-card capitulo-card coming-soon">
+          <div class="capitulo-header">
+            <img src="assets/icons-svg/evoland-2-svgrepo-com.svg" alt="Criaturas" class="capitulo-icon" />
+            <h3>Capítulo das Criaturas Enfrentadas</h3>
+          </div>
+          <hr />
+          <div class="capitulo-content">
+            <p>
+              Documente seus encontros com as feras de Tibia. Registre vitórias, derrotas e 
+              estratégias para futuras batalhas contra as criaturas dos reinos.
+            </p>
+            <div class="capitulo-footer coming-soon-text">
+              <img src="assets/icons-svg/lightbulb.svg" alt="Em breve" class="lightbulb-icon" />
+              <span>Em breve...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Voltar -->
+    <div class="navigation-section">
+      <div class="parchment-card navigation-card">
+        <button [routerLink]="'/home'" class="nav-btn">
+          <img src="assets/icons-svg/star.svg" alt="Home" class="nav-icon" />
+          Voltar ao Lar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="tavernatibiana-footer">
+    <hr class="footer-separator" />
+    <p>© Taverna Tibiana | Grimório das Jornadas</p>
+  </footer>
+</div>
