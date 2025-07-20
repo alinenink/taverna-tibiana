@@ -43,10 +43,20 @@
               <div *ngIf="hasProficiencies" class="proficiencies">
           <div class="proficiencies-header">
             <h2>Proficiências por Nível</h2>
-            <span class="acao-item" (click)="salvarSelecionados()">
+            <span 
+              class="acao-item" 
+              [class.loading]="saving()"
+              [class.disabled]="saving()"
+              (click)="!saving() && salvarSelecionados()">
               <img src="assets/icons-svg/floppy-disk.svg" alt="Salvar" class="svg-button" />
-              <span>Salvar</span>
+              <span *ngIf="!saving()">Salvar</span>
+              <span *ngIf="saving()">Salvando...</span>
             </span>
+          </div>
+          
+          <!-- Mensagem de feedback -->
+          <div *ngIf="saveMessage()" class="save-feedback" [class.success]="saveSuccess()" [class.error]="!saveSuccess()">
+            {{ saveMessage() }}
           </div>
         <table class="weapon_proficiency_table">
           <thead>

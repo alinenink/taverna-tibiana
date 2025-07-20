@@ -5,6 +5,7 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { WeaponsService } from '../../../services/weapons.service';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { ProficiencyApiService } from '../../../services/proficiency-api.service';
 
 interface WeaponLevel {
   level: number;
@@ -41,10 +42,16 @@ export class WeaponDetailComponent implements OnInit {
   // Signal para gerenciar seleções das perks (nível → índice da perk selecionada)
   selectedPerks = signal<{ [level: number]: number }>({});
 
+  // Signals para API e feedback
+  saving = signal<boolean>(false);
+  saveMessage = signal<string | null>(null);
+  saveSuccess = signal<boolean>(false);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public weaponsService: WeaponsService
+    public weaponsService: WeaponsService,
+    private proficiencyApiService: ProficiencyApiService
   ) {
   }
 
@@ -238,49 +245,119 @@ export class WeaponDetailComponent implements OnInit {
     );
   }
 
-  salvarSelecionados(): void {
+  async salvarSelecionados(): Promise<void> {
     const currentWeapon = this.weapon();
     if (!currentWeapon) return;
 
-    // Coletar perks selecionadas
-    const selectedPerks = currentWeapon.levels.map(level => ({
-      level: level.level,
-      selectedPerks: level.perks
-        .filter(perk => perk.selected)
-        .map(perk => ({
-          icons: perk.icons,
-          description: perk.description,
-          title: perk.title
-        }))
-    })).filter(level => level.selectedPerks.length > 0);
+    // Verificar se há perks selecionadas
+    if (!this.hasSelectedPerks()) {
+      this.saveMessage.set('Selecione pelo menos uma proficiência antes de salvar.');
+      this.saveSuccess.set(false);
+      this.clearSaveMessage();
+      return;
+    }
 
-    // Criar objeto do build
-    const weaponBuild = {
-      weapon: {
-        name: currentWeapon.name,
-        category: currentWeapon.category,
-        image_url: currentWeapon.image_url
-      },
-      selectedPerks: selectedPerks,
-      createdAt: new Date().toISOString(),
-      version: '1.0'
-    };
+    this.saving.set(true);
+    this.saveMessage.set(null);
 
-    // Gerar e baixar arquivo JSON
+    try {
+      // Coletar perks selecionadas
+      const selectedPerks = currentWeapon.levels.map(level => ({
+        level: level.level,
+        selectedPerks: level.perks
+          .filter(perk => perk.selected)
+          .map(perk => ({
+            icons: perk.icons,
+            description: perk.description,
+            title: perk.title
+          }))
+      })).filter(level => level.selectedPerks.length > 0);
+
+      // Criar objeto do build
+      const weaponBuild = {
+        weapon: {
+          name: currentWeapon.name,
+          category: currentWeapon.category,
+          image_url: currentWeapon.image_url
+        },
+        selectedPerks: selectedPerks,
+        createdAt: new Date().toISOString(),
+        version: '1.0'
+      };
+
+      // Enviar para a API
+      const response = await this.proficiencyApiService.save(weaponBuild);
+
+      if (response.success) {
+        this.saveMessage.set(response.message || 'Proficiência salva com sucesso!');
+        this.saveSuccess.set(true);
+        console.log('Build salvo na API:', response.data);
+        
+        // Opcionalmente, ainda baixar o JSON como backup
+        this.downloadJSON(weaponBuild);
+      } else {
+        this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
+        this.saveSuccess.set(false);
+      }
+
+    } catch (error) {
+      console.error('Erro ao salvar proficiência:', error);
+      this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
+      this.saveSuccess.set(false);
+      
+      // Em caso de erro, oferecer download como fallback
+      const currentWeapon = this.weapon();
+      if (currentWeapon) {
+        const selectedPerks = currentWeapon.levels.map(level => ({
+          level: level.level,
+          selectedPerks: level.perks
+            .filter(perk => perk.selected)
+            .map(perk => ({
+              icons: perk.icons,
+              description: perk.description,
+              title: perk.title
+            }))
+        })).filter(level => level.selectedPerks.length > 0);
+
+        const weaponBuild = {
+          weapon: {
+            name: currentWeapon.name,
+            category: currentWeapon.category,
+            image_url: currentWeapon.image_url
+          },
+          selectedPerks: selectedPerks,
+          createdAt: new Date().toISOString(),
+          version: '1.0'
+        };
+        
+        this.downloadJSON(weaponBuild);
+      }
+    } finally {
+      this.saving.set(false);
+      this.clearSaveMessage();
+    }
+  }
+
+  private downloadJSON(weaponBuild: any): void {
     const jsonString = JSON.stringify(weaponBuild, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${currentWeapon.name.replace(/\s+/g, '_')}_build.json`;
+    link.download = `${weaponBuild.weapon.name.replace(/\s+/g, '_')}_build.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
     URL.revokeObjectURL(url);
+  }
 
-    console.log('Build salvo:', weaponBuild);
+  private clearSaveMessage(): void {
+    setTimeout(() => {
+      this.saveMessage.set(null);
+      this.saveSuccess.set(false);
+    }, 4000);
   }
 
 
