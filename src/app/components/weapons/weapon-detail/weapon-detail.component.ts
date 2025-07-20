@@ -229,6 +229,59 @@ export class WeaponDetailComponent implements OnInit {
     }
   }
 
+  hasSelectedPerks(): boolean {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return false;
+
+    return currentWeapon.levels.some(level => 
+      level.perks.some(perk => perk.selected)
+    );
+  }
+
+  salvarBuild(): void {
+    const currentWeapon = this.weapon();
+    if (!currentWeapon) return;
+
+    // Coletar perks selecionadas
+    const selectedPerks = currentWeapon.levels.map(level => ({
+      level: level.level,
+      selectedPerks: level.perks
+        .filter(perk => perk.selected)
+        .map(perk => ({
+          icons: perk.icons,
+          description: perk.description,
+          title: perk.title
+        }))
+    })).filter(level => level.selectedPerks.length > 0);
+
+    // Criar objeto do build
+    const weaponBuild = {
+      weapon: {
+        name: currentWeapon.name,
+        category: currentWeapon.category,
+        image_url: currentWeapon.image_url
+      },
+      selectedPerks: selectedPerks,
+      createdAt: new Date().toISOString(),
+      version: '1.0'
+    };
+
+    // Gerar e baixar arquivo JSON
+    const jsonString = JSON.stringify(weaponBuild, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${currentWeapon.name.replace(/\s+/g, '_')}_build.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    URL.revokeObjectURL(url);
+
+    console.log('Build salvo:', weaponBuild);
+  }
 
 
   voltarParaLista() {

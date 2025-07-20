@@ -30,7 +30,10 @@
 <div class="parchment-background">
   <div class="weapon-detail-container">
     <div class="weapon-detail-header">
-      <button class="back-btn" (click)="voltarParaLista()">&larr; Voltar</button>
+      <button class="back-btn" (click)="voltarParaLista()">Voltar</button>
+      <button class="save-btn" (click)="salvarBuild()" [disabled]="!hasSelectedPerks()">
+        <i class="fas fa-save"></i> Salvar Build
+      </button>
     </div>
     <div *ngIf="loading()" class="loading">Carregando...</div>
     <div *ngIf="error()" class="error">{{ error() }}</div>

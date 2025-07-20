@@ -5,8 +5,8 @@
 }
 
 .weapon-detail-container {
-  max-width: 85vw;
-  width: 85vw;
+  max-width: 96vw;
+  width: 100vw;
   margin: 2rem auto;
   background: #fdf8e4;
   border-radius: 16px;
@@ -18,7 +18,8 @@
 .weapon-detail-header {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: flex-start;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -44,6 +45,35 @@
 
 .back-btn:hover {
   background: #c2a36e;
+}
+
+.save-btn {
+  background: #4caf50;
+  border: 1.5px solid #388e3c;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-family: 'MedievalSharp', serif;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #388e3c;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.save-btn:disabled {
+  background: #cccccc;
+  border-color: #999999;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .weapon-detail-body {
@@ -409,7 +439,7 @@
 
   .proficiency-level-cell {
     display: block;
-    width: 100%;
+    width: 96%;
     margin-bottom: 1rem;
     border: 2px solid #a07947;
     border-radius: 8px;
