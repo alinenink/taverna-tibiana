@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
     private analyticsService: AnalyticsService,
@@ -65,13 +66,13 @@ export class RegisterComponent implements OnInit {
     this.scrollService.scrollToTop();
     
     // Verificar se veio da tela de forgot password com email e showVerification
-    const queryParams = this.router.url.split('?')[1];
-    if (queryParams) {
-      const params = new URLSearchParams(queryParams);
-      const email = params.get('email');
-      const showVerification = params.get('showVerification');
+    this.route.queryParams.subscribe(params => {
+      const email = params['email'];
+      const showVerification = params['showVerification'];
       
       if (email && showVerification === 'true') {
+        console.log('Detectado parâmetros do forgot password:', { email, showVerification });
+        
         // Preencher o email e mostrar a tela de verificação
         this.registerForm.patchValue({ email: email });
         this.registeredEmail = email;
@@ -81,7 +82,7 @@ export class RegisterComponent implements OnInit {
         // Track analytics
         this.analyticsService.trackUserAction('verification_from_forgot_password', 'registration', email);
       }
-    }
+    });
   }
 
   // Validador personalizado para domínio de email
