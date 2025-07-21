@@ -320,8 +320,11 @@ export class WeaponDetailComponent implements OnInit {
              response.message.toLowerCase().includes('nao cadastrado') ||
              response.message.includes('Realize o cadastro'))) {
           console.log('Detectado usuário não cadastrado, exibindo modal...');
+          console.log('Mensagem da API:', response.message);
           this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
           this.showVisitorModal.set(true);
+          console.log('Modal de visitante ativado:', this.showVisitorModal());
+          console.log('Mensagem do visitante:', this.visitorMessage());
         } else {
           this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
           this.saveSuccess.set(false);
@@ -347,7 +350,10 @@ export class WeaponDetailComponent implements OnInit {
       }
     } finally {
       this.saving.set(false);
-      this.clearSaveMessage();
+      // Só limpa a mensagem se não for modal de visitante
+      if (!this.showVisitorModal()) {
+        this.clearSaveMessage();
+      }
     }
   }
 
