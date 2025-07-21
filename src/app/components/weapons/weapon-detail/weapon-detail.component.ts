@@ -312,11 +312,14 @@ export class WeaponDetailComponent implements OnInit {
         console.log('Build salvo na API:', response.data);
       } else {
         // Verificar se é erro de usuário não cadastrado
+        console.log('Resposta da API (erro):', response);
         if (response.message && 
             (response.message.includes('Usuário não cadastrado') || 
              response.message.toLowerCase().includes('usuário não cadastrado') ||
              response.message.includes('nao cadastrado') ||
-             response.message.toLowerCase().includes('nao cadastrado'))) {
+             response.message.toLowerCase().includes('nao cadastrado') ||
+             response.message.includes('Realize o cadastro'))) {
+          console.log('Detectado usuário não cadastrado, exibindo modal...');
           this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
           this.showVisitorModal.set(true);
         } else {
@@ -333,7 +336,9 @@ export class WeaponDetailComponent implements OnInit {
           (error.error.message.includes('Usuário não cadastrado') || 
            error.error.message.toLowerCase().includes('usuário não cadastrado') ||
            error.error.message.includes('nao cadastrado') ||
-           error.error.message.toLowerCase().includes('nao cadastrado'))) {
+           error.error.message.toLowerCase().includes('nao cadastrado') ||
+           error.error.message.includes('Realize o cadastro'))) {
+        console.log('Detectado usuário não cadastrado no catch, exibindo modal...');
         this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
         this.showVisitorModal.set(true);
       } else {
