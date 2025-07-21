@@ -324,8 +324,8 @@ export class WeaponsService {
       axes: 'Machados',
       clavas: 'Clavas',
       ranged: 'Armas de Longo Alcance',
-      rods: 'Rods',
-      wands: 'Wands',
+      rods: 'Varinhas',
+      wands: 'Cajados',
       fist: 'Armas de Punho'
     };
     

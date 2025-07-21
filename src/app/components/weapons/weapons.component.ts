@@ -402,7 +402,7 @@ export class WeaponsComponent implements OnInit {
     if (name.includes('spear') || name.includes('lança') || name.includes('javelin')) return '🔱';
     if (name.includes('throwing') || name.includes('arremesso')) return '🎯';
     
-    // Varas e cajados
+    // Varinhas e cajados
     if (name.includes('rod') || name.includes('vara') || name.includes('staff')) return '🪄';
     if (name.includes('wand') || name.includes('varinha')) return '🪄';
     if (name.includes('spellbook') || name.includes('grimório')) return '📖';
