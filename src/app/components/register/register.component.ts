@@ -60,6 +60,24 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollService.scrollToTop();
+    
+    // Verificar se veio da tela de forgot password com email e showVerification
+    const queryParams = this.router.url.split('?')[1];
+    if (queryParams) {
+      const params = new URLSearchParams(queryParams);
+      const email = params.get('email');
+      const showVerification = params.get('showVerification');
+      
+      if (email && showVerification === 'true') {
+        // Preencher o email e mostrar a tela de verificação
+        this.registerForm.patchValue({ email: email });
+        this.registeredEmail = email;
+        this.showVerification = true;
+        
+        // Track analytics
+        this.analyticsService.trackUserAction('verification_from_forgot_password', 'registration', email);
+      }
+    }
   }
 
   // Validador personalizado para domínio de email
