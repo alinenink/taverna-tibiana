@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-login',
@@ -21,10 +22,12 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router, 
     private authService: AuthService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {}
 
   ngOnInit() {
+    this.scrollService.scrollToTop();
     // Verifica se existe token no localStorage ou sessionStorage
     const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     if (token) {

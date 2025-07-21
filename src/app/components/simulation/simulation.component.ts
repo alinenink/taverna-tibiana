@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-simulation',
@@ -11,7 +12,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   imports: [CommonModule, FormsModule],
   standalone: true,
 })
-export class SimulationComponent {
+export class SimulationComponent implements OnInit {
   charName = '';
   activeTab: 'achievements' | 'outfits' | 'mounts' | 'quests' = 'achievements';
   achievements = [
@@ -43,11 +44,16 @@ export class SimulationComponent {
 
   constructor(
     private router: Router,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {
     setTimeout(() => {
       this.carregando = false;
     }, 2000);
+  }
+
+  ngOnInit(): void {
+    this.scrollService.scrollToTop();
   }
 
   get achvProgress(): number {

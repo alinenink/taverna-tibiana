@@ -17,6 +17,7 @@ import { quests as questModel } from '../../models/quests';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -73,10 +74,12 @@ export class ConsultComponent implements OnInit {
     @Inject(AchievementsService)
     private achievementsService: AchievementsService,
     private authService: AuthService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {}
 
   ngOnInit(): void {
+    this.scrollService.scrollToTop();
     // this.http
     //   .get(`${environment.apiUrl}/achievements-missing-simulation/Aureleaf`)
     //   .subscribe({

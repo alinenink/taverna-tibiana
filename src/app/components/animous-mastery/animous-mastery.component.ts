@@ -5,6 +5,7 @@ import { Mastery, MasteryService } from '../../services/animous.service';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-animous-mastery',
@@ -31,7 +32,8 @@ export class AnimousMasteryComponent implements OnInit {
     public service: MasteryService, 
     private router: Router, 
     private authService: AuthService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {
     // Carregar masteries do usuário ao inicializar
     this.carregando = true;
@@ -58,6 +60,7 @@ export class AnimousMasteryComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.scrollService.scrollToTop();
     window.addEventListener('resize', () => {
       this.isMobile = window.innerWidth <= 768;
     });

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-grimorio',
@@ -9,9 +10,16 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './grimorio.component.html',
   styleUrls: ['./grimorio.component.scss']
 })
-export class GrimorioComponent {
+export class GrimorioComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private scrollService: ScrollService
+  ) {}
+
+  ngOnInit(): void {
+    this.scrollService.scrollToTop();
+  }
 
   navigateToWeapons(): void {
     this.router.navigate(['/weapons']);

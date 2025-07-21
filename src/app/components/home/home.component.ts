@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuctionIdModalComponent } from '../auction-id-modal/auction-id-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +12,23 @@ import { AnalyticsService } from '../../services/analytics.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   // Controla o estado de exibição do modal
   isAuctionIdModalOpen = false;
   carregando: boolean = true;
 
   constructor(
     private router: Router,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {
     setTimeout(() => {
       this.carregando = false;
     }, 2000);
+  }
+
+  ngOnInit(): void {
+    this.scrollService.scrollToTop();
   }
 
   // Chamada ao clicar no ícone de ajuda (abrir modal)

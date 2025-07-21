@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { WeaponsService, WeaponCategoryType, WeaponCategory, WeaponBasic, WeaponDetailed, ProficiencyLevel } from '../../services/weapons.service';
 import { ProficiencyApiService } from '../../services/proficiency-api.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-weapons',
@@ -42,10 +43,12 @@ export class WeaponsComponent implements OnInit {
     public weaponsService: WeaponsService,
     private router: Router,
     private route: ActivatedRoute,
-    private proficiencyApiService: ProficiencyApiService
+    private proficiencyApiService: ProficiencyApiService,
+    private scrollService: ScrollService
   ) {}
 
   ngOnInit() {
+    this.scrollService.scrollToTop();
     this.loading.set(true);
     this.loadCategories();
     

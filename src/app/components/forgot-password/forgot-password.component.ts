@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,7 +13,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnInit {
   email = '';
   carregando = false;
   sucesso = '';
@@ -22,8 +23,13 @@ export class ForgotPasswordComponent {
   constructor(
     private router: Router, 
     private authService: AuthService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {}
+
+  ngOnInit(): void {
+    this.scrollService.scrollToTop();
+  }
 
   recuperar() {
     // Track password recovery attempt

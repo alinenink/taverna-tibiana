@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { WeaponsService } from '../../../services/weapons.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { ProficiencyApiService } from '../../../services/proficiency-api.service';
+import { ScrollService } from '../../../services/scroll.service';
 
 interface WeaponLevel {
   level: number;
@@ -64,11 +65,13 @@ export class WeaponDetailComponent implements OnInit {
     private router: Router,
     public weaponsService: WeaponsService,
     private proficiencyApiService: ProficiencyApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private scrollService: ScrollService
   ) {
   }
 
   ngOnInit() {
+    this.scrollService.scrollToTop();
     this.route.params.subscribe(params => {
       const category = params['category'];
       const name = params['name'];

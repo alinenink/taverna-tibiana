@@ -39,11 +39,19 @@
     >
       <h2>Registro do Aventureiro</h2>
       <hr />
-      
+
       <!-- Mensagem do taberneiro -->
       <div class="medieval-disclaimer">
-        <p><img src="assets/icons-svg/beer-mug.svg" alt="Criatura" class="svg-icon" />
- <strong>Saudações, nobre aventureiro!</strong></p>
+        <p>
+          <img
+            src="assets/icons-svg/beer-mug.svg"
+            alt="Criatura"
+            class="svg-icon"
+          />
+          <strong style="margin-left: 17px"
+            >Saudações, nobre aventureiro!</strong
+          >
+        </p>
         <p>
           Para registrar-se em nossa taverna, preencha o pergaminho abaixo com
           seus dados mágicos.<br />
@@ -62,7 +70,7 @@
 
       <!-- Email Field -->
       <div class="input-icon-group">
-                  <img src="assets/icons-svg/id-card.svg" alt="Email" class="svg-icon" />
+        <img src="assets/icons-svg/id-card.svg" alt="Email" class="svg-icon" />
         <input
           id="email"
           class="input-medieval"
@@ -92,7 +100,11 @@
 
       <!-- Character Name Field -->
       <div class="input-icon-group">
-                  <img src="assets/icons-svg/swordsman.svg" alt="Personagem" class="svg-icon" />
+        <img
+          src="assets/icons-svg/swordsman.svg"
+          alt="Personagem"
+          class="svg-icon"
+        />
         <input
           id="char"
           class="input-medieval"
@@ -104,8 +116,7 @@
       </div>
       <div
         *ngIf="
-          registerForm.get('char')?.invalid &&
-          registerForm.get('char')?.touched
+          registerForm.get('char')?.invalid && registerForm.get('char')?.touched
         "
         class="login-error"
       >
@@ -116,7 +127,11 @@
 
       <!-- Password Field -->
       <div class="input-icon-group">
-                  <img src="assets/icons-svg/key-skills.svg" alt="Senha" class="svg-icon" />
+        <img
+          src="assets/icons-svg/key-skills.svg"
+          alt="Senha"
+          class="svg-icon"
+        />
         <input
           id="password"
           class="input-medieval"
@@ -187,7 +202,7 @@
           <label for="acceptTerms">
             Li e aceito os
             <button
-            style="margin-top: 0 !important;"
+              style="margin-top: 0 !important"
               type="button"
               class="medieval-link"
               (click)="openTermsModal()"
@@ -197,7 +212,10 @@
           </label>
         </div>
         <div
-          *ngIf="registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched"
+          *ngIf="
+            registerForm.get('acceptTerms')?.invalid &&
+            registerForm.get('acceptTerms')?.touched
+          "
           class="login-error"
         >
           Você deve aceitar os termos para se registrar
@@ -214,11 +232,12 @@
         <span *ngIf="carregando">Registrando...</span>
       </button>
 
-              <!-- Login Links -->
-        <div class="login-links">
-          <button class="medieval-link" (click)="goToLogin()">Já tens uma conta? Entrar na Taverna</button>
-        </div>
-
+      <!-- Login Links -->
+      <div class="login-links">
+        <button class="medieval-link" (click)="goToLogin()">
+          Já tens uma conta? Entrar na Taverna
+        </button>
+      </div>
     </form>
 
     <!-- Formulário de Validação -->
@@ -230,25 +249,39 @@
     >
       <h2>Validação do Email</h2>
       <hr />
-      
+
       <!-- Mensagem da taberneira -->
       <div class="medieval-disclaimer">
-        <p><img src="assets/icons-svg/beer-mug.svg" alt="Criatura" class="svg-icon" />
- <strong>Excelente, aventureiro!</strong></p>
         <p>
-          Seu registro foi realizado com sucesso! Agora, para completar sua entrada
-          em nossa guilda, precisamos que você valide seu email mágico.<br />
-          <strong>Verifique sua caixa de entrada</strong> em 
-          <span style="color: #b97a1a">{{ registeredEmail }}</span><br />
+          <img
+            src="assets/icons-svg/beer-mug.svg"
+            alt="Criatura"
+            class="svg-icon"
+          />
+          <strong style="margin-left: 17px">Excelente, aventureiro!</strong>
+        </p>
+        <p>
+          Seu registro foi realizado com sucesso! Agora, para completar sua
+          entrada em nossa guilda, precisamos que você valide seu email
+          mágico.<br />
+          <strong>Verifique sua caixa de entrada</strong> em
+          <span style="color: #b97a1a">{{ registeredEmail }}</span
+          ><br />
           e insira o código de 6 dígitos que enviamos para você.<br />
           <em>Se não encontrar o email, verifique também a pasta de spam!</em>
         </p>
       </div>
 
       <!-- Código de Verificação Field -->
-      <div *ngIf="verificacaoErro" class="login-error">{{ verificacaoErro }}</div>
+      <div *ngIf="verificacaoErro" class="login-error">
+        {{ verificacaoErro }}
+      </div>
       <div class="input-icon-group">
-        <img src="assets/icons-svg/key-skills.svg" alt="Código" class="svg-icon" />
+        <img
+          src="assets/icons-svg/key-skills.svg"
+          alt="Código"
+          class="svg-icon"
+        />
         <input
           id="code"
           class="input-medieval"
@@ -270,7 +303,8 @@
         <span *ngIf="verificationForm.get('code')?.errors?.['required']"
           >Código é obrigatório</span
         >
-        <span *ngIf="verificationForm.get('code')?.errors?.['minlength'] || verificationForm.get('code')?.errors?.['maxlength']"
+        <span
+          *ngIf="verificationForm.get('code')?.errors?.['minlength'] || verificationForm.get('code')?.errors?.['maxlength']"
           >Código deve ter exatamente 6 dígitos</span
         >
       </div>
@@ -287,11 +321,7 @@
 
       <!-- Back Button -->
       <div class="login-links">
-        <button
-          type="button"
-          class="medieval-link"
-          (click)="backToRegister()"
-        >
+        <button type="button" class="medieval-link" (click)="backToRegister()">
           ← Voltar ao Registro
         </button>
       </div>
@@ -394,15 +424,17 @@
     <h3 class="modal-titulo">🎉 Código Validado com Sucesso!</h3>
 
     <div class="modal-opcoes">
-      <div style="text-align: center; margin: 2rem 0;">
-        <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+      <div style="text-align: center; margin: 2rem 0">
+        <p style="font-size: 1.2rem; margin-bottom: 1rem">
           <strong>Parabéns, aventureiro!</strong> 🍺
         </p>
-        <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
-          Seu registro foi completado com sucesso! Agora você é um membro oficial da nossa taverna.
+        <p style="font-size: 1.1rem; margin-bottom: 1.5rem">
+          Seu registro foi completado com sucesso! Agora você é um membro
+          oficial da nossa taverna.
         </p>
-        <p style="font-size: 1rem; color: #b97a1a; margin-bottom: 2rem;">
-          Estamos te teleportando para a tela de login em <strong>{{ teleportTimer }}</strong> segundos...
+        <p style="font-size: 1rem; color: #b97a1a; margin-bottom: 2rem">
+          Estamos te teleportando para a tela de login em
+          <strong>{{ teleportTimer }}</strong> segundos...
         </p>
       </div>
     </div>

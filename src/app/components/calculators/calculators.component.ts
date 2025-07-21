@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CalculatorsService } from '../../services/calculators.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 interface ExerciseWeaponsResult {
   weaponsRequired: {
@@ -53,7 +54,7 @@ function toTimeValue(time: string): TimeValue {
   templateUrl: './calculators.component.html',
   styleUrls: ['./calculators.component.scss']
 })
-export class CalculatorsComponent {
+export class CalculatorsComponent implements OnInit {
   carregando: boolean = false;
   activeCalculator: any = 'exercise-weapons';
 
@@ -204,10 +205,12 @@ export class CalculatorsComponent {
 
   constructor(
     private calculatorsService: CalculatorsService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {}
 
   ngOnInit() {
+    this.scrollService.scrollToTop();
     this.carregando = true;
     // Simular carregamento
     setTimeout(() => {

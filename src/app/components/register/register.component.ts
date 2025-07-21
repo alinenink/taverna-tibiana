@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   verificationForm: FormGroup;
   carregando = false;
@@ -37,7 +38,8 @@ export class RegisterComponent {
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private scrollService: ScrollService
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator.bind(this)]],
@@ -54,6 +56,10 @@ export class RegisterComponent {
     this.verificationForm = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    this.scrollService.scrollToTop();
   }
 
   // Validador personalizado para domínio de email
