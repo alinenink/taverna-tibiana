@@ -52,7 +52,13 @@
                   "maximumError": "20kB"
                 }
               ],
-              "baseHref": "/"
+              "baseHref": "/",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -61,7 +67,8 @@
               "aot": false,
               "extractLicenses": false,
               "vendorChunk": true,
-              "buildOptimizer": false
+              "buildOptimizer": false,
+              "fileReplacements": []
             }
           },
           "defaultConfiguration": "production"
