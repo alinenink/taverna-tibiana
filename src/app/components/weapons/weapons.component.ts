@@ -524,15 +524,7 @@ export class WeaponsComponent implements OnInit {
    * @returns URL da imagem
    */
   getWeaponImageUrlDirect(weapon: WeaponBasic): string {
-    // Se tem image_url, usa ela
-    if (weapon.image_url) {
-      const imagePath = this.getItemImagePath(weapon.image_url);
-      if (imagePath) {
-        return imagePath;
-      }
-    }
-
-    // Usa o nome da arma para buscar a imagem em assets/itens
+    // SEMPRE usa o nome da arma para buscar a imagem em assets/itens
     const weaponImagePath = this.getWeaponImageFromName(weapon.name);
     if (weaponImagePath) {
       return weaponImagePath;
@@ -638,36 +630,11 @@ export class WeaponsComponent implements OnInit {
   /**
    * Verifica se a arma tem uma imagem válida
    * @param weapon - Objeto da arma
-   * @returns true se tem image_url válida ou nome da arma pode gerar imagem
+   * @returns true se tem nome da arma (sempre tentamos gerar imagem pelo nome)
    */
   hasWeaponImage(weapon: WeaponBasic): boolean {
-    // Se tem image_url, verifica ela
-    if (weapon.image_url && weapon.image_url.trim() !== '') {
-      // Remove o @ do início da URL se existir
-      let cleanUrl = weapon.image_url.trim();
-      if (cleanUrl.startsWith('@')) {
-        cleanUrl = cleanUrl.substring(1);
-      }
-      
-      // Se é uma URL completa, verifica se é válida
-      if (cleanUrl.startsWith('assets/') || cleanUrl.startsWith('http')) {
-        return true;
-      }
-      
-      // Se é apenas o nome do arquivo, verifica se existe mapeamento
-      const itemImagePath = this.getItemImagePath(cleanUrl);
-      if (itemImagePath !== null) {
-        return true;
-      }
-    }
-    
-    // Se não tem image_url ou não encontrou, verifica se pode gerar imagem pelo nome
-    if (weapon.name) {
-      const weaponImagePath = this.getWeaponImageFromName(weapon.name);
-      return weaponImagePath !== null;
-    }
-    
-    return false;
+    // SEMPRE tenta gerar imagem pelo nome da arma
+    return !!(weapon.name && weapon.name.trim() !== '');
   }
 
   /**
