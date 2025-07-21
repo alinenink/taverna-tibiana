@@ -473,11 +473,17 @@ export class WeaponsComponent implements OnInit {
       if (itemImagePath) {
         return itemImagePath;
       }
-      
-      // Se não encontrou a imagem, usa fallback
-      return this.getWeaponEmoji(weapon.name);
     }
-    // Fallback para emoji se não houver image_url
+    
+    // Se não tem image_url ou não encontrou, usa o nome da arma
+    if (weapon.name) {
+      const weaponImagePath = this.getWeaponImageFromName(weapon.name);
+      if (weaponImagePath) {
+        return weaponImagePath;
+      }
+    }
+    
+    // Fallback para emoji
     return this.getWeaponEmoji(weapon.name);
   }
 
@@ -526,8 +532,34 @@ export class WeaponsComponent implements OnInit {
       }
     }
 
+    // Usa o nome da arma para buscar a imagem em assets/itens
+    const weaponImagePath = this.getWeaponImageFromName(weapon.name);
+    if (weaponImagePath) {
+      return weaponImagePath;
+    }
+
     // Fallback para emoji
     return this.getWeaponEmoji(weapon.name);
+  }
+
+  /**
+   * Busca a imagem da arma usando o nome da arma
+   * @param weaponName - Nome da arma (ex: "Amber Sabre")
+   * @returns Caminho da imagem ou null se não encontrado
+   */
+  getWeaponImageFromName(weaponName: string): string | null {
+    if (!weaponName) return null;
+
+    // Substitui espaços por underline para nomes de arquivo
+    const fileName = weaponName.replace(/\s+/g, '_');
+    
+    // Primeiro tenta .webp
+    const webpPath = `assets/itens/${fileName}.webp`;
+    // Depois tenta .gif
+    const gifPath = `assets/itens/${fileName}.gif`;
+    
+    // Por enquanto retorna webp, o tratamento de erro vai lidar com fallback
+    return webpPath;
   }
 
   /**
@@ -606,27 +638,36 @@ export class WeaponsComponent implements OnInit {
   /**
    * Verifica se a arma tem uma imagem válida
    * @param weapon - Objeto da arma
-   * @returns true se tem image_url válida
+   * @returns true se tem image_url válida ou nome da arma pode gerar imagem
    */
   hasWeaponImage(weapon: WeaponBasic): boolean {
-    if (!weapon.image_url || weapon.image_url.trim() === '') {
-      return false;
+    // Se tem image_url, verifica ela
+    if (weapon.image_url && weapon.image_url.trim() !== '') {
+      // Remove o @ do início da URL se existir
+      let cleanUrl = weapon.image_url.trim();
+      if (cleanUrl.startsWith('@')) {
+        cleanUrl = cleanUrl.substring(1);
+      }
+      
+      // Se é uma URL completa, verifica se é válida
+      if (cleanUrl.startsWith('assets/') || cleanUrl.startsWith('http')) {
+        return true;
+      }
+      
+      // Se é apenas o nome do arquivo, verifica se existe mapeamento
+      const itemImagePath = this.getItemImagePath(cleanUrl);
+      if (itemImagePath !== null) {
+        return true;
+      }
     }
     
-    // Remove o @ do início da URL se existir
-    let cleanUrl = weapon.image_url.trim();
-    if (cleanUrl.startsWith('@')) {
-      cleanUrl = cleanUrl.substring(1);
+    // Se não tem image_url ou não encontrou, verifica se pode gerar imagem pelo nome
+    if (weapon.name) {
+      const weaponImagePath = this.getWeaponImageFromName(weapon.name);
+      return weaponImagePath !== null;
     }
     
-    // Se é uma URL completa, verifica se é válida
-    if (cleanUrl.startsWith('assets/') || cleanUrl.startsWith('http')) {
-      return true;
-    }
-    
-    // Se é apenas o nome do arquivo, verifica se existe mapeamento
-    const itemImagePath = this.getItemImagePath(cleanUrl);
-    return itemImagePath !== null;
+    return false;
   }
 
   /**
