@@ -245,4 +245,32 @@ export class RegisterComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  goToVerification() {
+    // Verificar se o email foi preenchido
+    const email = this.registerForm.get('email')?.value;
+    
+    if (!email || email.trim() === '') {
+      // Marcar o campo email como touched para mostrar o erro
+      this.registerForm.get('email')?.markAsTouched();
+      this.erro = '⚠️ Por favor, digite seu email antes de prosseguir para a validação do código.';
+      return;
+    }
+
+    // Validar se o email é válido
+    if (this.registerForm.get('email')?.invalid) {
+      this.erro = '⚠️ Por favor, insira um email válido antes de prosseguir.';
+      return;
+    }
+
+    // Limpar erro anterior
+    this.erro = '';
+    
+    // Definir o email registrado e mostrar a tela de verificação
+    this.registeredEmail = email;
+    this.showVerification = true;
+    
+    // Track analytics
+    this.analyticsService.trackUserAction('go_to_verification', 'registration', email);
+  }
 } 
