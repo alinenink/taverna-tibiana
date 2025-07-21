@@ -274,3 +274,26 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Visitante -->
+<div class="modal-overlay" *ngIf="showVisitorModal()" (click)="closeVisitorModal()">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <h3 class="modal-titulo">
+      <img src="assets/icons-svg/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
+      Atenção, aventureiro!
+    </h3>
+    <div class="modal-opcoes">
+      <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0;">
+        {{ visitorMessage() }}
+      </p>
+    </div>
+    <div class="modal-botoes">
+      <button type="button" class="button-medieval" (click)="goToRegister()">
+        Me registrar agora
+      </button>
+      <button type="button" class="button-medieval" (click)="closeVisitorModal()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

@@ -54,12 +54,17 @@ export class WeaponDetailComponent implements OnInit {
   
   // Signal para controlar o modal de confirmação de exclusão
   showDeleteConfirmationModal = signal<boolean>(false);
+  
+  // Signal para controlar o modal de visitante
+  showVisitorModal = signal<boolean>(false);
+  visitorMessage = signal<string>('');
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public weaponsService: WeaponsService,
-    private proficiencyApiService: ProficiencyApiService
+    private proficiencyApiService: ProficiencyApiService,
+    private authService: AuthService
   ) {
   }
 
@@ -306,14 +311,35 @@ export class WeaponDetailComponent implements OnInit {
         this.saveSuccess.set(true);
         console.log('Build salvo na API:', response.data);
       } else {
-        this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
-        this.saveSuccess.set(false);
+        // Verificar se é erro de usuário não cadastrado
+        if (response.message && 
+            (response.message.includes('Usuário não cadastrado') || 
+             response.message.toLowerCase().includes('usuário não cadastrado') ||
+             response.message.includes('nao cadastrado') ||
+             response.message.toLowerCase().includes('nao cadastrado'))) {
+          this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
+          this.showVisitorModal.set(true);
+        } else {
+          this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
+          this.saveSuccess.set(false);
+        }
       }
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar proficiência:', error);
-      this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
-      this.saveSuccess.set(false);
+      
+      // Verificar se é erro de usuário não cadastrado
+      if (error.error && error.error.message && 
+          (error.error.message.includes('Usuário não cadastrado') || 
+           error.error.message.toLowerCase().includes('usuário não cadastrado') ||
+           error.error.message.includes('nao cadastrado') ||
+           error.error.message.toLowerCase().includes('nao cadastrado'))) {
+        this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
+        this.showVisitorModal.set(true);
+      } else {
+        this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
+        this.saveSuccess.set(false);
+      }
     } finally {
       this.saving.set(false);
       this.clearSaveMessage();
@@ -570,5 +596,21 @@ export class WeaponDetailComponent implements OnInit {
   private clearDeleteMessage(): void {
     this.deleteMessage.set(null);
     this.deleteSuccess.set(false);
+  }
+
+  // ====================================
+  // Métodos para modal de visitante
+  // ====================================
+
+  closeVisitorModal(): void {
+    this.showVisitorModal.set(false);
+    this.visitorMessage.set('');
+  }
+
+  goToRegister(): void {
+    this.closeVisitorModal();
+    // Limpar session local antes de ir para register
+    this.authService.logout();
+    this.router.navigate(['/register']);
   }
 } 
