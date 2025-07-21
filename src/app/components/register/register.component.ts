@@ -251,7 +251,7 @@ export class RegisterComponent implements OnInit {
     const email = this.registerForm.get('email')?.value;
     
     if (!email || email.trim() === '') {
-      // Marcar o campo email como touched para mostrar o erro
+      // Marcar apenas o campo email como touched para mostrar o erro
       this.registerForm.get('email')?.markAsTouched();
       this.erro = '⚠️ Por favor, digite seu email antes de prosseguir para a validação do código.';
       return;
