@@ -25,6 +25,9 @@ export class RegisterComponent implements OnInit {
   verificacaoErro = '';
   teleportTimer = 5;
   teleportInterval: any;
+  
+  // Variável para detectar se veio do forgot password
+  isFromForgotPassword = false;
 
   // Lista de domínios de email válidos
   private validEmailDomains = [
@@ -73,6 +76,7 @@ export class RegisterComponent implements OnInit {
         this.registerForm.patchValue({ email: email });
         this.registeredEmail = email;
         this.showVerification = true;
+        this.isFromForgotPassword = true;
         
         // Track analytics
         this.analyticsService.trackUserAction('verification_from_forgot_password', 'registration', email);

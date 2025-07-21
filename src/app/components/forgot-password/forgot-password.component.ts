@@ -78,7 +78,7 @@ export class ForgotPasswordComponent implements OnInit {
   goToVerification() {
     // Verificar se o email foi preenchido
     if (!this.email || this.email.trim() === '') {
-      this.erro = '⚠️ Por favor, digite seu email antes de prosseguir para a validação do código.';
+      this.erro = '⚠️ Por favor, digite seu email antes de validar um código existente.';
       return;
     }
 

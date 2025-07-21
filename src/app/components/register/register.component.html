@@ -260,9 +260,9 @@
             alt="Criatura"
             class="svg-icon"
           />
-          <strong style="margin-left: 17px">Excelente, aventureiro!</strong>
+          <strong style="margin-left: 17px">{{ isFromForgotPassword ? 'Validação de Código' : 'Excelente, aventureiro!' }}</strong>
         </p>
-        <p>
+        <p *ngIf="!isFromForgotPassword">
           Seu registro foi realizado com sucesso! Agora, para completar sua
           entrada em nossa guilda, precisamos que você valide seu email
           mágico.<br />
@@ -271,6 +271,12 @@
           ><br />
           e insira o código de 6 dígitos que enviamos para você.<br />
           <em>Se não encontrar o email, verifique também a pasta de spam!</em>
+        </p>
+        <p *ngIf="isFromForgotPassword">
+          Para validar seu código de recuperação, insira o código de 6 dígitos 
+          que você já recebeu anteriormente em <span style="color: #b97a1a">{{ registeredEmail }}</span>.<br />
+          <strong>Este código foi enviado em um email anterior.</strong><br />
+          <em>Se não encontrar o código, verifique sua caixa de entrada e pasta de spam!</em>
         </p>
       </div>
 
