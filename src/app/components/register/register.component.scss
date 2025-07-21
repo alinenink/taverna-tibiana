@@ -37,13 +37,23 @@ input.input-medieval {
 
 .login-links {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
   margin-top: 1.5rem;
   margin-bottom: 1em;
 }
 
 .login-links .medieval-link {
   text-decoration: underline;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.login-links .medieval-link:hover {
+  background-color: rgba(123, 94, 59, 0.1);
 }
 
 .medieval-link {
@@ -286,6 +296,15 @@ input.input-medieval {
   .button-medieval {
     width: 85%;
   }
+  
+  .login-links {
+    gap: 0.7rem;
+    
+    .medieval-link {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.98rem;
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -349,5 +368,17 @@ input.input-medieval {
   .svg-icon {
     width: 20px;
     height: 20px;
+  }
+  
+  .login-links {
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+    
+    .medieval-link {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.95rem;
+      width: 100%;
+      max-width: 280px;
+    }
   }
 } 
