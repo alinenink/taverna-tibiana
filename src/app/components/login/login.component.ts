@@ -81,8 +81,8 @@ export class LoginComponent implements OnInit {
     this.erro = '';
 
     const credentials = {
-      email: this.email,
-      password: this.password,
+      email: this.email.trim(),
+      password: this.password.trim(),
     };
 
     try {
