@@ -58,11 +58,17 @@ export class ProficiencyApiService {
         body: JSON.stringify(data)
       });
       
+      const responseData = await response.json();
+      
       if (!response.ok) {
+        // Se não for ok, mas temos dados da resposta, retornar os dados
+        if (responseData) {
+          return responseData;
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      return await response.json();
+      return responseData;
     } catch (error) {
       console.error('Erro ao salvar proficiência:', error);
       throw error;
