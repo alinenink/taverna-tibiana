@@ -60,6 +60,20 @@ export class ProficiencyTablesComponent {
     this.exportAll = value === true || value === 'true';
   }
 
+  // Método para formatar números no padrão brasileiro
+  formatNumber(value: any): string {
+    if (value === null || value === undefined || value === '') {
+      return '';
+    }
+    
+    const num = Number(value);
+    if (isNaN(num)) {
+      return String(value);
+    }
+    
+    return num.toLocaleString('pt-BR');
+  }
+
   exportPdf() {
     const exportAllBool = !!this.exportAll;
     const tablesToExport = exportAllBool

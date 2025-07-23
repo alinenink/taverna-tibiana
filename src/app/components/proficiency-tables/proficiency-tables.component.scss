@@ -33,6 +33,8 @@
   display: flex;
   gap: 0.5rem;
   margin-top: 0.3rem;
+  position: relative;
+  width: 100%;
 }
 .tab-group button {
   background: #f3e6c1;
@@ -44,6 +46,10 @@
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   color: #6b4f1d;
+  min-width: 80px;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 .tab-group button.active, .tab-group button:hover {
   background: #e0c97f;
@@ -159,23 +165,6 @@
 .acoes-centralizadas {
   justify-content: flex-end;
 }
-.acao-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-family: 'MedievalSharp', serif;
-  font-size: 1.08rem;
-  color: #6b4f1d;
-  background: none;
-  border: none;
-  padding: 0.2rem 0.7rem;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-.acao-item:hover {
-  background: #f3e6c1;
-}
 .svg-button {
   height: 2.1em;
   width: 2.1em;
@@ -204,10 +193,11 @@
 }
 @media (max-width: 600px) {
   .consulta-layout {
-    padding: 0 0.2rem;
+    padding: 0 0.5rem;
   }
   .parchment-card {
-    padding: 1rem 0.3rem;
+    padding: 1rem 1rem;
+    box-sizing: border-box;
   }
   .tabela-pergaminho th, .tabela-pergaminho td {
     padding: 0.3rem 0.3rem;
@@ -251,15 +241,30 @@
 
 .filtro-container {
   padding: 0 !important;
+  position: relative;
+  width: 100%;
 }
+
+.filtro-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
 .filtro-container.filtro-exportar-row {
   display: flex !important;
   gap: 2rem;
   align-items: flex-end;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 .filtro-container.filtro-exportar-row > div {
   flex: 1 1 0;
   min-width: 0;
+  position: relative;
 }
 @media (max-width: 900px) {
   .filtro-container {
@@ -283,4 +288,332 @@
     flex: unset;
     min-width: unset;
   }
+} 
+
+/* Mobile Cards Layout */
+.mobile-cards {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.mobile-card {
+  background: #fffbe6;
+  border: 2px solid #e0c97f;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background: #f3e6c1;
+  padding: 1rem;
+  border-bottom: 2px solid #e0c97f;
+}
+
+.card-title {
+  font-family: 'MedievalSharp', serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3d2b0b;
+  margin: 0;
+  text-align: center;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3e6c1;
+}
+
+.card-row:last-child {
+  border-bottom: none;
+}
+
+.card-label {
+  font-family: 'MedievalSharp', serif;
+  font-size: 0.9rem;
+  color: #6b4f1d;
+  font-weight: 500;
+  flex: 1;
+  text-align: left;
+}
+
+.card-value {
+  font-family: 'MedievalSharp', serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #3d2b0b;
+  background: #f3e6c1;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .desktop-table {
+    display: none;
+  }
+  
+  .mobile-cards {
+    display: flex;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .card-label {
+    font-size: 0.85rem;
+  }
+  
+  .card-value {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  /* Mobile Filter Improvements */
+  .filtro-container.filtro-exportar-row {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    margin: 0 1rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+  }
+
+  .filtro-container.filtro-exportar-row > div {
+    flex: unset;
+    min-width: unset;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .filtro-section {
+    width: 100%;
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .medieval-text {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    display: block;
+    text-align: center;
+  }
+
+  .tab-group {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tab-group button {
+    flex: 1;
+    min-width: 60px;
+    max-width: 120px;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.6rem;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .tab-group-exportar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tab-group-exportar button {
+    flex: 1;
+    min-width: 60px;
+    max-width: 120px;
+    text-align: center;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .acao-item {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    background: #f3e6c1;
+    border: 1px solid #e0c97f;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .acao-item:hover {
+    background: #e0c97f;
+  }
+
+  .svg-button {
+    height: 1.5em;
+    width: 1.5em;
+  }
+
+  .medieval-text {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  /* Mobile Cards with margins */
+  .mobile-cards {
+    margin: 1.5rem 1rem 0 1rem;
+  }
+
+  .mobile-card {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-cards {
+    gap: 0.8rem;
+  }
+  
+  .card-header {
+    padding: 0.8rem;
+  }
+  
+  .card-content {
+    padding: 0.8rem;
+  }
+  
+  .card-row {
+    padding: 0.4rem 0;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+  }
+  
+  .card-label {
+    font-size: 0.8rem;
+  }
+  
+  .card-value {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    min-width: 50px;
+  }
+
+  /* Extra Small Mobile Filter Improvements */
+  .filtro-container.filtro-exportar-row {
+    gap: 0.8rem;
+    margin: 0 1.2rem;
+    align-items: center;
+    width: calc(100% - 2.4rem);
+  }
+
+  .filtro-section {
+    align-items: center;
+  }
+
+  .medieval-text {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .tab-group {
+    justify-content: center;
+  }
+
+  .tab-group-exportar {
+    justify-content: center;
+  }
+
+  .tab-group button {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+    min-width: 50px;
+    max-width: 100px;
+  }
+
+  .tab-group-exportar button {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+    min-width: 50px;
+    max-width: 100px;
+  }
+
+  .acao-item {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+  }
+
+  .medieval-text {
+    font-size: 0.9rem;
+  }
+
+  /* Extra Small Mobile Cards with more margins */
+  .mobile-cards {
+    margin: 1.5rem 1.2rem 0 1.2rem;
+  }
+} 
+
+.tab-group-exportar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.tab-group-exportar button {
+  flex: 1;
+  min-width: 80px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.acao-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-family: 'MedievalSharp', serif;
+  font-size: 1.08rem;
+  color: #6b4f1d;
+  background: none;
+  border: none;
+  padding: 0.2rem 0.7rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.acao-item:hover {
+  background: #f3e6c1;
 } 
