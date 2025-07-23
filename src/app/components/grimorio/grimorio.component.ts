@@ -24,4 +24,8 @@ export class GrimorioComponent implements OnInit {
   navigateToWeapons(): void {
     this.router.navigate(['/weapons']);
   }
+
+  navigateToProficiency() {
+    this.router.navigate(['/proficiency-tables']);
+  }
 }

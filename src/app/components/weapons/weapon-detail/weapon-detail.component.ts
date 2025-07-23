@@ -328,9 +328,9 @@ export class WeaponDetailComponent implements OnInit {
           this.showVisitorModal.set(true);
           console.log('Modal de visitante ativado:', this.showVisitorModal());
           console.log('Mensagem do visitante:', this.visitorMessage());
-        } else {
-          this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
-          this.saveSuccess.set(false);
+      } else {
+        this.saveMessage.set('Erro ao salvar: ' + (response.message || 'Erro desconhecido'));
+        this.saveSuccess.set(false);
         }
       }
 
@@ -348,14 +348,14 @@ export class WeaponDetailComponent implements OnInit {
         this.visitorMessage.set('Percebi que você está tentando salvar suas maestrias de armas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!');
         this.showVisitorModal.set(true);
       } else {
-        this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
-        this.saveSuccess.set(false);
+      this.saveMessage.set('Erro de conexão. Verifique sua internet e tente novamente.');
+      this.saveSuccess.set(false);
       }
     } finally {
       this.saving.set(false);
       // Só limpa a mensagem se não for modal de visitante
       if (!this.showVisitorModal()) {
-        this.clearSaveMessage();
+      this.clearSaveMessage();
       }
     }
   }
@@ -531,7 +531,7 @@ export class WeaponDetailComponent implements OnInit {
     this.showDeleteConfirmationModal.set(false);
     
     // Executar a exclusão
-    await this.excluirProficiencia(weaponName, weaponCategory);
+      await this.excluirProficiencia(weaponName, weaponCategory);
   }
 
   async excluirProficiencia(weaponName: string, weaponCategory: string): Promise<void> {

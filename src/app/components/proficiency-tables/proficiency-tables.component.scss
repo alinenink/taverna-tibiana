@@ -1,0 +1,286 @@
+.parchment-background {
+  min-height: 100vh;
+  background: #f8f5e4;
+  padding: 2rem 0;
+}
+
+.consulta-layout {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.tavernatibiana-title {
+  font-family: 'MedievalSharp', serif;
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.parchment-card {
+  background: #fffbe6;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0002;
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.medieval-disclaimer {
+  margin-bottom: 2rem;
+}
+
+.tab-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+.tab-group button {
+  background: #f3e6c1;
+  border: 1px solid #e0c97f;
+  border-radius: 6px 6px 0 0;
+  font-family: 'MedievalSharp', serif;
+  font-size: 1rem;
+  padding: 0.4rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  color: #6b4f1d;
+}
+.tab-group button.active, .tab-group button:hover {
+  background: #e0c97f;
+  color: #3d2b0b;
+  font-weight: bold;
+}
+
+.tabela-wrapper {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+.tabela-pergaminho {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'MedievalSharp', serif;
+  background: #fffbe6;
+}
+.tabela-pergaminho th, .tabela-pergaminho td {
+  border: 1px solid #e0c97f;
+  padding: 0.5rem 0.8rem;
+  text-align: center;
+}
+.tabela-pergaminho th {
+  background: #f3e6c1;
+  font-size: 1.1rem;
+}
+.tabela-pergaminho td {
+  font-size: 1rem;
+}
+
+.exportar-pdf-btn {
+  background: #b22222;
+  color: #fffbe6;
+  border: none;
+  border-radius: 6px;
+  font-family: 'MedievalSharp', serif;
+  font-size: 1rem;
+  padding: 0.4rem 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.exportar-pdf-btn:hover {
+  background: #8b1818;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  min-width: 320px;
+  max-width: 95vw;
+  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1010;
+}
+
+.export-modal {
+  max-width: 350px;
+  min-width: 220px;
+  padding: 1.2rem 0.7rem;
+}
+
+.modal-radio-group {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.modal-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'MedievalSharp', serif;
+  font-size: 1rem;
+}
+.modal-radio input[type="radio"] {
+  accent-color: #b22222;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.modal-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+.modal-select {
+  font-family: 'MedievalSharp', serif;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #e0c97f;
+  padding: 0.3rem 0.7rem;
+  background: #f3e6c1;
+  color: #6b4f1d;
+}
+
+.acoes-icons {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.acoes-centralizadas {
+  justify-content: flex-end;
+}
+.acao-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-family: 'MedievalSharp', serif;
+  font-size: 1.08rem;
+  color: #6b4f1d;
+  background: none;
+  border: none;
+  padding: 0.2rem 0.7rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.acao-item:hover {
+  background: #f3e6c1;
+}
+.svg-button {
+  height: 2.1em;
+  width: 2.1em;
+  vertical-align: middle;
+}
+.filtro-exportar-row {
+  align-items: flex-end;
+  gap: 1.2rem;
+}
+.exportar-inline {
+  margin-left: auto;
+  min-width: 160px;
+  justify-content: flex-end;
+}
+@media (max-width: 900px) {
+  .filtro-exportar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+  }
+  .exportar-inline {
+    margin-left: 0;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 600px) {
+  .consulta-layout {
+    padding: 0 0.2rem;
+  }
+  .parchment-card {
+    padding: 1rem 0.3rem;
+  }
+  .tabela-pergaminho th, .tabela-pergaminho td {
+    padding: 0.3rem 0.3rem;
+    font-size: 0.95rem;
+  }
+  .tab-group button {
+    font-size: 0.95rem;
+    padding: 0.3rem 0.7rem;
+  }
+  .export-modal {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 0.7rem 0.2rem;
+  }
+  .modal-content {
+    padding: 0.7rem 0.2rem;
+  }
+  .modal-radio-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-select-group {
+    gap: 0.3rem;
+  }
+  .modal-select {
+    font-size: 0.98rem;
+    padding: 0.2rem 0.4rem;
+  }
+  .acoes-icons {
+    gap: 0.5rem;
+  }
+  .acao-item {
+    font-size: 1rem;
+    padding: 0.15rem 0.3rem;
+  }
+  .svg-button {
+    height: 1.5em;
+    width: 1.5em;
+  }
+} 
+
+.filtro-container {
+  padding: 0 !important;
+}
+.filtro-container.filtro-exportar-row {
+  display: flex !important;
+  gap: 2rem;
+  align-items: flex-end;
+}
+.filtro-container.filtro-exportar-row > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .filtro-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+  }
+  .tab-group-exportar {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .tab-group-exportar .acao-item {
+    margin-left: 0.2rem;
+    margin-top: 0.3rem;
+  }
+  .filtro-container.filtro-exportar-row {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .filtro-container.filtro-exportar-row > div {
+    flex: unset;
+    min-width: unset;
+  }
+} 

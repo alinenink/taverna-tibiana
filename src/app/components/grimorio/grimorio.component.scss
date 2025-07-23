@@ -48,3 +48,17 @@
     }
   }
 }
+
+.conquista-row-custom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  justify-items: center;
+  margin-top: 2rem;
+}
+@media (max-width: 900px) {
+  .conquista-row-custom {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}

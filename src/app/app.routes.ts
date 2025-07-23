@@ -18,6 +18,7 @@ export const appRoutes: Routes = [
   { path: 'simulacao', component: SimulationComponent, canActivate: [authGuard] },
   { path: 'grimorio', component: GrimorioComponent, canActivate: [authGuard] },
   { path: 'calculators', loadComponent: () => import('./components/calculators/calculators.component').then(m => m.CalculatorsComponent), canActivate: [authGuard] },
+  { path: 'proficiency-tables', loadComponent: () => import('./components/proficiency-tables/proficiency-tables.component').then(m => m.ProficiencyTablesComponent), canActivate: [authGuard] },
 
   { path: 'weapons', loadComponent: () => import('./components/weapons/weapons.component').then(m => m.WeaponsComponent), canActivate: [authGuard] },
   { path: 'weapons/:category/:name', loadComponent: () => import('./components/weapons/weapon-detail/weapon-detail.component').then(m => m.WeaponDetailComponent), canActivate: [authGuard] },

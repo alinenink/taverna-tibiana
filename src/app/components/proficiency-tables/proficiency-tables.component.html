@@ -1,0 +1,198 @@
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="tavernatibiana-title">Capítulo dos Requisitos Heroicos</h1>
+    <div class="parchment-card medieval-disclaimer">
+      <button class="voltar-button-card" [routerLink]="'/grimorio'">
+        Voltar
+      </button>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          margin-bottom: 0.5rem;
+          text-align: left;
+        "
+      >
+        <img
+          src="assets/icons-svg/cyber-threat.svg"
+          alt="Capítulo"
+          class="svg-icon intro-icon"
+        />
+        <strong class="medieval-text"
+          >Consulte as quantidades de caça para cada vocação!</strong
+        >
+      </div>
+      <p class="medieval-intro" style="margin-bottom: 1.3rem; text-align: left">
+        Antes de meter o machado nas criaturas ou desafiar os chefões, escolha
+        com sabedoria tua vocação e o tipo de caça (Bosses ou Criaturas). Só
+        assim a tabela revelará os segredos corretos!
+      </p>
+
+       <!-- AVISO DOS TABERNEIROS NO INÍCIO -->
+       <div
+       class="rpg-description medieval-intro"
+       style="
+         margin-bottom: 2rem;
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 0.5rem;
+         text-align: left;
+       "
+     >
+       <strong>
+         Aviso dos taberneiros (sim, dois, e ambos gostam de falar!):
+       </strong>
+       <span class="medieval-intro" style="margin-bottom: 1.3rem; text-align: left; line-height: 1.5;">
+        Estes são os registros ancestrais das tuas batalhas! Cada vocação trilha
+         um destino único, e cada inimigo exige coragem diferente. Planeje bem,
+         consulte com olhos atentos e, se quiser exibir tua sabedoria nos salões
+         por onde passares, exporte a tabela em PDF e leve contigo como um
+         verdadeiro mapa do tesouro!
+       </span>
+     </div>
+      <div
+        class="filtro-container filtro-exportar-row"
+        style="
+          margin-bottom: 1rem;
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+          align-items: flex-end;
+        "
+      >
+        <div>
+          <label class="medieval-text">Vocação:</label>
+          <div class="tab-group">
+            <button
+              *ngFor="let v of vocations"
+              [ngClass]="{
+                active: selectedVocation() === v.key,
+                'button-medieval': true
+              }"
+              (click)="setVocation(v.key)"
+            >
+              {{ v.label }}
+            </button>
+          </div>
+        </div>
+        <div>
+          <label class="medieval-text">Tipo de caça:</label>
+          <div class="tab-group tab-group-exportar">
+            <button
+              *ngFor="let t of types"
+              [ngClass]="{
+                active: selectedType() === t.key,
+                'button-medieval': true
+              }"
+              (click)="setType(t.key)"
+            >
+              {{ t.label }}
+            </button>
+
+            <span class="acao-item" (click)="showExportModal = true">
+              <img
+                src="assets/icons-svg/pdf-file.svg"
+                alt="Exportar PDF"
+                class="svg-button"
+              />
+              <span>Exportar PDF</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="tabela-wrapper" *ngIf="filteredTable as table">
+        <table class="tabela-pergaminho">
+          <thead>
+            <tr>
+              <th *ngFor="let col of table.columns">{{ col }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of table.rows">
+              <td *ngFor="let col of table.columns">{{ row[col] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!filteredTable" class="medieval-text">
+        Tabela não encontrada para a seleção atual.
+      </div>
+    </div>
+
+    <!-- Modal de exportação PDF -->
+    <div class="modal-overlay" *ngIf="showExportModal">
+      <div class="modal-content parchment-card export-modal">
+        <h2 class="medieval-text" style="margin-bottom: 1rem">
+          Exportar Tabela em PDF
+        </h2>
+        <p class="medieval-intro">
+          Ah, aventureiro precavido! Escolhe com sabedoria qual pergaminho
+          deseja carregar em sua jornada:
+        </p>
+        <form>
+          <div class="modal-radio-group">
+            <label class="modal-radio">
+              <input
+                type="radio"
+                name="exportOption"
+                [(ngModel)]="exportAll"
+                [value]="true"
+                (change)="onExportAllChange(true)"
+              />
+              <span>Todos os registros do grimório</span>
+            </label>
+            <label class="modal-radio">
+              <input
+                type="radio"
+                name="exportOption"
+                [(ngModel)]="exportAll"
+                [value]="false"
+                (change)="onExportAllChange(false)"
+              />
+              <span>Escolher apenas um tomo</span>
+            </label>
+          </div>
+          <div *ngIf="!exportAll" class="modal-select-group">
+            <label class="medieval-text">Vocação do herói:</label>
+            <select
+              class="modal-select"
+              [(ngModel)]="exportVocation"
+              name="exportVocation"
+            >
+              <option *ngFor="let v of vocations" [value]="v.key">
+                {{ v.label }}
+              </option>
+            </select>
+            <label class="medieval-text">Tipo de desafio:</label>
+            <select
+              class="modal-select"
+              [(ngModel)]="exportType"
+              name="exportType"
+            >
+              <option *ngFor="let t of types" [value]="t.key">
+                {{ t.label }}
+              </option>
+            </select>
+          </div>
+        </form>
+        <div
+          style="
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.2rem;
+          "
+        >
+          <button class="voltar-button-card" (click)="showExportModal = false">
+            Deixar pra outra aventura
+          </button>
+          <button class="voltar-button-card" (click)="exportPdf()">
+            Forjar PDF agora!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
