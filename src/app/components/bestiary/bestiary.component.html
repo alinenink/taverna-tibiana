@@ -1,0 +1,352 @@
+<!-- Fundo total com aparência de pergaminho medieval -->
+<div class="svg-loader-overlay" *ngIf="isLoading()">
+  <div class="svg-loader">
+    <svg
+      fill="#000000"
+      height="200px"
+      width="200px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 452.022 452.022"
+      xml:space="preserve"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905-3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z M359.946,331.858l-3.954,3.954L162.901,142.72l45.434,3.515l168.616,168.617 L359.946,331.858z M303.621,186.342c0,8.507-0.522,16.987-1.523,25.371l-82.234-82.234c-1.687-1.687-3.921-2.715-6.3-2.899 l-76.09-5.886c-2.916-0.229-5.777,0.833-7.842,2.899c-2.065,2.065-3.124,4.93-2.899,7.842l5.886,76.09 c0.184,2.379,1.212,4.613,2.899,6.3L249.48,327.788c-19.637,21.998-43.181,39.294-70.167,51.487 c-34.45-15.596-64.093-40.179-85.924-71.304C68.275,272.143,55,230.084,55,186.342l0-110.473c82.527-15.788,166.093-15.788,248.62,0 V186.342z M179.309,417.156c-46.45-17.606-86.009-48.352-114.577-89.097C35.468,286.322,20,237.317,20,186.342l0-145.43 c105.764-19.83,212.856-19.83,318.62,0v145.43c0,18.764-2.131,37.386-6.331,55.563l-12.648-12.648 c2.637-14.044,3.979-28.452,3.979-42.915l-0.001-118.69c0-4.753-3.346-8.849-8.003-9.798c-90.445-18.438-182.167-18.438-272.614,0 C38.345,58.802,35,62.899,35,67.652v118.69c0,47.872,14.527,93.9,42.013,133.112c24.797,35.354,58.809,62.997,98.359,79.939 c1.257,0.539,2.597,0.808,3.938,0.808c1.34,0,2.68-0.269,3.937-0.808c31.01-13.282,57.997-32.593,80.394-57.444l10.618,10.618 C248.179,381.194,215.58,403.39,179.309,417.156z M152.273,202.297l-3.514-45.434l193.091,193.091l-20.96,20.959L152.273,202.297z M376.107,343.981l6.336,6.336l-15.345,36.829l-17.078-17.078L376.107,343.981z M382.392,402.44l15.345-36.829l11.178,11.178 l-15.345,36.829L382.392,402.44z M426.619,420.58L426.619,420.58c-3.483,3.484-8.116,5.403-13.043,5.403 c-1.141,0-2.262-0.114-3.361-0.315l13.994-33.585l2.41,2.41c3.484,3.484,5.403,8.116,5.403,13.043S430.103,417.096,426.619,420.58z"
+        ></path>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="parchment-background">
+  <div class="consulta-layout">
+    <h1 class="tavernatibiana-title">Capítulo das Criaturas Selvagens</h1>
+
+    <div class="parchment-card medieval-disclaimer">
+      <button
+        class="voltar-button-card"
+        [routerLink]="'/grimorio'"
+      >
+        Voltar
+      </button>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          margin-bottom: 0.5rem;
+          margin-top: 3rem;
+        "
+      >
+        <img
+          src="assets/icons-svg/arsenalweapons.svg"
+          alt="Bestiário"
+          class="svg-icon intro-icon"
+        />
+        <h2 class="medieval-text">
+          Onde o conhecimento encontra o perigo... e a sabedoria evita a morte.
+        </h2>
+      </div>
+      <p class="medieval-intro">
+        Ah, as criaturas! Terríveis ou magníficas, cada uma com seus segredos e
+        perigos. Neste capítulo do grimório, registramos os monstros que habitam
+        as terras de Tibia, suas fraquezas, resistências e os locais onde podem
+        ser encontrados.
+      </p>
+      <p class="medieval-intro">
+        Aqui tu confere informações sobre cada criatura, desde os mais fracos
+        ratos até os mais temíveis dragões. Conheça seus pontos de vida,
+        experiência que oferecem, resistências e até mesmo os charms que podem
+        ser aplicados.
+      </p>
+      <p class="medieval-intro">
+        Estude bem este bestiário, aventureiro, pois o conhecimento pode ser a
+        diferença entre a vida e a morte nas terras selvagens!
+      </p>
+
+      <!-- Filtros -->
+      <div class="filters-section">
+        <hr style="margin: 1.5rem 0" />
+        <form [formGroup]="filterForm" class="filters-form">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="search">Buscar monstro</label>
+              <input 
+                type="text" 
+                id="search" 
+                formControlName="search" 
+                placeholder="Digite o nome do monstro..."
+                class="search-input"
+              >
+            </div>
+
+            <div class="filter-group">
+              <label for="class">Classe</label>
+              <select id="class" formControlName="class" class="select-input">
+                <option value="">Todas as classes</option>
+                <option *ngFor="let monsterClass of availableClasses" [value]="monsterClass">
+                  {{ getClassDisplayName(monsterClass) }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="difficulty">Dificuldade</label>
+              <select id="difficulty" formControlName="difficulty" class="select-input">
+                <option value="">Todas as dificuldades</option>
+                <option *ngFor="let difficulty of availableDifficulties" [value]="difficulty">
+                  {{ getDifficultyDisplayName(difficulty) }}
+                </option>
+              </select>
+            </div>
+
+            <button 
+              type="button" 
+              (click)="clearFilters()" 
+              class="clear-filters-btn"
+            >
+              Limpar Filtros
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="hasError()" class="error-message">
+        <div class="error-card">
+          <h2>Erro no Bestiário</h2>
+          <p>{{ error() }}</p>
+          <button (click)="loadMonsters()" class="retry-btn">
+            Tentar Novamente
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista de Monstros -->
+      <div *ngIf="!isLoading() && !hasError() && hasMonsters()" class="monsters-section">
+        <hr style="margin: 1.5rem 0" />
+        <div class="monsters-header">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+              margin-bottom: 1rem;
+            "
+          >
+            <img
+              src="assets/icons-svg/arsenalweapons.svg"
+              alt="Monstros"
+              class="svg-icon"
+            />
+            <strong class="medieval-text">
+              Criaturas Encontradas ({{ monsters().length }})
+            </strong>
+          </div>
+        </div>
+
+        <div class="monsters-grid">
+          <div 
+            *ngFor="let monster of monsters(); trackBy: trackByMonsterId" 
+            class="monster-card"
+          >
+            <!-- Header do Card -->
+            <div class="monster-header">
+              <div class="monster-image-container">
+                <img 
+                  [src]="getMonsterImageUrl(monster.image)" 
+                  [alt]="monster.name"
+                  class="monster-image"
+                  (error)="onImageError($event, monster)"
+                  (load)="onImageLoad($event, monster)"
+                />
+                <div *ngIf="!hasMonsterImage(monster)" class="monster-placeholder">
+                  <span class="monster-emoji">🐉</span>
+                  <span class="placeholder-text">Sem imagem</span>
+                </div>
+              </div>
+              
+              <div class="monster-title">
+                <h3 class="monster-name">{{ monster.name }}</h3>
+                <div class="monster-class">{{ monster.class.name }}</div>
+                
+                <!-- Dificuldade com estrelas -->
+                <div class="difficulty-stars">
+                  <img 
+                    *ngFor="let star of [1,2,3,4,5]; let i = index" 
+                    src="assets/icons-svg/star.svg"
+                    alt="Star"
+                    class="star"
+                    [class.filled]="i < getDifficultyStars(monster.difficulty)"
+                  />
+                </div>
+                
+                <!-- Localizações -->
+                <div class="locations-info">
+                  <span 
+                    class="location-count clickable" 
+                    (click)="openLocationPopup(monster.id, $event)"
+                  >
+                    {{ getLocationCount(monster.locations) }} Localizações
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="monster-stats">
+              <div class="stat-item">
+                <img src="assets/icons-svg/love.svg" alt="HP" class="stat-icon" />
+                <span class="stat-value">{{ formatNumber(monster.hitpoints) }}</span>
+              </div>
+              <div class="stat-item">
+                <img src="assets/icons-svg/starborder.svg" alt="XP" class="stat-icon" />
+                <span class="stat-value">{{ formatNumber(monster.experience) }}</span>
+              </div>
+              <div class="stat-item">
+                <img src="assets/icons-svg/storm.svg" alt="Speed" class="stat-icon" />
+                <span class="stat-value">{{ monster.speed }}</span>
+              </div>
+              <div class="stat-item">
+                <img src="assets/icons-svg/shield.svg" alt="Mitigation" class="stat-icon" />
+                <span class="stat-value">{{ monster.mitigation }}</span>
+              </div>
+              <div class="stat-item">
+                <img src="assets/icons-svg/fantasy.svg" alt="Armor" class="stat-icon" />
+                <span class="stat-value">{{ monster.armor }}%</span>
+              </div>
+            </div>
+
+            <!-- Resistências -->
+            <div class="resistances-section">
+              <h4>Resistências</h4>
+              <div class="resistances-grid">
+                <div 
+                  *ngFor="let resistance of getResistancesArray(monster)" 
+                  class="resistance-item"
+                  [class.has-resistance]="resistance.value > 100"
+                >
+                  <div class="resistance-header">
+                    <span class="resistance-icon">{{ getResistanceIcon(resistance.type) }}</span>
+                    <span class="resistance-type">{{ resistance.type }}</span>
+                  </div>
+                  <span class="resistance-value">{{ resistance.value }}%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Charm Details -->
+            <div class="charm-section">
+              <div class="charm-header">
+                <span class="charm-icon">💎</span>
+                <span class="charm-points">{{ monster.charm_details.charm_points }}</span>
+              </div>
+              
+              <div class="charm-progress">
+                <div class="charm-stages">
+                  <span class="stage">{{ monster.charm_details.first_stage }}</span>
+                  <span class="stage">{{ monster.charm_details.second_stage }}</span>
+                  <span class="stage">{{ monster.charm_details.third_stage }}</span>
+                </div>
+                <div class="charm-bar">
+                  <div class="charm-fill" style="width: 0%"></div>
+                </div>
+                <span class="charm-text">0/{{ monster.charm_details.third_stage }}</span>
+              </div>
+              
+              <div class="charm-ratio">
+                <span>Ratio: {{ (monster.experience / monster.hitpoints).toFixed(2) }} xp/hp</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paginação -->
+        <div class="pagination-container">
+          <div class="pagination-info">
+            <span>
+              Mostrando {{ (pagination().currentPage - 1) * pagination().itemsPerPage + 1 }} - 
+              {{ Math.min(pagination().currentPage * pagination().itemsPerPage, pagination().totalItems) }} 
+              de {{ formatNumber(pagination().totalItems) }} monstros
+            </span>
+          </div>
+          
+          <div class="pagination-controls">
+            <button 
+              [disabled]="!pagination().hasPreviousPage"
+              (click)="onPageChange(pagination().currentPage - 2, pagination().itemsPerPage)"
+              class="pagination-btn"
+            >
+              Anterior
+            </button>
+            
+            <span class="page-info">
+              Página {{ pagination().currentPage }} de {{ pagination().totalPages }}
+            </span>
+            
+            <button 
+              [disabled]="!pagination().hasNextPage"
+              (click)="onPageChange(pagination().currentPage, pagination().itemsPerPage)"
+              class="pagination-btn"
+            >
+              Próxima
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sem resultados -->
+      <div *ngIf="!isLoading() && !hasError() && !hasMonsters()" class="no-monsters">
+        <div class="empty-state">
+          <img
+            src="assets/icons-svg/information.svg"
+            alt="Vazio"
+            class="empty-icon"
+          />
+          <h3>Nenhuma Criatura Encontrada</h3>
+          <p>
+            Nenhum monstro foi encontrado com os filtros aplicados. Tente ajustar
+            os critérios de busca ou limpar os filtros.
+          </p>
+          <button (click)="clearFilters()" class="clear-filters-btn">
+            Limpar Filtros
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Popup de Localizações -->
+<div 
+  *ngIf="openLocationPopupId() !== null" 
+  class="location-popup-overlay" 
+  (click)="closeLocationPopup()"
+>
+  <div 
+    class="location-popup" 
+    [ngStyle]="{
+      top: (popupPosition()?.top || 0) + 'px',
+      left: (popupPosition()?.left || 0) + 'px'
+    }"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close-popup-btn" (click)="closeLocationPopup()">×</button>
+    <h4>Localizações</h4>
+    <div class="locations-list-popup">
+      <div *ngFor="let loc of popupLocations">
+        {{ loc }}
+      </div>
+    </div>
+  </div>
+</div> 
