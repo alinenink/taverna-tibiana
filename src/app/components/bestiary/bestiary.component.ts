@@ -55,11 +55,27 @@ export class BestiaryComponent implements OnInit {
   readonly openLocationPopupId = signal<number | null>(null);
   readonly popupPosition = signal<{top: number, left: number} | null>(null);
 
+  // Controle de kills de charm por monstro
+  readonly charmKills = signal<Record<number, number>>({});
+
   // Getter para localizações do popup
   get popupLocations(): string[] {
     const monster = this.monsters().find(m => m.id === this.openLocationPopupId());
     if (!monster || !monster.locations) return [];
     return monster.locations.split(',').map(loc => loc.trim());
+  }
+
+  // Métodos para gerenciar kills de charm
+  getCharmKills(monsterId: number): number {
+    return this.charmKills()[monsterId] || 0;
+  }
+
+  updateCharmKills(monsterId: number, event: Event): void {
+    const value = parseInt((event.target as HTMLInputElement).value);
+    this.charmKills.update(kills => ({
+      ...kills,
+      [monsterId]: value
+    }));
   }
 
   openLocationPopup(monsterId: number, event: MouseEvent) {

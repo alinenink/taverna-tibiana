@@ -258,10 +258,27 @@
                   <span class="stage">{{ monster.charm_details.second_stage }}</span>
                   <span class="stage">{{ monster.charm_details.third_stage }}</span>
                 </div>
-                <div class="charm-bar">
-                  <div class="charm-fill" style="width: 0%"></div>
+                
+                <div class="medieval-range-container">
+                  <input 
+                    type="range" 
+                    [min]="0" 
+                    [max]="monster.charm_details.third_stage"
+                    [value]="getCharmKills(monster.id)"
+                    (input)="updateCharmKills(monster.id, $event)"
+                    class="medieval-range"
+                    [style.--first-stage]="monster.charm_details.first_stage"
+                    [style.--second-stage]="monster.charm_details.second_stage"
+                    [style.--third-stage]="monster.charm_details.third_stage"
+                  />
+                  <div class="range-markers">
+                    <div class="marker" [style.left]="(monster.charm_details.first_stage / monster.charm_details.third_stage * 100) + '%'"></div>
+                    <div class="marker" [style.left]="(monster.charm_details.second_stage / monster.charm_details.third_stage * 100) + '%'"></div>
+                    <div class="marker" [style.left]="(monster.charm_details.third_stage / monster.charm_details.third_stage * 100) + '%'"></div>
+                  </div>
                 </div>
-                <span class="charm-text">0/{{ monster.charm_details.third_stage }}</span>
+                
+                <span class="charm-text">{{ getCharmKills(monster.id) }}/{{ monster.charm_details.third_stage }}</span>
               </div>
             </div>
           </div>

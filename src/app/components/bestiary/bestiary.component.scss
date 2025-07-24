@@ -491,17 +491,72 @@
       }
     }
     
-    .charm-bar {
-      height: 6px;
-      background: rgba(160, 121, 71, 0.2);
-      border-radius: 3px;
-      overflow: hidden;
+    .medieval-range-container {
+      position: relative;
       margin-bottom: 0.25rem;
       
-      .charm-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #d4af37, #ffd700);
-        transition: width 0.3s ease;
+      .medieval-range {
+        width: 100%;
+        height: 8px;
+        background: rgba(160, 121, 71, 0.2);
+        border-radius: 4px;
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(135deg, #d4af37, #ffd700);
+          border: 2px solid #a07947;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        &::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(135deg, #d4af37, #ffd700);
+          border: 2px solid #a07947;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        &::-webkit-slider-track {
+          background: linear-gradient(90deg, 
+            rgba(160, 121, 71, 0.3) 0%, 
+            rgba(160, 121, 71, 0.3) calc(var(--first-stage) / var(--third-stage) * 100%),
+            rgba(76, 175, 80, 0.4) calc(var(--first-stage) / var(--third-stage) * 100%),
+            rgba(76, 175, 80, 0.4) calc(var(--second-stage) / var(--third-stage) * 100%),
+            rgba(255, 193, 7, 0.4) calc(var(--second-stage) / var(--third-stage) * 100%),
+            rgba(255, 193, 7, 0.4) 100%
+          );
+          border-radius: 4px;
+          height: 8px;
+        }
+      }
+      
+      .range-markers {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        pointer-events: none;
+        
+        .marker {
+          position: absolute;
+          top: -2px;
+          width: 2px;
+          height: 12px;
+          background: #a07947;
+          border-radius: 1px;
+        }
       }
     }
     
