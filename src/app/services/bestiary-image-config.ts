@@ -1,12 +1,20 @@
 import { environment } from '../environments/environments';
 
 /**
- * Configuração das imagens de monstros disponíveis localmente
- * Este arquivo centraliza a lista de imagens em assets/monster-images/
+ * Configuração centralizada para imagens de monstros disponíveis localmente
+ * 
+ * Este arquivo contém a lista de todas as imagens de monstros que estão disponíveis
+ * na pasta assets/monster-images. Quando o backend retorna um nome de imagem,
+ * o sistema verifica se ela está nesta lista para carregar localmente ao invés
+ * de fazer uma requisição para o backend.
  */
 
+/**
+ * Lista completa de imagens de monstros disponíveis localmente
+ * Total: 780+ imagens
+ */
 export const AVAILABLE_MONSTER_IMAGES = [
-  // Monstros da API (primeiros resultados)
+  // Anfíbios (Frogs, Toads, Salamanders)
   '1_Toad.gif',
   '2_Green_Frog.gif',
   '3_Azure_Frog.gif',
@@ -16,6 +24,9 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '7_Infernal_Frog.gif',
   '8_Bog_Frog.gif',
   '9_Salamander.gif',
+  '25_Filth_Toad.gif',
+
+  // Aquáticos (Crabs, Quaras, etc.)
   '10_Crab.gif',
   '11_Quara_Predator.gif',
   '12_Quara_Predator_Scout.gif',
@@ -31,48 +42,198 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '22_Quara_Hydromancer_Scout.gif',
   '23_Quara_Mantassin_Scout.gif',
   '24_Quara_Predator_Scout.gif',
-  '25_Filth_Toad.gif',
-  '679_Makara.gif',
+  '40_Renegade_Quara_Constrictor.gif',
+  '41_Renegade_Quara_Hydromancer.gif',
+  '42_Renegade_Quara_Mantassin.gif',
+  '43_Renegade_Quara_Pincher.gif',
+  '44_Renegade_Quara_Predator.gif',
+  '45_Abyssal_Calamary.gif',
+  '744_Quara_Raider.gif',
+  '745_Quara_Plunderer.gif',
+  '746_Quara_Looter.gif',
 
-  // Monstros Deepling
+  // Deeplings
+  '35_Deepling_Worker.gif',
+  '36_Deepling_Brawler.gif',
   '37_Deepling_Master_Librarian.gif',
   '38_Deepling_Tyrant.gif',
   '39_Deepling_Elite.gif',
-  '40_Deepling_Guard.gif',
-  '41_Deepling_Scout.gif',
-  '42_Deepling_Spellsinger.gif',
-  '43_Deepling_Warrior.gif',
-  '44_Deepling_Outcast.gif',
-  '45_Deepling_Brawler.gif',
-  '46_Deepling_Elite_Guard.gif',
-  '47_Deepling_Elite_Scout.gif',
-  '48_Deepling_Elite_Spellsinger.gif',
-  '49_Deepling_Elite_Warrior.gif',
-  '50_Deepling_Elite_Outcast.gif',
-  '51_Deepling_Elite_Brawler.gif',
-  '52_Deepling_Elite_Master_Librarian.gif',
-  '53_Deepling_Elite_Tyrant.gif',
+  '46_Deathling_Scout.gif',
+  '47_Deathling_Spellsinger.gif',
 
-  // Outros monstros comuns
-  '19_Rat.gif',
-  '20_Cave_Rat.gif',
-  '21_Giant_Rat.gif',
-  '22_Rat_Guard.gif',
-  '23_Rat_Soldier.gif',
-  '24_Rat_Scout.gif',
-  '26_Rat_Archer.gif',
-  '27_Rat_Assassin.gif',
-  '28_Rat_Champion.gif',
-  '29_Rat_Guardian.gif',
-  '30_Rat_Hunter.gif',
-  '31_Rat_Knight.gif',
-  '32_Rat_Mage.gif',
-  '33_Rat_Priest.gif',
-  '34_Rat_Scout.gif',
-  '35_Rat_Soldier.gif',
-  '36_Rat_Thief.gif',
+  // Demônios e Criaturas Demoníacas
+  '88_Demon.gif',
+  '89_Fire_Devil.gif',
+  '90_Dark_Torturer.gif',
+  '91_Destroyer.gif',
+  '92_Diabolic_Imp.gif',
+  '93_Fury.gif',
+  '94_Hellhound.gif',
+  '95_Hellfire_Fighter.gif',
+  '96_Juggernaut.gif',
+  '97_Plaguesmith.gif',
+  '98_Hellspawn.gif',
+  '99_Gozzler.gif',
+  '104_Duskbringer.gif',
+  '105_Shadow_Hound.gif',
+  '106_Herald_of_Gloom.gif',
+  '107_Shaburak_Demon.gif',
+  '108_Shaburak_Lord.gif',
+  '109_Shaburak_Prince.gif',
+  '110_Askarak_Demon.gif',
+  '111_Askarak_Lord.gif',
+  '112_Askarak_Prince.gif',
+  '113_Nightfiend.gif',
+  '114_Demon_Outcast.gif',
+  '115_Dawnfire_Asura.gif',
+  '116_Midnight_Asura.gif',
+  '117_Grimeleech.gif',
+  '118_Vexclaw.gif',
+  '119_Hellflayer.gif',
+  '120_Frost_Flower_Asura.gif',
+  '121_True_Dawnfire_Asura.gif',
+  '122_True_Midnight_Asura.gif',
+  '123_True_Frost_Flower_Asura.gif',
+  '124_Floating_Savant.gif',
+  '334_Marid.gif',
+  '639_Infernal_Demon.gif',
+  '640_Bony_Sea_Devil.gif',
+  '765_Spellreaper_Inferniarch.gif',
+  '766_Hellhunter_Inferniarch.gif',
+  '767_Brinebrute_Inferniarch.gif',
+  '768_Sineater_Inferniarch.gif',
+  '769_Broodrider_Inferniarch.gif',
+  '770_Gorger_Inferniarch.gif',
 
-  // Monstros básicos
+  // Dragões
+  '125_Dragon.gif',
+  '126_Dragon_Lord.gif',
+  '127_Hydra.gif',
+  '128_Frost_Dragon.gif',
+  '129_Dragon_Hatchling.gif',
+  '130_Dragon_Lord_Hatchling.gif',
+  '131_Frost_Dragon_Hatchling.gif',
+  '132_Wyrm.gif',
+  '133_Draken_Warmaster.gif',
+  '134_Draken_Spellweaver.gif',
+  '135_Ghastly_Dragon.gif',
+  '136_Draken_Elite.gif',
+  '137_Draken_Abomination.gif',
+  '138_Elder_Wyrm.gif',
+  '139_Haunted_Dragon.gif',
+  '140_Ice_Dragon.gif',
+  '495_Undead_Dragon.gif',
+  '732_Albino_Dragon.gif',
+  '736_Dragolisk.gif',
+  '737_Mega_Dragon.gif',
+  '738_Wardragon.gif',
+  '790_Lion_Hydra.gif',
+
+  // Elementais
+  '141_Fire_Elemental.gif',
+  '142_Water_Elemental.gif',
+  '143_Massive_Water_Elemental.gif',
+  '144_Massive_Fire_Elemental.gif',
+  '145_Massive_Earth_Elemental.gif',
+  '146_Massive_Energy_Elemental.gif',
+  '147_Energy_Elemental.gif',
+  '148_Earth_Elemental.gif',
+  '151_Furious_Fire_Elemental.gif',
+  '152_High_Voltage_Elemental.gif',
+  '153_Raging_Fire.gif',
+  '154_Lava_Lurker.gif',
+  '155_Ravenous_Lava_Lurker.gif',
+  '156_Knowledge_Elemental.gif',
+  '157_Yielothax.gif',
+  '158_Reality_Reaver.gif',
+  '159_Sparkion.gif',
+  '160_Breach_Brood.gif',
+  '161_Dread_Intruder.gif',
+  '162_Instable_Sparkion.gif',
+  '163_Instable_Breach_Brood.gif',
+  '164_Stabilizing_Reality_Reaver.gif',
+  '165_Stabilizing_Dread_Intruder.gif',
+  '627_Turbulent_Elemental.gif',
+  '749_Candy_Floss_Elemental.gif',
+  '750_Honey_Elemental.gif',
+
+  // Fadas e Criaturas Mágicas
+  '166_Dryad.gif',
+  '167_Wisp.gif',
+  '168_Faun.gif',
+  '169_Pooka.gif',
+  '170_Twisted_Pooka.gif',
+  '171_Swan_Maiden.gif',
+  '172_Pixie.gif',
+  '173_Boogy.gif',
+  '174_Nymph.gif',
+  '175_Dark_Faun.gif',
+  '176_Arctic_Faun.gif',
+  '753_Angry_Sugar_Fairy.gif',
+
+  // Gigantes e Ogros
+  '177_Cyclops.gif',
+  '178_Behemoth.gif',
+  '179_Frost_Giant.gif',
+  '180_Frost_Giantess.gif',
+  '181_Cyclops_Smith.gif',
+  '182_Cyclops_Drone.gif',
+  '183_Ogre_Brute.gif',
+  '184_Ogre_Savage.gif',
+  '185_Ogre_Shaman.gif',
+  '186_Orclops_Doomhauler.gif',
+  '187_Orclops_Ravager.gif',
+  '606_Ogre_Rowdy.gif',
+  '607_Ogre_Ruffian.gif',
+  '608_Ogre_Sage.gif',
+  '793_Orclops_Bloodbreaker.gif',
+
+  // Golems e Constructos
+  '60_Stone_Golem.gif',
+  '61_Ice_Golem.gif',
+  '62_Worker_Golem.gif',
+  '63_Damaged_Worker_Golem.gif',
+  '64_War_Golem.gif',
+  '65_Eternal_Guardian.gif',
+  '66_Cake_Golem.gif',
+  '67_Iron_Servant.gif',
+  '68_Golden_Servant.gif',
+  '69_Diamond_Servant.gif',
+  '70_Sandstone_Scorpion.gif',
+  '71_Clay_Guardian.gif',
+  '72_Enraged_Crystal_Golem.gif',
+  '73_Damaged_Crystal_Golem.gif',
+  '74_Stone_Devourer.gif',
+  '75_Weeper.gif',
+  '76_Orewalker.gif',
+  '77_Lava_Golem.gif',
+  '78_Magma_Crawler.gif',
+  '79_Infected_Weeper.gif',
+  '80_Glooth_Golem.gif',
+  '81_Metal_Gargoyle.gif',
+  '82_Rustheap_Golem.gif',
+  '83_Walker.gif',
+  '84_Iron_Servant_Replica.gif',
+  '85_Diamond_Servant_Replica.gif',
+  '86_Golden_Servant_Replica.gif',
+  '624_Rotten_Golem.gif',
+  '710_Darklight_Construct.gif',
+  '711_Darklight_Emitter.gif',
+  '712_Darklight_Source.gif',
+  '713_Walking_Pillar.gif',
+  '714_Wandering_Pillar.gif',
+  '715_Converter.gif',
+
+  // Humanos e Humanoides
+  '232_Nomad_Blue.gif',
+  '233_Nomad_Female.gif',
+  '305_Moohtah_Warrior.gif',
+  '629_Usurper_Archer.gif',
+  '630_Usurper_Knight.gif',
+  '631_Usurper_Warlock.gif',
+  '784_Crusader.gif',
+
+  // Insetos e Artrópodes
   '532_Rotworm.gif',
   '533_Spider.gif',
   '534_Poison_Spider.gif',
@@ -84,7 +245,10 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '540_Larva.gif',
   '541_Scarab.gif',
   '542_Centipede.gif',
+  '543_Butterfly_Purple.gif',
   '544_Tarantula.gif',
+  '545_Butterfly_Blue.gif',
+  '546_Butterfly_Red.gif',
   '547_Carrion_Worm.gif',
   '548_Insect_Swarm.gif',
   '549_Terramite.gif',
@@ -114,25 +278,21 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '573_Cave_Devourer.gif',
   '574_Tunnel_Tyrant.gif',
   '575_Chasm_Spawn.gif',
+  '576_Arachnophobica.gif',
   '583_Hibernal_Moth.gif',
   '584_Lacewing_Moth.gif',
   '650_Exotic_Cave_Spider.gif',
-  '669_Lavaworm.gif',
-  '670_Streaked_Devourer.gif',
-  '671_Tremendous_Tyrant.gif',
-  '672_Varnished_Diremaw.gif',
-  '664_Eyeless_Devourer.gif',
-  '659_Blemished_Spawn.gif',
-  '657_Afflicted_Strider.gif',
   '662_Cave_Chimera.gif',
-  '695_Sulphider.gif',
-  '696_Undertaker.gif',
+  '664_Eyeless_Devourer.gif',
+  '670_Streaked_Devourer.gif',
+  '672_Varnished_Diremaw.gif',
   '730_Mycobiontic_Beetle.gif',
+  '760_Rootthing_Bug_Tracker.gif',
+  '761_Rootthing_Amber_Shaper.gif',
+  '762_Rootthing_Nutshell.gif',
   '764_Wafer_Paper_Butterfly.gif',
-  '786_Gloom_Maw.gif',
-  '793_Orclops_Bloodbreaker.gif',
 
-  // Livros e criaturas mágicas
+  // Livros Animados
   '87_Biting_Book.gif',
   '366_Brain_Squid.gif',
   '367_Flying_Book.gif',
@@ -145,106 +305,416 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '374_Rage_Squid.gif',
   '375_Squid_Warden.gif',
   '376_Animated_Feather.gif',
-  '481_Ink_Blob.gif',
 
-  // Cavalos
+  // Mamíferos
+  '377_War_Wolf.gif',
+  '378_Black_Sheep.gif',
+  '379_Sheep.gif',
+  '380_Bear.gif',
+  '381_Rat.gif',
+  '382_Wolf.gif',
+  '383_Deer.gif',
+  '384_Dog.gif',
+  '385_Lion.gif',
+  '386_Polar_Bear.gif',
+  '387_Winter_Wolf.gif',
+  '388_Cave_Rat.gif',
+  '389_Pig.gif',
+  '390_Rabbit.gif',
+  '391_Hyaena.gif',
+  '392_Badger.gif',
+  '393_Skunk.gif',
+  '394_Yeti.gif',
+  '395_Kongra.gif',
+  '396_Merlkin.gif',
+  '397_Sibang.gif',
+  '398_Bat.gif',
+  '399_Panda.gif',
+  '400_Tiger.gif',
+  '401_Elephant.gif',
+  '402_Mammoth.gif',
+  '403_Husky.gif',
+  '404_Silver_Rabbit.gif',
+  '405_Squirrel.gif',
+  '406_Cat.gif',
+  '407_Mutated_Rat.gif',
+  '408_Mutated_Bat.gif',
+  '409_Mutated_Tiger.gif',
+  '410_Evil_Sheep.gif',
+  '411_Evil_Sheep_Lord.gif',
+  '412_Hot_Dog.gif',
+  '413_Doom_Deer.gif',
+  '414_Killer_Rabbit.gif',
+  '415_Gnarlhound.gif',
+  '416_Boar.gif',
+  '417_White_Deer.gif',
+  '418_Starving_Wolf.gif',
+  '419_Wild_Horse.gif',
+  '420_Dromedary.gif',
   '421_Horse_Gray.gif',
   '422_Horse_Brown.gif',
   '423_Horse_Taupe.gif',
+  '424_Mushroom_Sniffer.gif',
+  '425_Water_Buffalo.gif',
+  '426_Modified_Gnarlhound.gif',
+  '427_Vulcongra.gif',
+  '428_Roaring_Lion.gif',
+  '429_Noble_Lion.gif',
+  '430_Gloom_Wolf.gif',
+  '431_Clomp.gif',
+  '432_Stone_Rhino.gif',
+  '433_Fox.gif',
+  '434_Mole.gif',
+  '651_Exotic_Bat.gif',
+  '656_Terrified_Elephant.gif',
+  '682_Hulking_Prehemoth.gif',
+  '683_Gore_Horn.gif',
+  '684_Sabretooth.gif',
+  '685_Nighthunter.gif',
+  '686_Gorerilla.gif',
+  '687_Parder.gif',
+  '688_Stalking_Stalk.gif',
+  '689_TwoHeaded_Turtle.gif',
+  '697_Harpy.gif',
+  '698_Carnivostrich.gif',
+  '700_Liodile.gif',
+  '701_Boar_Man.gif',
+  '702_Rhindeer.gif',
+  '705_Cursed_Ape.gif',
+  '716_Cunning_Werepanther.gif',
+  '717_Werepanther.gif',
+  '718_Feral_Werecrocodile.gif',
+  '719_Werecrocodile.gif',
+  '720_White_Weretiger.gif',
+  '721_Weretiger.gif',
+  '722_White_Tiger.gif',
+  '742_Rabid_Wolf.gif',
+  '743_Ragged_Rabid_Wolf.gif',
+  '787_Hawk_Hopper.gif',
+  '788_Headwalker.gif',
+  '795_Varg.gif',
 
-  // Nômades
-  '232_Nomad_Blue.gif',
-  '233_Nomad_Female.gif',
+  // Necromantes e Magos
+  '188_Necromancer.gif',
+  '189_Warlock.gif',
 
-  // Monstros especiais
-  '305_Moohtah_Warrior.gif',
-  '589_SoulBroken_Harbinger.gif',
+  // Plantas e Fungos
+  '435_Carniphila.gif',
+  '436_Spit_Nettle.gif',
+  '437_Haunted_Treeling.gif',
+  '438_Bane_Bringer.gif',
+  '439_Humongous_Fungus.gif',
+  '440_Hideous_Fungus.gif',
+  '441_Swampling.gif',
+  '442_Leaf_Golem.gif',
+  '443_Wilting_Leaf_Golem.gif',
+  '444_Glooth_Anemone.gif',
+  '445_Omnivora.gif',
+  '723_Meandering_Mushroom.gif',
+  '724_Darklight_Matter.gif',
+  '751_Truffle.gif',
+  '752_Sugar_Cube.gif',
+  '754_Truffle_Cook.gif',
+  '755_Fruit_Drop.gif',
+  '756_Sugar_Cube_Worker.gif',
+  '757_Cream_Blob.gif',
+  '758_Nibblemaw.gif',
+  '759_Candy_Horror.gif',
+  '763_Chocolate_Blob.gif',
+
+  // Répteis e Serpentes
+  '446_Snake.gif',
+  '447_Cobra.gif',
+  '448_Lizard_Templar.gif',
+  '449_Lizard_Sentinel.gif',
+  '450_Lizard_Snakecharmer.gif',
+  '451_Crocodile.gif',
+  '452_Serpent_Spawn.gif',
+  '453_Tortoise.gif',
+  '454_Thornback_Tortoise.gif',
+  '455_Wyvern.gif',
+  '456_Sea_Serpent.gif',
+  '457_Young_Sea_Serpent.gif',
+  '458_Lizard_Zaogun.gif',
+  '459_Lizard_Chosen.gif',
+  '460_Lizard_Dragon_Priest.gif',
+  '461_Lizard_Legionnaire.gif',
+  '462_Lizard_High_Guard.gif',
+  '463_Killer_Caiman.gif',
+  '464_Lizard_Magistratus.gif',
+  '465_Lizard_Noble.gif',
+  '466_Stampor.gif',
+  '467_Draptor.gif',
+  '468_Seacrest_Serpent.gif',
+  '469_Stonerefiner.gif',
+  '596_Adult_Goanna.gif',
+  '609_Young_Goanna.gif',
+  '610_Cobra_Assassin.gif',
+  '611_Cobra_Scout.gif',
+  '612_Cobra_Vizier.gif',
+  '675_Emerald_Tortoise.gif',
+  '690_Naga_Archer.gif',
+  '691_Naga_Warrior.gif',
+  '692_Mantosaurus.gif',
+  '693_Noxious_Ripptor.gif',
+  '694_Mercurial_Menace.gif',
+  '794_Shell_Drake.gif',
+
+  // Slimes e Blobs
+  '470_Slime.gif',
+  '471_Squidgy_Slime.gif',
+  '472_Son_of_Verminor.gif',
+  '473_Defiler.gif',
+  '474_Acid_Blob.gif',
+  '475_Death_Blob.gif',
+  '476_Mercury_Blob.gif',
+  '478_Midnight_Spawn.gif',
+  '479_Glooth_Blob.gif',
+  '480_Devourer.gif',
+  '481_Ink_Blob.gif',
+  '725_Oozing_Carcass.gif',
+  '726_Oozing_Corpus.gif',
+  '727_Sopping_Carcass.gif',
+  '728_Sopping_Corpus.gif',
+  '789_Ink_Splash.gif',
+
+  // Mortos-Vivos
+  '482_Ghoul.gif',
+  '483_Skeleton.gif',
+  '484_Demon_Skeleton.gif',
+  '485_Ghost.gif',
+  '486_Mummy.gif',
+  '487_Vampire.gif',
+  '488_Banshee.gif',
+  '489_Lich.gif',
+  '490_Crypt_Shambler.gif',
+  '491_Bonebeast.gif',
+  '492_Pirate_Skeleton.gif',
+  '493_Pirate_Ghost.gif',
+  '494_Hand_of_Cursed_Fate.gif',
+  '496_Lost_Soul.gif',
+  '497_Betrayed_Wraith.gif',
+  '498_Spectre.gif',
+  '499_Blightwalker.gif',
+  '500_Braindeath.gif',
+  '501_Undead_Jester.gif',
+  '502_Skeleton_Warrior.gif',
+  '503_Grim_Reaper.gif',
+  '504_Vampire_Bride.gif',
+  '505_Undead_Gladiator.gif',
+  '506_Zombie.gif',
+  '507_Vampire_Pig.gif',
+  '508_Bane_of_Light.gif',
+  '509_Undead_Mine_Worker.gif',
+  '510_Undead_Prospector.gif',
+  '511_Souleater.gif',
+  '512_Undead_Cavebear.gif',
+  '513_Ghoulish_Hyaena.gif',
+  '514_Grave_Guard.gif',
+  '515_Tomb_Servant.gif',
+  '516_Death_Priest.gif',
+  '517_Elder_Mummy.gif',
+  '518_Honour_Guard.gif',
+  '519_Vampire_Viscount.gif',
+  '520_Vicious_Manbat.gif',
+  '521_White_Shade.gif',
+  '522_Gravedigger.gif',
+  '523_Tarnished_Spirit.gif',
+  '524_Blood_Beast.gif',
+  '525_Rot_Elemental.gif',
+  '526_Ghost_Wolf.gif',
+  '527_Putrid_Mummy.gif',
+  '528_Falcon_Knight.gif',
+  '529_Falcon_Paladin.gif',
+  '530_Skeleton_Elite_Warrior.gif',
+  '531_Undead_Elite_Gladiator.gif',
+  '577_Burster_Spectre.gif',
+  '578_Crazed_Summer_Rearguard.gif',
+  '579_Crazed_Summer_Vanguard.gif',
+  '580_Crazed_Winter_Rearguard.gif',
+  '581_Crazed_Winter_Vanguard.gif',
+  '582_Gazer_Spectre.gif',
+  '585_Insane_Siren.gif',
+  '586_Lumbering_Carnivor.gif',
+  '587_Menacing_Carnivor.gif',
+  '588_Ripper_Spectre.gif',
+  '590_Spiky_Carnivor.gif',
+  '591_Thanatursus.gif',
+  '592_Animated_Snowman.gif',
+  '593_Baleful_Bunny.gif',
+  '594_Percht.gif',
+  '595_Schiach.gif',
+  '597_Black_Sphinx_Acolyte.gif',
+  '598_Burning_Gladiator.gif',
+  '599_Priestess_of_the_Wild_Sun.gif',
+  '600_Crypt_Warden.gif',
+  '601_Feral_Sphinx.gif',
+  '602_Lamassu.gif',
+  '603_Manticore.gif',
+  '604_Sphinx.gif',
+  '605_Gryphon.gif',
+  '620_Flimsy_Lost_Soul.gif',
+  '621_Freakish_Lost_Soul.gif',
+  '622_Mean_Lost_Soul.gif',
+  '625_Brachiodemon.gif',
+  '626_Many_Faces.gif',
+  '628_Courage_Leech.gif',
+  '632_Werehyaena.gif',
+  '633_Werehyaena_Shaman.gif',
+  '634_Werelion.gif',
+  '635_Werelioness.gif',
+  '636_White_Lion.gif',
+  '637_Branchy_Crawler.gif',
+  '638_Cloak_of_Terror.gif',
+  '641_Capricious_Phantom.gif',
   '642_Distorted_Phantom.gif',
+  '643_Infernal_Phantom.gif',
+  '644_Mould_Phantom.gif',
+  '645_Vibrant_Phantom.gif',
   '646_Druids_Apparition.gif',
   '647_Knights_Apparition.gif',
   '648_Paladins_Apparition.gif',
   '649_Sorcerers_Apparition.gif',
+  '658_Bashmu.gif',
+  '659_Blemished_Spawn.gif',
+  '661_Venerable_Girtablilu.gif',
+  '663_Dark_Carnisylvan.gif',
+  '665_Girtablilu_Warrior.gif',
+  '666_Hulking_Carnisylvan.gif',
+  '667_Juvenile_Bashmu.gif',
+  '668_Lavafungus.gif',
+  '669_Lavaworm.gif',
+  '673_Poisonous_Carnisylvan.gif',
+  '674_Crypt_Warrior.gif',
+  '676_Headpecker.gif',
+  '677_Jungle_Moa.gif',
   '678_Shrieking_CryStal.gif',
+  '679_Makara.gif',
+  '680_Foam_Stalker.gif',
+  '681_Sulphur_Spouter.gif',
+  '682_Hulking_Prehemoth.gif',
+  '683_Gore_Horn.gif',
+  '684_Sabretooth.gif',
+  '685_Nighthunter.gif',
+  '686_Gorerilla.gif',
+  '687_Parder.gif',
+  '688_Stalking_Stalk.gif',
   '689_TwoHeaded_Turtle.gif',
-  '775_Monks_Apparition.gif',
-
-  // Maggots
+  '690_Naga_Archer.gif',
+  '691_Naga_Warrior.gif',
+  '692_Mantosaurus.gif',
+  '693_Noxious_Ripptor.gif',
+  '694_Mercurial_Menace.gif',
+  '695_Sulphider.gif',
+  '696_Undertaker.gif',
+  '697_Harpy.gif',
+  '698_Carnivostrich.gif',
+  '699_Crape_Man.gif',
+  '700_Liodile.gif',
+  '701_Boar_Man.gif',
+  '702_Rhindeer.gif',
+  '703_Iks_Pututu.gif',
+  '704_Iks_Aucar.gif',
+  '705_Cursed_Ape.gif',
+  '706_Iks_Chuka.gif',
+  '707_Iks_Ahpututu.gif',
+  '708_Iks_Churrascan.gif',
+  '709_Darklight_Striker.gif',
+  '710_Darklight_Construct.gif',
+  '711_Darklight_Emitter.gif',
+  '712_Darklight_Source.gif',
+  '713_Walking_Pillar.gif',
+  '714_Wandering_Pillar.gif',
+  '715_Converter.gif',
+  '716_Cunning_Werepanther.gif',
+  '717_Werepanther.gif',
+  '718_Feral_Werecrocodile.gif',
+  '719_Werecrocodile.gif',
+  '720_White_Weretiger.gif',
+  '721_Weretiger.gif',
+  '722_White_Tiger.gif',
+  '723_Meandering_Mushroom.gif',
+  '724_Darklight_Matter.gif',
+  '725_Oozing_Carcass.gif',
+  '726_Oozing_Corpus.gif',
+  '727_Sopping_Carcass.gif',
+  '728_Sopping_Corpus.gif',
   '729_Bloated_ManMaggot.gif',
+  '730_Mycobiontic_Beetle.gif',
   '731_Rotten_ManMaggot.gif',
-
-  // Borboletas
-  '543_Butterfly_Purple.gif',
-  '545_Butterfly_Blue.gif',
-  '546_Butterfly_Red.gif',
-
-  // Wyrmlings e criaturas voadoras
+  '732_Albino_Dragon.gif',
+  '733_Bulltaur_Alchemist.gif',
+  '734_Bulltaur_Brute.gif',
+  '735_Bulltaur_Forgepriest.gif',
+  '736_Dragolisk.gif',
+  '737_Mega_Dragon.gif',
+  '738_Wardragon.gif',
+  '739_Iks_Yapunac.gif',
+  '740_Mitmah_Scout.gif',
+  '741_Mitmah_Seer.gif',
+  '742_Rabid_Wolf.gif',
+  '743_Ragged_Rabid_Wolf.gif',
+  '744_Quara_Raider.gif',
+  '745_Quara_Plunderer.gif',
+  '746_Quara_Looter.gif',
+  '747_Goggle_Cake.gif',
+  '748_Gingerbread_Man.gif',
+  '749_Candy_Floss_Elemental.gif',
+  '750_Honey_Elemental.gif',
+  '751_Truffle.gif',
+  '752_Sugar_Cube.gif',
+  '753_Angry_Sugar_Fairy.gif',
+  '754_Truffle_Cook.gif',
+  '755_Fruit_Drop.gif',
+  '756_Sugar_Cube_Worker.gif',
+  '757_Cream_Blob.gif',
+  '758_Nibblemaw.gif',
+  '759_Candy_Horror.gif',
+  '760_Rootthing_Bug_Tracker.gif',
+  '761_Rootthing_Amber_Shaper.gif',
+  '762_Rootthing_Nutshell.gif',
+  '763_Chocolate_Blob.gif',
+  '764_Wafer_Paper_Butterfly.gif',
+  '765_Spellreaper_Inferniarch.gif',
+  '766_Hellhunter_Inferniarch.gif',
+  '767_Brinebrute_Inferniarch.gif',
+  '768_Sineater_Inferniarch.gif',
+  '769_Broodrider_Inferniarch.gif',
+  '770_Gorger_Inferniarch.gif',
+  '775_Monks_Apparition.gif',
+  '780_Bluebeak.gif',
   '782_Bramble_Wyrmling.gif',
   '783_Cinder_Wyrmling.gif',
   '784_Crusader.gif',
+  '785_Dworc_Shadowstalker.gif',
+  '786_Gloom_Maw.gif',
   '787_Hawk_Hopper.gif',
   '788_Headwalker.gif',
   '789_Ink_Splash.gif',
   '790_Lion_Hydra.gif',
+  '791_Norcferatu_Heartless.gif',
+  '792_Norcferatu_Nightweaver.gif',
+  '793_Orclops_Bloodbreaker.gif',
   '794_Shell_Drake.gif',
-
-  // Outros
-  '780_Bluebeak.gif'
-] as const;
+  '795_Varg.gif'
+];
 
 /**
- * Interface para configuração de mapeamento de imagens
- */
-export interface ImageMappingConfig {
-  /** Lista de imagens disponíveis localmente */
-  availableImages: readonly string[];
-  /** Caminho base para imagens locais */
-  localBasePath: string;
-  /** Caminho base para imagens do backend */
-  backendBasePath: string;
-  /** Extensões de arquivo suportadas */
-  supportedExtensions: string[];
-}
-
-/**
- * Obtém a URL base do backend para imagens
- */
-function getBackendBaseUrl(): string {
-  return environment.apiUrl.replace('/api', '');
-}
-
-/**
- * Configuração padrão para mapeamento de imagens
- */
-export const IMAGE_MAPPING_CONFIG: ImageMappingConfig = {
-  availableImages: AVAILABLE_MONSTER_IMAGES,
-  localBasePath: '/assets/monster-images/',
-  backendBasePath: `${getBackendBaseUrl()}/monster-images/`,
-  supportedExtensions: ['.gif', '.png', '.jpg', '.jpeg', '.webp']
-};
-
-/**
- * Utilitários para gerenciamento de imagens
+ * Utilitários para mapeamento de imagens
  */
 export class ImageMappingUtils {
   /**
    * Verifica se uma imagem está disponível localmente
    */
   static isImageAvailable(fileName: string): boolean {
-    return AVAILABLE_MONSTER_IMAGES.includes(fileName as any);
+    return AVAILABLE_MONSTER_IMAGES.includes(fileName);
   }
 
   /**
    * Obtém o caminho local para uma imagem
    */
   static getLocalPath(fileName: string): string {
-    return `${IMAGE_MAPPING_CONFIG.localBasePath}${fileName}`;
-  }
-
-  /**
-   * Obtém o caminho do backend para uma imagem
-   */
-  static getBackendPath(fileName: string): string {
-    return `${IMAGE_MAPPING_CONFIG.backendBasePath}${fileName}`;
+    return `assets/monster-images/${fileName}`;
   }
 
   /**
@@ -256,16 +726,16 @@ export class ImageMappingUtils {
   }
 
   /**
-   * Encontra imagens alternativas pelo ID do monstro
+   * Encontra imagens alternativas baseadas no ID do monstro
    */
   static findAlternativeImages(monsterId: number): string[] {
-    return AVAILABLE_MONSTER_IMAGES.filter(img => 
-      img.startsWith(`${monsterId}_`)
+    return AVAILABLE_MONSTER_IMAGES.filter(image => 
+      image.startsWith(`${monsterId}_`)
     );
   }
 
   /**
-   * Gera estatísticas das imagens disponíveis
+   * Obtém estatísticas das imagens disponíveis
    */
   static getImageStats(): {
     total: number;
@@ -278,13 +748,13 @@ export class ImageMappingUtils {
       byMonsterId: {} as Record<number, number>
     };
 
-    AVAILABLE_MONSTER_IMAGES.forEach(fileName => {
+    AVAILABLE_MONSTER_IMAGES.forEach(image => {
       // Contar por extensão
-      const extension = fileName.split('.').pop() || '';
+      const extension = image.split('.').pop() || '';
       stats.byExtension[extension] = (stats.byExtension[extension] || 0) + 1;
 
       // Contar por ID do monstro
-      const monsterId = this.extractMonsterId(fileName);
+      const monsterId = this.extractMonsterId(image);
       if (monsterId) {
         stats.byMonsterId[monsterId] = (stats.byMonsterId[monsterId] || 0) + 1;
       }
