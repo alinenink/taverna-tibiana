@@ -211,9 +211,6 @@ export class BestiaryComponent implements OnInit {
    * Trata a resposta da API
    */
   private handleResponse(response: BestiaryResponse): void {
-    // Limpar estado anterior das imagens
-    this.clearImageState();
-    
     this.monsters.set(response.data);
     this.pagination.set({
       currentPage: response.pagination.page,
@@ -224,48 +221,6 @@ export class BestiaryComponent implements OnInit {
       hasPreviousPage: response.pagination.hasPrev
     });
     this.loading.set(false);
-    
-    // Força recarregamento das imagens na próxima página
-    setTimeout(() => {
-      this.forceImageReload();
-    }, 100);
-  }
-
-  /**
-   * Limpa o estado das imagens
-   */
-  private clearImageState(): void {
-    const images = document.querySelectorAll('.monster-image') as NodeListOf<HTMLImageElement>;
-    images.forEach(img => {
-      img.style.opacity = '0';
-      img.style.display = 'none';
-    });
-  }
-
-  /**
-   * Força recarregamento das imagens
-   */
-  private forceImageReload(): void {
-    const images = document.querySelectorAll('.monster-image') as NodeListOf<HTMLImageElement>;
-    images.forEach(img => {
-      // Limpar completamente a imagem
-      img.style.opacity = '0';
-      img.style.display = 'none';
-      
-      // Forçar recarregamento com novo timestamp
-      const currentSrc = img.src;
-      const separator = currentSrc.includes('?') ? '&' : '?';
-      const newSrc = `${currentSrc}${separator}reload=${Date.now()}`;
-      
-      // Recarregar com nova URL
-      img.src = newSrc;
-      
-      // Mostrar novamente após um pequeno delay
-      setTimeout(() => {
-        img.style.display = '';
-        img.style.opacity = '1';
-      }, 50);
-    });
   }
 
   /**
@@ -348,8 +303,8 @@ export class BestiaryComponent implements OnInit {
   getMonsterImageUrl(imagePath: string): string {
     const url = this.bestiaryService.getMonsterImageUrl(imagePath);
     
-    // Adiciona parâmetro de cache-busting mais agressivo
-    const cacheBuster = `?v=${this.pagination().currentPage}&t=${Date.now()}&r=${Math.random()}`;
+    // Adiciona parâmetro de cache-busting simples baseado na página
+    const cacheBuster = `?page=${this.pagination().currentPage}`;
     const finalUrl = url.includes('?') ? `${url}&${cacheBuster.substring(1)}` : `${url}${cacheBuster}`;
     
     // Debug: log das URLs das imagens
