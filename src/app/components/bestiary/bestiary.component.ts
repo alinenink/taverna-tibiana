@@ -59,7 +59,7 @@ export class BestiaryComponent implements OnInit {
   readonly charmKills = signal<Record<number, number>>({});
 
   // Controle de monstro selecionado
-  readonly selectedMonsterId = signal<number | null>(null);
+  readonly selectedMonsterIds = signal<Set<number>>(new Set());
 
   // Getter para localizações do popup
   get popupLocations(): string[] {
@@ -81,13 +81,25 @@ export class BestiaryComponent implements OnInit {
     }));
   }
 
-  // Métodos para seleção de monstros
-  selectMonster(monsterId: number): void {
-    this.selectedMonsterId.set(monsterId);
+  // Métodos para seleção múltipla de monstros
+  toggleMonsterSelection(monsterId: number): void {
+    this.selectedMonsterIds.update(selectedIds => {
+      const newSet = new Set(selectedIds);
+      if (newSet.has(monsterId)) {
+        newSet.delete(monsterId);
+      } else {
+        newSet.add(monsterId);
+      }
+      return newSet;
+    });
   }
 
   isMonsterSelected(monsterId: number): boolean {
-    return this.selectedMonsterId() === monsterId;
+    return this.selectedMonsterIds().has(monsterId);
+  }
+
+  getSelectedCount(): number {
+    return this.selectedMonsterIds().size;
   }
 
   openLocationPopup(monsterId: number, event: MouseEvent) {
