@@ -448,6 +448,15 @@
         border-left: 3px solid #4CAF50;
       }
       
+      &.weak-resistance {
+        background: rgba(244, 67, 54, 0.1);
+        border-left: 3px solid #f44336;
+        
+        .resistance-value {
+          color: #d32f2f;
+        }
+      }
+      
       .resistance-header {
         display: flex;
         align-items: center;

@@ -240,6 +240,7 @@
                   *ngFor="let resistance of getResistancesArray(monster)" 
                   class="resistance-item"
                   [class.has-resistance]="resistance.value > 100"
+                  [class.weak-resistance]="resistance.value < 100"
                 >
                   <div class="resistance-header">
                     <span class="resistance-icon">{{ getResistanceIcon(resistance.type) }}</span>
