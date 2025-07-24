@@ -25,6 +25,12 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '16_Quara_Mantassin_Scout.gif',
   '17_Quara_Hydromancer.gif',
   '18_Quara_Hydromancer_Scout.gif',
+  '19_Quara_Pincher.gif',
+  '20_Quara_Pincher_Scout.gif',
+  '21_Quara_Constrictor_Scout.gif',
+  '22_Quara_Hydromancer_Scout.gif',
+  '23_Quara_Mantassin_Scout.gif',
+  '24_Quara_Predator_Scout.gif',
   '25_Filth_Toad.gif',
   '679_Makara.gif',
 
