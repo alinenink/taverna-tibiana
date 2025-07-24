@@ -221,6 +221,23 @@ export class BestiaryComponent implements OnInit {
       hasPreviousPage: response.pagination.hasPrev
     });
     this.loading.set(false);
+    
+    // Força recarregamento das imagens na próxima página
+    setTimeout(() => {
+      this.forceImageReload();
+    }, 100);
+  }
+
+  /**
+   * Força recarregamento das imagens
+   */
+  private forceImageReload(): void {
+    const images = document.querySelectorAll('.monster-image') as NodeListOf<HTMLImageElement>;
+    images.forEach(img => {
+      const currentSrc = img.src;
+      img.src = '';
+      img.src = currentSrc;
+    });
   }
 
   /**
@@ -303,12 +320,16 @@ export class BestiaryComponent implements OnInit {
   getMonsterImageUrl(imagePath: string): string {
     const url = this.bestiaryService.getMonsterImageUrl(imagePath);
     
+    // Adiciona parâmetro de cache-busting baseado na página atual
+    const cacheBuster = `?v=${this.pagination().currentPage}&t=${Date.now()}`;
+    const finalUrl = url.includes('?') ? `${url}&${cacheBuster.substring(1)}` : `${url}${cacheBuster}`;
+    
     // Debug: log das URLs das imagens
     if (environment.debugMode) {
-      console.log(`Monster image URL: ${imagePath} → ${url}`);
+      console.log(`Monster image URL: ${imagePath} → ${finalUrl}`);
     }
     
-    return url;
+    return finalUrl;
   }
 
   /**
