@@ -449,6 +449,26 @@ export class BestiaryComponent implements OnInit {
   }
 
   /**
+   * Obtém tooltip para tipo de resistência
+   */
+  getResistanceTooltip(type: string, value: number): string {
+    const descriptions: Record<string, string> = {
+      physical: 'Resistência a dano físico (espadas, machados, etc.)',
+      fire: 'Resistência a dano de fogo (magias de fogo, lava, etc.)',
+      ice: 'Resistência a dano de gelo (magias de gelo, frio, etc.)',
+      energy: 'Resistência a dano de energia (magias elétricas, etc.)',
+      death: 'Resistência a dano de morte (magias de morte, veneno, etc.)',
+      holy: 'Resistência a dano sagrado (magias sagradas, etc.)',
+      earth: 'Resistência a dano de terra (magias de terra, etc.)'
+    };
+    
+    const description = descriptions[type] || `Resistência a ${type}`;
+    const status = value > 100 ? 'forte' : value < 100 ? 'fraca' : 'normal';
+    
+    return `${description}\n${value}% - Resistência ${status}`;
+  }
+
+  /**
    * Obtém número de estrelas para dificuldade
    */
   getDifficultyStars(difficulty: string): number {

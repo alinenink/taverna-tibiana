@@ -186,7 +186,7 @@
                 <div class="monster-class">{{ monster.class.name }}</div>
                 
                 <!-- Dificuldade com estrelas -->
-                <div class="difficulty-stars">
+                <div class="difficulty-stars" title="Dificuldade do monstro - Quão desafiador é enfrentar esta criatura">
                   <img 
                     *ngFor="let star of [1,2,3,4,5]; let i = index" 
                     src="assets/icons-svg/star.svg"
@@ -201,6 +201,7 @@
                   <span 
                     class="location-count clickable" 
                     (click)="openLocationPopup(monster.id, $event)"
+                    title="Clique para ver todas as localizações onde este monstro pode ser encontrado"
                   >
                     {{ getLocationCount(monster.locations) }} Localizações
                   </span>
@@ -210,23 +211,23 @@
 
             <!-- Estatísticas -->
             <div class="monster-stats">
-              <div class="stat-item">
+              <div class="stat-item" title="Pontos de Vida - Quantidade de dano que o monstro pode receber antes de morrer">
                 <img src="assets/icons-svg/love.svg" alt="HP" class="stat-icon" />
                 <span class="stat-value">{{ formatNumber(monster.hitpoints) }}</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" title="Experiência - Quantidade de XP que o jogador recebe ao matar este monstro">
                 <img src="assets/icons-svg/starborder.svg" alt="XP" class="stat-icon" />
                 <span class="stat-value">{{ formatNumber(monster.experience) }}</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" title="Velocidade - Quão rápido o monstro se move e ataca">
                 <img src="assets/icons-svg/storm.svg" alt="Speed" class="stat-icon" />
                 <span class="stat-value">{{ monster.speed }}</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" title="Mitigação - Redução de dano que o monstro recebe (quanto maior, mais resistente)">
                 <img src="assets/icons-svg/shield.svg" alt="Mitigation" class="stat-icon" />
                 <span class="stat-value">{{ monster.mitigation }}</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" title="Armadura - Proteção adicional contra ataques físicos">
                 <img src="assets/icons-svg/fantasy.svg" alt="Armor" class="stat-icon" />
                 <span class="stat-value">{{ monster.armor }}%</span>
               </div>
@@ -241,6 +242,7 @@
                   class="resistance-item"
                   [class.has-resistance]="resistance.value > 100"
                   [class.weak-resistance]="resistance.value < 100"
+                  [title]="getResistanceTooltip(resistance.type, resistance.value)"
                 >
                   <div class="resistance-header">
                     <span class="resistance-icon">{{ getResistanceIcon(resistance.type) }}</span>
@@ -252,7 +254,7 @@
             </div>
 
             <!-- Charm Details -->
-            <div class="charm-section">
+            <div class="charm-section" title="Sistema de Charms - Ajuste a quantidade de kills para simular o progresso do charm">
               <div class="charm-header">
                 <img src="assets/icons-svg/rune.svg" alt="Charm" class="charm-icon" />
                 <span class="charm-points">{{ monster.charm_details.charm_points }}</span>
