@@ -58,6 +58,9 @@ export class BestiaryComponent implements OnInit {
   // Controle de kills de charm por monstro
   readonly charmKills = signal<Record<number, number>>({});
 
+  // Controle de monstro selecionado
+  readonly selectedMonsterId = signal<number | null>(null);
+
   // Getter para localizações do popup
   get popupLocations(): string[] {
     const monster = this.monsters().find(m => m.id === this.openLocationPopupId());
@@ -76,6 +79,15 @@ export class BestiaryComponent implements OnInit {
       ...kills,
       [monsterId]: value
     }));
+  }
+
+  // Métodos para seleção de monstros
+  selectMonster(monsterId: number): void {
+    this.selectedMonsterId.set(monsterId);
+  }
+
+  isMonsterSelected(monsterId: number): boolean {
+    return this.selectedMonsterId() === monsterId;
   }
 
   openLocationPopup(monsterId: number, event: MouseEvent) {

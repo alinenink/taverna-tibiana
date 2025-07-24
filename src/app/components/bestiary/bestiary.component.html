@@ -159,6 +159,8 @@
           <div 
             *ngFor="let monster of monsters(); trackBy: trackByMonsterId" 
             class="monster-card"
+            [class.selected]="isMonsterSelected(monster.id)"
+            (click)="selectMonster(monster.id)"
           >
             <!-- Header do Card -->
             <div class="monster-header">
@@ -270,11 +272,16 @@
                     [style.--first-stage]="monster.charm_details.first_stage"
                     [style.--second-stage]="monster.charm_details.second_stage"
                     [style.--third-stage]="monster.charm_details.third_stage"
+                    [disabled]="!isMonsterSelected(monster.id)"
                   />
                   <div class="range-markers">
                     <div class="marker" [style.left]="(monster.charm_details.first_stage / monster.charm_details.third_stage * 100) + '%'"></div>
                     <div class="marker" [style.left]="(monster.charm_details.second_stage / monster.charm_details.third_stage * 100) + '%'"></div>
                     <div class="marker" [style.left]="(monster.charm_details.third_stage / monster.charm_details.third_stage * 100) + '%'"></div>
+                  </div>
+                  
+                  <div *ngIf="!isMonsterSelected(monster.id)" class="range-disabled-message">
+                    <span>Clique no card para ativar o charm</span>
                   </div>
                 </div>
                 

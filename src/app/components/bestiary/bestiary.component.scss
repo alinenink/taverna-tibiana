@@ -222,18 +222,36 @@
 
 // Card do Monstro
 .monster-card {
-  background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
+  background: #fffbe6;
   border: 2px solid #a07947;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(160, 121, 71, 0.1);
+  box-shadow: 0 2px 8px rgba(160, 121, 71, 0.08);
   transition: all 0.3s ease;
   cursor: pointer;
   
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(160, 121, 71, 0.2);
-    border-color: #8b6f3d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(160, 121, 71, 0.15);
+  }
+  
+  &.selected {
+    border-color: #d4af37;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+    background: linear-gradient(135deg, #fffbe6, #fff8d6);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
+      border-radius: 14px;
+      z-index: -1;
+      opacity: 0.3;
+    }
   }
 }
 
@@ -504,6 +522,22 @@
         -webkit-appearance: none;
         appearance: none;
         cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          
+          &::-webkit-slider-thumb {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+          
+          &::-moz-range-thumb {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+        }
         
         &::-webkit-slider-thumb {
           -webkit-appearance: none;
@@ -515,6 +549,7 @@
           border-radius: 50%;
           cursor: pointer;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
         }
         
         &::-moz-range-thumb {
@@ -525,6 +560,7 @@
           border-radius: 50%;
           cursor: pointer;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
         }
         
         &::-webkit-slider-track {
@@ -557,6 +593,22 @@
           background: #a07947;
           border-radius: 1px;
         }
+      }
+      
+      .range-disabled-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(160, 121, 71, 0.9);
+        color: #fffbe6;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-family: 'MedievalSharp', cursive;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 10;
       }
     }
     
