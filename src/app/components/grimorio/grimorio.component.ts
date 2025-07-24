@@ -28,4 +28,8 @@ export class GrimorioComponent implements OnInit {
   navigateToProficiency() {
     this.router.navigate(['/proficiency-tables']);
   }
+
+  navigateToBestiary(): void {
+    this.router.navigate(['/bestiary']);
+  }
 }

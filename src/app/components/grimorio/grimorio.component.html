@@ -51,14 +51,9 @@
           </div>
 
           <!-- Capítulo das Criaturas Enfrentadas -->
-          <div class="conquista-card-custom" style="opacity: 0.7; cursor: not-allowed; flex-direction: column; padding: 0.8rem;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <img src="assets/icons-svg/book.svg" alt="Capítulo" class="svg-icon" />
-              <strong>Capítulo das Criaturas Enfrentadas</strong>
-            </div>
-            <em style="color: #7a5a2f; font-size: 0.8rem; margin-top: 0.3rem; text-align: center;">
-              Essa parte do grimório ainda tá empoeirada. Volta depois que o estagiário terminar de espantar os ratos!
-            </em>
+          <div class="conquista-card-custom" (click)="navigateToBestiary()">
+            <img src="assets/icons-svg/book.svg" alt="Capítulo" class="svg-icon" />
+            <strong>Capítulo das Criaturas Enfrentadas</strong>
           </div>
         </div>
       </div>

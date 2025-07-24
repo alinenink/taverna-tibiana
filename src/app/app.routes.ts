@@ -22,4 +22,5 @@ export const appRoutes: Routes = [
 
   { path: 'weapons', loadComponent: () => import('./components/weapons/weapons.component').then(m => m.WeaponsComponent), canActivate: [authGuard] },
   { path: 'weapons/:category/:name', loadComponent: () => import('./components/weapons/weapon-detail/weapon-detail.component').then(m => m.WeaponDetailComponent), canActivate: [authGuard] },
+  { path: 'bestiary', loadComponent: () => import('./components/bestiary/bestiary.component').then(m => m.BestiaryComponent), canActivate: [authGuard] },
 ];
