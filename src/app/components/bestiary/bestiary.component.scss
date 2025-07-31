@@ -263,12 +263,20 @@
     @media (max-width: 768px) {
       flex-direction: column;
       gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
     }
   }
 
   .filter-group {
     flex: 1;
     min-width: 200px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
 
     label {
       display: block;
@@ -277,6 +285,10 @@
       color: #7b5e3b;
       font-size: 0.9rem;
       font-family: 'MedievalSharp', cursive;
+
+      @media (max-width: 768px) {
+        text-align: center;
+      }
     }
   }
 
@@ -308,6 +320,10 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
   }
 
   .select-medieval {
