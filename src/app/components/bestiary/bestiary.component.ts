@@ -464,6 +464,25 @@ export class BestiaryComponent implements OnInit {
   /**
    * Executa o salvamento real do monstro
    */
+  /**
+   * Recarrega os dados do bestiário do usuário do servidor
+   */
+  private reloadUserBestiaryData(): void {
+    this.userBestiaryService
+      .getUserBestiary()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: data => {
+          this.userBestiary.set(data);
+          this.syncUserBestiaryWithLocal();
+          this.calculateTotalCharmPoints();
+        },
+        error: error => {
+          console.error('Erro ao recarregar dados do bestiário:', error);
+        },
+      });
+  }
+
   private performAutoSave(monsterId: number): void {
     // Verificar se o usuário está logado
     if (!this.userBestiary()) {
@@ -523,6 +542,8 @@ export class BestiaryComponent implements OnInit {
           this.userBestiary.set(savedData);
           // Recalcular charms adquiridos após salvamento bem-sucedido
           this.calculateTotalCharmPoints();
+          // Fazer novo GET para buscar dados atualizados do servidor
+          this.reloadUserBestiaryData();
         },
         error: error => {
           console.error('Erro ao salvar automaticamente:', error);
@@ -865,6 +886,8 @@ export class BestiaryComponent implements OnInit {
                 this.userBestiary.set(savedData);
                 // Recalcular charms adquiridos após salvamento bem-sucedido
                 this.calculateTotalCharmPoints();
+                // Fazer novo GET para buscar dados atualizados do servidor
+                this.reloadUserBestiaryData();
                 this.userBestiaryLoading.set(false);
               },
               error: error => {
