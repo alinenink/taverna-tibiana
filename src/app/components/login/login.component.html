@@ -2,13 +2,24 @@
   <div class="consulta-layout">
     <h1 class="tavernatibiana-title">Bem-vindo à Taverna Tibiana</h1>
     <!-- Novo disclaimer taberneiro -->
-    <div class="parchment-card" style="margin-bottom: 1.2rem; text-align: center;">
-      <img src="assets/icons-svg/beer-mug.svg" alt="Beer" class="svg-icon" style="width: 2em; height: 2em; margin-bottom: 0.2em; vertical-align: middle;" />
-      <strong style="margin-left: 5px; vertical-align: middle;">Quer dar só uma espiada?</strong>
+    <div class="parchment-card" style="margin-bottom: 1.2rem; text-align: center">
+      <img
+        src="assets/icons-svg/beer-mug.svg"
+        alt="Beer"
+        class="svg-icon"
+        style="width: 2em; height: 2em; margin-bottom: 0.2em; vertical-align: middle"
+      />
+      <strong style="margin-left: 5px; vertical-align: middle">Quer dar só uma espiada?</strong>
       <br />
-      <span style="font-size: 0.98em; color: #7a5a2f;">Entre como visitante e explore a taverna sem compromisso!</span>
+      <span style="font-size: 0.98em; color: #7a5a2f"
+        >Entre como visitante e explore a taverna sem compromisso!</span
+      >
       <br />
-      <button class="button-medieval" style="margin-top: 0.7em; width: 80%; max-width: 220px;" (click)="entrarComoVisitante()">
+      <button
+        class="button-medieval"
+        style="margin-top: 0.7em; width: 80%; max-width: 220px"
+        (click)="entrarComoVisitante()"
+      >
         Entrar como Visitante
       </button>
     </div>
@@ -40,29 +51,18 @@
           required
         />
       </div>
-      <button
-        class="button-medieval"
-        type="submit"
-        [disabled]="carregando || !email || !password"
-      >
+      <button class="button-medieval" type="submit" [disabled]="carregando || !email || !password">
         Adentrar a Taverna
       </button>
       <div class="login-links">
         <a routerLink="/register" class="medieval-link">Alistar-se na Guilda</a>
         <span class="medieval-link-sep">|</span>
-        <a routerLink="/forgot-password" class="medieval-link"
-          >Esqueceste teu juramento?</a
-        >
+        <a routerLink="/forgot-password" class="medieval-link">Esqueceste teu juramento?</a>
       </div>
       <div *ngIf="carregando" class="svg-loader-overlay">
         <div class="svg-loader">
           <!-- Loader SVG permanece igual -->
-          <svg
-            fill="#000000"
-            height="80px"
-            width="80px"
-            viewBox="0 0 452.022 452.022"
-          >
+          <svg fill="#000000" height="80px" width="80px" viewBox="0 0 452.022 452.022">
             <g id="SVGRepo_iconCarrier">
               <path d="..." />
             </g>

@@ -13,7 +13,7 @@ import { ScrollService } from '../../services/scroll.service';
   imports: [CommonModule, FormsModule, RouterModule],
   providers: [MasteryService],
   templateUrl: './animous-mastery.component.html',
-  styleUrls: ['./animous-mastery.component.scss']
+  styleUrl: './animous-mastery.component.scss',
 })
 export class AnimousMasteryComponent implements OnInit {
   filtros = { nome: '', dificuldade: '', classe: '' };
@@ -29,8 +29,8 @@ export class AnimousMasteryComponent implements OnInit {
   mensagemVisitante = '';
 
   constructor(
-    public service: MasteryService, 
-    private router: Router, 
+    public service: MasteryService,
+    private router: Router,
     private authService: AuthService,
     private analyticsService: AnalyticsService,
     private scrollService: ScrollService
@@ -44,7 +44,8 @@ export class AnimousMasteryComponent implements OnInit {
     // Observar mudanças no signal do serviço para mostrar o modal
     effect(() => {
       if (this.service.showVisitorModal()) {
-        this.mensagemVisitante = 'Percebi que você está tentando importar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
+        this.mensagemVisitante =
+          'Percebi que você está tentando importar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
         this.exibirModalVisitante = true;
         this.service.showVisitorModal.set(false); // Reset do signal
       }
@@ -79,13 +80,13 @@ export class AnimousMasteryComponent implements OnInit {
   abrirModalExportar() {
     this.exibirModalExportar = true;
   }
-  
+
   fecharModalExportar() {
     this.exibirModalExportar = false;
     this.ordenarPorDificuldade = false;
     this.ordenarPorAlfabetica = false;
   }
-  
+
   confirmarExportacaoPdf() {
     const dificuldadeMap: Record<string, number> = {
       Harmless: 0,
@@ -95,9 +96,9 @@ export class AnimousMasteryComponent implements OnInit {
       Challenging: 4,
       Rare: 5,
     };
-  
+
     const selecionados = [...this.service.selecionados()];
-  
+
     if (this.ordenarPorDificuldade) {
       selecionados.sort((a, b) => {
         const dA = dificuldadeMap[a.difficulty?.trim()] ?? 999;
@@ -107,11 +108,10 @@ export class AnimousMasteryComponent implements OnInit {
     } else if (this.ordenarPorAlfabetica) {
       selecionados.sort((a, b) => a.name.localeCompare(b.name));
     }
-  
+
     this.service.exportarPdf(selecionados);
     this.fecharModalExportar();
   }
-  
 
   ordenarPor(campo: 'name' | 'difficulty' | 'class.name') {
     this.ordenacoes[campo] = !this.ordenacoes[campo];
@@ -122,7 +122,7 @@ export class AnimousMasteryComponent implements OnInit {
     event?.preventDefault();
     // Track search action
     this.analyticsService.trackSearch(this.filtros.nome, 'mastery');
-    
+
     this.carregando = true;
     this.service.buscar(this.filtros, 1, () => {
       this.carregando = false;
@@ -152,13 +152,13 @@ export class AnimousMasteryComponent implements OnInit {
   selecionar(event: any, mastery: any) {
     const checked = event.target.checked;
     this.service.alternarSelecao(mastery, checked);
-    
+
     // Track mastery selection
     this.analyticsService.trackMasteryAction(checked ? 'select' : 'deselect', mastery.difficulty);
   }
 
   isSelecionado(id: number): boolean {
-    return this.service.selecionados().some((m) => m.id === id);
+    return this.service.selecionados().some(m => m.id === id);
   }
 
   limparSelecao() {
@@ -170,7 +170,7 @@ export class AnimousMasteryComponent implements OnInit {
     if (file) {
       // Track file upload
       this.analyticsService.trackMasteryAction('upload', file.name);
-      
+
       this.carregando = true;
       this.service.importarJson(file, () => {
         this.carregando = false;
@@ -186,14 +186,14 @@ export class AnimousMasteryComponent implements OnInit {
   salvarSelecionados() {
     // Track save action
     this.analyticsService.trackMasteryAction('save', 'selected_masteries');
-    
-    this.service.salvarSelecionados().then((errorMsg) => {
+
+    this.service.salvarSelecionados().then(errorMsg => {
       if (
         errorMsg &&
-        (errorMsg.includes('Usuário não cadastrado') || 
-         errorMsg.toLowerCase().includes('usuário não cadastrado') ||
-         errorMsg.includes('nao cadastrado') ||
-         errorMsg.toLowerCase().includes('nao cadastrado'))
+        (errorMsg.includes('Usuário não cadastrado') ||
+          errorMsg.toLowerCase().includes('usuário não cadastrado') ||
+          errorMsg.includes('nao cadastrado') ||
+          errorMsg.toLowerCase().includes('nao cadastrado'))
       ) {
         this.mensagemVisitante =
           'Percebi que você está tentando salvar seus pergaminhos lendários como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!';
@@ -202,8 +202,6 @@ export class AnimousMasteryComponent implements OnInit {
       }
     });
   }
-
-
 
   fecharModalVisitante() {
     this.exibirModalVisitante = false;

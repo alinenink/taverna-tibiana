@@ -9,10 +9,9 @@ describe('CalculatorsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CalculatorsComponent, RouterTestingModule, FormsModule]
-    })
-    .compileComponents();
-    
+      imports: [CalculatorsComponent, RouterTestingModule, FormsModule],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CalculatorsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -35,36 +34,36 @@ describe('CalculatorsComponent', () => {
     component.exerciseWeaponData.currentCharges = 10;
     component.exerciseWeaponData.maxCharges = 100;
     component.exerciseWeaponData.targetCharges = 50;
-    
+
     component.calculateExerciseWeapons();
-    
+
     expect(component.exerciseWeaponData.result).toBe(40);
   });
 
   it('should calculate stamina correctly', () => {
     component.staminaData.currentStamina = 100;
     component.staminaData.targetStamina = 200;
-    
+
     component.calculateStamina();
-    
+
     expect(component.staminaData.result).toBe(100);
   });
 
   it('should calculate charm damage correctly', () => {
     component.charmDamageData.baseDamage = 100;
     component.charmDamageData.charmLevel = 5;
-    
+
     component.calculateCharmDamage();
-    
+
     expect(component.charmDamageData.result).toBe(150);
   });
 
   it('should calculate loot split correctly', () => {
     component.lootSplitData.totalLoot = 1000;
     component.lootSplitData.participants = 4;
-    
+
     component.calculateLootSplit();
-    
+
     expect(component.lootSplitData.result).toBe(250);
   });
 
@@ -73,12 +72,12 @@ describe('CalculatorsComponent', () => {
     component.exerciseWeaponData.maxCharges = 100;
     component.exerciseWeaponData.targetCharges = 50;
     component.exerciseWeaponData.result = 40;
-    
+
     component.resetCalculator();
-    
+
     expect(component.exerciseWeaponData.currentCharges).toBe(0);
     expect(component.exerciseWeaponData.maxCharges).toBe(0);
     expect(component.exerciseWeaponData.targetCharges).toBe(0);
     expect(component.exerciseWeaponData.result).toBe(0);
   });
-}); 
+});

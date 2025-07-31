@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -52,7 +52,8 @@ function toTimeValue(time: string): TimeValue {
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './calculators.component.html',
-  styleUrls: ['./calculators.component.scss']
+  styleUrl: './calculators.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatorsComponent implements OnInit {
   carregando: boolean = false;
@@ -77,7 +78,7 @@ export class CalculatorsComponent implements OnInit {
   // Stamina Calculator
   staminaForm = {
     currentStaminaStr: '',
-    targetStaminaStr: ''
+    targetStaminaStr: '',
   };
   staminaErrorCurrent: boolean = false;
   staminaErrorTarget: boolean = false;
@@ -94,10 +95,12 @@ export class CalculatorsComponent implements OnInit {
 
   // Getter para verificar se stamina form é válido
   get isStaminaFormValid(): boolean {
-    return !!(this.staminaForm.currentStaminaStr && 
-              this.staminaForm.targetStaminaStr && 
-              this.staminaForm.currentStaminaStr.trim() !== '' && 
-              this.staminaForm.targetStaminaStr.trim() !== '');
+    return !!(
+      this.staminaForm.currentStaminaStr &&
+      this.staminaForm.targetStaminaStr &&
+      this.staminaForm.currentStaminaStr.trim() !== '' &&
+      this.staminaForm.targetStaminaStr.trim() !== ''
+    );
   }
 
   // Utilitário para converter hh:mm para segundos
@@ -112,7 +115,8 @@ export class CalculatorsComponent implements OnInit {
 
   // Formata e valida o input de stamina
   formatStaminaInput(type: 'current' | 'target') {
-    let value = type === 'current' ? this.staminaForm.currentStaminaStr : this.staminaForm.targetStaminaStr;
+    let value =
+      type === 'current' ? this.staminaForm.currentStaminaStr : this.staminaForm.targetStaminaStr;
     // Se vazio, não faz nada
     if (!value) {
       if (type === 'current') this.staminaForm.currentStaminaStr = '';
@@ -123,7 +127,7 @@ export class CalculatorsComponent implements OnInit {
     if (value.length < 4) value = value.padEnd(4, '0');
     // Aplica a máscara
     if (value.length >= 3) {
-      value = value.slice(0, 2) + ':' + value.slice(2, 4);
+      value = `${value.slice(0, 2)}:${value.slice(2, 4)}`;
     }
     if (type === 'current') this.staminaForm.currentStaminaStr = value;
     else this.staminaForm.targetStaminaStr = value;
@@ -155,7 +159,7 @@ export class CalculatorsComponent implements OnInit {
     averageDamage: 0,
     creatureHp: 0,
     bonusResistance: 0,
-    powerful: false
+    powerful: false,
   };
   charmDamageResult: any = null;
   charmDamageError: string | null = null;
@@ -163,7 +167,7 @@ export class CalculatorsComponent implements OnInit {
 
   // Loot Split Calculator
   lootSplitForm = {
-    session: ''
+    session: '',
   };
   lootSplitResult: any = null;
   lootSplitError: string | null = null;
@@ -171,11 +175,8 @@ export class CalculatorsComponent implements OnInit {
 
   // Getter para verificar se loot split form é válido
   get isLootSplitFormValid(): boolean {
-    return !!(this.lootSplitForm.session && 
-              this.lootSplitForm.session.trim() !== '');
+    return !!(this.lootSplitForm.session && this.lootSplitForm.session.trim() !== '');
   }
-
-
 
   get sortedTransfers() {
     if (!this.lootSplitResult?.transactions) return [];
@@ -189,10 +190,10 @@ export class CalculatorsComponent implements OnInit {
 
   get selectedWeaponName() {
     const weaponNames = {
-      'auto': 'Auto',
-      'regular': 'Regular',
-      'durable': 'Durable', 
-      'lasting': 'Lasting'
+      auto: 'Auto',
+      regular: 'Regular',
+      durable: 'Durable',
+      lasting: 'Lasting',
     };
     return weaponNames[this.exerciseWeaponForm.weaponType as keyof typeof weaponNames] || 'Auto';
   }
@@ -200,7 +201,11 @@ export class CalculatorsComponent implements OnInit {
   get selectedWeaponCount() {
     if (!this.exerciseWeaponsResult) return 0;
     const weaponType = this.exerciseWeaponForm.weaponType;
-    return this.exerciseWeaponsResult.weaponsRequired[weaponType as keyof typeof this.exerciseWeaponsResult.weaponsRequired] || 0;
+    return (
+      this.exerciseWeaponsResult.weaponsRequired[
+        weaponType as keyof typeof this.exerciseWeaponsResult.weaponsRequired
+      ] || 0
+    );
   }
 
   constructor(
@@ -229,45 +234,45 @@ export class CalculatorsComponent implements OnInit {
   submitExerciseWeapons() {
     // Track calculator usage
     this.analyticsService.trackCalculatorUsage('exercise-weapons', this.exerciseWeaponForm);
-    
+
     this.isLoadingExercise = true;
     this.exerciseWeaponsResult = null;
     this.exerciseWeaponsError = null;
 
     // Converter skill para 'melee' se for físico, exceto fist para monk
     let skill = this.exerciseWeaponForm.skill;
-    if (["axe", "club", "sword"].includes(skill)) {
-      skill = "melee";
+    if (['axe', 'club', 'sword'].includes(skill)) {
+      skill = 'melee';
     }
     // Para monk com fist, manter como "fist"
-    if (this.exerciseWeaponForm.vocation === "monk" && skill === "fist") {
-      skill = "fist";
-    } else if (skill === "fist") {
-      skill = "melee";
+    if (this.exerciseWeaponForm.vocation === 'monk' && skill === 'fist') {
+      skill = 'fist';
+    } else if (skill === 'fist') {
+      skill = 'melee';
     }
 
     // Montar o payload conforme especificação
     const payload = {
       vocation: this.exerciseWeaponForm.vocation,
-      skill: skill,
+      skill,
       currentSkill: this.exerciseWeaponForm.currentSkill,
       targetSkill: this.exerciseWeaponForm.targetSkill,
       percentageLeft: this.exerciseWeaponForm.percentageLeft,
       loyaltyBonus: this.exerciseWeaponForm.loyaltyBonus,
       hasDummy: this.exerciseWeaponForm.hasDummy,
       isDouble: this.exerciseWeaponForm.isDouble,
-      weaponType: this.exerciseWeaponForm.weaponType
+      weaponType: this.exerciseWeaponForm.weaponType,
     };
 
     this.calculatorsService.exerciseWeapons(payload).subscribe({
-      next: (res) => {
+      next: res => {
         this.exerciseWeaponsResult = res;
         this.isLoadingExercise = false;
       },
-      error: (err) => {
+      error: err => {
         this.exerciseWeaponsError = 'Erro ao calcular. Tente novamente.';
         this.isLoadingExercise = false;
-      }
+      },
     });
   }
 
@@ -291,9 +296,9 @@ export class CalculatorsComponent implements OnInit {
     // Track calculator usage
     this.analyticsService.trackCalculatorUsage('stamina', {
       currentStamina: this.staminaCurrent.seconds,
-      targetStamina: this.staminaTarget.seconds
+      targetStamina: this.staminaTarget.seconds,
     });
-    
+
     this.staminaError = null;
     this.staminaResult = null;
     // Validar e converter
@@ -312,25 +317,27 @@ export class CalculatorsComponent implements OnInit {
       return;
     }
     this.isLoadingStamina = true;
-    this.calculatorsService.stamina({
-      currentStamina: currentSeconds,
-      targetStamina: targetSeconds
-    }).subscribe({
-      next: (res) => {
-        this.staminaResult = res;
-        this.isLoadingStamina = false;
-      },
-      error: (err) => {
-        this.staminaError = 'Erro ao calcular. Tente novamente.';
-        this.isLoadingStamina = false;
-      }
-    });
+    this.calculatorsService
+      .stamina({
+        currentStamina: currentSeconds,
+        targetStamina: targetSeconds,
+      })
+      .subscribe({
+        next: res => {
+          this.staminaResult = res;
+          this.isLoadingStamina = false;
+        },
+        error: err => {
+          this.staminaError = 'Erro ao calcular. Tente novamente.';
+          this.isLoadingStamina = false;
+        },
+      });
   }
 
   resetStamina() {
     this.staminaForm = {
       currentStaminaStr: '',
-      targetStaminaStr: ''
+      targetStaminaStr: '',
     };
     this.staminaErrorCurrent = false;
     this.staminaErrorTarget = false;
@@ -341,19 +348,19 @@ export class CalculatorsComponent implements OnInit {
   submitCharmDamage() {
     // Track calculator usage
     this.analyticsService.trackCalculatorUsage('charm-damage', this.charmDamageForm);
-    
+
     this.isLoadingCharm = true;
     this.charmDamageResult = null;
     this.charmDamageError = null;
     this.calculatorsService.charmDamage(this.charmDamageForm).subscribe({
-      next: (res) => {
+      next: res => {
         this.charmDamageResult = res;
         this.isLoadingCharm = false;
       },
-      error: (err) => {
+      error: err => {
         this.charmDamageError = 'Erro ao calcular. Tente novamente.';
         this.isLoadingCharm = false;
-      }
+      },
     });
   }
 
@@ -362,7 +369,7 @@ export class CalculatorsComponent implements OnInit {
       averageDamage: 0,
       creatureHp: 0,
       bonusResistance: 0,
-      powerful: false
+      powerful: false,
     };
     this.charmDamageResult = null;
     this.charmDamageError = null;
@@ -370,30 +377,32 @@ export class CalculatorsComponent implements OnInit {
 
   submitLootSplit() {
     // Track calculator usage
-    this.analyticsService.trackCalculatorUsage('loot-split', { session: this.lootSplitForm.session });
-    
+    this.analyticsService.trackCalculatorUsage('loot-split', {
+      session: this.lootSplitForm.session,
+    });
+
     this.isLoadingLootSplit = true;
     this.lootSplitResult = null;
     this.lootSplitError = null;
     // Montar o payload apenas com a sessão
     const payload = {
-      session: this.lootSplitForm.session
+      session: this.lootSplitForm.session,
     };
     this.calculatorsService.lootSplit(payload).subscribe({
-      next: (res) => {
+      next: res => {
         this.lootSplitResult = res;
         this.isLoadingLootSplit = false;
       },
-      error: (err) => {
+      error: err => {
         this.lootSplitError = 'Erro ao calcular. Tente novamente.';
         this.isLoadingLootSplit = false;
-      }
+      },
     });
   }
 
   resetLootSplit() {
     this.lootSplitForm = {
-      session: ''
+      session: '',
     };
     this.lootSplitResult = null;
     this.lootSplitError = null;
@@ -467,10 +476,10 @@ export class CalculatorsComponent implements OnInit {
     if (hours === 42) minutes = 0;
     if (type === 'current') {
       this.staminaCurrentRaw = value;
-      this.staminaCurrent = toTimeValue(hours + ':' + minutes);
+      this.staminaCurrent = toTimeValue(`${hours}:${minutes}`);
     } else {
       this.staminaTargetRaw = value;
-      this.staminaTarget = toTimeValue(hours + ':' + minutes);
+      this.staminaTarget = toTimeValue(`${hours}:${minutes}`);
     }
     this.validateStaminaTimes();
   }
@@ -494,11 +503,17 @@ export class CalculatorsComponent implements OnInit {
     if (type === 'current') {
       if (field === 'hours') this.staminaCurrent.hours = isNaN(num) ? 0 : num;
       else this.staminaCurrent.minutes = isNaN(num) ? 0 : num;
-      this.onStaminaTimeChange('current', this.staminaCurrent.hours + ':' + this.staminaCurrent.minutes);
+      this.onStaminaTimeChange(
+        'current',
+        `${this.staminaCurrent.hours}:${this.staminaCurrent.minutes}`
+      );
     } else {
       if (field === 'hours') this.staminaTarget.hours = isNaN(num) ? 0 : num;
       else this.staminaTarget.minutes = isNaN(num) ? 0 : num;
-      this.onStaminaTimeChange('target', this.staminaTarget.hours + ':' + this.staminaTarget.minutes);
+      this.onStaminaTimeChange(
+        'target',
+        `${this.staminaTarget.hours}:${this.staminaTarget.minutes}`
+      );
     }
   }
 
@@ -506,37 +521,61 @@ export class CalculatorsComponent implements OnInit {
   incHour(type: 'current' | 'target') {
     if (type === 'current') {
       this.staminaCurrent.hours = Math.min(42, this.staminaCurrent.hours + 1);
-      this.onStaminaTimeChange('current', this.staminaCurrent.hours + ':' + this.staminaCurrent.minutes);
+      this.onStaminaTimeChange(
+        'current',
+        `${this.staminaCurrent.hours}:${this.staminaCurrent.minutes}`
+      );
     } else {
       this.staminaTarget.hours = Math.min(42, this.staminaTarget.hours + 1);
-      this.onStaminaTimeChange('target', this.staminaTarget.hours + ':' + this.staminaTarget.minutes);
+      this.onStaminaTimeChange(
+        'target',
+        `${this.staminaTarget.hours}:${this.staminaTarget.minutes}`
+      );
     }
   }
   decHour(type: 'current' | 'target') {
     if (type === 'current') {
       this.staminaCurrent.hours = Math.max(0, this.staminaCurrent.hours - 1);
-      this.onStaminaTimeChange('current', this.staminaCurrent.hours + ':' + this.staminaCurrent.minutes);
+      this.onStaminaTimeChange(
+        'current',
+        `${this.staminaCurrent.hours}:${this.staminaCurrent.minutes}`
+      );
     } else {
       this.staminaTarget.hours = Math.max(0, this.staminaTarget.hours - 1);
-      this.onStaminaTimeChange('target', this.staminaTarget.hours + ':' + this.staminaTarget.minutes);
+      this.onStaminaTimeChange(
+        'target',
+        `${this.staminaTarget.hours}:${this.staminaTarget.minutes}`
+      );
     }
   }
   incMin(type: 'current' | 'target') {
     if (type === 'current') {
       this.staminaCurrent.minutes = Math.min(59, this.staminaCurrent.minutes + 1);
-      this.onStaminaTimeChange('current', this.staminaCurrent.hours + ':' + this.staminaCurrent.minutes);
+      this.onStaminaTimeChange(
+        'current',
+        `${this.staminaCurrent.hours}:${this.staminaCurrent.minutes}`
+      );
     } else {
       this.staminaTarget.minutes = Math.min(59, this.staminaTarget.minutes + 1);
-      this.onStaminaTimeChange('target', this.staminaTarget.hours + ':' + this.staminaTarget.minutes);
+      this.onStaminaTimeChange(
+        'target',
+        `${this.staminaTarget.hours}:${this.staminaTarget.minutes}`
+      );
     }
   }
   decMin(type: 'current' | 'target') {
     if (type === 'current') {
       this.staminaCurrent.minutes = Math.max(0, this.staminaCurrent.minutes - 1);
-      this.onStaminaTimeChange('current', this.staminaCurrent.hours + ':' + this.staminaCurrent.minutes);
+      this.onStaminaTimeChange(
+        'current',
+        `${this.staminaCurrent.hours}:${this.staminaCurrent.minutes}`
+      );
     } else {
       this.staminaTarget.minutes = Math.max(0, this.staminaTarget.minutes - 1);
-      this.onStaminaTimeChange('target', this.staminaTarget.hours + ':' + this.staminaTarget.minutes);
+      this.onStaminaTimeChange(
+        'target',
+        `${this.staminaTarget.hours}:${this.staminaTarget.minutes}`
+      );
     }
   }
-} 
+}

@@ -20,7 +20,7 @@ describe('WeaponsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [WeaponsService]
+      providers: [WeaponsService],
     });
     service = TestBed.inject(WeaponsService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -41,14 +41,14 @@ describe('WeaponsService', () => {
           id: 'swords',
           name: 'Espadas',
           weapons_endpoint: '/api/weapons?action=list&category=swords',
-          proficiencies_endpoint: '/api/weapons?action=proficiencies&category=swords'
-        }
+          proficiencies_endpoint: '/api/weapons?action=proficiencies&category=swords',
+        },
       ];
 
       const mockResponse = {
         success: true,
         data: mockCategories,
-        total: 1
+        total: 1,
       };
 
       service.getCategories().subscribe(categories => {
@@ -63,14 +63,14 @@ describe('WeaponsService', () => {
     it('should handle error response', () => {
       const mockError = {
         success: false,
-        message: 'Erro interno do servidor'
+        message: 'Erro interno do servidor',
       };
 
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Erro interno do servidor');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
@@ -89,8 +89,8 @@ describe('WeaponsService', () => {
           vocation: 'Todas',
           hands: 'Uma',
           tier: 1,
-          endpoint: '/api/weapons?action=weapon&category=swords&name=Amber%20Sabre'
-        }
+          endpoint: '/api/weapons?action=weapon&category=swords&name=Amber%20Sabre',
+        },
       ];
 
       const mockResponse = {
@@ -98,8 +98,8 @@ describe('WeaponsService', () => {
         data: {
           category: { id: 'swords', name: 'Espadas' },
           data: mockWeapons,
-          total: 1
-        }
+          total: 1,
+        },
       };
 
       service.getWeaponsByCategory('swords').subscribe(response => {
@@ -117,14 +117,14 @@ describe('WeaponsService', () => {
       const mockError = {
         success: false,
         message: 'Categoria inválida',
-        available_categories: ['swords', 'machados', 'clavas']
+        available_categories: ['swords', 'machados', 'clavas'],
       };
 
       service.getWeaponsByCategory('invalid' as WeaponCategoryType).subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Categoria inválida');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=list&category=invalid`);
@@ -149,15 +149,15 @@ describe('WeaponsService', () => {
         bonus: null,
         tier: 1,
         dropped_by: '',
-        scraped_at: '2025-07-14T15:45:09.596Z'
+        scraped_at: '2025-07-14T15:45:09.596Z',
       };
 
       const mockResponse = {
         success: true,
         data: {
           category: { id: 'swords', name: 'Espadas' },
-          weapon: mockWeapon
-        }
+          weapon: mockWeapon,
+        },
       };
 
       service.getWeaponDetails('swords', 'Amber Sabre').subscribe(response => {
@@ -190,11 +190,11 @@ describe('WeaponsService', () => {
             def_mod: 0,
             bonus: null,
             dropped_by: '',
-            scraped_at: '2025-07-14T15:45:09.596Z'
+            scraped_at: '2025-07-14T15:45:09.596Z',
           },
           proficiency_data: [],
-          scraping_status: 'completed'
-        }
+          scraping_status: 'completed',
+        },
       ];
 
       const mockResponse = {
@@ -202,8 +202,8 @@ describe('WeaponsService', () => {
         data: {
           category: { id: 'swords', name: 'Espadas' },
           data: mockProficiencies,
-          total: 1
-        }
+          total: 1,
+        },
       };
 
       service.getProficienciesByCategory('swords').subscribe(response => {
@@ -236,18 +236,18 @@ describe('WeaponsService', () => {
           def_mod: 0,
           bonus: null,
           dropped_by: '',
-          scraped_at: '2025-07-14T15:45:09.596Z'
+          scraped_at: '2025-07-14T15:45:09.596Z',
         },
         proficiency_data: [],
-        scraping_status: 'completed'
+        scraping_status: 'completed',
       };
 
       const mockResponse = {
         success: true,
         data: {
           category: { id: 'swords', name: 'Espadas' },
-          proficiency: mockProficiency
-        }
+          proficiency: mockProficiency,
+        },
       };
 
       service.getProficiencyDetails('swords', 'Amber Sabre').subscribe(response => {
@@ -255,7 +255,9 @@ describe('WeaponsService', () => {
         expect(response.category.id).toBe('swords');
       });
 
-      const req = httpMock.expectOne(`${baseUrl}?action=proficiency&category=swords&name=Amber%20Sabre`);
+      const req = httpMock.expectOne(
+        `${baseUrl}?action=proficiency&category=swords&name=Amber%20Sabre`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -264,8 +266,26 @@ describe('WeaponsService', () => {
   describe('searchWeapons', () => {
     it('should filter weapons by search term', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 330, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' },
-        { name: 'Blade of Destruction', atk: 200, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 330,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
+        {
+          name: 'Blade of Destruction',
+          atk: 200,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -273,9 +293,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 2
+            total: 2,
           });
-        }
+        },
       } as any);
 
       service.searchWeapons('swords', 'sabre').subscribe(response => {
@@ -286,7 +306,16 @@ describe('WeaponsService', () => {
 
     it('should return all weapons when search term is empty', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 330, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 330,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -294,9 +323,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 1
+            total: 1,
           });
-        }
+        },
       } as any);
 
       service.searchWeapons('swords', '').subscribe(response => {
@@ -309,8 +338,26 @@ describe('WeaponsService', () => {
   describe('getWeaponsByLevel', () => {
     it('should filter weapons by minimum level', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 330, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' },
-        { name: 'Blade of Destruction', atk: 200, def: 0, level: 100, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 330,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
+        {
+          name: 'Blade of Destruction',
+          atk: 200,
+          def: 0,
+          level: 100,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -318,9 +365,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 2
+            total: 2,
           });
-        }
+        },
       } as any);
 
       service.getWeaponsByLevel('swords', 100).subscribe(response => {
@@ -333,8 +380,26 @@ describe('WeaponsService', () => {
   describe('getWeaponsByVocation', () => {
     it('should filter weapons by vocation', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 330, def: 0, level: 0, vocation: 'Knight', hands: 'Uma', tier: 1, endpoint: '' },
-        { name: 'Blade of Destruction', atk: 200, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 330,
+          def: 0,
+          level: 0,
+          vocation: 'Knight',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
+        {
+          name: 'Blade of Destruction',
+          atk: 200,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -342,9 +407,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 2
+            total: 2,
           });
-        }
+        },
       } as any);
 
       service.getWeaponsByVocation('swords', 'Knight').subscribe(response => {
@@ -356,8 +421,26 @@ describe('WeaponsService', () => {
   describe('getWeaponsByTier', () => {
     it('should filter weapons by tier', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 330, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 1, endpoint: '' },
-        { name: 'Blade of Destruction', atk: 200, def: 0, level: 0, vocation: 'Todas', hands: 'Uma', tier: 2, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 330,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
+        {
+          name: 'Blade of Destruction',
+          atk: 200,
+          def: 0,
+          level: 0,
+          vocation: 'Todas',
+          hands: 'Uma',
+          tier: 2,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -365,9 +448,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 2
+            total: 2,
           });
-        }
+        },
       } as any);
 
       service.getWeaponsByTier('swords', 1).subscribe(response => {
@@ -380,8 +463,26 @@ describe('WeaponsService', () => {
   describe('getCategoryStats', () => {
     it('should calculate category statistics correctly', () => {
       const mockWeapons = [
-        { name: 'Amber Sabre', atk: 100, def: 10, level: 0, vocation: 'Knight', hands: 'Uma', tier: 1, endpoint: '' },
-        { name: 'Blade of Destruction', atk: 200, def: 20, level: 0, vocation: 'Knight', hands: 'Uma', tier: 2, endpoint: '' }
+        {
+          name: 'Amber Sabre',
+          atk: 100,
+          def: 10,
+          level: 0,
+          vocation: 'Knight',
+          hands: 'Uma',
+          tier: 1,
+          endpoint: '',
+        },
+        {
+          name: 'Blade of Destruction',
+          atk: 200,
+          def: 20,
+          level: 0,
+          vocation: 'Knight',
+          hands: 'Uma',
+          tier: 2,
+          endpoint: '',
+        },
       ];
 
       spyOn(service, 'getWeaponsByCategory').and.returnValue({
@@ -389,9 +490,9 @@ describe('WeaponsService', () => {
           observer.next({
             category: { id: 'swords', name: 'Espadas' },
             data: mockWeapons,
-            total: 2
+            total: 2,
           });
-        }
+        },
       } as any);
 
       service.getCategoryStats('swords').subscribe(stats => {
@@ -424,12 +525,12 @@ describe('WeaponsService', () => {
           energy: 0,
           earth: 0,
           death: 0,
-          holy: 0
+          holy: 0,
         },
         def_mod: 0,
         bonus: null,
         dropped_by: '',
-        scraped_at: '2025-07-14T15:45:48.733Z'
+        scraped_at: '2025-07-14T15:45:48.733Z',
       };
 
       expect(service.hasElementalDamage(weapon)).toBe(true);
@@ -451,7 +552,7 @@ describe('WeaponsService', () => {
         def_mod: 0,
         bonus: null,
         dropped_by: '',
-        scraped_at: '2025-07-14T15:45:09.596Z'
+        scraped_at: '2025-07-14T15:45:09.596Z',
       };
 
       expect(service.hasElementalDamage(weapon)).toBe(false);
@@ -477,12 +578,12 @@ describe('WeaponsService', () => {
           energy: 0,
           earth: 0,
           death: 0,
-          holy: 0
+          holy: 0,
         },
         def_mod: 0,
         bonus: null,
         dropped_by: '',
-        scraped_at: '2025-07-14T15:45:48.733Z'
+        scraped_at: '2025-07-14T15:45:48.733Z',
       };
 
       expect(service.getPrimaryElementalType(weapon)).toBe('fire');
@@ -504,7 +605,7 @@ describe('WeaponsService', () => {
         def_mod: 0,
         bonus: null,
         dropped_by: '',
-        scraped_at: '2025-07-14T15:45:09.596Z'
+        scraped_at: '2025-07-14T15:45:09.596Z',
       };
 
       expect(service.getPrimaryElementalType(weapon)).toBeNull();
@@ -531,9 +632,9 @@ describe('WeaponsService', () => {
     it('should handle HTTP 400 error', () => {
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Parâmetros inválidos');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
@@ -543,9 +644,9 @@ describe('WeaponsService', () => {
     it('should handle HTTP 404 error', () => {
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Recurso não encontrado');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
@@ -555,9 +656,9 @@ describe('WeaponsService', () => {
     it('should handle HTTP 405 error', () => {
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Método não permitido');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
@@ -567,9 +668,9 @@ describe('WeaponsService', () => {
     it('should handle HTTP 500 error', () => {
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Erro interno do servidor');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
@@ -579,13 +680,13 @@ describe('WeaponsService', () => {
     it('should handle network error', () => {
       service.getCategories().subscribe({
         next: () => fail('should have failed'),
-        error: (error) => {
+        error: error => {
           expect(error.message).toBe('Ocorreu um erro inesperado');
-        }
+        },
       });
 
       const req = httpMock.expectOne(`${baseUrl}?action=categories`);
       req.error(new ErrorEvent('Network error'));
     });
   });
-}); 
+});

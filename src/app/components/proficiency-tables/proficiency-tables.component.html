@@ -2,9 +2,7 @@
   <div class="consulta-layout">
     <h1 class="tavernatibiana-title">Capítulo dos Requisitos Heroicos</h1>
     <div class="parchment-card medieval-disclaimer">
-      <button class="voltar-button-card" [routerLink]="'/grimorio'">
-        Voltar
-      </button>
+      <button class="voltar-button-card" [routerLink]="'/grimorio'">Voltar</button>
       <div
         style="
           display: flex;
@@ -14,44 +12,38 @@
           text-align: left;
         "
       >
-        <img
-          src="assets/icons-svg/cyber-threat.svg"
-          alt="Capítulo"
-          class="svg-icon intro-icon"
-        />
-        <strong class="medieval-text"
-          >Consulte as quantidades de caça para cada vocação!</strong
-        >
+        <img src="assets/icons-svg/cyber-threat.svg" alt="Capítulo" class="svg-icon intro-icon" />
+        <strong class="medieval-text">Consulte as quantidades de caça para cada vocação!</strong>
       </div>
       <p class="medieval-intro" style="margin-bottom: 1.3rem; text-align: left">
-        Antes de meter o machado nas criaturas ou desafiar os chefões, escolha
-        com sabedoria tua vocação e o tipo de caça (Bosses ou Criaturas). Só
-        assim a tabela revelará os segredos corretos!
+        Antes de meter o machado nas criaturas ou desafiar os chefões, escolha com sabedoria tua
+        vocação e o tipo de caça (Bosses ou Criaturas). Só assim a tabela revelará os segredos
+        corretos!
       </p>
 
-       <!-- AVISO DOS TABERNEIROS NO INÍCIO -->
-       <div
-       class="rpg-description medieval-intro"
-       style="
-         margin-bottom: 2rem;
-         display: flex;
-         flex-direction: column;
-         align-items: flex-start;
-         gap: 0.5rem;
-         text-align: left;
-       "
-     >
-       <strong>
-         Aviso dos taberneiros (sim, dois, e ambos gostam de falar!):
-       </strong>
-       <span class="medieval-intro" style="margin-bottom: 1.3rem; text-align: left; line-height: 1.5;">
-        Estes são os registros ancestrais das tuas batalhas! Cada vocação trilha
-         um destino único, e cada inimigo exige coragem diferente. Planeje bem,
-         consulte com olhos atentos e, se quiser exibir tua sabedoria nos salões
-         por onde passares, exporte a tabela em PDF e leve contigo como um
-         verdadeiro mapa do tesouro!
-       </span>
-     </div>
+      <!-- AVISO DOS TABERNEIROS NO INÍCIO -->
+      <div
+        class="rpg-description medieval-intro"
+        style="
+          margin-bottom: 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+          text-align: left;
+        "
+      >
+        <strong> Aviso dos taberneiros (sim, dois, e ambos gostam de falar!): </strong>
+        <span
+          class="medieval-intro"
+          style="margin-bottom: 1.3rem; text-align: left; line-height: 1.5"
+        >
+          Estes são os registros ancestrais das tuas batalhas! Cada vocação trilha um destino único,
+          e cada inimigo exige coragem diferente. Planeje bem, consulte com olhos atentos e, se
+          quiser exibir tua sabedoria nos salões por onde passares, exporte a tabela em PDF e leve
+          contigo como um verdadeiro mapa do tesouro!
+        </span>
+      </div>
       <div
         class="filtro-container filtro-exportar-row"
         style="
@@ -69,7 +61,7 @@
               *ngFor="let v of vocations"
               [ngClass]="{
                 active: selectedVocation() === v.key,
-                'button-medieval': true
+                'button-medieval': true,
               }"
               (click)="setVocation(v.key)"
             >
@@ -84,7 +76,7 @@
               *ngFor="let t of types"
               [ngClass]="{
                 active: selectedType() === t.key,
-                'button-medieval': true
+                'button-medieval': true,
               }"
               (click)="setType(t.key)"
             >
@@ -92,11 +84,7 @@
             </button>
 
             <span class="acao-item" (click)="showExportModal = true">
-              <img
-                src="assets/icons-svg/pdf-file.svg"
-                alt="Exportar PDF"
-                class="svg-button"
-              />
+              <img src="assets/icons-svg/pdf-file.svg" alt="Exportar PDF" class="svg-button" />
               <span>Exportar PDF</span>
             </span>
           </div>
@@ -147,12 +135,10 @@
     <!-- Modal de exportação PDF -->
     <div class="modal-overlay" *ngIf="showExportModal">
       <div class="modal-content parchment-card export-modal">
-        <h2 class="medieval-text" style="margin-bottom: 1rem">
-          Exportar Tabela em PDF
-        </h2>
+        <h2 class="medieval-text" style="margin-bottom: 1rem">Exportar Tabela em PDF</h2>
         <p class="medieval-intro">
-          Ah, aventureiro precavido! Escolhe com sabedoria qual pergaminho
-          deseja carregar em sua jornada:
+          Ah, aventureiro precavido! Escolhe com sabedoria qual pergaminho deseja carregar em sua
+          jornada:
         </p>
         <form>
           <div class="modal-radio-group">
@@ -179,41 +165,24 @@
           </div>
           <div *ngIf="!exportAll" class="modal-select-group">
             <label class="medieval-text">Vocação do herói:</label>
-            <select
-              class="modal-select"
-              [(ngModel)]="exportVocation"
-              name="exportVocation"
-            >
+            <select class="modal-select" [(ngModel)]="exportVocation" name="exportVocation">
               <option *ngFor="let v of vocations" [value]="v.key">
                 {{ v.label }}
               </option>
             </select>
             <label class="medieval-text">Tipo de desafio:</label>
-            <select
-              class="modal-select"
-              [(ngModel)]="exportType"
-              name="exportType"
-            >
+            <select class="modal-select" [(ngModel)]="exportType" name="exportType">
               <option *ngFor="let t of types" [value]="t.key">
                 {{ t.label }}
               </option>
             </select>
           </div>
         </form>
-        <div
-          style="
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 1.2rem;
-          "
-        >
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.2rem">
           <button class="voltar-button-card" (click)="showExportModal = false">
             Deixar pra outra aventura
           </button>
-          <button class="voltar-button-card" (click)="exportPdf()">
-            Forjar PDF agora!
-          </button>
+          <button class="voltar-button-card" (click)="exportPdf()">Forjar PDF agora!</button>
         </div>
       </div>
     </div>

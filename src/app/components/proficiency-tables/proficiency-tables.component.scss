@@ -44,14 +44,17 @@
   font-size: 1rem;
   padding: 0.4rem 1.2rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   color: #6b4f1d;
   min-width: 80px;
   text-align: center;
   white-space: nowrap;
   box-sizing: border-box;
 }
-.tab-group button.active, .tab-group button:hover {
+.tab-group button.active,
+.tab-group button:hover {
   background: #e0c97f;
   color: #3d2b0b;
   font-weight: bold;
@@ -67,7 +70,8 @@
   font-family: 'MedievalSharp', serif;
   background: #fffbe6;
 }
-.tabela-pergaminho th, .tabela-pergaminho td {
+.tabela-pergaminho th,
+.tabela-pergaminho td {
   border: 1px solid #e0c97f;
   padding: 0.5rem 0.8rem;
   text-align: center;
@@ -101,8 +105,11 @@
 
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -135,7 +142,7 @@
   font-family: 'MedievalSharp', serif;
   font-size: 1rem;
 }
-.modal-radio input[type="radio"] {
+.modal-radio input[type='radio'] {
   accent-color: #b22222;
   width: 1.1em;
   height: 1.1em;
@@ -199,7 +206,8 @@
     padding: 1rem 1rem;
     box-sizing: border-box;
   }
-  .tabela-pergaminho th, .tabela-pergaminho td {
+  .tabela-pergaminho th,
+  .tabela-pergaminho td {
     padding: 0.3rem 0.3rem;
     font-size: 0.95rem;
   }
@@ -237,7 +245,7 @@
     height: 1.5em;
     width: 1.5em;
   }
-} 
+}
 
 .filtro-container {
   padding: 0 !important;
@@ -288,7 +296,7 @@
     flex: unset;
     min-width: unset;
   }
-} 
+}
 
 /* Mobile Cards Layout */
 .mobile-cards {
@@ -363,19 +371,19 @@
   .desktop-table {
     display: none;
   }
-  
+
   .mobile-cards {
     display: flex;
   }
-  
+
   .card-title {
     font-size: 1.1rem;
   }
-  
+
   .card-label {
     font-size: 0.85rem;
   }
-  
+
   .card-value {
     font-size: 0.95rem;
     padding: 0.25rem 0.6rem;
@@ -499,27 +507,27 @@
   .mobile-cards {
     gap: 0.8rem;
   }
-  
+
   .card-header {
     padding: 0.8rem;
   }
-  
+
   .card-content {
     padding: 0.8rem;
   }
-  
+
   .card-row {
     padding: 0.4rem 0;
   }
-  
+
   .card-title {
     font-size: 1rem;
   }
-  
+
   .card-label {
     font-size: 0.8rem;
   }
-  
+
   .card-value {
     font-size: 0.9rem;
     padding: 0.2rem 0.5rem;
@@ -579,7 +587,7 @@
   .mobile-cards {
     margin: 1.5rem 1.2rem 0 1.2rem;
   }
-} 
+}
 
 .tab-group-exportar {
   display: flex;
@@ -616,4 +624,4 @@
 
 .acao-item:hover {
   background: #f3e6c1;
-} 
+}

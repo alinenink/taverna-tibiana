@@ -1,0 +1,24 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*", "src/**/*.html", "src/**/*.spec.ts"],
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["eslint:recommended"],
+      "rules": {
+        "no-unused-vars": "warn",
+        "no-console": "warn",
+        "prefer-const": "error",
+        "no-var": "error",
+        "object-shorthand": "error",
+        "prefer-template": "error"
+      }
+    }
+  ]
+}

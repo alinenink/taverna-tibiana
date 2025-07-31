@@ -16,8 +16,8 @@ export interface Mastery {
 
 @Injectable({ providedIn: 'root' })
 export class MasteryService {
-  private baseUrl = environment.apiUrl + '/animous';
-  private userMasteryUrl = environment.apiUrl + '/animous';
+  private baseUrl = `${environment.apiUrl}/animous`;
+  private userMasteryUrl = `${environment.apiUrl}/animous`;
 
   dados = signal<Mastery[]>([]);
   selecionados = signal<Mastery[]>([]);
@@ -38,8 +38,7 @@ export class MasteryService {
   carregarMasteriesUsuario(onFinish?: () => void) {
     const userId = this.authService.getUserId();
     const token = this.authService.getToken();
-    
-    
+
     if (!userId) {
       console.error('User ID não encontrado');
       if (onFinish) onFinish();
@@ -50,9 +49,9 @@ export class MasteryService {
       if (onFinish) onFinish();
       return;
     }
-    
+
     // PRIMEIRO: Carregar todos os masteries disponíveis
-    
+
     const params = new URLSearchParams({
       action: 'list',
       page: '1',
@@ -62,129 +61,129 @@ export class MasteryService {
       class: '',
     });
 
-    this.http.post<any>(`${this.baseUrl}?${params.toString()}`, {
-      action: 'list',
-      page: '1',
-      pageSize: '9999',
-      name: '',
-      difficulty: '',
-      class: '',
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).subscribe({
-      next: (res) => {
-        
-        
-        const todos = res.data.map((item: any) => ({
-          ...item,
-          difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-          image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
-        }));
-
-        // Armazenar todos os masteries
-        this._dadosTodos = todos;
-        
-        // SEGUNDO: Buscar masteries do usuário
-        
-        this.http.get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
+    this.http
+      .post<any>(
+        `${this.baseUrl}?${params.toString()}`,
+        {
+          action: 'list',
+          page: '1',
+          pageSize: '9999',
+          name: '',
+          difficulty: '',
+          class: '',
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }).subscribe({
-          next: (response) => {
-            
-            let payload: any[] = [];
-            if (Array.isArray(response)) {
-              payload = response[0]?.payload;
-            } else if (response && response.payload) {
-              payload = typeof response.payload === 'string'
-                ? JSON.parse(response.payload)
-                : response.payload;
-            }
-            
-            
-            if (Array.isArray(payload) && payload.length > 0) {
-              // Marcar os masteries do usuário como selecionados
-              const masteriesUsuarioIds = new Set(payload.map((m: any) => m.id));
-              const selecionados = todos.filter((item: any) => masteriesUsuarioIds.has(item.id));
-              this.selecionados.set(selecionados);
-              
-              
-              
-              // Ordenar com os selecionados primeiro
-              const ordenado = todos.sort((a, b) => {
-                const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
-                const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
-                return (
-                  aSel - bSel ||
-                  a.name.localeCompare(b.name) ||
-                  a.class.name.localeCompare(b.class.name)
-                );
-              });
-
-              const pageSize = 20;
-              const primeiraPagina = ordenado.slice(0, pageSize);
-
-              
-              
-              
-
-              this.dados.set(primeiraPagina);
-              this.totalResultados.set(ordenado.length);
-              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-              this.paginaAtual.set(1);
-              
-              this.toastMessage.set('Masteries carregados do servidor!');
-              setTimeout(() => this.toastMessage.set(null), 3000);
-            } else {
-              // Se não houver masteries salvos, apenas mostrar todos
-              
-              const ordenado = todos.sort((a, b) => 
-                a.name.localeCompare(b.name) ||
-                a.class.name.localeCompare(b.class.name)
-              );
-
-              const pageSize = 20;
-              const primeiraPagina = ordenado.slice(0, pageSize);
-
-              this.dados.set(primeiraPagina);
-              this.totalResultados.set(ordenado.length);
-              this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-              this.paginaAtual.set(1);
-            }
-            
-            if (onFinish) onFinish();
+            Authorization: `Bearer ${token}`,
           },
-          error: (error) => {
-            console.error('Erro ao carregar masteries do usuário:', error);
-            // Em caso de erro, mostrar todos os masteries sem seleção
-            const ordenado = todos.sort((a, b) => 
-              a.name.localeCompare(b.name) ||
-              a.class.name.localeCompare(b.class.name)
-            );
+        }
+      )
+      .subscribe({
+        next: res => {
+          const todos = res.data.map((item: any) => ({
+            ...item,
+            difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+            image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+          }));
 
-            const pageSize = 20;
-            const primeiraPagina = ordenado.slice(0, pageSize);
+          // Armazenar todos os masteries
+          this._dadosTodos = todos;
 
-            this.dados.set(primeiraPagina);
-            this.totalResultados.set(ordenado.length);
-            this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-            this.paginaAtual.set(1);
-            
-            if (onFinish) onFinish();
-          }
-        });
-      },
-      error: (error) => {
-        console.error('Erro ao carregar lista de masteries:', error);
-        this.toastMessage.set('Erro ao carregar lista de masteries!');
-        if (onFinish) onFinish();
-      }
-    });
+          // SEGUNDO: Buscar masteries do usuário
+
+          this.http
+            .get<any>(`${environment.apiUrl}/animous-mastery/${userId}`, {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .subscribe({
+              next: response => {
+                let payload: any[] = [];
+                if (Array.isArray(response)) {
+                  payload = response[0]?.payload;
+                } else if (response && response.payload) {
+                  payload =
+                    typeof response.payload === 'string'
+                      ? JSON.parse(response.payload)
+                      : response.payload;
+                }
+
+                if (Array.isArray(payload) && payload.length > 0) {
+                  // Marcar os masteries do usuário como selecionados
+                  const masteriesUsuarioIds = new Set(payload.map((m: any) => m.id));
+                  const selecionados = todos.filter((item: any) =>
+                    masteriesUsuarioIds.has(item.id)
+                  );
+                  this.selecionados.set(selecionados);
+
+                  // Ordenar com os selecionados primeiro
+                  const ordenado = todos.sort((a, b) => {
+                    const aSel = masteriesUsuarioIds.has(a.id) ? 0 : 1;
+                    const bSel = masteriesUsuarioIds.has(b.id) ? 0 : 1;
+                    return (
+                      aSel - bSel ||
+                      a.name.localeCompare(b.name) ||
+                      a.class.name.localeCompare(b.class.name)
+                    );
+                  });
+
+                  const pageSize = 20;
+                  const primeiraPagina = ordenado.slice(0, pageSize);
+
+                  this.dados.set(primeiraPagina);
+                  this.totalResultados.set(ordenado.length);
+                  this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+                  this.paginaAtual.set(1);
+
+                  this.toastMessage.set('Masteries carregados do servidor!');
+                  setTimeout(() => this.toastMessage.set(null), 3000);
+                } else {
+                  // Se não houver masteries salvos, apenas mostrar todos
+
+                  const ordenado = todos.sort(
+                    (a, b) =>
+                      a.name.localeCompare(b.name) || a.class.name.localeCompare(b.class.name)
+                  );
+
+                  const pageSize = 20;
+                  const primeiraPagina = ordenado.slice(0, pageSize);
+
+                  this.dados.set(primeiraPagina);
+                  this.totalResultados.set(ordenado.length);
+                  this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+                  this.paginaAtual.set(1);
+                }
+
+                if (onFinish) onFinish();
+              },
+              error: error => {
+                console.error('Erro ao carregar masteries do usuário:', error);
+                // Em caso de erro, mostrar todos os masteries sem seleção
+                const ordenado = todos.sort(
+                  (a, b) => a.name.localeCompare(b.name) || a.class.name.localeCompare(b.class.name)
+                );
+
+                const pageSize = 20;
+                const primeiraPagina = ordenado.slice(0, pageSize);
+
+                this.dados.set(primeiraPagina);
+                this.totalResultados.set(ordenado.length);
+                this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+                this.paginaAtual.set(1);
+
+                if (onFinish) onFinish();
+              },
+            });
+        },
+        error: error => {
+          console.error('Erro ao carregar lista de masteries:', error);
+          this.toastMessage.set('Erro ao carregar lista de masteries!');
+          if (onFinish) onFinish();
+        },
+      });
   }
 
   buscar(
@@ -196,7 +195,7 @@ export class MasteryService {
 
     // Se já temos todos os dados carregados (por exemplo, após importar o JSON)
     if (this._dadosTodos.length > 0) {
-      const dadosFiltrados = this._dadosTodos.filter((item) => {
+      const dadosFiltrados = this._dadosTodos.filter(item => {
         const matchNome = filtros.nome
           ? item.name.toLowerCase().includes(filtros.nome.toLowerCase())
           : true;
@@ -206,8 +205,8 @@ export class MasteryService {
         const matchDificuldade = isRare
           ? item.occurrence === 'Very Rare'
           : filtros.dificuldade
-          ? item.difficulty === filtros.dificuldade
-          : true;
+            ? item.difficulty === filtros.dificuldade
+            : true;
         return matchNome && matchClasse && matchDificuldade;
       });
 
@@ -232,21 +231,25 @@ export class MasteryService {
     });
 
     this.http
-      .post<any>(`${this.baseUrl}?${params.toString()}`, {
-        action: 'list',
-        page: isRare ? '1' : page.toString(),
-        pageSize: isRare ? '9999' : '20', // busca tudo se rare
-        name: filtros.nome || '',
-        difficulty: isRare ? '' : filtros.dificuldade || '',
-        class: filtros.classe || '',
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.authService.getToken()}`
+      .post<any>(
+        `${this.baseUrl}?${params.toString()}`,
+        {
+          action: 'list',
+          page: isRare ? '1' : page.toString(),
+          pageSize: isRare ? '9999' : '20', // busca tudo se rare
+          name: filtros.nome || '',
+          difficulty: isRare ? '' : filtros.dificuldade || '',
+          class: filtros.classe || '',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.authService.getToken()}`,
+          },
         }
-      })
+      )
       .subscribe({
-        next: (res) => {
+        next: res => {
           const filtrados = isRare
             ? res.data.filter((item: any) => item.occurrence === 'Very Rare')
             : res.data;
@@ -254,8 +257,7 @@ export class MasteryService {
           const dadosFormatados = filtrados
             .map((item: any) => ({
               ...item,
-              difficulty:
-                item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+              difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
               image: `https://static.tibia.com/images/library/${item.name
                 .replace(/\s+/g, '')
                 .toLowerCase()}.gif`,
@@ -275,27 +277,27 @@ export class MasteryService {
           this.paginaAtual.set(res.page);
           if (onFinish) onFinish();
         },
-        error: (error) => {
+        error: error => {
           console.error('Erro ao buscar masteries:', error);
           this.toastMessage.set('Erro ao buscar masteries!');
           if (onFinish) onFinish();
-        }
+        },
       });
   }
 
   alternarSelecao(mastery: Mastery, checked: boolean) {
     const atual = this.selecionados();
     if (checked) {
-      if (!atual.some((m) => m.id === mastery.id)) {
+      if (!atual.some(m => m.id === mastery.id)) {
         this.selecionados.set([...atual, mastery]);
       }
     } else {
-      this.selecionados.set(atual.filter((m) => m.id !== mastery.id));
+      this.selecionados.set(atual.filter(m => m.id !== mastery.id));
     }
   }
 
   exportarJson() {
-    const data = this.selecionados().map((item) => ({
+    const data = this.selecionados().map(item => ({
       id: item.id,
       name: item.name,
       difficulty: item.difficulty,
@@ -334,11 +336,7 @@ export class MasteryService {
     autoTable(doc, {
       startY: 30,
       head: [['Nome', 'Dificuldade', 'Classe']],
-      body: masteries.map((item) => [
-        item.name,
-        item.difficulty,
-        item.class.name,
-      ]),
+      body: masteries.map(item => [item.name, item.difficulty, item.class.name]),
       theme: 'grid',
       styles: {
         font: 'MedievalSharp',
@@ -375,86 +373,98 @@ export class MasteryService {
           }));
 
           // Enviar dados para o backend PRIMEIRO
-          this.salvarMasteriesUsuario(reconstruidos, () => {
-            // Só preenche a tela após sucesso no banco
-            this.selecionados.set(reconstruidos);
-            this.toastMessage.set('Masteries carregados com sucesso!');
+          this.salvarMasteriesUsuario(
+            reconstruidos,
+            () => {
+              // Só preenche a tela após sucesso no banco
+              this.selecionados.set(reconstruidos);
+              this.toastMessage.set('Masteries carregados com sucesso!');
 
-            const selecionadosIds = new Set(reconstruidos.map((m) => m.id));
+              const selecionadosIds = new Set(reconstruidos.map(m => m.id));
 
-            // Usar a mesma estrutura da chamada inicial para garantir consistência
-            const params = new URLSearchParams({
-              action: 'list',
-              page: '1',
-              pageSize: '9999',
-              name: '',
-              difficulty: '',
-              class: ''
-            });
+              // Usar a mesma estrutura da chamada inicial para garantir consistência
+              const params = new URLSearchParams({
+                action: 'list',
+                page: '1',
+                pageSize: '9999',
+                name: '',
+                difficulty: '',
+                class: '',
+              });
 
-            this.http.post<any>(`${this.baseUrl}?${params.toString()}`, {
-              action: 'list',
-              page: '1',
-              pageSize: '9999',
-              name: '',
-              difficulty: '',
-              class: ''
-            }, {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.authService.getToken()}`
-              }
-            }).subscribe({
-              next: (res) => {
-                const todos = res.data.map((item: any) => ({
-                  ...item,
-                  difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
-                  image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
-                }));
+              this.http
+                .post<any>(
+                  `${this.baseUrl}?${params.toString()}`,
+                  {
+                    action: 'list',
+                    page: '1',
+                    pageSize: '9999',
+                    name: '',
+                    difficulty: '',
+                    class: '',
+                  },
+                  {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${this.authService.getToken()}`,
+                    },
+                  }
+                )
+                .subscribe({
+                  next: res => {
+                    const todos = res.data.map((item: any) => ({
+                      ...item,
+                      difficulty: item.occurrence === 'Very Rare' ? 'Rare' : item.difficulty,
+                      image: `https://static.tibia.com/images/library/${item.name.replace(/\s+/g, '').toLowerCase()}.gif`,
+                    }));
 
-                const ordenado = todos.sort((a, b) => {
-                  const aSel = selecionadosIds.has(a.id) ? 0 : 1;
-                  const bSel = selecionadosIds.has(b.id) ? 0 : 1;
-                  return (
-                    aSel - bSel ||
-                    a.name.localeCompare(b.name) ||
-                    a.class.name.localeCompare(b.class.name)
-                  );
+                    const ordenado = todos.sort((a, b) => {
+                      const aSel = selecionadosIds.has(a.id) ? 0 : 1;
+                      const bSel = selecionadosIds.has(b.id) ? 0 : 1;
+                      return (
+                        aSel - bSel ||
+                        a.name.localeCompare(b.name) ||
+                        a.class.name.localeCompare(b.class.name)
+                      );
+                    });
+
+                    const pageSize = 20;
+                    const primeiraPagina = ordenado.slice(0, pageSize);
+
+                    this.dados.set(primeiraPagina);
+                    this._dadosTodos = ordenado;
+                    this.totalResultados.set(ordenado.length);
+                    this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
+                    this.paginaAtual.set(1);
+                    if (onFinish) onFinish();
+                  },
+                  error: error => {
+                    console.error('Erro ao carregar lista de masteries:', error);
+                    this.toastMessage.set('Erro ao carregar lista de masteries!');
+                    if (onFinish) onFinish();
+                  },
                 });
 
-                const pageSize = 20;
-                const primeiraPagina = ordenado.slice(0, pageSize);
-
-                this.dados.set(primeiraPagina);
-                this._dadosTodos = ordenado;
-                this.totalResultados.set(ordenado.length);
-                this.totalPaginas.set(Math.ceil(ordenado.length / pageSize));
-                this.paginaAtual.set(1);
+              setTimeout(() => this.toastMessage.set(null), 3000);
+            },
+            errorMsg => {
+              // Tratamento de erro para usuário não cadastrado
+              if (
+                errorMsg &&
+                (errorMsg.includes('Usuário não cadastrado') ||
+                  errorMsg.toLowerCase().includes('usuário não cadastrado') ||
+                  errorMsg.includes('nao cadastrado') ||
+                  errorMsg.toLowerCase().includes('nao cadastrado'))
+              ) {
+                // Ativar o modal de visitante
+                this.showVisitorModal.set(true);
                 if (onFinish) onFinish();
-              },
-              error: (error) => {
-                console.error('Erro ao carregar lista de masteries:', error);
-                this.toastMessage.set('Erro ao carregar lista de masteries!');
+              } else {
+                this.toastMessage.set(`Erro ao importar: ${errorMsg || 'Erro desconhecido'}`);
                 if (onFinish) onFinish();
               }
-            });
-
-            setTimeout(() => this.toastMessage.set(null), 3000);
-          }, (errorMsg) => {
-            // Tratamento de erro para usuário não cadastrado
-            if (errorMsg && 
-                (errorMsg.includes('Usuário não cadastrado') || 
-                 errorMsg.toLowerCase().includes('usuário não cadastrado') ||
-                 errorMsg.includes('nao cadastrado') ||
-                 errorMsg.toLowerCase().includes('nao cadastrado'))) {
-              // Ativar o modal de visitante
-              this.showVisitorModal.set(true);
-              if (onFinish) onFinish();
-            } else {
-              this.toastMessage.set('Erro ao importar: ' + (errorMsg || 'Erro desconhecido'));
-              if (onFinish) onFinish();
             }
-          });
+          );
         } else {
           this.toastMessage.set('Arquivo inválido!');
           if (onFinish) onFinish();
@@ -468,73 +478,64 @@ export class MasteryService {
   }
 
   salvarSelecionados(): Promise<string | null> {
-    return new Promise((resolve) => {
-    const selecionados = this.selecionados();
-    if (selecionados.length > 0) {
-        this.salvarMasteriesUsuario(selecionados, undefined, (errorMsg) => {
+    return new Promise(resolve => {
+      const selecionados = this.selecionados();
+      if (selecionados.length > 0) {
+        this.salvarMasteriesUsuario(selecionados, undefined, errorMsg => {
           resolve(errorMsg);
         });
-    } else {
-      this.toastMessage.set('Nenhum mastery selecionado para salvar!');
+      } else {
+        this.toastMessage.set('Nenhum mastery selecionado para salvar!');
         resolve(null);
-    }
+      }
     });
   }
 
   // Atualize salvarMasteriesUsuario para aceitar um callback opcional de erro
-  private salvarMasteriesUsuario(masteries: any[], onSuccess?: () => void, onError?: (errorMsg: string | null) => void) {
+  private salvarMasteriesUsuario(
+    masteries: any[],
+    onSuccess?: () => void,
+    onError?: (errorMsg: string | null) => void
+  ) {
     const payload = {
-      payload: masteries
+      payload: masteries,
     };
-    
-    
+
     this.http.post<any>(`${this.userMasteryUrl}?action=save`, payload).subscribe({
-      next: (response) => {
-        
-        
+      next: response => {
         // Verificar se a resposta indica erro
         if (response && response.success === false && response.message) {
-          
           if (onError) onError(response.message);
           return;
         }
-        
+
         // Verificar se a resposta indica sucesso (success: true ou status 201)
         if (response && (response.success === true || response.hash)) {
-          
           this.toastMessage.set('Masteries salvos no servidor!');
           if (onSuccess) onSuccess();
           if (onError) onError(null);
           return;
         }
-        
+
         // Caso padrão: tratar como sucesso se não for explicitamente um erro
-        
+
         this.toastMessage.set('Masteries salvos no servidor!');
         if (onSuccess) onSuccess();
         if (onError) onError(null);
       },
-      error: (error) => {
-        
-        
-        
-        
+      error: error => {
         // Se o erro tem uma mensagem no body, use ela
         if (error.error && error.error.message) {
-          
           if (onError) onError(error.error.message);
         } else {
           this.toastMessage.set('Erro ao salvar no servidor!');
           if (onError) onError('Erro ao salvar no servidor!');
         }
-      }
+      },
     });
   }
 
-  ordenarDados(
-    campo: 'name' | 'difficulty' | 'class.name',
-    crescente: boolean
-  ) {
+  ordenarDados(campo: 'name' | 'difficulty' | 'class.name', crescente: boolean) {
     const prioridade = { Easy: 1, Medium: 2, Hard: 3 };
 
     const compare = (a: any, b: any): number => {
@@ -552,30 +553,22 @@ export class MasteryService {
       return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
     };
 
-    const selecionadosIds = new Set(this.selecionados().map((m) => m.id));
+    const selecionadosIds = new Set(this.selecionados().map(m => m.id));
 
     const ordenado = [...this.dados()]
       .sort((a, b) => compare(a, b) * (crescente ? 1 : -1))
-      .sort(
-        (a, b) =>
-          Number(!selecionadosIds.has(a.id)) -
-          Number(!selecionadosIds.has(b.id))
-      );
+      .sort((a, b) => Number(!selecionadosIds.has(a.id)) - Number(!selecionadosIds.has(b.id)));
 
     this.dados.set(ordenado);
   }
 
   // Exemplo de salvar animous
   salvarAnimous(payload: any, token: string) {
-    return this.http.post(
-      `${this.baseUrl}?action=save`,
-      payload,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    );
+    return this.http.post(`${this.baseUrl}?action=save`, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }

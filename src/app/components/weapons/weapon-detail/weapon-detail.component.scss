@@ -11,7 +11,7 @@
   background: #fdf8e4;
   border-radius: 16px;
   border: 2px solid #a07947;
-  box-shadow: 0 4px 24px rgba(160,121,71,0.08);
+  box-shadow: 0 4px 24px rgba(160, 121, 71, 0.08);
   padding: 2rem 1em;
 }
 
@@ -69,7 +69,8 @@
 .title-icon {
   width: 2.5rem;
   height: 2.5rem;
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
+    brightness(104%) contrast(97%);
 }
 
 .medieval-title {
@@ -134,7 +135,7 @@
 
   &.loading {
     background: #e8d9a5;
-    
+
     .svg-button {
       animation: pulse 1.5s ease-in-out infinite;
     }
@@ -161,8 +162,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .save-feedback {
@@ -201,7 +207,8 @@
 .svg-button {
   width: 20px;
   height: 20px;
-  filter: brightness(0) saturate(100%) invert(25%) sepia(15%) saturate(25%) hue-rotate(15deg) brightness(95%) contrast(90%);
+  filter: brightness(0) saturate(100%) invert(25%) sepia(15%) saturate(25%) hue-rotate(15deg)
+    brightness(95%) contrast(90%);
 }
 
 .weapon-detail-body {
@@ -225,7 +232,7 @@
 
 .detail-value {
   font-weight: bold;
-  color: #2E7D32;
+  color: #2e7d32;
   font-family: 'MedievalSharp', serif;
 }
 
@@ -267,7 +274,7 @@
 .proficiency-level-cell {
   vertical-align: top;
   padding: 0.5rem 1.15rem;
-  border:1px solid #a07947;
+  border: 1px solid #a07947;
   background: #fffbe9;
   min-width: 99px;
 }
@@ -278,7 +285,7 @@
 
 .weapon_proficiency_block {
   background: #fdf8e4;
-  border:2px solid #a07947;
+  border: 2px solid #a07947;
   border-radius: 8px;
   min-height: 120px;
 }
@@ -297,8 +304,6 @@
   min-width: 88px;
   cursor: pointer;
 }
-
-
 
 .perk-block:last-child {
   margin-bottom: 0;
@@ -359,8 +364,6 @@
   transition: transform 0.2s ease;
 }
 
-
-
 /* Layout para 3 ícones: sobrepostos */
 .three-icons-layout {
   position: relative;
@@ -413,8 +416,6 @@
   transform: scale(0.4);
 }
 
-
-
 /* Layout para 1 ícone */
 .single-icon-layout {
   display: flex;
@@ -432,8 +433,6 @@
   background: #fffbe9;
   transition: transform 0.2s ease;
 }
-
-
 
 .proficiency-icon-placeholder {
   width: 40px;
@@ -474,8 +473,6 @@
   margin-top: 0.5rem;
   cursor: pointer;
 }
-
-
 
 .weapon_proficiency_text.selected-perk {
   background: #e8f5e8;
@@ -791,7 +788,7 @@
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
   }
-} 
+}
 
 /* Mobile Layout - Telas muito pequenas */
 @media (max-width: 480px) {

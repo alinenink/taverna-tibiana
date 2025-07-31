@@ -11,7 +11,7 @@ import { ScrollService } from '../../services/scroll.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrl: './forgot-password.component.scss',
 })
 export class ForgotPasswordComponent implements OnInit {
   email = '';
@@ -19,11 +19,9 @@ export class ForgotPasswordComponent implements OnInit {
   sucesso = '';
   erro = '';
   emailEnviado = false;
-  
-
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private authService: AuthService,
     private analyticsService: AnalyticsService,
     private scrollService: ScrollService
@@ -36,35 +34,37 @@ export class ForgotPasswordComponent implements OnInit {
   recuperar() {
     // Track password recovery attempt
     this.analyticsService.trackUserAction('password_recovery', 'authentication', this.email);
-    
+
     this.carregando = true;
     this.erro = '';
     this.sucesso = '';
     this.emailEnviado = false;
     this.authService.resetPassword(this.email).subscribe({
-      next: (res) => {
+      next: res => {
         if (res.success) {
-          this.sucesso = '🍺 Um pergaminho mágico foi enviado ao teu email! Siga as instruções para restaurar teu juramento.';
+          this.sucesso =
+            '🍺 Um pergaminho mágico foi enviado ao teu email! Siga as instruções para restaurar teu juramento.';
           this.emailEnviado = true;
           this.analyticsService.trackFormSubmission('password_recovery', true);
         } else {
-          this.erro = res.message === 'Email não encontrado'
-            ? '⚠️ Nenhum aventureiro foi encontrado com esse email mágico. Confere o endereço e tenta novamente!'
-            : 'Não foi possível enviar o pergaminho de recuperação. Tente novamente mais tarde.';
+          this.erro =
+            res.message === 'Email não encontrado'
+              ? '⚠️ Nenhum aventureiro foi encontrado com esse email mágico. Confere o endereço e tenta novamente!'
+              : 'Não foi possível enviar o pergaminho de recuperação. Tente novamente mais tarde.';
           this.carregando = false;
           this.analyticsService.trackFormSubmission('password_recovery', false);
         }
         this.carregando = false;
       },
-      error: (err) => {
+      error: err => {
         this.analyticsService.trackFormSubmission('password_recovery', false);
         if (err.status === 400 && err.error?.message) {
-          this.erro = '⚠️ O taberneiro não conseguiu enviar o pergaminho: ' + err.error.message;
+          this.erro = `⚠️ O taberneiro não conseguiu enviar o pergaminho: ${err.error.message}`;
         } else {
           this.erro = 'Erro inesperado na taverna. Tente novamente em alguns minutos.';
         }
         this.carregando = false;
-      }
+      },
     });
   }
 
@@ -91,18 +91,16 @@ export class ForgotPasswordComponent implements OnInit {
 
     // Limpar erro anterior
     this.erro = '';
-    
+
     // Redirecionar para register com email preenchido e mostrar verificação
     this.router.navigate(['/register'], {
       queryParams: {
         email: this.email,
-        showVerification: 'true'
-      }
+        showVerification: 'true',
+      },
     });
-    
+
     // Track analytics
     this.analyticsService.trackUserAction('go_to_verification', 'password_recovery', this.email);
   }
-
-
-} 
+}

@@ -1,12 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { CommonModule, NgClass } from '@angular/common';
-import {
-  Achievement,
-  AchievementsService,
-  Mount,
-  Outfit,
-} from '../../services/consult.service';
+import { Achievement, AchievementsService, Mount, Outfit } from '../../services/consult.service';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +25,7 @@ declare module 'jspdf' {
 @Component({
   selector: 'app-consult',
   templateUrl: './consult.component.html',
-  styleUrls: ['./consult.component.scss'],
+  styleUrl: './consult.component.scss',
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   providers: [AchievementsService],
@@ -60,8 +55,7 @@ export class ConsultComponent implements OnInit {
   exibirModalRaros = false;
   exibirModalQuests = false;
   exibirModalGems = false;
-  tipoExportacao: 'achievements' | 'mounts' | 'outfits' | 'completo' =
-    'completo';
+  tipoExportacao: 'achievements' | 'mounts' | 'outfits' | 'completo' = 'completo';
 
   // Utilitário para uso em template
   objectKeys = Object.keys;
@@ -91,118 +85,107 @@ export class ConsultComponent implements OnInit {
   consultarPersonagem(): void {
     // Track character consultation
     this.analyticsService.trackCharacterConsultation(this.characterId);
-    
+
     this.carregando = true;
-    
+
     const token = this.authService.getToken();
     let headers = new HttpHeaders();
-    
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    
-    this.http
-      .get(`${environment.apiUrl}/auction/${this.characterId}`, { headers })
-      .subscribe({
-        next: (data: any) => {
-          this.characterData = data.details;
 
-          // Atribui os dados recebidos
-          this.outfitsPossui = data.matchOutfits.commonOutfits || [];
-          this.outfitsNaoPossui = data.matchOutfits.modelOnlyOutfits || [];
-          this.quests = data.quests;
-          this.gemCount = data.gemCount;
-          this.greaterGems = data.greaterGems;
-          this.rareAchiviements = data.rareAchievements;
+    this.http.get(`${environment.apiUrl}/auction/${this.characterId}`, { headers }).subscribe({
+      next: (data: any) => {
+        this.characterData = data.details;
 
-          // Aplicar regras específicas nos outfits que o personagem possui
-          this.outfitsPossui = this.outfitsPossui.filter((o: any) => {
-            const outfitName = o.name?.toLowerCase() || '';
-            // Regra para Yalarian Outfit
-            if (outfitName.includes('yalaharian')) {
-              if (o.base && o.addon2) {
-                // Se possui base e addon1, remove da lista
-                return false;
-              } else if (o.base && !o.addon2) {
-                // Se existe apenas o base, seta addon1 como true
-                o.addon2 = true;
-              }
+        // Atribui os dados recebidos
+        this.outfitsPossui = data.matchOutfits.commonOutfits || [];
+        this.outfitsNaoPossui = data.matchOutfits.modelOnlyOutfits || [];
+        this.quests = data.quests;
+        this.gemCount = data.gemCount;
+        this.greaterGems = data.greaterGems;
+        this.rareAchiviements = data.rareAchievements;
+
+        // Aplicar regras específicas nos outfits que o personagem possui
+        this.outfitsPossui = this.outfitsPossui.filter((o: any) => {
+          const outfitName = o.name?.toLowerCase() || '';
+          // Regra para Yalarian Outfit
+          if (outfitName.includes('yalaharian')) {
+            if (o.base && o.addon2) {
+              // Se possui base e addon1, remove da lista
+              return false;
+            } else if (o.base && !o.addon2) {
+              // Se existe apenas o base, seta addon1 como true
+              o.addon2 = true;
             }
-            // Regra para Royal Bounacean Advisor
-            if (outfitName.includes('royal bounacean advisor')) {
-              if (o.base && o.addon1) {
-                return false;
-              } else if (o.base && !o.addon1) {
-                o.addon2 = true;
-              }
+          }
+          // Regra para Royal Bounacean Advisor
+          if (outfitName.includes('royal bounacean advisor')) {
+            if (o.base && o.addon1) {
+              return false;
+            } else if (o.base && !o.addon1) {
+              o.addon2 = true;
             }
-            return true;
-          });
-
-          // Regras para Nightmare / Brotherhood:
-          const possuiNightmare = this.outfitsPossui.some((o: any) =>
-            o.name?.toLowerCase().includes('nightmare')
-          );
-          const possuiBrotherhood = this.outfitsPossui.some((o: any) =>
-            o.name?.toLowerCase().includes('brotherhood')
-          );
-          if (possuiNightmare) {
-            // Remove do "não possui" os outfits cujo nome contenha "brotherhood"
-            this.outfitsNaoPossui = this.outfitsNaoPossui.filter(
-              (o: any) =>
-                !(o.name && o.name.toLowerCase().includes('brotherhood'))
-            );
           }
-          if (possuiBrotherhood) {
-            // Remove do "não possui" os outfits cujo nome contenha "nightmare"
-            this.outfitsNaoPossui = this.outfitsNaoPossui.filter(
-              (o: any) =>
-                !(o.name && o.name.toLowerCase().includes('nightmare'))
-            );
-          }
+          return true;
+        });
 
-          // Filtra os que possuem addons faltando
-          const possuiComAddonFaltando = this.outfitsPossui.filter(
-            (o: any) => !o.addon1 || !o.addon2
+        // Regras para Nightmare / Brotherhood:
+        const possuiNightmare = this.outfitsPossui.some((o: any) =>
+          o.name?.toLowerCase().includes('nightmare')
+        );
+        const possuiBrotherhood = this.outfitsPossui.some((o: any) =>
+          o.name?.toLowerCase().includes('brotherhood')
+        );
+        if (possuiNightmare) {
+          // Remove do "não possui" os outfits cujo nome contenha "brotherhood"
+          this.outfitsNaoPossui = this.outfitsNaoPossui.filter(
+            (o: any) => !(o.name && o.name.toLowerCase().includes('brotherhood'))
           );
-
-          // Remove do "possui" os que têm addons faltando
-          this.outfitsPossui = this.outfitsPossui.filter(
-            (o: any) => o.addon1 && o.addon2
+        }
+        if (possuiBrotherhood) {
+          // Remove do "não possui" os outfits cujo nome contenha "nightmare"
+          this.outfitsNaoPossui = this.outfitsNaoPossui.filter(
+            (o: any) => !(o.name && o.name.toLowerCase().includes('nightmare'))
           );
+        }
 
-          // Junta os outfits com addon incompleto ao "não possui"
-          this.outfitsNaoPossui = [
-            ...this.outfitsNaoPossui,
-            ...possuiComAddonFaltando,
-          ];
+        // Filtra os que possuem addons faltando
+        const possuiComAddonFaltando = this.outfitsPossui.filter(
+          (o: any) => !o.addon1 || !o.addon2
+        );
 
-          // Ordena o array final por nome
-          this.outfitsNaoPossui.sort((a: any, b: any) =>
-            a.name.localeCompare(b.name)
-          );
+        // Remove do "possui" os que têm addons faltando
+        this.outfitsPossui = this.outfitsPossui.filter((o: any) => o.addon1 && o.addon2);
 
-          // Montarias (sem alteração)
-          this.mountsNaoPossui = data.matchMounts.modelOnlyMounts || [];
-          this.mountsPossui = data.matchMounts.commonMounts || [];
+        // Junta os outfits com addon incompleto ao "não possui"
+        this.outfitsNaoPossui = [...this.outfitsNaoPossui, ...possuiComAddonFaltando];
 
-          this.getAchievements(this.characterId);
-        },
-        error: (error) => {
-          console.error('Erro ao buscar dados do personagem:', error);
-          this.carregando = false;
-        },
-      });
+        // Ordena o array final por nome
+        this.outfitsNaoPossui.sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+        // Montarias (sem alteração)
+        this.mountsNaoPossui = data.matchMounts.modelOnlyMounts || [];
+        this.mountsPossui = data.matchMounts.commonMounts || [];
+
+        this.getAchievements(this.characterId);
+      },
+      error: error => {
+        console.error('Erro ao buscar dados do personagem:', error);
+        this.carregando = false;
+      },
+    });
   }
 
   getAchievements(auctionID: string): void {
     this.achievementsService.getAchievements(auctionID).subscribe({
-      next: (data) => {
+      next: data => {
         this.allAchievements = data;
         this.agruparQuestsPorCategoria();
         this.carregando = false;
       },
-      error: (error) => {
+      error: error => {
         console.error('Erro ao recuperar achievements:', error);
         this.carregando = false;
       },
@@ -228,9 +211,7 @@ export class ConsultComponent implements OnInit {
     doc.setFont('MedievalSharp', 'normal');
 
     const startY = this.adicionarDetalhesPersonagem(doc);
-    const sorted = (this.allAchievements?.missing || []).sort(
-      (a, b) => a.points - b.points
-    );
+    const sorted = (this.allAchievements?.missing || []).sort((a, b) => a.points - b.points);
     const achievementsBody = sorted.map((achievement: any) => [
       achievement.name,
       achievement.description,
@@ -251,17 +232,11 @@ export class ConsultComponent implements OnInit {
         2: { cellWidth: 15 },
         3: { cellWidth: 30 },
       },
-      didDrawCell: (data) => {
+      didDrawCell: data => {
         if (data.column.index === 3 && data.cell.raw) {
-          doc.link(
-            data.cell.x,
-            data.cell.y,
-            data.cell.width,
-            data.cell.height,
-            {
-              url: data.cell.raw,
-            }
-          );
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, {
+            url: data.cell.raw,
+          });
         }
       },
     });
@@ -276,7 +251,7 @@ export class ConsultComponent implements OnInit {
     doc.setFont('MedievalSharp', 'normal');
 
     const startY = this.adicionarDetalhesPersonagem(doc);
-    const mountsBody = this.mountsNaoPossui.map((mount) => [
+    const mountsBody = this.mountsNaoPossui.map(mount => [
       mount.name,
       `https://tibia.fandom.com/wiki/${mount.name.replace(/\s+/g, '_')}`,
     ]);
@@ -292,17 +267,11 @@ export class ConsultComponent implements OnInit {
         0: { cellWidth: 60 },
         1: { cellWidth: 100 },
       },
-      didDrawCell: (data) => {
+      didDrawCell: data => {
         if (data.column.index === 1 && data.cell.raw) {
-          doc.link(
-            data.cell.x,
-            data.cell.y,
-            data.cell.width,
-            data.cell.height,
-            {
-              url: data.cell.raw,
-            }
-          );
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, {
+            url: data.cell.raw,
+          });
         }
       },
     });
@@ -317,7 +286,7 @@ export class ConsultComponent implements OnInit {
     doc.setFont('MedievalSharp', 'normal');
 
     const startY = this.adicionarDetalhesPersonagem(doc);
-    const outfitsBody = this.outfitsNaoPossui.map((outfit) => [
+    const outfitsBody = this.outfitsNaoPossui.map(outfit => [
       outfit.name,
       outfit.base ? 'Sim' : 'Não',
       outfit.addon1 ? 'Sim' : 'Não',
@@ -345,9 +314,7 @@ export class ConsultComponent implements OnInit {
     let y = this.adicionarDetalhesPersonagem(doc);
 
     // Achievements
-    const sorted = (this.allAchievements?.missing || []).sort(
-      (a, b) => a.points - b.points
-    );
+    const sorted = (this.allAchievements?.missing || []).sort((a, b) => a.points - b.points);
     const achievementsBody = sorted.map((achievement: any) => [
       achievement.name,
       achievement.description,
@@ -368,17 +335,11 @@ export class ConsultComponent implements OnInit {
         2: { cellWidth: 15 },
         3: { cellWidth: 30 },
       },
-      didDrawCell: (data) => {
+      didDrawCell: data => {
         if (data.column.index === 3 && data.cell.raw) {
-          doc.link(
-            data.cell.x,
-            data.cell.y,
-            data.cell.width,
-            data.cell.height,
-            {
-              url: data.cell.raw,
-            }
-          );
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, {
+            url: data.cell.raw,
+          });
         }
       },
     });
@@ -388,7 +349,7 @@ export class ConsultComponent implements OnInit {
     y = this.adicionarDetalhesPersonagem(doc);
 
     // Mounts
-    const mountsBody = this.mountsNaoPossui.map((mount) => [
+    const mountsBody = this.mountsNaoPossui.map(mount => [
       mount.name,
       `https://tibia.fandom.com/wiki/${mount.name.replace(/\s+/g, '_')}`,
     ]);
@@ -404,17 +365,11 @@ export class ConsultComponent implements OnInit {
         0: { cellWidth: 60 },
         1: { cellWidth: 100 },
       },
-      didDrawCell: (data) => {
+      didDrawCell: data => {
         if (data.column.index === 1 && data.cell.raw) {
-          doc.link(
-            data.cell.x,
-            data.cell.y,
-            data.cell.width,
-            data.cell.height,
-            {
-              url: data.cell.raw,
-            }
-          );
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, {
+            url: data.cell.raw,
+          });
         }
       },
     });
@@ -424,7 +379,7 @@ export class ConsultComponent implements OnInit {
     y = this.adicionarDetalhesPersonagem(doc);
 
     // Outfits
-    const outfitsBody = this.outfitsNaoPossui.map((outfit) => [
+    const outfitsBody = this.outfitsNaoPossui.map(outfit => [
       outfit.name,
       outfit.base ? 'Sim' : 'Não',
       outfit.addon1 ? 'Sim' : 'Não',
@@ -505,7 +460,7 @@ export class ConsultComponent implements OnInit {
       bosses: [],
     };
 
-    this.objectKeys(this.questsModel).forEach((key) => {
+    this.objectKeys(this.questsModel).forEach(key => {
       const questApi = this.quests.quests.find((q: any) => q.name === key);
       const categoria = questApi?.category || 'utilitary'; // fallback
       categorias[categoria].push(key);

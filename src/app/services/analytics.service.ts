@@ -10,27 +10,26 @@ declare global {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AnalyticsService {
-
   constructor(private router: Router) {
     this.initializeRouteTracking();
   }
 
   private initializeRouteTracking(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.trackPageView(event.urlAfterRedirects);
-    });
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.trackPageView(event.urlAfterRedirects);
+      });
   }
 
   // Track page views
   trackPageView(pagePath: string): void {
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view', {
-        page_path: pagePath
+        page_path: pagePath,
       });
     }
   }
@@ -47,8 +46,8 @@ export class AnalyticsService {
     this.trackEvent('user_action', {
       event_category: category,
       event_label: label,
-      value: value,
-      action: action
+      value,
+      action,
     });
   }
 
@@ -58,7 +57,7 @@ export class AnalyticsService {
       event_category: 'api',
       event_label: `${method} ${endpoint}`,
       value: status,
-      response_time: responseTime
+      response_time: responseTime,
     });
   }
 
@@ -68,14 +67,14 @@ export class AnalyticsService {
       event_category: 'error',
       event_label: errorType,
       error_message: errorMessage,
-      error_stack: errorStack
+      error_stack: errorStack,
     });
   }
 
   // Track authentication events
   trackLogin(method: string = 'email'): void {
     this.trackEvent('login', {
-      method: method
+      method,
     });
   }
 
@@ -85,7 +84,7 @@ export class AnalyticsService {
 
   trackRegistration(method: string = 'email'): void {
     this.trackEvent('sign_up', {
-      method: method
+      method,
     });
   }
 
@@ -93,22 +92,22 @@ export class AnalyticsService {
   trackCalculatorUsage(calculatorType: string, parameters?: any): void {
     this.trackEvent('calculator_used', {
       calculator_type: calculatorType,
-      parameters: JSON.stringify(parameters)
+      parameters: JSON.stringify(parameters),
     });
   }
 
   // Track character consultation
   trackCharacterConsultation(characterId: string): void {
     this.trackEvent('character_consultation', {
-      character_id: characterId
+      character_id: characterId,
     });
   }
 
   // Track mastery interactions
   trackMasteryAction(action: string, masteryType?: string): void {
     this.trackEvent('mastery_action', {
-      action: action,
-      mastery_type: masteryType
+      action,
+      mastery_type: masteryType,
     });
   }
 
@@ -116,40 +115,40 @@ export class AnalyticsService {
   trackSimulationUsage(simulationType: string, parameters?: any): void {
     this.trackEvent('simulation_used', {
       simulation_type: simulationType,
-      parameters: JSON.stringify(parameters)
+      parameters: JSON.stringify(parameters),
     });
   }
 
   // Track achievement interactions
   trackAchievementAction(action: string, achievementType?: string): void {
     this.trackEvent('achievement_action', {
-      action: action,
-      achievement_type: achievementType
+      action,
+      achievement_type: achievementType,
     });
   }
 
   // Track outfit/mount interactions
   trackOutfitMountAction(action: string, itemType: string, itemName?: string): void {
     this.trackEvent('outfit_mount_action', {
-      action: action,
+      action,
       item_type: itemType,
-      item_name: itemName
+      item_name: itemName,
     });
   }
 
   // Track quest interactions
   trackQuestAction(action: string, questName?: string): void {
     this.trackEvent('quest_action', {
-      action: action,
-      quest_name: questName
+      action,
+      quest_name: questName,
     });
   }
 
   // Track gem interactions
   trackGemAction(action: string, gemType?: string): void {
     this.trackEvent('gem_action', {
-      action: action,
-      gem_type: gemType
+      action,
+      gem_type: gemType,
     });
   }
 
@@ -157,7 +156,7 @@ export class AnalyticsService {
   trackFormSubmission(formName: string, success: boolean): void {
     this.trackEvent('form_submit', {
       form_name: formName,
-      success: success
+      success,
     });
   }
 
@@ -165,7 +164,7 @@ export class AnalyticsService {
   trackButtonClick(buttonName: string, page?: string): void {
     this.trackEvent('button_click', {
       button_name: buttonName,
-      page: page
+      page,
     });
   }
 
@@ -173,23 +172,23 @@ export class AnalyticsService {
   trackSearch(searchTerm: string, searchType: string): void {
     this.trackEvent('search', {
       search_term: searchTerm,
-      search_type: searchType
+      search_type: searchType,
     });
   }
 
   // Track time spent on page
   trackTimeOnPage(page: string, timeSpent: number): void {
     this.trackEvent('time_on_page', {
-      page: page,
-      time_spent: timeSpent
+      page,
+      time_spent: timeSpent,
     });
   }
 
   // Track user engagement
   trackEngagement(action: string, content: string): void {
     this.trackEvent('engagement', {
-      action: action,
-      content: content
+      action,
+      content,
     });
   }
-} 
+}

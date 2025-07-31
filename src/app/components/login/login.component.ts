@@ -11,7 +11,7 @@ import { ScrollService } from '../../services/scroll.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   email = '';
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   erro = '';
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private authService: AuthService,
     private analyticsService: AnalyticsService,
     private scrollService: ScrollService
@@ -38,37 +38,31 @@ export class LoginComponent implements OnInit {
   entrarComoVisitante() {
     // Track guest login attempt
     this.analyticsService.trackLogin('guest');
-    
+
     // Login real como visitante
     const credentials = {
       email: 'visitante@gmail.com',
-      password: 'Visitante123*'
+      password: 'Visitante123*',
     };
     this.carregando = true;
     this.authService.authenticate(credentials).then(authObservable => {
       authObservable.subscribe({
-        next: (response) => {
+        next: response => {
           if (response.success && response.token) {
-            this.authService.setAuthData(
-              response.token,
-              response.user,
-              response.user_id
-            );
+            this.authService.setAuthData(response.token, response.user, response.user_id);
             this.analyticsService.trackFormSubmission('guest_login', true);
             this.router.navigate(['/home']);
           } else {
-            this.erro =
-              response.message ||
-              'Erro ao entrar como visitante. Tente novamente.';
+            this.erro = response.message || 'Erro ao entrar como visitante. Tente novamente.';
             this.carregando = false;
             this.analyticsService.trackFormSubmission('guest_login', false);
           }
         },
-        error: (error) => {
+        error: error => {
           this.carregando = false;
           this.erro = 'Erro ao entrar como visitante. Tente novamente.';
           this.analyticsService.trackFormSubmission('guest_login', false);
-        }
+        },
       });
     });
   }
@@ -76,7 +70,7 @@ export class LoginComponent implements OnInit {
   async login() {
     // Track login attempt
     this.analyticsService.trackLogin('email');
-    
+
     this.carregando = true;
     this.erro = '';
 
@@ -88,30 +82,25 @@ export class LoginComponent implements OnInit {
     try {
       const authObservable = await this.authService.authenticate(credentials);
       authObservable.subscribe({
-        next: (response) => {
+        next: response => {
           if (response.success && response.token) {
-            this.authService.setAuthData(
-              response.token,
-              response.user,
-              response.user_id
-            );
+            this.authService.setAuthData(response.token, response.user, response.user_id);
             this.carregando = false;
             this.analyticsService.trackFormSubmission('login', true);
             this.router.navigate(['/home']);
           } else {
-            this.erro =
-              response.message ||
-              'Erro na autenticação. Verifique suas credenciais.';
+            this.erro = response.message || 'Erro na autenticação. Verifique suas credenciais.';
             this.carregando = false;
             this.analyticsService.trackFormSubmission('login', false);
           }
         },
-        error: (error) => {
+        error: error => {
           this.carregando = false;
           console.error('Erro na autenticação:', error);
           this.analyticsService.trackFormSubmission('login', false);
           if (error.status === 401) {
-            this.erro = '🍺 Opa, nobre aventureiro! Tuas credenciais não foram reconhecidas pelo taberneiro. Confere teu email mágico e tua palavra-passe, e tenta novamente!';
+            this.erro =
+              '🍺 Opa, nobre aventureiro! Tuas credenciais não foram reconhecidas pelo taberneiro. Confere teu email mágico e tua palavra-passe, e tenta novamente!';
           } else {
             this.erro = 'Erro ao conectar com o servidor. Tente novamente.';
           }

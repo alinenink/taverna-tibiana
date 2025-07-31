@@ -78,10 +78,11 @@ input.input-medieval {
   border-radius: 8px;
   padding: 1.2rem 1.5rem;
   margin-bottom: 1.2rem;
-  font-family: "Georgia", serif;
+  font-family: 'Georgia', serif;
   font-size: 1.08rem; // Aumentado para melhor leitura
   color: #3b2a1a;
-  box-shadow: inset 0 0 8px rgba(139, 69, 19, 0.15),
+  box-shadow:
+    inset 0 0 8px rgba(139, 69, 19, 0.15),
     2px 2px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
 
@@ -104,7 +105,7 @@ input.input-medieval {
   align-items: center;
   justify-content: center;
   text-align: center;
-  
+
   .terms-checkbox {
     display: flex;
     align-items: center;
@@ -112,8 +113,8 @@ input.input-medieval {
     gap: 0.5em;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    
-    input[type="checkbox"] {
+
+    input[type='checkbox'] {
       width: 20px;
       height: 20px;
       accent-color: #8b5e3c;
@@ -123,7 +124,7 @@ input.input-medieval {
       position: relative;
       top: 1px;
     }
-    
+
     label {
       display: flex;
       align-items: center;
@@ -132,11 +133,11 @@ input.input-medieval {
       font-size: 1rem;
       line-height: 1.4;
       color: #3b2a1a;
-      font-family: "Georgia", serif;
+      font-family: 'Georgia', serif;
       cursor: pointer;
       flex-wrap: wrap;
     }
-    
+
     .medieval-link {
       display: inline;
       margin-left: 0.3em;
@@ -188,36 +189,36 @@ input.input-medieval {
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  
+
   h4 {
     color: #5b3e1d;
     margin: 1rem 0 0.5rem 0;
     font-size: 1.1rem;
   }
-  
+
   p {
     color: #3b2a1a;
     line-height: 1.5;
     margin: 0.5rem 0;
     font-size: 0.9rem;
   }
-  
+
   ul {
     margin: 0.5rem 0;
     padding-left: 1.5rem;
-    
+
     li {
       color: #3b2a1a;
       line-height: 1.4;
       margin-bottom: 0.5rem;
       font-size: 0.9rem;
-      
+
       strong {
         color: #5b3e1d;
       }
     }
   }
-  
+
   .contact-info {
     font-style: italic;
     color: #8b5e3c;
@@ -234,7 +235,7 @@ input.input-medieval {
   justify-content: center;
   gap: 1rem;
   margin-top: 1em;
-  
+
   .button-medieval {
     width: auto;
     margin: 0;
@@ -248,58 +249,59 @@ input.input-medieval {
     justify-content: flex-start;
     min-height: auto;
   }
-  
+
   .parchment-card {
     max-width: 100%;
     padding: 1rem;
     margin: 1rem 0;
   }
-  
+
   .medieval-disclaimer {
     font-size: 0.95rem;
     padding: 1rem 0.8rem;
   }
-  
+
   .terms-section .terms-checkbox {
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       width: 22px;
       height: 22px;
     }
-    
+
     p {
       font-size: 0.95rem;
       text-align: center;
     }
   }
-  
+
   .modal-conteudo {
     font-size: 0.9rem;
     padding: 16px;
     max-width: 98vw;
     max-height: 98vh;
   }
-  
+
   .modal-opcoes {
     h4 {
       font-size: 1rem;
     }
-    
-    p, ul li {
+
+    p,
+    ul li {
       font-size: 0.85rem;
     }
   }
-  
+
   .modal-titulo {
     font-size: 1.3rem;
   }
-  
+
   .button-medieval {
     width: 85%;
   }
-  
+
   .login-links {
     gap: 0.7rem;
-    
+
     .medieval-link {
       padding: 0.45rem 0.9rem;
       font-size: 0.98rem;
@@ -311,69 +313,70 @@ input.input-medieval {
   .consulta-layout {
     padding: 0.5rem;
   }
-  
+
   .parchment-card {
     max-width: 100%;
     padding: 0.8rem;
   }
-  
+
   .medieval-disclaimer {
     font-size: 0.9rem;
     padding: 0.8rem 0.6rem;
   }
-  
+
   .terms-section .terms-checkbox {
     p {
       font-size: 0.9rem;
       line-height: 1.3;
     }
   }
-  
+
   .modal-conteudo {
     padding: 12px;
     font-size: 0.85rem;
   }
-  
+
   .modal-opcoes {
     h4 {
       font-size: 0.95rem;
     }
-    
-    p, ul li {
+
+    p,
+    ul li {
       font-size: 0.8rem;
     }
   }
-  
+
   .modal-titulo {
     font-size: 1.2rem;
   }
-  
+
   .modal-botoes {
     flex-direction: column;
     gap: 0.5rem;
-    
+
     .button-medieval {
       width: 100%;
     }
   }
-  
+
   .button-medieval {
     width: 90%;
   }
-  
+
   .input-icon-group {
     gap: 0.3rem;
   }
-  
+
   .svg-icon {
     width: 20px;
     height: 20px;
   }
-  
+
   .login-links {
     gap: 0.6rem;
     margin-top: 1.2rem;
-    
+
     .medieval-link {
       padding: 0.4rem 0.8rem;
       font-size: 0.95rem;
@@ -381,4 +384,4 @@ input.input-medieval {
       max-width: 280px;
     }
   }
-} 
+}

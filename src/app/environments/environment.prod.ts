@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: 'https://taverna-backend-vc-rrk3.vercel.app/api',
   analyticsEnabled: true,
   debugMode: false,
-  version: '1.0.0'
-}; 
+  version: '1.0.0',
+};

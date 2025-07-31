@@ -8,9 +8,8 @@ describe('GrimorioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GrimorioComponent]
-    })
-    .compileComponents();
+      imports: [GrimorioComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GrimorioComponent);
     component = fixture.componentInstance;

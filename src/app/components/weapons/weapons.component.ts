@@ -1,8 +1,15 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { WeaponsService, WeaponCategoryType, WeaponCategory, WeaponBasic, WeaponDetailed, ProficiencyLevel } from '../../services/weapons.service';
+import {
+  WeaponsService,
+  WeaponCategoryType,
+  WeaponCategory,
+  WeaponBasic,
+  WeaponDetailed,
+  ProficiencyLevel,
+} from '../../services/weapons.service';
 import { ProficiencyApiService } from '../../services/proficiency-api.service';
 import { ScrollService } from '../../services/scroll.service';
 
@@ -11,7 +18,8 @@ import { ScrollService } from '../../services/scroll.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './weapons.component.html',
-  styleUrls: ['./weapons.component.scss']
+  styleUrl: './weapons.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeaponsComponent implements OnInit {
   // Signals para reatividade
@@ -21,21 +29,21 @@ export class WeaponsComponent implements OnInit {
   currentCategory = signal<WeaponCategoryType>('swords');
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
-  
+
   // Estados da interface
   showCategoryList = signal<boolean>(false);
-  
+
   // Seção de armas salvas
   savedWeapons = signal<any[]>([]);
   showSavedWeapons = signal<boolean>(false);
   loadingSavedWeapons = signal<boolean>(false);
-  
+
   // Filtros
   searchTerm = '';
   selectedVocation = '';
   selectedTier = '';
   minLevel = 0;
-  
+
   // Dados originais para filtros
   private originalWeapons: WeaponBasic[] = [];
 
@@ -51,7 +59,7 @@ export class WeaponsComponent implements OnInit {
     this.scrollService.scrollToTop();
     this.loading.set(true);
     this.loadCategories();
-    
+
     // Verificar query parameters para navegação de retorno
     this.route.queryParams.subscribe(params => {
       if (params['showSaved'] === 'true') {
@@ -75,101 +83,93 @@ export class WeaponsComponent implements OnInit {
   loadCategories() {
     this.loading.set(true);
     this.error.set(null);
-    
-    this.weaponsService.getCategories()
-      .subscribe({
-        next: (categories) => {
-          
-          
-          if (categories && categories.length > 0) {
-            // Verificar se as categorias esperadas estão presentes
-            const categoryIds = categories.map(cat => cat.id);
-            const missingCategories: WeaponCategory[] = [];
 
-            // Adicionar categorias que estão faltando como fallbacks
-            if (!categoryIds.includes('rods')) {
-              missingCategories.push({
-                id: 'rods',
-                name: 'Rods',
-                weapons_endpoint: '/api/weapons?action=list&category=rods',
-                detail_endpoint: '/api/weapons?action=weapon&category=rods'
-              });
-              
-            }
+    this.weaponsService.getCategories().subscribe({
+      next: categories => {
+        if (categories && categories.length > 0) {
+          // Verificar se as categorias esperadas estão presentes
+          const categoryIds = categories.map(cat => cat.id);
+          const missingCategories: WeaponCategory[] = [];
 
-            if (!categoryIds.includes('wands')) {
-              missingCategories.push({
-                id: 'wands',
-                name: 'Wands',
-                weapons_endpoint: '/api/weapons?action=list&category=wands',
-                detail_endpoint: '/api/weapons?action=weapon&category=wands'
-              });
-              
-            }
-
-            const finalCategories = [...categories, ...missingCategories];
-            
-            this.categories.set(finalCategories);
-          } else {
-            
-            this.categories.set(this.getDefaultCategories());
+          // Adicionar categorias que estão faltando como fallbacks
+          if (!categoryIds.includes('rods')) {
+            missingCategories.push({
+              id: 'rods',
+              name: 'Rods',
+              weapons_endpoint: '/api/weapons?action=list&category=rods',
+              detail_endpoint: '/api/weapons?action=weapon&category=rods',
+            });
           }
-          
-          this.loading.set(false);
-        },
-        error: (error) => {
-          console.error('Erro ao carregar categorias:', error);
-          
+
+          if (!categoryIds.includes('wands')) {
+            missingCategories.push({
+              id: 'wands',
+              name: 'Wands',
+              weapons_endpoint: '/api/weapons?action=list&category=wands',
+              detail_endpoint: '/api/weapons?action=weapon&category=wands',
+            });
+          }
+
+          const finalCategories = [...categories, ...missingCategories];
+
+          this.categories.set(finalCategories);
+        } else {
           this.categories.set(this.getDefaultCategories());
-          this.error.set(null); // Não mostrar erro para o usuário se temos fallback
-          this.loading.set(false);
         }
-      });
+
+        this.loading.set(false);
+      },
+      error: error => {
+        console.error('Erro ao carregar categorias:', error);
+
+        this.categories.set(this.getDefaultCategories());
+        this.error.set(null); // Não mostrar erro para o usuário se temos fallback
+        this.loading.set(false);
+      },
+    });
   }
 
   loadWeapons() {
     this.loading.set(true);
-    
+
     this.weaponsService.getWeaponsByCategory(this.currentCategory()).subscribe({
-      next: (response) => {
-        
+      next: response => {
         if (response.success && response.data) {
           const weaponsData = response.data;
-          
+
           this.originalWeapons = weaponsData;
           this.weapons.set(weaponsData);
-          
+
           this.loadStats();
         } else {
           console.error('Resposta inválida da API:', response);
           this.error.set('Resposta inválida da API');
         }
-        
+
         setTimeout(() => {
           this.loading.set(false);
         }, 1500);
       },
-      error: (error) => {
+      error: error => {
         console.error('Erro ao carregar armas:', error);
         this.error.set(error.message);
         this.loading.set(false);
-      }
+      },
     });
   }
 
   loadStats() {
     this.weaponsService.getCategoryStats(this.currentCategory()).subscribe({
-      next: (stats) => {
+      next: stats => {
         this.stats.set(stats);
       },
-      error: (error) => {
+      error: error => {
         console.error('Erro ao carregar estatísticas:', error);
-      }
+      },
     });
   }
 
   onCategoryChange(categoryId: string) {
-    
     this.currentCategory.set(categoryId as WeaponCategoryType);
     this.showCategoryList.set(true);
     this.resetFilters();
@@ -204,10 +204,10 @@ export class WeaponsComponent implements OnInit {
   onWeaponClick(weapon: WeaponBasic) {
     // Navegar para a página de detalhes da arma
     this.router.navigate(['/weapons', weapon.category?.id || this.currentCategory(), weapon.name], {
-      queryParams: { 
+      queryParams: {
         from: 'category-list',
-        category: weapon.category?.id || this.currentCategory()
-      }
+        category: weapon.category?.id || this.currentCategory(),
+      },
     });
   }
 
@@ -230,30 +230,29 @@ export class WeaponsComponent implements OnInit {
 
     // Filtro por vocação
     if (this.selectedVocation) {
-      filteredWeapons = filteredWeapons.filter(weapon =>
-        weapon.vocation.toLowerCase() === this.selectedVocation.toLowerCase() ||
-        weapon.vocation.toLowerCase() === 'todas'
+      filteredWeapons = filteredWeapons.filter(
+        weapon =>
+          weapon.vocation.toLowerCase() === this.selectedVocation.toLowerCase() ||
+          weapon.vocation.toLowerCase() === 'todas'
       );
     }
 
     // Filtro por tier
     if (this.selectedTier) {
-      filteredWeapons = filteredWeapons.filter(weapon =>
-        weapon.tier === parseInt(this.selectedTier)
+      filteredWeapons = filteredWeapons.filter(
+        weapon => weapon.tier === parseInt(this.selectedTier)
       );
     }
 
     // Filtro por nível mínimo
     if (this.minLevel > 0) {
-      filteredWeapons = filteredWeapons.filter(weapon =>
-        weapon.level >= this.minLevel
-      );
+      filteredWeapons = filteredWeapons.filter(weapon => weapon.level >= this.minLevel);
     }
 
     this.weapons.set(filteredWeapons);
   }
 
-    getCategoryIcon(categoryId: string): string {
+  getCategoryIcon(categoryId: string): string {
     const icons: { [key: string]: string } = {
       swords: 'assets/icons-svg/swords.svg',
       axes: 'assets/icons-svg/axes.svg',
@@ -261,7 +260,7 @@ export class WeaponsComponent implements OnInit {
       ranged: 'assets/icons-svg/bow-and-arrow.svg',
       rods: 'assets/icons-svg/magic-wand.svg',
       wands: 'assets/icons-svg/wooden-stick.svg',
-      fist: 'assets/icons-svg/protest.svg'
+      fist: 'assets/icons-svg/protest.svg',
     };
 
     return icons[categoryId] || 'assets/icons-svg/swords.svg';
@@ -319,14 +318,14 @@ export class WeaponsComponent implements OnInit {
     if (iconName.startsWith('assets/') || iconName.startsWith('http')) {
       return iconName;
     }
-    
+
     // Remove extensão se existir
     const nameWithoutExt = iconName.replace(/\.(png|gif|jpg|jpeg|svg)$/i, '');
-    
+
     // Se o nome já contém underscore (formato do backend), usa como está
     if (nameWithoutExt.includes('_')) {
       const extensions = ['.png', '.gif', '.svg'];
-      
+
       for (const ext of extensions) {
         const fullPath = `assets/icons/${nameWithoutExt}${ext}`;
         if (await this.checkIconExists(fullPath)) {
@@ -334,11 +333,11 @@ export class WeaponsComponent implements OnInit {
         }
       }
     }
-    
+
     // Se não tem underscore, tenta adicionar prefixos comuns
     const prefixes = ['32_', '38_'];
     const extensions = ['.png', '.gif', '.svg'];
-    
+
     for (const prefix of prefixes) {
       for (const ext of extensions) {
         const fullPath = `assets/icons/${prefix}${nameWithoutExt}${ext}`;
@@ -347,28 +346,40 @@ export class WeaponsComponent implements OnInit {
         }
       }
     }
-    
+
     // Fallback para um ícone padrão
     return 'assets/icons/32_11345f84.png';
   }
 
   getWeaponEmoji(weaponName: string): string {
     const name = weaponName.toLowerCase();
-    
+
     // Espadas
     if (name.includes('sword') || name.includes('espada') || name.includes('blade')) return '⚔️';
-    if (name.includes('rapier') || name.includes('estoc') || name.includes('foil') || name.includes('epee')) return '🤺';
+    if (
+      name.includes('rapier') ||
+      name.includes('estoc') ||
+      name.includes('foil') ||
+      name.includes('epee')
+    )
+      return '🤺';
     if (name.includes('sabre') || name.includes('sabre')) return '🗡️';
     if (name.includes('katana') || name.includes('katana')) return '⚔️';
     if (name.includes('scimitar') || name.includes('cimitarra')) return '⚔️';
     if (name.includes('slayer') || name.includes('slayer')) return '⚔️';
     if (name.includes('claymore') || name.includes('claymore')) return '⚔️';
     if (name.includes('longsword') || name.includes('longsword')) return '⚔️';
-    
+
     // Machados
     if (name.includes('axe') || name.includes('machado') || name.includes('hatchet')) return '🪓';
-    if (name.includes('battle axe') || name.includes('machado de batalha') || name.includes('battleaxe')) return '🪓';
-    if (name.includes('war axe') || name.includes('machado de guerra') || name.includes('waraxe')) return '🪓';
+    if (
+      name.includes('battle axe') ||
+      name.includes('machado de batalha') ||
+      name.includes('battleaxe')
+    )
+      return '🪓';
+    if (name.includes('war axe') || name.includes('machado de guerra') || name.includes('waraxe'))
+      return '🪓';
     if (name.includes('greataxe') || name.includes('machado grande')) return '🪓';
     if (name.includes('chopper') || name.includes('cortador')) return '🪓';
     if (name.includes('cleaver') || name.includes('cutelo')) return '🪓';
@@ -378,12 +389,17 @@ export class WeaponsComponent implements OnInit {
     if (name.includes('naginata') || name.includes('naginata')) return '🔱';
     if (name.includes('scythe') || name.includes('gadanha')) return '🌾';
     if (name.includes('impaler') || name.includes('empalador')) return '��';
-    
+
     // Clavas
     if (name.includes('club') || name.includes('clava') || name.includes('mace')) return '🏏';
     if (name.includes('morning star') || name.includes('estrela da manhã')) return '⭐';
     if (name.includes('hammer') || name.includes('martelo')) return '🔨';
-    if (name.includes('war hammer') || name.includes('martelo de guerra') || name.includes('warhammer')) return '🔨';
+    if (
+      name.includes('war hammer') ||
+      name.includes('martelo de guerra') ||
+      name.includes('warhammer')
+    )
+      return '🔨';
     if (name.includes('bludgeon') || name.includes('maça')) return '🏏';
     if (name.includes('cudgel') || name.includes('porrete')) return '🏏';
     if (name.includes('flail') || name.includes('mangual')) return '⚔️';
@@ -396,28 +412,28 @@ export class WeaponsComponent implements OnInit {
     if (name.includes('klubba') || name.includes('clava')) return '🏏';
     if (name.includes('maul') || name.includes('malho')) return '🔨';
     if (name.includes('whip') || name.includes('chicote')) return '🪢';
-    
+
     // Armas de longo alcance
     if (name.includes('bow') || name.includes('arco') || name.includes('crossbow')) return '🏹';
     if (name.includes('spear') || name.includes('lança') || name.includes('javelin')) return '🔱';
     if (name.includes('throwing') || name.includes('arremesso')) return '🎯';
-    
+
     // Varas e cajados
     if (name.includes('rod') || name.includes('vara') || name.includes('staff')) return '🪄';
     if (name.includes('wand') || name.includes('varinha')) return '🪄';
     if (name.includes('spellbook') || name.includes('grimório')) return '📖';
-    
+
     // Armas de punho
     if (name.includes('fist') || name.includes('punho') || name.includes('claw')) return '✊';
     if (name.includes('knuckle') || name.includes('nudillo')) return '👊';
-    
+
     // Armas especiais
     if (name.includes('dagger') || name.includes('adaga')) return '🗡️';
     if (name.includes('knife') || name.includes('faca')) return '🔪';
     if (name.includes('sickle') || name.includes('foice')) return '🌾';
     if (name.includes('scythe') || name.includes('gadanha')) return '🌾';
     if (name.includes('hooks') || name.includes('ganchos')) return '🎣';
-    
+
     // Por categoria (fallback)
     const category = this.currentCategory();
     if (category === 'swords') return '⚔️';
@@ -427,7 +443,7 @@ export class WeaponsComponent implements OnInit {
     if (category === 'rods') return '🪄';
     if (category === 'wands') return '🪄';
     if (category === 'fist') return '✊';
-    
+
     return '⚔️'; // Emoji padrão
   }
 
@@ -462,19 +478,19 @@ export class WeaponsComponent implements OnInit {
       if (cleanUrl.startsWith('@')) {
         cleanUrl = cleanUrl.substring(1);
       }
-      
+
       // Se é uma URL completa, usa diretamente
       if (cleanUrl.startsWith('assets/') || cleanUrl.startsWith('http')) {
         return cleanUrl;
       }
-      
+
       // Se é apenas o nome do arquivo, busca na pasta assets/itens
       const itemImagePath = this.getItemImagePath(cleanUrl);
       if (itemImagePath) {
         return itemImagePath;
       }
     }
-    
+
     // Se não tem image_url ou não encontrou, usa o nome da arma
     if (weapon.name) {
       const weaponImagePath = this.getWeaponImageFromName(weapon.name);
@@ -482,7 +498,7 @@ export class WeaponsComponent implements OnInit {
         return weaponImagePath;
       }
     }
-    
+
     // Fallback para emoji
     return this.getWeaponEmoji(weapon.name);
   }
@@ -508,9 +524,9 @@ export class WeaponsComponent implements OnInit {
       const proxies = [
         `https://cors-anywhere.herokuapp.com/${cleanUrl}`,
         `https://api.allorigins.win/raw?url=${encodeURIComponent(cleanUrl)}`,
-        `https://corsproxy.io/?${encodeURIComponent(cleanUrl)}`
+        `https://corsproxy.io/?${encodeURIComponent(cleanUrl)}`,
       ];
-      
+
       // Por enquanto, vamos tentar o primeiro proxy
       return proxies[0];
     }
@@ -544,12 +560,12 @@ export class WeaponsComponent implements OnInit {
 
     // Substitui espaços por underline para nomes de arquivo
     const fileName = weaponName.replace(/\s+/g, '_');
-    
+
     // Primeiro tenta .webp
     const webpPath = `assets/itens/${fileName}.webp`;
     // Depois tenta .gif
     const gifPath = `assets/itens/${fileName}.gif`;
-    
+
     // Por enquanto retorna webp, o tratamento de erro vai lidar com fallback
     return webpPath;
   }
@@ -564,7 +580,7 @@ export class WeaponsComponent implements OnInit {
 
     // Remove o prefixo "local://" se existir
     const cleanName = itemName.replace(/^local:\/\//, '');
-    
+
     // Verifica se o arquivo termina com extensão
     if (cleanName.endsWith('.webp') || cleanName.endsWith('.gif')) {
       // Se já tem extensão, usa diretamente
@@ -577,18 +593,18 @@ export class WeaponsComponent implements OnInit {
       // Se não tem extensão, tenta adivinhar baseado no nome
       // Lista de arquivos que sabemos que são .gif
       const gifFiles = [
-        'Butcher\'s_Axe',
-        'The_Imperor\'s_Trident',
-        'The_Plasmother\'s_Remains',
+        "Butcher's_Axe",
+        "The_Imperor's_Trident",
+        "The_Plasmother's_Remains",
         'The_Stomper',
         'Thunder_Hammer',
         'Trapped_Lightning',
         'Triple_Bolt_Crossbow',
         'The_Devileye',
-        'The_Handmaiden\'s_Protector',
-        'Yol\'s_Bow'
+        "The_Handmaiden's_Protector",
+        "Yol's_Bow",
       ];
-      
+
       if (gifFiles.includes(cleanName)) {
         return `assets/sprites/loot/${cleanName}.gif`;
       } else {
@@ -606,14 +622,14 @@ export class WeaponsComponent implements OnInit {
    */
   private findSimilarItemName(searchName: string, availableNames: string[]): string | null {
     const searchLower = searchName.toLowerCase();
-    
+
     // Primeiro, tenta encontrar por substring
     for (const name of availableNames) {
       if (name.toLowerCase().includes(searchLower) || searchLower.includes(name.toLowerCase())) {
         return name;
       }
     }
-    
+
     // Se não encontrou, tenta por similaridade de palavras
     const searchWords = searchLower.split(/[\s_]+/);
     for (const name of availableNames) {
@@ -623,7 +639,7 @@ export class WeaponsComponent implements OnInit {
         return name;
       }
     }
-    
+
     return null;
   }
 
@@ -644,23 +660,23 @@ export class WeaponsComponent implements OnInit {
    */
   onImageError(event: any, weapon: WeaponBasic): void {
     console.warn(`Erro ao carregar imagem para ${weapon.name}:`, event);
-    
+
     const failedUrl = event.target.src;
-    
+
     // Se a URL que falhou termina com .webp, tenta .gif
     if (failedUrl.endsWith('.webp')) {
       const gifUrl = failedUrl.replace('.webp', '.gif');
       event.target.src = gifUrl;
       return;
     }
-    
+
     // Se a URL que falhou termina com .gif, tenta .webp
     if (failedUrl.endsWith('.gif')) {
       const webpUrl = failedUrl.replace('.gif', '.webp');
       event.target.src = webpUrl;
       return;
     }
-    
+
     // Se não conseguiu carregar nenhuma extensão, usa emoji
     weapon.image_url = '';
   }
@@ -670,9 +686,7 @@ export class WeaponsComponent implements OnInit {
    * @param event - Evento de load
    * @param weapon - Objeto da arma
    */
-  onImageLoad(event: any, weapon: WeaponBasic): void {
-    
-  }
+  onImageLoad(event: any, weapon: WeaponBasic): void {}
 
   private getDefaultCategories(): WeaponCategory[] {
     return [
@@ -680,44 +694,44 @@ export class WeaponsComponent implements OnInit {
         id: 'swords',
         name: 'Espadas',
         weapons_endpoint: '/api/weapons?action=list&category=swords',
-        detail_endpoint: '/api/weapons?action=weapon&category=swords'
+        detail_endpoint: '/api/weapons?action=weapon&category=swords',
       },
       {
         id: 'axes',
         name: 'Machados',
         weapons_endpoint: '/api/weapons?action=list&category=axes',
-        detail_endpoint: '/api/weapons?action=weapon&category=axes'
+        detail_endpoint: '/api/weapons?action=weapon&category=axes',
       },
       {
         id: 'clavas',
         name: 'Clavas',
         weapons_endpoint: '/api/weapons?action=list&category=clavas',
-        detail_endpoint: '/api/weapons?action=weapon&category=clavas'
+        detail_endpoint: '/api/weapons?action=weapon&category=clavas',
       },
       {
         id: 'ranged',
         name: 'Armas de Longo Alcance',
         weapons_endpoint: '/api/weapons?action=list&category=ranged',
-        detail_endpoint: '/api/weapons?action=weapon&category=ranged'
+        detail_endpoint: '/api/weapons?action=weapon&category=ranged',
       },
       {
         id: 'rods',
         name: 'Rods',
         weapons_endpoint: '/api/weapons?action=list&category=rods',
-        detail_endpoint: '/api/weapons?action=weapon&category=rods'
+        detail_endpoint: '/api/weapons?action=weapon&category=rods',
       },
       {
         id: 'wands',
         name: 'Wands',
         weapons_endpoint: '/api/weapons?action=list&category=wands',
-        detail_endpoint: '/api/weapons?action=weapon&category=wands'
+        detail_endpoint: '/api/weapons?action=weapon&category=wands',
       },
       {
         id: 'fist',
         name: 'Armas de Punho',
         weapons_endpoint: '/api/weapons?action=list&category=fist',
-        detail_endpoint: '/api/weapons?action=weapon&category=fist'
-      }
+        detail_endpoint: '/api/weapons?action=weapon&category=fist',
+      },
     ];
   }
 
@@ -743,13 +757,11 @@ export class WeaponsComponent implements OnInit {
 
     try {
       const response = await this.proficiencyApiService.list();
-      
+
       if (response.success && response.data) {
         this.savedWeapons.set(response.data);
-        console.log('Armas salvas carregadas:', response.data);
       } else {
         this.savedWeapons.set([]);
-        console.log('Nenhuma arma salva encontrada');
       }
     } catch (error) {
       console.error('Erro ao carregar armas salvas:', error);
@@ -767,35 +779,33 @@ export class WeaponsComponent implements OnInit {
   onSavedWeaponClick(savedWeapon: any) {
     // Navegar para a tela de detail da arma salva
     this.router.navigate(['/weapons', savedWeapon.weapon_category, savedWeapon.weapon_name], {
-      queryParams: { 
-        from: 'saved-weapons'
-      }
+      queryParams: {
+        from: 'saved-weapons',
+      },
     });
   }
 
   formatSavedDate(dateString: string): string {
     if (!dateString) {
-      console.log('Data vazia recebida da API');
       return 'Data não disponível';
     }
-    
-    console.log('Data recebida da API:', dateString);
-    
+
     try {
       const date = new Date(dateString);
-      
+
       // Verifica se a data é válida
       if (isNaN(date.getTime())) {
-        console.log('Data inválida:', dateString);
         return 'Data inválida';
       }
-      
-      const formattedDate = date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      });
-      
-      console.log('Data formatada:', formattedDate);
+
+      const formattedDate = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString(
+        'pt-BR',
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+      )}`;
+
       return formattedDate;
     } catch (error) {
       console.error('Erro ao formatar data:', error, 'Data original:', dateString);
@@ -811,20 +821,20 @@ export class WeaponsComponent implements OnInit {
 
   getSavedWeaponImageUrl(weaponName: string): string {
     if (!weaponName) return '';
-    
+
     // Verifica se já temos a URL no cache
     if (this.savedWeaponImageCache.has(weaponName)) {
       return this.savedWeaponImageCache.get(weaponName) || '';
     }
-    
+
     // Substitui espaços por underscore para nomes de arquivo
     const fileName = weaponName.replace(/\s+/g, '_');
-    
+
     // Primeiro tenta .webp
     const webpPath = `assets/itens/${fileName}.webp`;
     // Depois tenta .gif
     const gifPath = `assets/itens/${fileName}.gif`;
-    
+
     // Por enquanto retorna webp, o tratamento de erro vai lidar com fallback
     this.savedWeaponImageCache.set(weaponName, webpPath);
     return webpPath;
@@ -838,13 +848,11 @@ export class WeaponsComponent implements OnInit {
   }
 
   onSavedWeaponImageError(event: any, weaponName: string): void {
-    console.log(`Erro ao carregar imagem da arma salva: ${weaponName}`);
-    
     const currentSrc = event.target?.src || '';
-    
+
     // Substitui espaços por underscore para nomes de arquivo
     const fileName = weaponName.replace(/\s+/g, '_');
-    
+
     // Se estava tentando .webp, tenta .gif
     if (currentSrc.includes('.webp')) {
       const gifPath = `assets/itens/${fileName}.gif`;
@@ -852,11 +860,11 @@ export class WeaponsComponent implements OnInit {
       event.target.src = gifPath;
       return;
     }
-    
+
     // Se estava tentando .gif ou falhou novamente, usa emoji
     this.savedWeaponImageCache.set(weaponName, '⚔️');
     if (event.target) {
       event.target.style.display = 'none';
     }
   }
-} 
+}

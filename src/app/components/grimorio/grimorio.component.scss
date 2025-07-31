@@ -5,7 +5,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
 
-  &:hover:not([style*="cursor: not-allowed"]) {
+  &:hover:not([style*='cursor: not-allowed']) {
     transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
   }
@@ -17,7 +17,7 @@
   gap: 1rem;
   width: 100%;
   align-items: stretch; // Permite que os cards tenham alturas diferentes
-  
+
   .conquista-card-custom {
     flex: 1;
     min-height: 60px;
@@ -26,19 +26,19 @@
     align-items: center;
     justify-content: center;
     max-width: 400px;
-    
+
     // Responsivo para mobile
     @media (max-width: 768px) {
       min-height: 50px;
       padding: 0.8rem;
     }
   }
-  
+
   // Layout mobile: cards empilhados verticalmente
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
-    
+
     .conquista-card-custom {
       flex: none;
       width: 100%;

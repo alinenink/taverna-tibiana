@@ -8,8 +8,6 @@ import { AnalyticsInterceptor } from './services/analytics.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
-    provideHttpClient(
-      withInterceptors([AuthInterceptor, AnalyticsInterceptor])
-    )
-  ]
+    provideHttpClient(withInterceptors([AuthInterceptor, AnalyticsInterceptor])),
+  ],
 };

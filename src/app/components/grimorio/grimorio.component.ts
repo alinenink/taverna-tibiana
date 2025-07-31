@@ -8,10 +8,9 @@ import { ScrollService } from '../../services/scroll.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './grimorio.component.html',
-  styleUrls: ['./grimorio.component.scss']
+  styleUrl: './grimorio.component.scss',
 })
 export class GrimorioComponent implements OnInit {
-
   constructor(
     private router: Router,
     private scrollService: ScrollService

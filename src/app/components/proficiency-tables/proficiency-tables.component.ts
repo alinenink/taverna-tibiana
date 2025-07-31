@@ -12,18 +12,18 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './proficiency-tables.component.html',
-  styleUrls: ['./proficiency-tables.component.scss']
+  styleUrl: './proficiency-tables.component.scss',
 })
 export class ProficiencyTablesComponent {
   tables = PROFICIENCY_TABLES;
   vocations = [
     { key: 'knight', label: 'Knight' },
     { key: 'paladin', label: 'Paladin Xbow' },
-    { key: 'outros', label: 'Outras vocações' }
+    { key: 'outros', label: 'Outras vocações' },
   ];
   types = [
     { key: 'bosses', label: 'Bosses' },
-    { key: 'criaturas', label: 'Criaturas' }
+    { key: 'criaturas', label: 'Criaturas' },
   ];
 
   selectedVocation = signal<'knight' | 'paladin' | 'outros'>('knight');
@@ -65,12 +65,12 @@ export class ProficiencyTablesComponent {
     if (value === null || value === undefined || value === '') {
       return '';
     }
-    
+
     const num = Number(value);
     if (isNaN(num)) {
       return String(value);
     }
-    
+
     return num.toLocaleString('pt-BR');
   }
 
@@ -78,7 +78,9 @@ export class ProficiencyTablesComponent {
     const exportAllBool = !!this.exportAll;
     const tablesToExport = exportAllBool
       ? this.tables
-      : [this.tables.find(t => t.vocation === this.exportVocation && t.type === this.exportType)].filter(Boolean);
+      : [
+          this.tables.find(t => t.vocation === this.exportVocation && t.type === this.exportType),
+        ].filter(Boolean);
 
     if (!tablesToExport.length) {
       alert('Nenhuma tabela encontrada para exportar!');
@@ -124,7 +126,11 @@ export class ProficiencyTablesComponent {
         tableLineWidth: 0.5,
       });
     });
-    doc.save(this.exportAll ? 'tabelas-proficiencia.pdf' : `tabela-${tablesToExport[0]?.title.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+    doc.save(
+      this.exportAll
+        ? 'tabelas-proficiencia.pdf'
+        : `tabela-${tablesToExport[0]?.title.replace(/\s+/g, '-').toLowerCase()}.pdf`
+    );
     this.showExportModal = false;
   }
-} 
+}

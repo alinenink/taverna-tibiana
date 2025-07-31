@@ -86,7 +86,7 @@ export interface BestiaryResponse {
 }
 
 // Tipos para as classes de monstros
-export type MonsterClassType = 
+export type MonsterClassType =
   | 'animal'
   | 'human'
   | 'undead'
@@ -109,12 +109,7 @@ export type MonsterClassType =
   | 'vermin';
 
 // Tipos para as dificuldades
-export type MonsterDifficulty = 
-  | 'trivial'
-  | 'easy'
-  | 'medium'
-  | 'hard'
-  | 'extreme';
+export type MonsterDifficulty = 'trivial' | 'easy' | 'medium' | 'hard' | 'extreme';
 
 // Interface para parâmetros de busca
 export interface BestiarySearchParams {
@@ -123,13 +118,14 @@ export interface BestiarySearchParams {
   search?: string;
   class?: MonsterClassType;
   difficulty?: MonsterDifficulty;
+  filter?: 'selected' | 'completed';
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BestiaryService {
-  private readonly baseUrl = environment.apiUrl + '/bestiary';
+  private readonly baseUrl = `${environment.apiUrl}/bestiary`;
   private readonly backendBaseUrl = environment.apiUrl.replace('/api', '');
 
   constructor(private http: HttpClient) {}
@@ -139,13 +135,18 @@ export class BestiaryService {
    */
   getMonsters(params: BestiarySearchParams = {}): Observable<BestiaryResponse> {
     const httpParams = this.buildHttpParams(params);
-    
-    return this.http.get<BestiaryResponse>(this.baseUrl, { params: httpParams })
+
+    // Adicionar timestamp para evitar cache
+    const timestamp = new Date().getTime();
+    const urlWithTimestamp = `${this.baseUrl}?_t=${timestamp}`;
+
+    return this.http
+      .get<BestiaryResponse>(urlWithTimestamp, {
+        params: httpParams,
+      })
       .pipe(
         tap(response => {
-          if (environment.debugMode) {
-            console.log('Bestiary API Response:', response);
-          }
+          // Log removido para manter Clean Code
         }),
         catchError(this.handleError)
       );
@@ -154,21 +155,30 @@ export class BestiaryService {
   /**
    * Busca monstros por nome
    */
-  searchMonsters(searchTerm: string, params: Omit<BestiarySearchParams, 'search'> = {}): Observable<BestiaryResponse> {
+  searchMonsters(
+    searchTerm: string,
+    params: Omit<BestiarySearchParams, 'search'> = {}
+  ): Observable<BestiaryResponse> {
     return this.getMonsters({ ...params, search: searchTerm });
   }
 
   /**
    * Busca monstros por classe
    */
-  getMonstersByClass(monsterClass: MonsterClassType, params: Omit<BestiarySearchParams, 'class'> = {}): Observable<BestiaryResponse> {
+  getMonstersByClass(
+    monsterClass: MonsterClassType,
+    params: Omit<BestiarySearchParams, 'class'> = {}
+  ): Observable<BestiaryResponse> {
     return this.getMonsters({ ...params, class: monsterClass });
   }
 
   /**
    * Busca monstros por dificuldade
    */
-  getMonstersByDifficulty(difficulty: MonsterDifficulty, params: Omit<BestiarySearchParams, 'difficulty'> = {}): Observable<BestiaryResponse> {
+  getMonstersByDifficulty(
+    difficulty: MonsterDifficulty,
+    params: Omit<BestiarySearchParams, 'difficulty'> = {}
+  ): Observable<BestiaryResponse> {
     return this.getMonsters({ ...params, difficulty });
   }
 
@@ -176,15 +186,23 @@ export class BestiaryService {
    * Busca um monstro específico por ID
    */
   getMonsterById(id: number): Observable<Monster> {
-    return this.http.get<Monster>(`${this.baseUrl}/${id}`)
-      .pipe(
-        tap(monster => {
-          if (environment.debugMode) {
-            console.log('Monster by ID Response:', monster);
-          }
-        }),
-        catchError(this.handleError)
-      );
+    // Adicionar timestamp para evitar cache
+    const timestamp = new Date().getTime();
+    const urlWithTimestamp = `${this.baseUrl}/${id}?_t=${timestamp}`;
+
+    return this.http.get<Monster>(urlWithTimestamp).pipe(
+      tap(monster => {
+        // Log removido para manter Clean Code
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Busca todos os monstros (sem paginação)
+   */
+  getAllMonsters(): Observable<Monster[]> {
+    return this.getMonsters({ limit: 1000 }).pipe(map(response => response.data));
   }
 
   /**
@@ -205,7 +223,7 @@ export class BestiaryService {
           byClass: {} as { [key in MonsterClassType]?: number },
           byDifficulty: {} as { [key in MonsterDifficulty]?: number },
           avgHitpoints: 0,
-          avgExperience: 0
+          avgExperience: 0,
         };
 
         // Contagem por classe
@@ -222,8 +240,10 @@ export class BestiaryService {
 
         // Médias
         if (monsters.length > 0) {
-          stats.avgHitpoints = monsters.reduce((sum, monster) => sum + monster.hitpoints, 0) / monsters.length;
-          stats.avgExperience = monsters.reduce((sum, monster) => sum + monster.experience, 0) / monsters.length;
+          stats.avgHitpoints =
+            monsters.reduce((sum, monster) => sum + monster.hitpoints, 0) / monsters.length;
+          stats.avgExperience =
+            monsters.reduce((sum, monster) => sum + monster.experience, 0) / monsters.length;
         }
 
         return stats;
@@ -236,10 +256,26 @@ export class BestiaryService {
    */
   getAvailableClasses(): MonsterClassType[] {
     return [
-      'animal', 'human', 'undead', 'demon', 'dragon', 'elemental',
-      'construct', 'plant', 'slime', 'amphibic', 'aquatic', 'bird',
-      'bug', 'fey', 'goblinoid', 'humanoid', 'magical', 'mammal',
-      'reptile', 'vermin'
+      'animal',
+      'human',
+      'undead',
+      'demon',
+      'dragon',
+      'elemental',
+      'construct',
+      'plant',
+      'slime',
+      'amphibic',
+      'aquatic',
+      'bird',
+      'bug',
+      'fey',
+      'goblinoid',
+      'humanoid',
+      'magical',
+      'mammal',
+      'reptile',
+      'vermin',
     ];
   }
 
@@ -274,7 +310,7 @@ export class BestiaryService {
       magical: 'Mágico',
       mammal: 'Mamífero',
       reptile: 'Réptil',
-      vermin: 'Verme'
+      vermin: 'Verme',
     };
 
     return displayNames[monsterClass] || monsterClass;
@@ -289,7 +325,7 @@ export class BestiaryService {
       easy: 'Fácil',
       medium: 'Médio',
       hard: 'Difícil',
-      extreme: 'Extremo'
+      extreme: 'Extremo',
     };
 
     return displayNames[difficulty] || difficulty;
@@ -304,7 +340,7 @@ export class BestiaryService {
       easy: '#8BC34A',
       medium: '#FFC107',
       hard: '#FF9800',
-      extreme: '#F44336'
+      extreme: '#F44336',
     };
 
     return colors[difficulty] || '#757575';
@@ -321,9 +357,14 @@ export class BestiaryService {
    * Obtém a resistência mais alta de um monstro
    */
   getHighestResistance(monster: Monster): { type: string; value: number } {
-    return monster.resistances.reduce((highest, resistance) => {
-      return resistance.value > highest.value ? { type: resistance.type, value: resistance.value } : highest;
-    }, { type: '', value: 0 });
+    return monster.resistances.reduce(
+      (highest, resistance) => {
+        return resistance.value > highest.value
+          ? { type: resistance.type, value: resistance.value }
+          : highest;
+      },
+      { type: '', value: 0 }
+    );
   }
 
   /**
@@ -350,6 +391,10 @@ export class BestiaryService {
 
     if (params.difficulty) {
       httpParams = httpParams.set('difficulty', params.difficulty);
+    }
+
+    if (params.filter) {
+      httpParams = httpParams.set('filter', params.filter);
     }
 
     return httpParams;
@@ -396,13 +441,13 @@ export class BestiaryService {
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
-    
+
     // Mapear para imagem local em assets/monster-images
     const localImagePath = this.mapToLocalImage(imagePath);
     if (localImagePath) {
       return localImagePath;
     }
-    
+
     // Fallback para URL do backend se não encontrar imagem local
     return this.getBackendImageUrl(imagePath);
   }
@@ -466,24 +511,24 @@ export class BestiaryService {
     if (backendPath.includes('.') && !backendPath.includes('/')) {
       return backendPath;
     }
-    
+
     // Exemplos de caminhos do backend:
     // "/monster-images/1_Rat.gif"
     // "/monster-images/123_Dragon.gif"
     // "19_Quara_Pincher.gif" (apenas nome do arquivo)
-    
+
     // Remover barras iniciais e finais
     const cleanPath = backendPath.replace(/^\/+|\/+$/g, '');
-    
+
     // Extrair o nome do arquivo (última parte após a última barra)
     const parts = cleanPath.split('/');
     const fileName = parts[parts.length - 1];
-    
+
     // Verificar se é um arquivo válido
     if (fileName && fileName.includes('.')) {
       return fileName;
     }
-    
+
     return null;
   }
 
@@ -496,7 +541,7 @@ export class BestiaryService {
       .replace(/[^a-zA-Z0-9]/g, '_') // Substituir caracteres especiais por underscore
       .replace(/_+/g, '_') // Remover underscores múltiplos
       .replace(/^_|_$/g, ''); // Remover underscores no início e fim
-    
+
     return `${monsterId}_${formattedName}.gif`;
   }
 
@@ -517,4 +562,4 @@ export class BestiaryService {
   isImageAvailable(fileName: string): boolean {
     return ImageMappingUtils.isImageAvailable(fileName);
   }
-} 
+}

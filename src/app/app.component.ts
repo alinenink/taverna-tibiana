@@ -6,7 +6,7 @@ import { AnalyticsService } from './services/analytics.service';
   selector: 'app-root',
   imports: [RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'tavernatibiana';
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Track app initialization
     this.analyticsService.trackEvent('app_initialized', {
-      app_name: 'Taverna Tibiana'
+      app_name: 'Taverna Tibiana',
     });
   }
 }

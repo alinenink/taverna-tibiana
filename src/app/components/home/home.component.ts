@@ -10,7 +10,7 @@ import { ScrollService } from '../../services/scroll.service';
   selector: 'app-home',
   imports: [RouterModule, AuctionIdModalComponent, CommonModule, FormsModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   // Controla o estado de exibição do modal

@@ -2,7 +2,7 @@ import { environment } from '../environments/environments';
 
 /**
  * Configuração centralizada para imagens de monstros disponíveis localmente
- * 
+ *
  * Este arquivo contém a lista de TODAS as imagens de monstros que estão disponíveis
  * na pasta assets/monster-images. Quando o backend retorna um nome de imagem,
  * o sistema verifica se ela está nesta lista para carregar localmente ao invés
@@ -793,7 +793,7 @@ export const AVAILABLE_MONSTER_IMAGES = [
   '96_Juggernaut.gif',
   '97_Plaguesmith.gif',
   '98_Hellspawn.gif',
-  '99_Gozzler.gif'
+  '99_Gozzler.gif',
 ];
 
 /**
@@ -826,9 +826,7 @@ export class ImageMappingUtils {
    * Encontra imagens alternativas baseadas no ID do monstro
    */
   static findAlternativeImages(monsterId: number): string[] {
-    return AVAILABLE_MONSTER_IMAGES.filter(image => 
-      image.startsWith(`${monsterId}_`)
-    );
+    return AVAILABLE_MONSTER_IMAGES.filter(image => image.startsWith(`${monsterId}_`));
   }
 
   /**
@@ -842,7 +840,7 @@ export class ImageMappingUtils {
     const stats = {
       total: AVAILABLE_MONSTER_IMAGES.length,
       byExtension: {} as Record<string, number>,
-      byMonsterId: {} as Record<number, number>
+      byMonsterId: {} as Record<number, number>,
     };
 
     AVAILABLE_MONSTER_IMAGES.forEach(image => {
@@ -859,4 +857,4 @@ export class ImageMappingUtils {
 
     return stats;
   }
-} 
+}

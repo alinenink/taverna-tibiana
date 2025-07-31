@@ -5,7 +5,7 @@ import { environment } from '../environments/environments';
 
 @Injectable({ providedIn: 'root' })
 export class CalculatorsService {
-  private baseUrl = environment.apiUrl + '/calculators';
+  private baseUrl = `${environment.apiUrl}/calculators`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,4 +24,4 @@ export class CalculatorsService {
   lootSplit(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}?calculator=loot-split`, data);
   }
-} 
+}

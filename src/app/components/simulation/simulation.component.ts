@@ -66,10 +66,7 @@ export class SimulationComponent implements OnInit {
 
   get totalProgress(): number {
     const total =
-      this.achievements.length +
-      this.outfits.length +
-      this.mounts.length +
-      this.quests.length;
+      this.achievements.length + this.outfits.length + this.mounts.length + this.quests.length;
     const done =
       this.countChecked(this.achievements) +
       this.countChecked(this.outfits) +
@@ -81,25 +78,24 @@ export class SimulationComponent implements OnInit {
   setTab(tab: 'achievements' | 'outfits' | 'mounts' | 'quests') {
     this.activeTab = tab;
     // Track tab selection
-    this.analyticsService.trackSimulationUsage('tab_selection', { tab: tab });
+    this.analyticsService.trackSimulationUsage('tab_selection', { tab });
   }
 
   onStartSimulation() {
     // Track simulation start
-    this.analyticsService.trackSimulationUsage('start', { 
+    this.analyticsService.trackSimulationUsage('start', {
       charName: this.charName,
-      totalProgress: this.totalProgress 
+      totalProgress: this.totalProgress,
     });
-    
   }
 
   exportToJson() {
     // Track export action
-    this.analyticsService.trackSimulationUsage('export_json', { 
+    this.analyticsService.trackSimulationUsage('export_json', {
       charName: this.charName,
-      totalProgress: this.totalProgress 
+      totalProgress: this.totalProgress,
     });
-    
+
     const data = {
       charName: this.charName,
       achievements: this.achievements,
@@ -120,7 +116,7 @@ export class SimulationComponent implements OnInit {
   importFromJson() {
     // Track import action
     this.analyticsService.trackSimulationUsage('import_json', {});
-    
+
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
@@ -137,10 +133,10 @@ export class SimulationComponent implements OnInit {
           this.outfits = data.outfits || [];
           this.mounts = data.mounts || [];
           this.quests = data.quests || [];
-          
+
           // Track successful import
-          this.analyticsService.trackSimulationUsage('import_success', { 
-            charName: this.charName 
+          this.analyticsService.trackSimulationUsage('import_success', {
+            charName: this.charName,
           });
         } catch (e) {
           alert('Erro ao importar arquivo.');
@@ -162,6 +158,6 @@ export class SimulationComponent implements OnInit {
   }
 
   private countChecked(list: { checked: boolean }[]): number {
-    return list.filter((i) => i.checked).length;
+    return list.filter(i => i.checked).length;
   }
 }

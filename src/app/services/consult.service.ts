@@ -37,10 +37,10 @@ export interface Mount {
   providedIn: 'root',
 })
 export class AchievementsService {
-  private apiUrl =   `${environment.apiUrl}/achievements-missing`;
-  private outfitsUrl = `${environment.apiUrl}/outfits`; 
+  private apiUrl = `${environment.apiUrl}/achievements-missing`;
+  private outfitsUrl = `${environment.apiUrl}/outfits`;
   private mountsUrl = `${environment.apiUrl}/mounts`;
-  
+
   constructor(
     private http: HttpClient,
     private authService: AuthService
@@ -49,11 +49,11 @@ export class AchievementsService {
   getAchievements(auctionId: string): Observable<Achievement[]> {
     const token = this.authService.getToken();
     let headers = new HttpHeaders();
-    
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    
+
     return this.http.get<Achievement[]>(`${this.apiUrl}/${auctionId}`, { headers });
   }
 
@@ -61,11 +61,11 @@ export class AchievementsService {
   getOutfits(): Observable<Outfit[]> {
     const token = this.authService.getToken();
     let headers = new HttpHeaders();
-    
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    
+
     return this.http.get<Outfit[]>(this.outfitsUrl, { headers });
   }
 
@@ -73,11 +73,11 @@ export class AchievementsService {
   getMounts(): Observable<Mount[]> {
     const token = this.authService.getToken();
     let headers = new HttpHeaders();
-    
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    
+
     return this.http.get<Mount[]>(this.mountsUrl, { headers });
   }
 }

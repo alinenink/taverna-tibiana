@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-auction-id-modal',
   templateUrl: './auction-id-modal.component.html',
-  styleUrls: ['./auction-id-modal.component.scss'],
+  styleUrl: './auction-id-modal.component.scss',
   imports: [CommonModule, FormsModule],
 })
 export class AuctionIdModalComponent {

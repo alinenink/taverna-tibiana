@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScrollService {
-  
   /**
    * Faz scroll suave para o topo da página
    */
@@ -12,7 +11,7 @@ export class ScrollService {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   }
 
@@ -30,7 +29,7 @@ export class ScrollService {
     window.scrollTo({
       top: y,
       left: x,
-      behavior: smooth ? 'smooth' : 'auto'
+      behavior: smooth ? 'smooth' : 'auto',
     });
   }
-} 
+}

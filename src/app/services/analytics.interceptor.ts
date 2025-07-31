@@ -3,7 +3,7 @@ import {
   HttpHandlerFn,
   HttpEvent,
   HttpInterceptorFn,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -19,37 +19,24 @@ export const AnalyticsInterceptor: HttpInterceptorFn = (
 
   return next(request).pipe(
     tap((event: HttpEvent<any>) => {
-      if (event.type === 4) { // HttpResponse
+      if (event.type === 4) {
+        // HttpResponse
         const responseTime = Date.now() - startTime;
         const endpoint = request.url.replace(request.urlWithParams.split('?')[0], '');
-        analyticsService.trackApiCall(
-          endpoint,
-          request.method,
-          event.status,
-          responseTime
-        );
+        analyticsService.trackApiCall(endpoint, request.method, event.status, responseTime);
       }
     }),
     catchError((error: HttpErrorResponse) => {
       const responseTime = Date.now() - startTime;
       const endpoint = request.url.replace(request.urlWithParams.split('?')[0], '');
-      
+
       // Track API error
-      analyticsService.trackApiCall(
-        endpoint,
-        request.method,
-        error.status,
-        responseTime
-      );
+      analyticsService.trackApiCall(endpoint, request.method, error.status, responseTime);
 
       // Track specific error
-      analyticsService.trackError(
-        'api_error',
-        error.message,
-        error.toString()
-      );
+      analyticsService.trackError('api_error', error.message, error.toString());
 
       return throwError(() => error);
     })
   );
-}; 
+};

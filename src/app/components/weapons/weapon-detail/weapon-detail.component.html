@@ -13,11 +13,7 @@
       xml:space="preserve"
     >
       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></g>
+      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
         <path
           d="M440.761,380.351l-50.512-50.512l24.481-24.481c3.905-3.905,3.905-10.237,0-14.143c-3.905-3.904-10.237-3.904-14.143,0 l-9.494,9.494l-42.368-42.368c6.562-23.401,9.894-47.59,9.894-72l-0.001-153.69c0-4.777-3.379-8.887-8.065-9.811 c-113.629-22.402-228.859-22.402-342.488,0C3.379,23.764,0,27.875,0,32.652v153.69c0,55.105,16.721,108.08,48.356,153.2 c31.635,45.119,75.739,78.897,127.545,97.681c1.101,0.399,2.255,0.599,3.409,0.599c1.154,0,2.308-0.2,3.41-0.599 c40.392-14.651,76.722-38.923,105.694-70.5l18.334,18.334l-9.494,9.494c-3.905,3.905-3.905,10.237,0,14.143 c1.953,1.953,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929l24.481-24.481l50.512,50.512 c7.262,7.261,16.917,11.26,27.187,11.26s19.924-3.999,27.186-11.26c7.262-7.262,11.261-16.917,11.261-27.186 C452.022,397.268,448.023,387.613,440.761,380.351z"
@@ -51,11 +47,7 @@
               [class.disabled]="saving() || deleting()"
               (click)="!saving() && !deleting() && salvarSelecionados()"
             >
-              <img
-                src="assets/icons-svg/floppy-disk.svg"
-                alt="Salvar"
-                class="svg-icon"
-              />
+              <img src="assets/icons-svg/floppy-disk.svg" alt="Salvar" class="svg-icon" />
               <span *ngIf="!saving()">Salvar</span>
               <span *ngIf="saving()">Salvando...</span>
             </span>
@@ -66,11 +58,7 @@
               [class.disabled]="saving() || deleting()"
               (click)="!saving() && !deleting() && openDeleteConfirmationModal()"
             >
-              <img
-                src="assets/icons-svg/eraser.svg"
-                alt="Excluir"
-                class="svg-icon"
-              />
+              <img src="assets/icons-svg/eraser.svg" alt="Excluir" class="svg-icon" />
               <span *ngIf="!deleting()">Excluir</span>
               <span *ngIf="deleting()">Excluindo...</span>
             </span>
@@ -99,10 +87,7 @@
         <table class="weapon_proficiency_table">
           <thead>
             <tr>
-              <th
-                *ngFor="let level of weapon()?.levels"
-                class="proficiency-level-header"
-              >
+              <th *ngFor="let level of weapon()?.levels" class="proficiency-level-header">
                 Nível {{ level.level }}
               </th>
             </tr>
@@ -123,27 +108,17 @@
                   >
                     <div class="weapon_proficiency_icon" [title]="perk.title">
                       <!-- Ícones das proficiências -->
-                      <div
-                        *ngIf="perk.icons && perk.icons.length > 0"
-                        class="icon-container"
-                      >
+                      <div *ngIf="perk.icons && perk.icons.length > 0" class="icon-container">
                         <!-- Para 2 ícones: index 0 e index 1 -->
-                        <div
-                          *ngIf="perk.icons.length === 2"
-                          class="two-icons-layout"
-                        >
+                        <div *ngIf="perk.icons.length === 2" class="two-icons-layout">
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[0])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])"
                             [alt]="perk.title"
                             class="proficiency-icon icon-first"
                             (error)="onIconError($event)"
                           />
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[1])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[1])"
                             [alt]="perk.title"
                             class="proficiency-icon icon-second"
                             (error)="onIconError($event)"
@@ -151,33 +126,24 @@
                         </div>
 
                         <!-- Para 3 ícones: index 0 (canto superior direito), index 1 (fundo), index 2 (final) -->
-                        <div
-                          *ngIf="perk.icons.length === 3"
-                          class="three-icons-layout"
-                        >
+                        <div *ngIf="perk.icons.length === 3" class="three-icons-layout">
                           <!-- Ícone de fundo (index 1) -->
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[1])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[1])"
                             [alt]="perk.title"
                             class="proficiency-icon background-icon"
                             (error)="onIconError($event)"
                           />
                           <!-- Ícone final (index 2) -->
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[2])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[2])"
                             [alt]="perk.title"
                             class="proficiency-icon final-icon"
                             (error)="onIconError($event)"
                           />
                           <!-- Ícone no canto superior direito (index 0) - 80% menor -->
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[0])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])"
                             [alt]="perk.title"
                             class="proficiency-icon corner-icon-small"
                             (error)="onIconError($event)"
@@ -185,14 +151,9 @@
                         </div>
 
                         <!-- Para 1 ícone: apenas o primeiro -->
-                        <div
-                          *ngIf="perk.icons.length === 1"
-                          class="single-icon-layout"
-                        >
+                        <div *ngIf="perk.icons.length === 1" class="single-icon-layout">
                           <img
-                            [src]="
-                              weaponsService.getIconAssetPath(perk.icons[0])
-                            "
+                            [src]="weaponsService.getIconAssetPath(perk.icons[0])"
                             [alt]="perk.title"
                             class="proficiency-icon single-icon"
                             (error)="onIconError($event)"
@@ -227,45 +188,66 @@
 </div>
 
 <!-- Modal de Confirmação de Exclusão -->
-<div class="modal-overlay" *ngIf="showDeleteConfirmationModal()" (click)="closeDeleteConfirmationModal($event)">
+<div
+  class="modal-overlay"
+  *ngIf="showDeleteConfirmationModal()"
+  (click)="closeDeleteConfirmationModal($event)"
+>
   <div class="modal-conteudo" (click)="$event.stopPropagation()">
     <div class="modal-opcoes">
-      <div style="text-align: center; margin: 0.5rem 0;">
-        <p style="font-size: 1.3rem; color: #5b3e1d; font-weight: bold; margin-bottom: 1rem;">
+      <div style="text-align: center; margin: 0.5rem 0">
+        <p style="font-size: 1.3rem; color: #5b3e1d; font-weight: bold; margin-bottom: 1rem">
           Deseja mesmo esquecer essa maestria?
         </p>
-        
-        <p style="font-size: 1rem; color: #7a5a2f; margin-bottom: 0.75rem; line-height: 1.4;">
+
+        <p style="font-size: 1rem; color: #7a5a2f; margin-bottom: 0.75rem; line-height: 1.4">
           Estás prestes a apagar dos registros toda tua experiência com:
         </p>
-        
-        <p style="font-size: 1.1rem; color: #8b2a2a; font-weight: bold; margin-bottom: 1rem; font-style: italic;">
+
+        <p
+          style="
+            font-size: 1.1rem;
+            color: #8b2a2a;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-style: italic;
+          "
+        >
           "{{ weapon()?.name }}"
         </p>
-        
-        <p style="font-size: 0.95rem; color: #7a5a2f; margin-bottom: 0.75rem; line-height: 1.5; font-style: italic;">
-          O conhecimento será perdido como cerveja derramada na taverna: sem volta e com uma lágrima no olho.
+
+        <p
+          style="
+            font-size: 0.95rem;
+            color: #7a5a2f;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+            font-style: italic;
+          "
+        >
+          O conhecimento será perdido como cerveja derramada na taverna: sem volta e com uma lágrima
+          no olho.
         </p>
-        
-        <p style="font-size: 1rem; color: #8b2a2a; font-weight: bold; margin-bottom: 1rem;">
+
+        <p style="font-size: 1rem; color: #8b2a2a; font-weight: bold; margin-bottom: 1rem">
           Tens certeza que quer seguir por esse caminho do esquecimento?
         </p>
       </div>
     </div>
 
     <div class="modal-botoes">
-      <button 
-        type="button" 
-        class="button-medieval delete-confirm-btn" 
+      <button
+        type="button"
+        class="button-medieval delete-confirm-btn"
         [disabled]="deleting()"
         (click)="confirmarExclusao()"
       >
         <span *ngIf="!deleting()">Sim, apagar dos registros</span>
         <span *ngIf="deleting()">Apagando...</span>
       </button>
-      <button 
-        type="button" 
-        class="button-medieval cancel-btn" 
+      <button
+        type="button"
+        class="button-medieval cancel-btn"
         [disabled]="deleting()"
         (click)="closeDeleteConfirmationModal()"
       >
@@ -279,11 +261,16 @@
 <div class="modal-overlay" *ngIf="showVisitorModal()" (click)="closeVisitorModal()">
   <div class="modal-conteudo" (click)="$event.stopPropagation()">
     <h3 class="modal-titulo">
-      <img src="assets/icons-svg/beer-mug.svg" alt="Taverna" class="svg-icon" style="width: 24px; height: 24px; margin-right: 8px;" />
+      <img
+        src="assets/icons-svg/beer-mug.svg"
+        alt="Taverna"
+        class="svg-icon"
+        style="width: 24px; height: 24px; margin-right: 8px"
+      />
       Atenção, aventureiro!
     </h3>
     <div class="modal-opcoes">
-      <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0;">
+      <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0">
         {{ visitorMessage() }}
       </p>
     </div>
@@ -291,9 +278,7 @@
       <button type="button" class="button-medieval" (click)="goToRegister()">
         Me registrar agora
       </button>
-      <button type="button" class="button-medieval" (click)="closeVisitorModal()">
-        Cancelar
-      </button>
+      <button type="button" class="button-medieval" (click)="closeVisitorModal()">Cancelar</button>
     </div>
   </div>
 </div>

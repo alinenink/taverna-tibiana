@@ -1,4 +1,3 @@
-
 .parchment-card {
   width: 100% !important;
   max-width: none !important;
@@ -6,7 +5,9 @@
   background: transparent;
   border: 2px solid #a07947;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 0 6px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    inset 0 0 6px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
 }
 
@@ -35,7 +36,7 @@
   padding: 0.8rem 1.2rem;
   font-size: 1rem;
   min-width: 160px;
-  
+
   .svg-icon {
     width: 20px;
     height: 20px;
@@ -45,7 +46,7 @@
 .ordenavel {
   background-color: #c1a176 !important;
   transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(60,40,20,0.13);
+  box-shadow: 0 4px 16px rgba(60, 40, 20, 0.13);
 }
 
 .calculator-form {
@@ -73,13 +74,13 @@
   background: #f8f3e6;
   color: #5d4037;
   transition: border-color 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: #8b5e3c;
     box-shadow: 0 0 0 2px rgba(139, 94, 60, 0.2);
   }
-  
+
   &::placeholder {
     color: #a67c52;
     opacity: 0.7;
@@ -90,7 +91,7 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
-  
+
   .button-medieval {
     min-width: 120px;
     padding: 0.8rem 1.5rem;
@@ -104,27 +105,29 @@
   background: linear-gradient(135deg, #fdf8e4, #e8d9a5);
   border: 2px solid #a07947;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 0 6px rgba(0, 0, 0, 0.15);
-  
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    inset 0 0 6px rgba(0, 0, 0, 0.15);
+
   h3 {
     font-family: 'MedievalSharp', serif;
     font-size: 1.3rem;
     color: #5b3e1d;
     margin-bottom: 1rem;
   }
-  
+
   .result-text {
     font-family: 'Georgia', serif;
     font-size: 1.2rem;
     color: #3b2a1a;
     margin-bottom: 0.5rem;
-    
+
     strong {
       color: #8b5e3c;
       font-size: 1.4rem;
     }
   }
-  
+
   .result-subtext {
     font-family: 'Georgia', serif;
     font-size: 1rem;
@@ -190,7 +193,7 @@
   border-radius: 5px;
   border: 1.5px solid #bfa76a;
   background: #f8f3e6;
-  box-shadow: 0 1px 2px rgba(60,40,20,0.07);
+  box-shadow: 0 1px 2px rgba(60, 40, 20, 0.07);
   margin-right: 0.5rem;
 }
 
@@ -277,7 +280,7 @@
   .form-col {
     min-width: 0;
   }
-  
+
   .consulta-layout {
     padding: 2em 1em;
   }
@@ -287,11 +290,11 @@
   .consulta-layout {
     padding: 1.5em 0.8em;
   }
-  
+
   .filtro-topo {
     flex-direction: column;
     gap: 0.8rem;
-    
+
     .button-medieval {
       width: 100%;
       max-width: 300px;
@@ -299,71 +302,71 @@
       justify-content: center;
     }
   }
-  
+
   .calculator-actions {
     flex-direction: column;
     gap: 1rem;
-    
+
     .button-medieval {
       width: 100%;
       max-width: 200px;
     }
   }
-  
+
   .result-display {
     padding: 1rem;
-    
+
     h3 {
       font-size: 1.1rem;
     }
-    
+
     .result-text {
       font-size: 1rem;
-      
+
       strong {
         font-size: 1.2rem;
       }
     }
   }
-  
+
   // Stamina calculator mobile improvements
   .stamina-fields-row.grid-stamina {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .stamina-chevron {
     display: none;
   }
-  
+
   .stamina-field-col {
     min-width: 0;
     flex: 1 1 auto;
   }
-  
+
   .stamina-actions-row {
     flex-direction: column;
     gap: 1rem;
     align-items: center;
-    
+
     .button-medieval {
       width: 100%;
       max-width: 200px;
     }
   }
-  
+
   .time-input-group {
     width: 100%;
     justify-content: center;
   }
-  
+
   .time-input {
     width: 2.5em;
     font-size: 1.2rem;
     padding: 0.6em 0.2em;
   }
-  
+
   .time-sep {
     font-size: 1.8rem;
   }
@@ -373,89 +376,89 @@
   .consulta-layout {
     padding: 1em 0.5em;
   }
-  
+
   .filtro-topo {
     margin-bottom: 1.5rem;
     gap: 0.6rem;
-    
+
     .button-medieval {
       font-size: 0.9rem;
       padding: 0.7rem 1rem;
-      
+
       .svg-icon {
         width: 18px;
         height: 18px;
       }
     }
   }
-  
+
   .input-medieval {
     font-size: 0.95rem;
     padding: 0.7rem;
   }
-  
+
   .calculator-form {
     gap: 1rem;
   }
-  
+
   .result-display {
     margin-top: 1.5rem;
     padding: 0.8rem;
-    
+
     h3 {
       font-size: 1rem;
     }
-    
+
     .result-text {
       font-size: 0.95rem;
-      
+
       strong {
         font-size: 1.1rem;
       }
     }
-    
+
     .result-subtext {
       font-size: 0.9rem;
     }
   }
-  
+
   // Stamina calculator mobile improvements
   .stamina-fields-row.grid-stamina {
     gap: 1.2rem;
     margin-bottom: 1.2rem;
   }
-  
+
   .stamina-field-col label {
     font-size: 1rem;
   }
-  
+
   .time-input {
     width: 2.2em;
     font-size: 1.1rem;
     padding: 0.5em 0.1em;
   }
-  
+
   .time-sep {
     font-size: 1.6rem;
   }
-  
+
   .stamina-actions-row {
     gap: 0.8rem;
     margin-top: 1rem;
-    
+
     .button-medieval {
       font-size: 1rem;
       padding: 0.7em 1.5em;
     }
   }
-  
+
   .stamina-result-medieval {
     padding: 0.5rem;
-    
+
     h3 {
       font-size: 1.1rem;
     }
-    
+
     .stamina-result-value {
       font-size: 1rem;
     }
@@ -466,26 +469,26 @@
   .consulta-layout {
     padding: 0.8em 0.3em;
   }
-  
+
   .filtro-topo .button-medieval {
     font-size: 0.85rem;
     padding: 0.6rem 0.8rem;
   }
-  
+
   .time-input {
     width: 2em;
     font-size: 1rem;
     padding: 0.4em 0.1em;
   }
-  
+
   .time-sep {
     font-size: 1.4rem;
   }
-  
+
   .stamina-field-col label {
     font-size: 0.95rem;
   }
-} 
+}
 
 .exercise-result-medieval {
   display: flex;
@@ -534,7 +537,8 @@
   letter-spacing: 0.2px;
 }
 
-.exercise-result-medieval span, .exercise-result-medieval b {
+.exercise-result-medieval span,
+.exercise-result-medieval b {
   font-family: 'Georgia', serif;
   color: #3b2a1a;
   font-size: 1.13rem;
@@ -545,7 +549,7 @@
   font-weight: bold;
   color: #8b5e3c;
   font-size: 1.13rem;
-} 
+}
 
 .loot-result-medieval {
   margin-top: 2.2rem;
@@ -615,16 +619,12 @@
   margin-bottom: 0.35em;
 }
 
-
-
 .loot-session-date {
   font-family: 'Georgia', serif;
   color: #3b2a1a;
   font-size: 1em;
   margin-right: 0.7em;
 }
-
-
 
 .loot-team-row {
   display: flex;
@@ -697,7 +697,9 @@
   font-size: 1rem;
   color: #7a5a2f;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
@@ -712,13 +714,13 @@
 }
 .copy-btn:hover {
   background: #f4e6b3;
-  box-shadow: 0 2px 8px rgba(60,40,20,0.08);
+  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.08);
 }
 .copy-all-btn {
   font-weight: bold;
   font-size: 1rem;
   padding: 0.22em 1.1em 0.22em 0.7em;
-} 
+}
 
 .copy-check {
   width: 20px;
@@ -731,11 +733,19 @@
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { opacity: 0; }
-} 
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 // Stamina Calculator Layout
 .stamina-form-medieval {
@@ -864,7 +874,7 @@
     min-width: unset;
     max-width: unset;
   }
-} 
+}
 
 // Time input visual premium
 .time-input-group {
@@ -901,7 +911,7 @@
   -webkit-appearance: none;
   margin: 0;
 }
-.time-input[type=number] {
+.time-input[type='number'] {
   -moz-appearance: textfield;
 }
 .time-input:first-child {
@@ -973,7 +983,8 @@
 .stamina-chevron .chevron-error {
   fill: #c0392b;
 }
-.stamina-actions-row, .calculator-actions {
+.stamina-actions-row,
+.calculator-actions {
   display: flex;
   justify-content: flex-start;
   gap: 2.5rem;
@@ -985,10 +996,6 @@
   padding: 0.9em 2.1em;
 }
 
- 
-
- 
-
 // ====================================
 // Loading States Melhorados
 // ====================================
@@ -996,24 +1003,24 @@
 .loading-container {
   text-align: center;
   padding: 2rem;
-  
+
   .loading-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    
+
     .loading-icon {
       width: 50px;
       height: 50px;
-      color: #8B4513;
+      color: #8b4513;
       filter: sepia(1) saturate(2) hue-rotate(15deg);
-      
+
       &.rotating {
         animation: rotate 2s linear infinite;
       }
     }
-    
+
     .loading-text {
       font-family: 'MedievalSharp', serif;
       color: #7a5a2f;
@@ -1025,6 +1032,10 @@
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

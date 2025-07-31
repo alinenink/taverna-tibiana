@@ -30,39 +30,33 @@ describe('WeaponDetailComponent', () => {
               {
                 icons: ['32_11345f84'],
                 description: 'Aumenta o dano',
-                title: 'Dano +1%'
-              }
-            ]
-          }
-        ]
-      }
+                title: 'Dano +1%',
+              },
+            ],
+          },
+        ],
+      },
     },
     category: {
       id: 'swords',
-      name: 'Espadas'
-    }
+      name: 'Espadas',
+    },
   };
 
   beforeEach(async () => {
-    const weaponsServiceSpy = jasmine.createSpyObj('WeaponsService', [
-      'getWeaponDetails'
-    ]);
+    const weaponsServiceSpy = jasmine.createSpyObj('WeaponsService', ['getWeaponDetails']);
 
     await TestBed.configureTestingModule({
-      imports: [
-        WeaponDetailComponent,
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
+      imports: [WeaponDetailComponent, HttpClientTestingModule, RouterTestingModule],
       providers: [
         { provide: WeaponsService, useValue: weaponsServiceSpy },
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ category: 'swords', name: 'Amber%20Sabre' })
-          }
-        }
-      ]
+            params: of({ category: 'swords', name: 'Amber%20Sabre' }),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WeaponDetailComponent);
@@ -128,7 +122,7 @@ describe('WeaponDetailComponent', () => {
     component.weapon.set({
       name: 'Test Weapon',
       category: 'swords',
-      levels: []
+      levels: [],
     });
     expect(component.hasProficiencies).toBe(false);
 
@@ -136,7 +130,7 @@ describe('WeaponDetailComponent', () => {
     component.weapon.set({
       name: 'Test Weapon',
       category: 'swords',
-      levels: [{ level: 1, perks: [] }]
+      levels: [{ level: 1, perks: [] }],
     });
     expect(component.hasProficiencies).toBe(true);
   });
@@ -149,10 +143,10 @@ describe('WeaponDetailComponent', () => {
           {
             icons: ['icon1'],
             description: 'Test perk',
-            title: 'Test title'
-          }
-        ]
-      }
+            title: 'Test title',
+          },
+        ],
+      },
     ];
 
     const result = component.convertProficiencyLevels(apiLevels);
@@ -166,12 +160,12 @@ describe('WeaponDetailComponent', () => {
   it('should handle icon loading errors', () => {
     const mockEvent = {
       target: {
-        style: { display: '' }
-      }
+        style: { display: '' },
+      },
     };
 
     // Teste básico sem spy
     component.onIconError(mockEvent);
     expect(mockEvent.target.style.display).toBe('none');
   });
-}); 
+});

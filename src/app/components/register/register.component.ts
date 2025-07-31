@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { ScrollService } from '../../services/scroll.service';
@@ -11,7 +19,7 @@ import { ScrollService } from '../../services/scroll.service';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -25,16 +33,32 @@ export class RegisterComponent implements OnInit {
   verificacaoErro = '';
   teleportTimer = 5;
   teleportInterval: any;
-  
+
   // Variável para detectar se veio do forgot password
   isFromForgotPassword = false;
 
   // Lista de domínios de email válidos
   private validEmailDomains = [
-    'gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'yahoo.com.br',
-    'uol.com.br', 'bol.com.br', 'ig.com.br', 'terra.com.br', 'globo.com',
-    'live.com', 'msn.com', 'protonmail.com', 'icloud.com', 'me.com',
-    'aol.com', 'mail.com', 'yandex.com', 'zoho.com', 'gmx.com'
+    'gmail.com',
+    'outlook.com',
+    'hotmail.com',
+    'yahoo.com',
+    'yahoo.com.br',
+    'uol.com.br',
+    'bol.com.br',
+    'ig.com.br',
+    'terra.com.br',
+    'globo.com',
+    'live.com',
+    'msn.com',
+    'protonmail.com',
+    'icloud.com',
+    'me.com',
+    'aol.com',
+    'mail.com',
+    'yandex.com',
+    'zoho.com',
+    'gmx.com',
   ];
 
   constructor(
@@ -45,42 +69,50 @@ export class RegisterComponent implements OnInit {
     private analyticsService: AnalyticsService,
     private scrollService: ScrollService
   ) {
-    this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, this.emailDomainValidator.bind(this)]],
-      char: ['', [Validators.required, Validators.minLength(2)]],
-      password: ['', [
-        Validators.required, 
-        Validators.minLength(8),
-        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)
-      ]],
-      confirmPassword: ['', [Validators.required]],
-      acceptTerms: [false, [Validators.requiredTrue]]
-    }, { validators: this.passwordMatchValidator });
+    this.registerForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email, this.emailDomainValidator.bind(this)]],
+        char: ['', [Validators.required, Validators.minLength(2)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/),
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+        acceptTerms: [false, [Validators.requiredTrue]],
+      },
+      { validators: this.passwordMatchValidator }
+    );
 
     this.verificationForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
+      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
   }
 
   ngOnInit(): void {
     this.scrollService.scrollToTop();
-    
+
     // Verificar se veio da tela de forgot password com email e showVerification
     this.route.queryParams.subscribe(params => {
       const email = params['email'];
       const showVerification = params['showVerification'];
-      
+
       if (email && showVerification === 'true') {
-        console.log('Detectado parâmetros do forgot password:', { email, showVerification });
-        
         // Preencher o email e mostrar a tela de verificação
-        this.registerForm.patchValue({ email: email });
+        this.registerForm.patchValue({ email });
         this.registeredEmail = email;
         this.showVerification = true;
         this.isFromForgotPassword = true;
-        
+
         // Track analytics
-        this.analyticsService.trackUserAction('verification_from_forgot_password', 'registration', email);
+        this.analyticsService.trackUserAction(
+          'verification_from_forgot_password',
+          'registration',
+          email
+        );
       }
     });
   }
@@ -88,23 +120,23 @@ export class RegisterComponent implements OnInit {
   // Validador personalizado para domínio de email
   emailDomainValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
-    
+
     const email = control.value.toLowerCase();
     const domain = email.split('@')[1];
-    
+
     if (!domain) return { invalidDomain: true };
-    
+
     // Verificar se o domínio está na lista de domínios válidos
     if (!this.validEmailDomains.includes(domain)) {
       return { invalidDomain: true };
     }
-    
+
     // Verificar domínios inválidos específicos
     const invalidDomains = ['teste.com', 'test.com', 'example.com', 'fake.com', 'invalid.com'];
     if (invalidDomains.includes(domain)) {
       return { invalidDomain: true };
     }
-    
+
     return null;
   }
 
@@ -144,36 +176,39 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       // Track registration attempt
       this.analyticsService.trackRegistration('email');
-      
+
       this.carregando = true;
       this.erro = '';
       const formData = this.registerForm.value;
-      this.authService.registerUser({
-        email: formData.email,
-        password: formData.password,
-        char: formData.char
-      }).subscribe({
-        next: (response) => {
-          if (response?.success) {
-            this.registeredEmail = formData.email;
-            this.showVerification = true;
-            this.analyticsService.trackFormSubmission('registration', true);
-          } else {
-            this.erro = response.message || 'Erro no registro. Tente novamente.';
+      this.authService
+        .registerUser({
+          email: formData.email,
+          password: formData.password,
+          char: formData.char,
+        })
+        .subscribe({
+          next: response => {
+            if (response?.success) {
+              this.registeredEmail = formData.email;
+              this.showVerification = true;
+              this.analyticsService.trackFormSubmission('registration', true);
+            } else {
+              this.erro = response.message || 'Erro no registro. Tente novamente.';
+              this.analyticsService.trackFormSubmission('registration', false);
+            }
+            this.carregando = false;
+          },
+          error: error => {
+            this.carregando = false;
             this.analyticsService.trackFormSubmission('registration', false);
-          }
-          this.carregando = false;
-        },
-        error: (error) => {
-          this.carregando = false;
-          this.analyticsService.trackFormSubmission('registration', false);
-          if (error.status === 400 && error.error?.message === 'Email já cadastrado') {
-            this.erro = '🍺 Este email mágico já está registrado na taverna. Tente outro ou recupere seu juramento.';
-          } else {
-            this.erro = 'Erro ao registrar. Tente novamente.';
-          }
-        }
-      });
+            if (error.status === 400 && error.error?.message === 'Email já cadastrado') {
+              this.erro =
+                '🍺 Este email mágico já está registrado na taverna. Tente outro ou recupere seu juramento.';
+            } else {
+              this.erro = 'Erro ao registrar. Tente novamente.';
+            }
+          },
+        });
     } else {
       // Marcar todos os campos como touched para mostrar erros
       Object.keys(this.registerForm.controls).forEach(key => {
@@ -190,10 +225,12 @@ export class RegisterComponent implements OnInit {
       this.verificacaoErro = '';
       const formData = this.verificationForm.value;
       try {
-        const response = await this.authService.validateVerificationCode({
-          email: this.registeredEmail,
-          code: formData.code
-        }).toPromise();
+        const response = await this.authService
+          .validateVerificationCode({
+            email: this.registeredEmail,
+            code: formData.code,
+          })
+          .toPromise();
 
         if (response?.success) {
           this.carregando = false;
@@ -202,7 +239,8 @@ export class RegisterComponent implements OnInit {
           this.startTeleportTimer();
         } else {
           if (response?.message === 'Código inválido') {
-            this.verificacaoErro = '⚠️ O código mágico informado está incorreto. Confira o pergaminho enviado ao seu email e tente novamente!';
+            this.verificacaoErro =
+              '⚠️ O código mágico informado está incorreto. Confira o pergaminho enviado ao seu email e tente novamente!';
           } else {
             this.verificacaoErro = response?.message || 'Erro na validação do código.';
           }
@@ -211,7 +249,8 @@ export class RegisterComponent implements OnInit {
         }
       } catch (error: any) {
         if (error?.status === 400 && error?.error?.message === 'Código inválido') {
-          this.verificacaoErro = '⚠️ O código mágico informado está incorreto. Confira o pergaminho enviado ao seu email e tente novamente!';
+          this.verificacaoErro =
+            '⚠️ O código mágico informado está incorreto. Confira o pergaminho enviado ao seu email e tente novamente!';
         } else {
           this.verificacaoErro = 'Erro ao validar o código. Tente novamente.';
         }
@@ -272,7 +311,7 @@ export class RegisterComponent implements OnInit {
   goToVerification() {
     // Verificar se o email foi preenchido
     const email = this.registerForm.get('email')?.value;
-    
+
     if (!email || email.trim() === '') {
       // Marcar apenas o campo email como touched para mostrar o erro
       this.registerForm.get('email')?.markAsTouched();
@@ -288,12 +327,12 @@ export class RegisterComponent implements OnInit {
 
     // Limpar erro anterior
     this.erro = '';
-    
+
     // Definir o email registrado e mostrar a tela de verificação
     this.registeredEmail = email;
     this.showVerification = true;
-    
+
     // Track analytics
     this.analyticsService.trackUserAction('go_to_verification', 'registration', email);
   }
-} 
+}

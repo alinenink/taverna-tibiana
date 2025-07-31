@@ -23,14 +23,14 @@ describe('WeaponsComponent', () => {
       id: 'swords',
       name: 'Espadas',
       weapons_endpoint: '/api/weapons?action=list&category=swords',
-      proficiencies_endpoint: '/api/weapons?action=proficiencies&category=swords'
+      proficiencies_endpoint: '/api/weapons?action=proficiencies&category=swords',
     },
     {
       id: 'machados',
       name: 'Machados',
       weapons_endpoint: '/api/weapons?action=list&category=machados',
-      proficiencies_endpoint: '/api/weapons?action=proficiencies&category=machados'
-    }
+      proficiencies_endpoint: '/api/weapons?action=proficiencies&category=machados',
+    },
   ];
 
   const mockWeapons = [
@@ -42,7 +42,7 @@ describe('WeaponsComponent', () => {
       vocation: 'Todas',
       hands: 'Uma',
       tier: 1,
-      endpoint: '/api/weapons?action=weapon&category=swords&name=Amber%20Sabre'
+      endpoint: '/api/weapons?action=weapon&category=swords&name=Amber%20Sabre',
     },
     {
       name: 'Blade of Destruction',
@@ -52,8 +52,8 @@ describe('WeaponsComponent', () => {
       vocation: 'Todas',
       hands: 'Uma',
       tier: 1,
-      endpoint: '/api/weapons?action=weapon&category=swords&name=Blade%20of%20Destruction'
-    }
+      endpoint: '/api/weapons?action=weapon&category=swords&name=Blade%20of%20Destruction',
+    },
   ];
 
   const mockWeaponDetails = {
@@ -72,21 +72,21 @@ describe('WeaponsComponent', () => {
       energy: 0,
       earth: 0,
       death: 0,
-      holy: 0
+      holy: 0,
     },
     def_mod: 0,
     bonus: null,
     tier: 1,
     dropped_by: '',
-    scraped_at: '2025-07-14T15:45:09.596Z'
+    scraped_at: '2025-07-14T15:45:09.596Z',
   };
 
   const mockStats = {
     total: 2,
-    byVocation: { 'Todas': 2 },
+    byVocation: { Todas: 2 },
     byTier: { 1: 2 },
     avgAtk: 265,
-    avgDef: 0
+    avgDef: 0,
   };
 
   beforeEach(async () => {
@@ -97,19 +97,12 @@ describe('WeaponsComponent', () => {
       'getCategoryStats',
       'getCategoryDisplayName',
       'hasElementalDamage',
-      'getPrimaryElementalType'
+      'getPrimaryElementalType',
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [
-        WeaponsComponent,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        FormsModule
-      ],
-      providers: [
-        { provide: WeaponsService, useValue: spy }
-      ]
+      imports: [WeaponsComponent, HttpClientTestingModule, RouterTestingModule, FormsModule],
+      providers: [{ provide: WeaponsService, useValue: spy }],
     }).compileComponents();
 
     weaponsService = TestBed.inject(WeaponsService) as jasmine.SpyObj<WeaponsService>;
@@ -126,11 +119,13 @@ describe('WeaponsComponent', () => {
 
   it('should load categories on init', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -153,11 +148,13 @@ describe('WeaponsComponent', () => {
 
   it('should change category and reload weapons', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'machados', name: 'Machados' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'machados', name: 'Machados' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Machados');
 
@@ -171,11 +168,13 @@ describe('WeaponsComponent', () => {
 
   it('should filter weapons by search term', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -190,11 +189,13 @@ describe('WeaponsComponent', () => {
 
   it('should filter weapons by vocation', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -208,11 +209,13 @@ describe('WeaponsComponent', () => {
 
   it('should filter weapons by tier', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -227,15 +230,17 @@ describe('WeaponsComponent', () => {
   it('should filter weapons by minimum level', () => {
     const weaponsWithLevel = [
       { ...mockWeapons[0], level: 0 },
-      { ...mockWeapons[1], level: 100 }
+      { ...mockWeapons[1], level: 100 },
     ];
 
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: weaponsWithLevel,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: weaponsWithLevel,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -250,15 +255,19 @@ describe('WeaponsComponent', () => {
 
   it('should show weapon details', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
-    weaponsService.getWeaponDetails.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      weapon: mockWeaponDetails
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
+    weaponsService.getWeaponDetails.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        weapon: mockWeaponDetails,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -287,16 +296,16 @@ describe('WeaponsComponent', () => {
   it('should check if weapon has elemental damage', () => {
     weaponsService.hasElementalDamage.and.returnValue(true);
 
-    const weaponWithElemental = { 
-      ...mockWeaponDetails, 
-      elemental_damage: { 
-        fire: 25, 
-        ice: 0, 
-        energy: 0, 
-        earth: 0, 
-        death: 0, 
-        holy: 0 
-      } 
+    const weaponWithElemental = {
+      ...mockWeaponDetails,
+      elemental_damage: {
+        fire: 25,
+        ice: 0,
+        energy: 0,
+        earth: 0,
+        death: 0,
+        holy: 0,
+      },
     };
     component.selectedWeapon.set(weaponWithElemental);
 
@@ -315,8 +324,8 @@ describe('WeaponsComponent', () => {
         energy: 10,
         earth: 0,
         death: 0,
-        holy: 0
-      }
+        holy: 0,
+      },
     };
     component.selectedWeapon.set(weaponWithElemental);
 
@@ -332,8 +341,8 @@ describe('WeaponsComponent', () => {
       ...mockWeaponDetails,
       bonus: {
         critical_hit_chance: 5,
-        critical_hit_damage: 10
-      }
+        critical_hit_damage: 10,
+      },
     };
     component.selectedWeapon.set(weaponWithBonus);
 
@@ -346,11 +355,13 @@ describe('WeaponsComponent', () => {
 
   it('should reset filters when changing category', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -372,15 +383,15 @@ describe('WeaponsComponent', () => {
     expect(component.minLevel).toBe(0);
   });
 
-
-
   it('should handle empty search term', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -394,11 +405,13 @@ describe('WeaponsComponent', () => {
 
   it('should handle case insensitive search', () => {
     weaponsService.getCategories.and.returnValue(of(mockCategories));
-    weaponsService.getWeaponsByCategory.and.returnValue(of({
-      category: { id: 'swords', name: 'Espadas' },
-      data: mockWeapons,
-      total: 2
-    }));
+    weaponsService.getWeaponsByCategory.and.returnValue(
+      of({
+        category: { id: 'swords', name: 'Espadas' },
+        data: mockWeapons,
+        total: 2,
+      })
+    );
     weaponsService.getCategoryStats.and.returnValue(of(mockStats));
     weaponsService.getCategoryDisplayName.and.returnValue('Espadas');
 
@@ -410,4 +423,4 @@ describe('WeaponsComponent', () => {
     expect(component.weapons().length).toBe(1);
     expect(component.weapons()[0].name).toBe('Amber Sabre');
   });
-}); 
+});

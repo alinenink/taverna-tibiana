@@ -91,20 +91,20 @@ export interface CategoriesResponse {
 }
 
 // Tipos para as categorias de armas
-export type WeaponCategoryType = 
-  | 'swords' 
-  | 'axes' 
-  | 'clavas' 
-  | 'ranged' 
-  | 'rods' 
-  | 'wands' 
+export type WeaponCategoryType =
+  | 'swords'
+  | 'axes'
+  | 'clavas'
+  | 'ranged'
+  | 'rods'
+  | 'wands'
   | 'fist';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WeaponsService {
-  private readonly baseUrl = environment.apiUrl + '/weapons';
+  private readonly baseUrl = `${environment.apiUrl}/weapons`;
 
   constructor(private http: HttpClient) {}
 
@@ -114,17 +114,16 @@ export class WeaponsService {
    */
   getCategories(): Observable<WeaponCategory[]> {
     const params = new HttpParams().set('action', 'categories');
-    
-    return this.http.get<CategoriesResponse>(`${this.baseUrl}?${params.toString()}`)
-      .pipe(
-        map(response => {
-          if (response.success && response.data) {
-            return response.data;
-          }
-          throw new Error(response.message || 'Erro ao buscar categorias');
-        }),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<CategoriesResponse>(`${this.baseUrl}?${params.toString()}`).pipe(
+      map(response => {
+        if (response.success && response.data) {
+          return response.data;
+        }
+        throw new Error(response.message || 'Erro ao buscar categorias');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -133,17 +132,16 @@ export class WeaponsService {
    */
   getAllWeapons(): Observable<WeaponBasic[]> {
     const params = new HttpParams().set('action', 'all');
-    
-    return this.http.get<AllWeaponsResponse>(`${this.baseUrl}?${params.toString()}`)
-      .pipe(
-        map(response => {
-          if (response.success && response.data) {
-            return response.data;
-          }
-          throw new Error(response.message || 'Erro ao buscar todas as armas');
-        }),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<AllWeaponsResponse>(`${this.baseUrl}?${params.toString()}`).pipe(
+      map(response => {
+        if (response.success && response.data) {
+          return response.data;
+        }
+        throw new Error(response.message || 'Erro ao buscar todas as armas');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -152,20 +150,17 @@ export class WeaponsService {
    * @returns Observable com a lista de armas da categoria
    */
   getWeaponsByCategory(category: WeaponCategoryType): Observable<WeaponsListResponse> {
-    const params = new HttpParams()
-      .set('action', 'list')
-      .set('category', category);
-    
-    return this.http.get<WeaponsListResponse>(`${this.baseUrl}?${params.toString()}`)
-      .pipe(
-        map(response => {
-          if (response.success) {
-            return response;
-          }
-          throw new Error(response.message || 'Erro ao buscar armas da categoria');
-        }),
-        catchError(this.handleError)
-      );
+    const params = new HttpParams().set('action', 'list').set('category', category);
+
+    return this.http.get<WeaponsListResponse>(`${this.baseUrl}?${params.toString()}`).pipe(
+      map(response => {
+        if (response.success) {
+          return response;
+        }
+        throw new Error(response.message || 'Erro ao buscar armas da categoria');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -179,25 +174,23 @@ export class WeaponsService {
     if (!category || !name) {
       return throwError(() => new Error('Categoria e nome da arma são obrigatórios'));
     }
-    
+
     const params = new HttpParams()
       .set('action', 'weapon')
       .set('category', category)
       .set('name', name);
-    
+
     const url = `${this.baseUrl}?${params.toString()}`;
-    
-    return this.http.get<WeaponDetailsResponse>(url)
-      .pipe(
-        map(response => {
-          
-          if (response.success) {
-            return response;
-          }
-          throw new Error(response.message || 'Erro ao buscar detalhes da arma');
-        }),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<WeaponDetailsResponse>(url).pipe(
+      map(response => {
+        if (response.success) {
+          return response;
+        }
+        throw new Error(response.message || 'Erro ao buscar detalhes da arma');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -211,17 +204,16 @@ export class WeaponsService {
       .set('action', 'list')
       .set('category', category)
       .set('search', searchTerm);
-    
-    return this.http.get<WeaponsListResponse>(`${this.baseUrl}?${params.toString()}`)
-      .pipe(
-        map(response => {
-          if (response.success) {
-            return response;
-          }
-          throw new Error(response.message || 'Erro ao buscar armas');
-        }),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<WeaponsListResponse>(`${this.baseUrl}?${params.toString()}`).pipe(
+      map(response => {
+        if (response.success) {
+          return response;
+        }
+        throw new Error(response.message || 'Erro ao buscar armas');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -240,31 +232,31 @@ export class WeaponsService {
       map(response => {
         const weapons = response.data;
         const total = weapons.length;
-        
+
         // Calcular estatísticas
         const byVocation: { [key: string]: number } = {};
         const byTier: { [key: number]: number } = {};
         let totalAtk = 0;
         let totalDef = 0;
-        
+
         weapons.forEach(weapon => {
           // Contagem por vocação
           byVocation[weapon.vocation] = (byVocation[weapon.vocation] || 0) + 1;
-          
+
           // Contagem por tier
           byTier[weapon.tier] = (byTier[weapon.tier] || 0) + 1;
-          
+
           // Soma para médias
           totalAtk += weapon.atk;
           totalDef += weapon.def;
         });
-        
+
         return {
           total,
           byVocation,
           byTier,
           avgAtk: total > 0 ? totalAtk / total : 0,
-          avgDef: total > 0 ? totalDef / total : 0
+          avgDef: total > 0 ? totalDef / total : 0,
         };
       })
     );
@@ -278,16 +270,19 @@ export class WeaponsService {
   hasElementalDamage(weapon: WeaponDetailed): boolean {
     // Como a nova API não retorna elemental_damage diretamente,
     // vamos verificar se há proficiências relacionadas a elementos
-    return weapon.proficiency?.levels?.some(level => 
-      level.perks?.some(perk => 
-        perk.description.toLowerCase().includes('fire') ||
-        perk.description.toLowerCase().includes('ice') ||
-        perk.description.toLowerCase().includes('energy') ||
-        perk.description.toLowerCase().includes('earth') ||
-        perk.description.toLowerCase().includes('death') ||
-        perk.description.toLowerCase().includes('holy')
-      )
-    ) || false;
+    return (
+      weapon.proficiency?.levels?.some(level =>
+        level.perks?.some(
+          perk =>
+            perk.description.toLowerCase().includes('fire') ||
+            perk.description.toLowerCase().includes('ice') ||
+            perk.description.toLowerCase().includes('energy') ||
+            perk.description.toLowerCase().includes('earth') ||
+            perk.description.toLowerCase().includes('death') ||
+            perk.description.toLowerCase().includes('holy')
+        )
+      ) || false
+    );
   }
 
   /**
@@ -297,9 +292,9 @@ export class WeaponsService {
    */
   getPrimaryElementalType(weapon: WeaponDetailed): string | null {
     if (!weapon.proficiency?.levels) return null;
-    
+
     const elementalTypes = ['fire', 'ice', 'energy', 'earth', 'death', 'holy'];
-    
+
     for (const level of weapon.proficiency.levels) {
       for (const perk of level.perks || []) {
         for (const type of elementalTypes) {
@@ -309,7 +304,7 @@ export class WeaponsService {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -326,9 +321,9 @@ export class WeaponsService {
       ranged: 'Armas de Longo Alcance',
       rods: 'Rods',
       wands: 'Wands',
-      fist: 'Armas de Punho'
+      fist: 'Armas de Punho',
     };
-    
+
     return displayNames[category] || category;
   }
 
@@ -354,9 +349,9 @@ export class WeaponsService {
    */
   private handleError(error: any): Observable<never> {
     console.error('Erro na requisição HTTP:', error);
-    
+
     let errorMessage = 'Erro desconhecido';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Erro do cliente
       errorMessage = `Erro: ${error.error.message}`;
@@ -364,7 +359,7 @@ export class WeaponsService {
       // Erro do servidor
       errorMessage = error.error?.message || error.message || `Código de erro: ${error.status}`;
     }
-    
+
     return throwError(() => new Error(errorMessage));
   }
-} 
+}

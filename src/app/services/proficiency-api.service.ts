@@ -35,7 +35,7 @@ interface APIResponse<T = any> {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProficiencyApiService {
   private baseURL = environment.apiUrl;
@@ -46,7 +46,7 @@ export class ProficiencyApiService {
     const token = this.authService.getToken();
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
   }
 
@@ -55,11 +55,11 @@ export class ProficiencyApiService {
       const response = await fetch(`${this.baseURL}/weapons?action=save-perks`, {
         method: 'POST',
         headers: this.getHeaders(),
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
-      
+
       const responseData = await response.json();
-      
+
       if (!response.ok) {
         // Se não for ok, mas temos dados da resposta, retornar os dados
         if (responseData) {
@@ -67,7 +67,7 @@ export class ProficiencyApiService {
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return responseData;
     } catch (error) {
       console.error('Erro ao salvar proficiência:', error);
@@ -79,13 +79,13 @@ export class ProficiencyApiService {
     try {
       const url = `${this.baseURL}/weapons?action=get-perks&weapon_name=${encodeURIComponent(weaponName)}&weapon_category=${category}`;
       const response = await fetch(url, {
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Erro ao buscar proficiência:', error);
@@ -97,13 +97,13 @@ export class ProficiencyApiService {
     try {
       const params = `action=list-perks&page=${page}&limit=${limit}${category ? `&weapon_category=${category}` : ''}`;
       const response = await fetch(`${this.baseURL}/weapons?${params}`, {
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Erro ao listar proficiências:', error);
@@ -117,18 +117,18 @@ export class ProficiencyApiService {
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${this.authService.getToken()}`
-        }
+          Authorization: `Bearer ${this.authService.getToken()}`,
+        },
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Erro ao deletar proficiência:', error);
       throw error;
     }
   }
-} 
+}
