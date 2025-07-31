@@ -8,6 +8,10 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
 }
 
 .parchment-card {
@@ -17,6 +21,11 @@
   box-shadow: 0 2px 8px rgba(160, 121, 71, 0.08);
   padding: 2rem 1.5rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .parchment-card h2 {
@@ -147,6 +156,55 @@
 .checkbox-medieval:focus {
   outline: 2px solid #8b5e3c;
 }
+
+// Seção de Estatísticas e Controles
+.stats-controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+}
+
+.stats-summary {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}
+
+.controls-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
 // Filtros
 .filters-section {
   margin-bottom: 2rem;
@@ -201,6 +259,11 @@
     gap: 1.5rem;
     align-items: end;
     flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
   }
 
   .filter-group {
@@ -653,6 +716,12 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 // Card do Monstro
@@ -664,6 +733,10 @@
   box-shadow: 0 2px 8px rgba(160, 121, 71, 0.08);
   transition: all 0.3s ease;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 
   &:hover {
     transform: translateY(-2px);
@@ -737,6 +810,13 @@
   gap: 1rem;
   align-items: flex-start;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
 }
 
 .monster-image-container {
@@ -866,6 +946,11 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
 
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25rem;
+  }
+
   .stat-item {
     display: flex;
     flex-direction: column;
@@ -907,6 +992,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
 
     .resistance-item {
       display: flex;
@@ -961,12 +1051,22 @@
   border-radius: 8px;
   padding: 1rem;
 
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
+
   .charm-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 0.5rem;
     flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
     .charm-icon {
       width: 1.2rem;
@@ -1363,10 +1463,27 @@
 
   .monster-card {
     margin: 0 -10px;
+    padding: 0.75rem;
   }
 
   .monster-info {
     padding: 15px;
+  }
+
+  .monster-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .charm-section {
+    padding: 0.5rem;
+  }
+
+  .parchment-card {
+    padding: 0.75rem;
+  }
+
+  .consulta-layout {
+    padding: 0.25rem;
   }
 }
 
