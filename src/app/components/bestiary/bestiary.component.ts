@@ -521,6 +521,8 @@ export class BestiaryComponent implements OnInit {
       .subscribe({
         next: savedData => {
           this.userBestiary.set(savedData);
+          // Recalcular charms adquiridos após salvamento bem-sucedido
+          this.calculateTotalCharmPoints();
         },
         error: error => {
           console.error('Erro ao salvar automaticamente:', error);
@@ -861,6 +863,8 @@ export class BestiaryComponent implements OnInit {
             .subscribe({
               next: savedData => {
                 this.userBestiary.set(savedData);
+                // Recalcular charms adquiridos após salvamento bem-sucedido
+                this.calculateTotalCharmPoints();
                 this.userBestiaryLoading.set(false);
               },
               error: error => {

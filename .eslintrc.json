@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*", "src/**/*.html", "src/**/*.spec.ts"],
+  "ignorePatterns": ["projects/**/*", "src/**/*.html", "src/**/*.spec.ts", "docs/**/*"],
   "env": {
     "browser": true,
     "es2022": true,
