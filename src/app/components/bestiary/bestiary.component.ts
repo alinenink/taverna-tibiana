@@ -27,6 +27,7 @@ import {
   UserMonster,
   UserBestiaryData,
 } from '../../services/user-bestiary.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { environment } from '../../environments/environments';
 import {
   getClassDisplayName,
@@ -48,6 +49,7 @@ import {
 export class BestiaryComponent implements OnInit {
   private readonly bestiaryService = inject(BestiaryService);
   private readonly userBestiaryService = inject(UserBestiaryService);
+  private readonly analyticsService = inject(AnalyticsService);
   private readonly fb = inject(FormBuilder);
   private readonly destroy$ = new Subject<void>();
   private readonly searchSubject$ = new Subject<string>();
@@ -159,6 +161,15 @@ export class BestiaryComponent implements OnInit {
       });
     }
 
+    // Track charm kills update
+    this.analyticsService.trackEvent('bestiary_charm_kills_update', {
+      monster_id: monsterId,
+      monster_name: monster?.name || 'Unknown',
+      kills_value: value,
+      is_complete: value >= (monster?.charm_details.third_stage || 0),
+      charm_points: monster?.charm_details.charm_points || 0,
+    });
+
     // Recalcular total de charm points após mudança nos kills
     this.calculateTotalCharmPoints();
 
@@ -170,6 +181,9 @@ export class BestiaryComponent implements OnInit {
 
   // Métodos para gerenciar caça completa
   toggleCompleteHunt(monsterId: number): void {
+    const monster = this.monsters().find(m => m.id === monsterId);
+    const isCurrentlyComplete = this.completeHuntMonsters().has(monsterId);
+
     this.completeHuntMonsters.update(completeHuntSet => {
       const newSet = new Set(completeHuntSet);
       if (newSet.has(monsterId)) {
@@ -178,6 +192,14 @@ export class BestiaryComponent implements OnInit {
         newSet.add(monsterId);
       }
       return newSet;
+    });
+
+    // Track complete hunt toggle
+    this.analyticsService.trackEvent('bestiary_complete_hunt_toggle', {
+      monster_id: monsterId,
+      monster_name: monster?.name || 'Unknown',
+      action: isCurrentlyComplete ? 'unmarked' : 'marked',
+      charm_points: monster?.charm_details.charm_points || 0,
     });
 
     // Recalcular total de charm points após mudança no status de caça completa
@@ -327,6 +349,13 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
+    // Track PDF export
+    this.analyticsService.trackEvent('bestiary_export', {
+      export_type: 'pdf',
+      monsters_count: selectedMonsters.length,
+      selected_monsters: selectedMonsters.map(m => m.name).join(', '),
+    });
+
     const doc = new jsPDF();
 
     // Registra a fonte medieval
@@ -396,6 +425,13 @@ export class BestiaryComponent implements OnInit {
       alert('Nenhuma criatura selecionada para exportar!');
       return;
     }
+
+    // Track Excel export
+    this.analyticsService.trackEvent('bestiary_export', {
+      export_type: 'excel',
+      monsters_count: selectedMonsters.length,
+      selected_monsters: selectedMonsters.map(m => m.name).join(', '),
+    });
 
     // Extrai os dados desejados seguindo a lógica do best.js
     const dataToExport = selectedMonsters.map(monster => ({
@@ -557,6 +593,9 @@ export class BestiaryComponent implements OnInit {
 
   // Métodos para seleção múltipla de monstros
   toggleMonsterSelection(monsterId: number): void {
+    const monster = this.monsters().find(m => m.id === monsterId);
+    const isCurrentlySelected = this.selectedMonsterIds().has(monsterId);
+
     this.selectedMonsterIds.update(selectedIds => {
       const newSet = new Set(selectedIds);
       if (newSet.has(monsterId)) {
@@ -565,6 +604,14 @@ export class BestiaryComponent implements OnInit {
         newSet.add(monsterId);
       }
       return newSet;
+    });
+
+    // Track monster selection
+    this.analyticsService.trackEvent('bestiary_monster_selection', {
+      monster_id: monsterId,
+      monster_name: monster?.name || 'Unknown',
+      action: isCurrentlySelected ? 'deselected' : 'selected',
+      total_selected: this.selectedMonsterIds().size,
     });
   }
 
@@ -586,6 +633,12 @@ export class BestiaryComponent implements OnInit {
       this.filterCompleted.set(false);
     }
 
+    // Track filter usage
+    this.analyticsService.trackEvent('bestiary_filter_used', {
+      filter_type: 'selected',
+      filter_active: newValue,
+    });
+
     // Resetar para a primeira página e recarregar
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
     this.loadMonsters();
@@ -599,6 +652,12 @@ export class BestiaryComponent implements OnInit {
     if (newValue) {
       this.filterSelected.set(false);
     }
+
+    // Track filter usage
+    this.analyticsService.trackEvent('bestiary_filter_used', {
+      filter_type: 'completed',
+      filter_active: newValue,
+    });
 
     // Resetar para a primeira página e recarregar
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
@@ -630,6 +689,12 @@ export class BestiaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Track page view
+    this.analyticsService.trackEvent('page_view', {
+      page_title: 'Bestiary',
+      page_location: '/bestiary',
+    });
+
     this.initializeForm();
     this.setupSearchSubscription();
     this.setupAutoSaveSubscription();
@@ -826,6 +891,12 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
+    // Track save action
+    this.analyticsService.trackEvent('bestiary_save', {
+      monsters_count: selectedIds.length,
+      selected_monsters: selectedIds.join(', '),
+    });
+
     this.userBestiaryLoading.set(true);
     this.userBestiaryError.set(null);
 
@@ -954,6 +1025,11 @@ export class BestiaryComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         switchMap(searchTerm => {
+          // Track search
+          if (searchTerm && searchTerm.trim().length > 0) {
+            this.analyticsService.trackSearch(searchTerm, 'bestiary');
+          }
+
           this.loading.set(true);
           this.error.set(null);
           return this.bestiaryService.searchMonsters(searchTerm, {
@@ -1055,6 +1131,13 @@ export class BestiaryComponent implements OnInit {
    */
   onPageChange(pageIndex: number, pageSize: number): void {
     if (pageIndex === this.pagination().currentPage) return;
+
+    // Track pagination
+    this.analyticsService.trackEvent('bestiary_pagination', {
+      page_number: pageIndex,
+      page_size: pageSize,
+      total_pages: this.pagination().totalPages,
+    });
 
     this.pagination.update(p => ({
       ...p,

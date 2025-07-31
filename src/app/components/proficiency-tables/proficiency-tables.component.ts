@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PROFICIENCY_TABLES, ProficiencyTable } from '../../models/proficiency-tables';
@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { medievalFontBase64 } from '../../services/medievalfont.js';
 import { RouterModule } from '@angular/router';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-proficiency-tables',
@@ -14,7 +15,16 @@ import { RouterModule } from '@angular/router';
   templateUrl: './proficiency-tables.component.html',
   styleUrl: './proficiency-tables.component.scss',
 })
-export class ProficiencyTablesComponent {
+export class ProficiencyTablesComponent implements OnInit {
+  constructor(private analyticsService: AnalyticsService) {}
+
+  ngOnInit() {
+    // Track page view
+    this.analyticsService.trackEvent('page_view', {
+      page_title: 'Proficiency Tables',
+      page_location: '/proficiency-tables',
+    });
+  }
   tables = PROFICIENCY_TABLES;
   vocations = [
     { key: 'knight', label: 'Knight' },
@@ -41,9 +51,19 @@ export class ProficiencyTablesComponent {
   }
 
   setVocation(v: string) {
+    // Track vocation change
+    this.analyticsService.trackEvent('proficiency_vocation_change', {
+      vocation: v,
+    });
+
     this.selectedVocation.set(v as 'knight' | 'paladin' | 'outros');
   }
   setType(t: string) {
+    // Track type change
+    this.analyticsService.trackEvent('proficiency_type_change', {
+      type: t,
+    });
+
     this.selectedType.set(t as 'bosses' | 'criaturas');
   }
 
@@ -75,6 +95,15 @@ export class ProficiencyTablesComponent {
   }
 
   exportPdf() {
+    // Track PDF export
+    this.analyticsService.trackEvent('proficiency_export', {
+      export_type: 'pdf',
+      export_all: this.exportAll,
+      vocation: this.exportVocation,
+      type: this.exportType,
+      tables_count: this.exportAll ? this.tables.length : 1,
+    });
+
     const exportAllBool = !!this.exportAll;
     const tablesToExport = exportAllBool
       ? this.tables

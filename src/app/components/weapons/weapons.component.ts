@@ -12,6 +12,7 @@ import {
 } from '../../services/weapons.service';
 import { ProficiencyApiService } from '../../services/proficiency-api.service';
 import { ScrollService } from '../../services/scroll.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-weapons',
@@ -52,10 +53,17 @@ export class WeaponsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private proficiencyApiService: ProficiencyApiService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
+    // Track page view
+    this.analyticsService.trackEvent('page_view', {
+      page_title: 'Weapons',
+      page_location: '/weapons',
+    });
+
     this.scrollService.scrollToTop();
     this.loading.set(true);
     this.loadCategories();
@@ -170,6 +178,12 @@ export class WeaponsComponent implements OnInit {
   }
 
   onCategoryChange(categoryId: string) {
+    // Track category change
+    this.analyticsService.trackEvent('weapons_category_change', {
+      category_id: categoryId,
+      category_name: this.categories().find(c => c.id === categoryId)?.name || categoryId,
+    });
+
     this.currentCategory.set(categoryId as WeaponCategoryType);
     this.showCategoryList.set(true);
     this.resetFilters();
@@ -178,6 +192,11 @@ export class WeaponsComponent implements OnInit {
   }
 
   onSearch() {
+    // Track search
+    if (this.searchTerm && this.searchTerm.trim().length > 0) {
+      this.analyticsService.trackSearch(this.searchTerm, 'weapons');
+    }
+
     this.applyFilters();
   }
 
@@ -202,6 +221,14 @@ export class WeaponsComponent implements OnInit {
   }
 
   onWeaponClick(weapon: WeaponBasic) {
+    // Track weapon click
+    this.analyticsService.trackEvent('weapons_weapon_click', {
+      weapon_name: weapon.name,
+      weapon_category: weapon.category?.id || this.currentCategory(),
+      weapon_level: weapon.level,
+      weapon_vocation: weapon.vocation,
+    });
+
     // Navegar para a página de detalhes da arma
     this.router.navigate(['/weapons', weapon.category?.id || this.currentCategory(), weapon.name], {
       queryParams: {
