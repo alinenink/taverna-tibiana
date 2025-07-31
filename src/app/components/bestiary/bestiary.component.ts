@@ -505,6 +505,7 @@ export class BestiaryComponent implements OnInit {
       updatedMonsters[existingIndex] = {
         ...updatedMonsters[existingIndex],
         kills,
+        completed: this.isCompleteHunt(monsterId),
         ultima_atualizacao: new Date().toISOString(),
       };
     } else {
@@ -515,6 +516,7 @@ export class BestiaryComponent implements OnInit {
         progress: 0,
         kills,
         is_selected: true,
+        completed: this.isCompleteHunt(monsterId),
         user_notes: '',
         data_adicao: new Date().toISOString(),
         ultima_atualizacao: new Date().toISOString(),
@@ -848,6 +850,7 @@ export class BestiaryComponent implements OnInit {
               updatedMonsters[existingIndex] = {
                 ...updatedMonsters[existingIndex],
                 kills,
+                completed: this.isCompleteHunt(monsterId),
                 ultima_atualizacao: new Date().toISOString(),
               };
             } else {
@@ -858,6 +861,7 @@ export class BestiaryComponent implements OnInit {
                 progress: 0,
                 kills,
                 is_selected: true,
+                completed: this.isCompleteHunt(monsterId),
                 user_notes: '',
                 data_adicao: new Date().toISOString(),
                 ultima_atualizacao: new Date().toISOString(),

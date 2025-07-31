@@ -10,6 +10,7 @@ export interface UserMonster {
   progress: number;
   kills: number;
   is_selected: boolean;
+  completed?: boolean;
   user_notes?: string;
   data_adicao?: string;
   ultima_atualizacao?: string;
