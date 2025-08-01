@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   ) {
     setTimeout(() => {
       this.carregando = false;
-    }, 2000);
+    }, 1000);
   }
 
   ngOnInit(): void {

@@ -172,11 +172,6 @@ export class BestiaryComponent implements OnInit {
 
     // Recalcular total de charm points após mudança nos kills
     this.calculateTotalCharmPoints();
-
-    // Salvamento automático quando o usuário altera a quantidade de kills
-    if (this.isMonsterSelected(monsterId)) {
-      this.autoSaveMonster(monsterId);
-    }
   }
 
   // Métodos para gerenciar caça completa
@@ -531,32 +526,42 @@ export class BestiaryComponent implements OnInit {
     }
 
     const kills = this.getCharmKills(monsterId);
+    const isCurrentlySelected = this.selectedMonsterIds().has(monsterId);
     const currentData = this.userBestiary()!;
     const updatedMonsters = [...(currentData.monstros_selecionados || [])];
 
     const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
 
-    if (existingIndex >= 0) {
-      // Atualizar monstro existente
-      updatedMonsters[existingIndex] = {
-        ...updatedMonsters[existingIndex],
-        kills,
-        completed: this.isCompleteHunt(monsterId),
-        ultima_atualizacao: new Date().toISOString(),
-      };
+    if (isCurrentlySelected) {
+      // Monstro está selecionado - adicionar ou atualizar
+      if (existingIndex >= 0) {
+        // Atualizar monstro existente
+        updatedMonsters[existingIndex] = {
+          ...updatedMonsters[existingIndex],
+          kills,
+          is_selected: true,
+          completed: this.isCompleteHunt(monsterId),
+          ultima_atualizacao: new Date().toISOString(),
+        };
+      } else {
+        // Adicionar novo monstro
+        updatedMonsters.push({
+          id: monsterId,
+          name: monster.name,
+          progress: 0,
+          kills,
+          is_selected: true,
+          completed: this.isCompleteHunt(monsterId),
+          user_notes: '',
+          data_adicao: new Date().toISOString(),
+          ultima_atualizacao: new Date().toISOString(),
+        });
+      }
     } else {
-      // Adicionar novo monstro
-      updatedMonsters.push({
-        id: monsterId,
-        name: monster.name,
-        progress: 0,
-        kills,
-        is_selected: true,
-        completed: this.isCompleteHunt(monsterId),
-        user_notes: '',
-        data_adicao: new Date().toISOString(),
-        ultima_atualizacao: new Date().toISOString(),
-      });
+      // Monstro foi desselecionado - remover do array
+      if (existingIndex >= 0) {
+        updatedMonsters.splice(existingIndex, 1);
+      }
     }
 
     // Atualizar estatísticas
@@ -689,22 +694,25 @@ export class BestiaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Track page view
-    this.analyticsService.trackEvent('page_view', {
-      page_title: 'Bestiary',
-      page_location: '/bestiary',
-    });
+    this.loading.set(true);
+    setTimeout(() => {
+      this.loading.set(false);
+      this.analyticsService.trackEvent('page_view', {
+        page_title: 'Bestiary',
+        page_location: '/bestiary',
+      });
 
-    this.initializeForm();
-    this.setupSearchSubscription();
-    this.setupAutoSaveSubscription();
-    this.loadUserBestiaryAndThenMonsters();
+      this.initializeForm();
+      this.setupSearchSubscription();
+      this.setupAutoSaveSubscription();
+      this.loadUserBestiaryAndThenMonsters();
+    }, 500);
+    // Track page view
   }
 
   ngOnDestroy(): void {
     // Salvar automaticamente alterações pendentes antes de sair
     this.savePendingChanges();
-
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -881,15 +889,11 @@ export class BestiaryComponent implements OnInit {
    * Salvar todos os monstros selecionados no bestiário do usuário
    */
   saveAllSelectedMonsters(): void {
-    if (this.userBestiaryLoading() || this.getSelectedCount() === 0) {
+    if (this.userBestiaryLoading()) {
       return;
     }
 
     const selectedIds = Array.from(this.selectedMonsterIds());
-
-    if (selectedIds.length === 0) {
-      return;
-    }
 
     // Track save action
     this.analyticsService.trackEvent('bestiary_save', {
@@ -908,7 +912,12 @@ export class BestiaryComponent implements OnInit {
         next: currentData => {
           const updatedMonsters = [...(currentData.monstros_selecionados || [])];
 
-          // Adicionar ou atualizar monstros selecionados
+          // Obter todos os monstros que estavam no bestiário do usuário
+          const allUserMonsterIds = new Set(
+            currentData.monstros_selecionados?.map(m => m.id) || []
+          );
+
+          // Processar monstros selecionados atualmente
           selectedIds.forEach(monsterId => {
             const monster = this.monsters().find(m => m.id === monsterId);
             if (!monster) return;
@@ -921,6 +930,7 @@ export class BestiaryComponent implements OnInit {
               updatedMonsters[existingIndex] = {
                 ...updatedMonsters[existingIndex],
                 kills,
+                is_selected: true,
                 completed: this.isCompleteHunt(monsterId),
                 ultima_atualizacao: new Date().toISOString(),
               };
@@ -937,6 +947,16 @@ export class BestiaryComponent implements OnInit {
                 data_adicao: new Date().toISOString(),
                 ultima_atualizacao: new Date().toISOString(),
               });
+            }
+          });
+
+          // Remover monstros que foram desselecionados
+          allUserMonsterIds.forEach(monsterId => {
+            if (!selectedIds.includes(monsterId)) {
+              const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
+              if (existingIndex >= 0) {
+                updatedMonsters.splice(existingIndex, 1);
+              }
             }
           });
 
@@ -1010,7 +1030,6 @@ export class BestiaryComponent implements OnInit {
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
       .subscribe(() => {
         this.pagination.update(p => ({ ...p, currentPage: 1 }));
-        this.loading.set(true);
         this.loadMonsters();
       });
   }
@@ -1019,6 +1038,7 @@ export class BestiaryComponent implements OnInit {
    * Configura a subscription para busca com debounce
    */
   private setupSearchSubscription(): void {
+    this.loading.set(true);
     this.searchSubject$
       .pipe(
         takeUntil(this.destroy$),
@@ -1030,7 +1050,7 @@ export class BestiaryComponent implements OnInit {
             this.analyticsService.trackSearch(searchTerm, 'bestiary');
           }
 
-          this.loading.set(true);
+          this.loading.set(false);
           this.error.set(null);
           return this.bestiaryService.searchMonsters(searchTerm, {
             page: this.pagination().currentPage,
@@ -1071,7 +1091,6 @@ export class BestiaryComponent implements OnInit {
       params.filter = 'completed';
     }
 
-    this.loading.set(true);
     this.error.set(null);
 
     this.bestiaryService
@@ -1122,7 +1141,6 @@ export class BestiaryComponent implements OnInit {
     this.filterCompleted.set(false);
     // Resetar para a primeira página e recarregar
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
-    this.loading.set(true);
     this.loadMonsters();
   }
 

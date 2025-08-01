@@ -1,0 +1,31 @@
+warning: in the working copy of 'src/app/components/bestiary/bestiary.component.ts', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/app/components/bestiary/bestiary.component.ts b/src/app/components/bestiary/bestiary.component.ts[m
+[1mindex cd1963f..335bb7f 100644[m
+[1m--- a/src/app/components/bestiary/bestiary.component.ts[m
+[1m+++ b/src/app/components/bestiary/bestiary.component.ts[m
+[36m@@ -690,15 +690,16 @@[m [mexport class BestiaryComponent implements OnInit {[m
+ [m
+   ngOnInit(): void {[m
+     // Track page view[m
+[31m-    this.analyticsService.trackEvent('page_view', {[m
+[31m-      page_title: 'Bestiary',[m
+[31m-      page_location: '/bestiary',[m
+[31m-    });[m
+[31m-[m
+[31m-    this.initializeForm();[m
+[31m-    this.setupSearchSubscription();[m
+[31m-    this.setupAutoSaveSubscription();[m
+[31m-    this.loadUserBestiaryAndThenMonsters();[m
+[32m+[m[32m    this.loading.set(true);[m
+[32m+[m[32m    // this.analyticsService.trackEvent('page_view', {[m
+[32m+[m[32m    //   page_title: 'Bestiary',[m
+[32m+[m[32m    //   page_location: '/bestiary',[m
+[32m+[m[32m    // });[m
+[32m+[m
+[32m+[m[32m    // this.initializeForm();[m
+[32m+[m[32m    // this.setupSearchSubscription();[m
+[32m+[m[32m    // this.setupAutoSaveSubscription();[m
+[32m+[m[32m    // this.loadUserBestiaryAndThenMonsters();[m
+   }[m
+ [m
+   ngOnDestroy(): void {[m

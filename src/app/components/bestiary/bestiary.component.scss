@@ -109,33 +109,6 @@
   height: 3em;
 }
 
-// Loading
-.svg-loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(253, 248, 228, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.svg-loader {
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 // Checkbox medieval
 .checkbox-medieval {
   accent-color: #bfa76a;

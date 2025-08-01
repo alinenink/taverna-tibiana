@@ -1,0 +1,68 @@
+<!-- Call to Action - Ícone de Cerveja -->
+<div class="beer-cta-container">
+  <!-- Tooltip -->
+  <div class="beer-tooltip" [class.show]="showTooltip()">Pague uma caneca pro velho!</div>
+
+  <!-- Ícone de Cerveja -->
+  <button class="beer-icon-button" (click)="onBeerClick()">
+    <img src="assets/icons-svg/beer-mug.svg" alt="Cerveja" class="beer-icon" />
+  </button>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" [class.show]="isModalOpen()" (click)="onModalBackdropClick($event)">
+  <div class="parchment-card modal-content">
+    <div class="card-content">
+      <div class="modal-header">
+        <h2>
+          <img src="assets/icons-svg/beer-mug.svg" alt="Cerveja" class="svg-icon" />
+          Uma Caneca Pela Honra!
+        </h2>
+        <button class="modal-close" (click)="onModalClose()">×</button>
+      </div>
+
+      <hr />
+
+      <div class="modal-body">
+        <p class="medieval-intro modal-greeting">
+          Bem-vindo ao Cantinho da Generosidade, aventureiro!
+        </p>
+
+        <p class="medieval-intro">
+          Manter esta taverna acesa, com caldeirão fervendo e mapas mágicos espalhados pelas mesas,
+          não é tarefa fácil… E, verdade seja dita, o rei Tibianus não manda nem uma moedinha de
+          ouro.
+        </p>
+
+        <p class="medieval-intro">
+          Se este humilde taberneiro já te ajudou a caçar melhor, planejar tuas jornadas ou rir de
+          alguma piadoca medieval, considere pagar uma caneca de cerveja!
+        </p>
+
+        <p class="donation-title">
+          <img src="assets/icons-svg/money-bag.svg" alt="Dinheiro" class="money-icon-inline" />
+          As doações podem ser feitas in-game para o personagem:
+        </p>
+
+        <div class="character-copy-section">
+          <div class="character-info">
+            <p class="character-name">Humilde Taberneiro</p>
+            <button class="copy-button" (click)="copyCharacterName()">
+              <img src="assets/icons-svg/copy.svg" alt="Copiar" class="copy-icon" />
+            </button>
+          </div>
+        </div>
+
+        <p class="medieval-intro">
+          Qualquer quantidade é bem-vinda! Até mesmo aquelas moedas que caem do bolso enquanto tu
+          corre de um Dragon Lord.
+        </p>
+
+        <p class="medieval-intro">
+          Doa e garante teu lugar cativo junto ao fogo da lareira, com direito a pão com manteiga e
+          histórias boas demais pra serem verdade!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
