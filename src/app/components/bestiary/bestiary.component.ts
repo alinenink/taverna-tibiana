@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationStart } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject, takeUntil } from 'rxjs';
 import jsPDF from 'jspdf';
@@ -49,8 +49,9 @@ export class BestiaryComponent implements OnInit {
   private readonly userBestiaryService = inject(UserBestiaryService);
   private readonly analyticsService = inject(AnalyticsService);
   private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
   private readonly destroy$ = new Subject<void>();
-  private readonly autoSaveSubject$ = new Subject<number>();
+  // Removido autosave - será implementado aviso de saída
 
   // Signals para estado reativo
   readonly monsters = signal<Monster[]>([]);
@@ -123,6 +124,52 @@ export class BestiaryComponent implements OnInit {
   // Todos os monstros para cálculo de charm points (independente da paginação)
   readonly allMonsters = signal<Monster[]>([]);
 
+  // Controle de modificações não salvas
+  readonly hasUnsavedChanges = signal<boolean>(false);
+
+  // Estado original do bestiário (para comparação)
+  private readonly originalBestiaryState = signal<UserBestiaryData | null>(null);
+
+  // Estado original das modificações locais
+  private readonly originalLocalState = signal<{
+    charmKills: Record<number, number>;
+    selectedMonsters: Set<number>;
+    completeHunts: Set<number>;
+  }>({
+    charmKills: {},
+    selectedMonsters: new Set(),
+    completeHunts: new Set(),
+  });
+
+  // Estado atual das modificações
+  private readonly currentModifications = signal<{
+    charmKills: Record<number, number>;
+    selectedMonsters: Set<number>;
+    completeHunts: Set<number>;
+  }>({
+    charmKills: {},
+    selectedMonsters: new Set(),
+    completeHunts: new Set(),
+  });
+
+  // Cache de todas as seleções/desseleções do usuário
+  private readonly selectionCache = signal<Record<number, boolean>>({});
+
+  // Controle do modal de saída
+  readonly showExitModalSignal = signal<boolean>(false);
+
+  // Controle de loading do modal de saída
+  readonly exitModalLoading = signal<boolean>(false);
+
+  // Flag para indicar se o modal foi acionado por popstate
+  private readonly modalTriggeredByPopstate = signal<boolean>(false);
+
+  // Handler para beforeunload
+  private beforeUnloadHandler: ((event: BeforeUnloadEvent) => void) | null = null;
+
+  // Handler para popstate (botão voltar do navegador)
+  private popstateHandler: ((event: PopStateEvent) => void) | null = null;
+
   // Getter para localizações do popup
   get popupLocations(): string[] {
     const monster = this.monsters().find(m => m.id === this.openLocationPopupId());
@@ -144,7 +191,7 @@ export class BestiaryComponent implements OnInit {
   }
 
   updateCharmKills(monsterId: number, event: Event): void {
-    const value = parseInt((event.target as HTMLInputElement).value);
+    const value = parseInt((event.target as HTMLInputElement).value, 10);
     const currentKills = this.charmKills();
     const updatedKills: Record<number, number> = { ...currentKills };
     updatedKills[monsterId] = value;
@@ -179,6 +226,9 @@ export class BestiaryComponent implements OnInit {
 
     // Recalcular total de charm points após mudança nos kills
     this.calculateTotalCharmPoints();
+
+    // Atualizar estado das modificações
+    this.updateCurrentModifications();
   }
 
   // Métodos para gerenciar caça completa
@@ -207,10 +257,8 @@ export class BestiaryComponent implements OnInit {
     // Recalcular total de charm points após mudança no status de caça completa
     this.calculateTotalCharmPoints();
 
-    // Salvamento automático quando o usuário ativa/desativa caça completa
-    if (this.isMonsterSelected(monsterId)) {
-      this.autoSaveMonster(monsterId);
-    }
+    // Atualizar estado das modificações
+    this.updateCurrentModifications();
   }
 
   isCompleteHunt(monsterId: number): boolean {
@@ -244,45 +292,15 @@ export class BestiaryComponent implements OnInit {
     // Atualizar apenas se houve mudanças
     if (hasChanges) {
       this.completeHuntMonsters.set(updatedCompleteHuntSet);
+      // Recalcular total de charm points quando há mudanças no status de caça completa
+      this.calculateTotalCharmPoints();
     }
   }
 
   /**
    * Salvar alterações pendentes automaticamente
    */
-  private savePendingChanges(): void {
-    // Verificar se há monstros selecionados para salvar
-    const selectedMonsters = this.selectedMonsterIds();
-    if (selectedMonsters.size === 0) {
-      return;
-    }
-
-    // Verificar se o usuário está logado
-    if (!this.userBestiary()) {
-      return;
-    }
-
-    // Verificar se há alterações pendentes
-    const hasPendingChanges = Array.from(selectedMonsters).some(monsterId => {
-      const userMonster = this.getUserMonsterData(monsterId);
-      const currentKills = this.getCharmKills(monsterId);
-      const isCompleteHunt = this.isCompleteHunt(monsterId);
-
-      // Verificar se há diferenças nos kills ou no status de caça completa
-      if (userMonster) {
-        return (
-          userMonster.kills !== currentKills ||
-          (isCompleteHunt && currentKills < this.getMonsterMaxKills(monsterId)) ||
-          (!isCompleteHunt && currentKills >= this.getMonsterMaxKills(monsterId))
-        );
-      }
-      return true; // Novo monstro selecionado
-    });
-
-    if (hasPendingChanges) {
-      this.saveAllSelectedMonsters();
-    }
-  }
+  // Método savePendingChanges removido - será implementado aviso de saída
 
   /**
    * Obter o número máximo de kills para um monstro
@@ -476,32 +494,7 @@ export class BestiaryComponent implements OnInit {
     return resistances.map(res => `${res.type}: ${res.value}%`).join('; ');
   }
 
-  /**
-   * Salva automaticamente um monstro específico no bestiário do usuário
-   */
-  private autoSaveMonster(monsterId: number): void {
-    // Emitir o ID do monstro para o subject de auto-save
-    this.autoSaveSubject$.next(monsterId);
-  }
-
-  /**
-   * Configura a subscription para auto-save com debounce
-   */
-  private setupAutoSaveSubscription(): void {
-    this.autoSaveSubject$
-      .pipe(
-        debounceTime(1000), // Aguarda 1 segundo após a última mudança
-        distinctUntilChanged(), // Só executa se o valor mudou
-        takeUntil(this.destroy$)
-      )
-      .subscribe(monsterId => {
-        this.performAutoSave(monsterId);
-      });
-  }
-
-  /**
-   * Executa o salvamento real do monstro
-   */
+  // Métodos de autosave removidos - será implementado aviso de saída
   /**
    * Recarrega os dados do bestiário do usuário do servidor
    */
@@ -521,118 +514,47 @@ export class BestiaryComponent implements OnInit {
       });
   }
 
-  private performAutoSave(monsterId: number): void {
-    // Verificar se o usuário está logado
-    if (!this.userBestiary()) {
-      return;
-    }
-
-    const monster = this.monsters().find(m => m.id === monsterId);
-    if (!monster) {
-      return;
-    }
-
-    const kills = this.getCharmKills(monsterId);
-    const isCurrentlySelected = this.selectedMonsterIds().has(monsterId);
-    const currentData = this.userBestiary()!;
-    const updatedMonsters = [...(currentData.monstros_selecionados || [])];
-
-    const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
-
-    if (isCurrentlySelected) {
-      // Monstro está selecionado - adicionar ou atualizar
-      if (existingIndex >= 0) {
-        // Atualizar monstro existente
-        updatedMonsters[existingIndex] = {
-          ...updatedMonsters[existingIndex],
-          kills,
-          is_selected: true,
-          completed: this.isCompleteHunt(monsterId),
-          ultima_atualizacao: new Date().toISOString(),
-        };
-      } else {
-        // Adicionar novo monstro
-        updatedMonsters.push({
-          id: monsterId,
-          name: monster.name,
-          progress: 0,
-          kills,
-          is_selected: true,
-          completed: this.isCompleteHunt(monsterId),
-          user_notes: '',
-          data_adicao: new Date().toISOString(),
-          ultima_atualizacao: new Date().toISOString(),
-        });
-      }
-    } else {
-      // Monstro foi desselecionado - remover do array
-      if (existingIndex >= 0) {
-        updatedMonsters.splice(existingIndex, 1);
-      }
-    }
-
-    // Atualizar estatísticas
-    const updatedData = {
-      ...currentData,
-      monstros_selecionados: updatedMonsters,
-      estatisticas: {
-        total_selecionados: updatedMonsters.filter(m => m.is_selected).length,
-        total_progresso: updatedMonsters.reduce((sum, m) => sum + m.progress, 0),
-        total_kills: updatedMonsters.reduce((sum, m) => sum + m.kills, 0),
-        ultima_atualizacao: new Date().toISOString(),
-      },
-    };
-
-    // Salvar no backend
-    this.userBestiaryService
-      .saveUserBestiary(updatedData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: savedData => {
-          this.userBestiary.set(savedData);
-          // Recalcular charms adquiridos após salvamento bem-sucedido
-          this.calculateTotalCharmPoints();
-          // Fazer novo GET para buscar dados atualizados do servidor
-          this.reloadUserBestiaryData();
-        },
-        error: error => {
-          console.error('Erro ao salvar automaticamente:', error);
-          // Não mostrar erro para o usuário em salvamento automático
-          // Apenas logar para debug
-        },
-      });
-  }
+  // Método performAutoSave removido - será implementado aviso de saída
 
   // Métodos para seleção múltipla de monstros
   toggleMonsterSelection(monsterId: number): void {
     const monster = this.monsters().find(m => m.id === monsterId);
-    const isCurrentlySelected = this.selectedMonsterIds().has(monsterId);
+    const isCurrentlySelected = this.isMonsterSelected(monsterId);
+    const newSelectionState = !isCurrentlySelected;
 
-    this.selectedMonsterIds.update(selectedIds => {
-      const newSet = new Set(selectedIds);
-      if (newSet.has(monsterId)) {
-        newSet.delete(monsterId);
-      } else {
-        newSet.add(monsterId);
-      }
-      return newSet;
-    });
+    // Atualizar cache de seleções
+    this.selectionCache.update(cache => ({
+      ...cache,
+      [monsterId]: newSelectionState,
+    }));
 
     // Track monster selection
     this.analyticsService.trackEvent('bestiary_monster_selection', {
       monster_id: monsterId,
       monster_name: monster?.name || 'Unknown',
-      action: isCurrentlySelected ? 'deselected' : 'selected',
-      total_selected: this.selectedMonsterIds().size,
+      action: newSelectionState ? 'selected' : 'deselected',
+      total_selected: this.getSelectedCount(),
     });
+
+    console.log(
+      `🔄 Cache atualizado - ${monster?.name} (ID: ${monsterId}): ${newSelectionState ? 'selected' : 'deselected'}`
+    );
+    console.log('📊 Cache atual:', this.selectionCache());
+
+    // Atualizar estado das modificações
+    this.updateCurrentModifications();
   }
 
   isMonsterSelected(monsterId: number): boolean {
-    return this.selectedMonsterIds().has(monsterId);
+    // Usar o cache para verificar se o monstro está selecionado
+    const cache = this.selectionCache();
+    return cache[monsterId] === true;
   }
 
   getSelectedCount(): number {
-    return this.selectedMonsterIds().size;
+    // Contar monstros selecionados no cache
+    const cache = this.selectionCache();
+    return Object.values(cache).filter(isSelected => isSelected).length;
   }
 
   // Métodos para controlar filtros
@@ -706,6 +628,15 @@ export class BestiaryComponent implements OnInit {
     // Inicializar formulário imediatamente
     this.initializeForm();
 
+    // Adicionar listener para beforeunload
+    this.setupBeforeUnloadListener();
+
+    // Adicionar listener para popstate (botão voltar do navegador)
+    this.setupPopstateListener();
+
+    // Adicionar listener para navegação do Router
+    this.setupRouterNavigationListener();
+
     setTimeout(() => {
       this.loading.set(false);
       this.analyticsService.trackEvent('page_view', {
@@ -713,17 +644,119 @@ export class BestiaryComponent implements OnInit {
         page_location: '/bestiary',
       });
 
-      this.setupAutoSaveSubscription();
       this.loadFiltersAndThenData();
     }, 500);
-    // Track page view
   }
 
   ngOnDestroy(): void {
-    // Salvar automaticamente alterações pendentes antes de sair
-    this.savePendingChanges();
+    // Remover listener do beforeunload
+    this.removeBeforeUnloadListener();
+
+    // Remover listener do popstate
+    this.removePopstateListener();
+
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  /**
+   * Configurar listener para beforeunload
+   */
+  private setupBeforeUnloadListener(): void {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (this.hasUnsavedChanges()) {
+        // Para beforeunload, só podemos mostrar o alerta padrão do navegador
+        // Não podemos mostrar um modal customizado
+        event.preventDefault();
+        event.returnValue = 'Tens modificações não salvas. Desejas realmente sair?';
+
+        // Retornar mensagem personalizada (pode não funcionar em todos os navegadores)
+        return 'Tens modificações não salvas. Desejas realmente sair?';
+      }
+      // Retornar undefined se não há modificações não salvas
+      return undefined;
+    };
+
+    // Adicionar listener
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Armazenar referência para remoção
+    this.beforeUnloadHandler = handleBeforeUnload;
+  }
+
+  /**
+   * Remover listener do beforeunload
+   */
+  private removeBeforeUnloadListener(): void {
+    if (this.beforeUnloadHandler) {
+      window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+      this.beforeUnloadHandler = null;
+    }
+  }
+
+  /**
+   * Configurar listener para popstate (botão voltar do navegador)
+   */
+  private setupPopstateListener(): void {
+    const handlePopstate = (event: PopStateEvent) => {
+      // Atualizar estado atual antes de verificar
+      this.updateCurrentModifications();
+
+      if (this.hasUnsavedChanges()) {
+        console.log('⚠️ Popstate interceptado - modificações não salvas detectadas');
+
+        // Marcar que o modal foi acionado por popstate
+        this.modalTriggeredByPopstate.set(true);
+
+        // Mostrar modal de saída
+        this.showExitModalSignal.set(true);
+
+        // Prevenir a navegação voltando para a página atual
+        window.history.pushState(null, '', window.location.href);
+
+        return;
+      }
+    };
+
+    // Adicionar listener
+    window.addEventListener('popstate', handlePopstate);
+
+    // Armazenar referência para remoção
+    this.popstateHandler = handlePopstate;
+  }
+
+  /**
+   * Remover listener do popstate
+   */
+  private removePopstateListener(): void {
+    if (this.popstateHandler) {
+      window.removeEventListener('popstate', this.popstateHandler);
+      this.popstateHandler = null;
+    }
+  }
+
+  /**
+   * Configurar listener para navegação do Router
+   */
+  private setupRouterNavigationListener(): void {
+    // Interceptar navegação do Router
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        // Atualizar estado atual antes de verificar
+        this.updateCurrentModifications();
+
+        if (this.hasUnsavedChanges()) {
+          console.log('⚠️ Navegação interceptada - modificações não salvas detectadas');
+
+          // Mostrar modal de saída
+          this.showExitModalSignal.set(true);
+
+          // Não podemos prevenir NavigationStart diretamente, mas o modal irá interromper a navegação
+          // O usuário terá que escolher uma opção no modal
+          return;
+        }
+      }
+    });
   }
 
   /**
@@ -818,6 +851,10 @@ export class BestiaryComponent implements OnInit {
         next: data => {
           this.userBestiary.set(data);
           this.syncUserBestiaryWithLocal();
+
+          // Salvar estado original para comparação
+          this.saveOriginalState(data);
+
           this.userBestiaryLoading.set(false);
         },
         error: error => {
@@ -860,8 +897,17 @@ export class BestiaryComponent implements OnInit {
     // Verificar e marcar caça completa para monstros com kills completas
     this.checkAndMarkCompleteHunts();
 
-    // Preencher automaticamente os monstros selecionados
-    this.populateSelectedMonsters();
+    // Recalcular total de charm points após verificar caças completas
+    this.calculateTotalCharmPoints();
+
+    // Preencher automaticamente os monstros selecionados apenas na primeira vez
+    // ou se o cache estiver vazio
+    if (Object.keys(this.selectionCache()).length === 0) {
+      this.populateSelectedMonsters();
+    }
+
+    // Salvar estado original após sincronização
+    this.saveOriginalState(userData);
   }
 
   /**
@@ -872,13 +918,25 @@ export class BestiaryComponent implements OnInit {
     if (!userData || !userData.monstros_selecionados) {
       // Se não há dados do usuário, limpar seleções
       this.selectedMonsterIds.set(new Set());
+      this.selectionCache.set({});
+      return;
+    }
+
+    // Verificar se já existe cache com modificações
+    const currentCache = this.selectionCache();
+    const hasExistingCache = Object.keys(currentCache).length > 0;
+
+    if (hasExistingCache) {
+      console.log('📊 Cache já existe, não sobrescrevendo:', currentCache);
       return;
     }
 
     // Criar um Set com os IDs dos monstros selecionados no bestiário do usuário
     const selectedMonsterIds = new Set<number>();
+    const initialCache: Record<number, boolean> = {};
 
     userData.monstros_selecionados.forEach(userMonster => {
+      initialCache[userMonster.id] = userMonster.is_selected;
       if (userMonster.is_selected) {
         selectedMonsterIds.add(userMonster.id);
       }
@@ -886,6 +944,11 @@ export class BestiaryComponent implements OnInit {
 
     // Atualizar o signal de monstros selecionados
     this.selectedMonsterIds.set(selectedMonsterIds);
+
+    // Inicializar cache com dados originais
+    this.selectionCache.set(initialCache);
+
+    console.log('📊 Cache inicializado com dados do usuário:', initialCache);
   }
 
   /**
@@ -920,11 +983,21 @@ export class BestiaryComponent implements OnInit {
    * Salvar todos os monstros selecionados no bestiário do usuário
    */
   saveAllSelectedMonsters(): void {
+    this.loading.set(true);
     if (this.userBestiaryLoading()) {
       return;
     }
 
-    const selectedIds = Array.from(this.selectedMonsterIds());
+    const selectionCache = this.selectionCache();
+    const selectedIds = Object.entries(selectionCache)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([monsterId, _]) => parseInt(monsterId));
+
+    // Debug: Log dos monstros selecionados
+    console.log('🔍 Salvando bestiário - Cache completo:', selectionCache);
+    console.log('🔍 Monstros selecionados:', selectedIds);
+    console.log('🔍 Página atual:', this.pagination().currentPage);
+    console.log('🔍 Total de monstros selecionados:', selectedIds.length);
 
     // Track save action
     this.analyticsService.trackEvent('bestiary_save', {
@@ -948,23 +1021,45 @@ export class BestiaryComponent implements OnInit {
             currentData.monstros_selecionados?.map(m => m.id) || []
           );
 
-          // Processar monstros selecionados atualmente
-          selectedIds.forEach(monsterId => {
-            const monster = this.monsters().find(m => m.id === monsterId);
-            if (!monster) return;
+          // Processar cache completo de seleções
+          console.log('🔍 Processando cache completo de seleções...');
+
+          // Processar todos os monstros no cache
+          Object.entries(selectionCache).forEach(([monsterIdStr, isSelected]) => {
+            const monsterId = parseInt(monsterIdStr);
+
+            // Buscar informações do monstro (pode não estar na página atual)
+            let monster = this.monsters().find(m => m.id === monsterId);
+
+            // Se não está na página atual, buscar no allMonsters
+            if (!monster) {
+              monster = this.allMonsters().find(m => m.id === monsterId);
+            }
+
+            if (!monster) {
+              console.log(`⚠️ Monstro ID ${monsterId} não encontrado em nenhuma fonte`);
+              return;
+            }
 
             const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
             const kills = this.getCharmKills(monsterId);
+
+            console.log(
+              `✅ Processando: ${monster.name} (ID: ${monsterId}) - Selected: ${isSelected} - Kills: ${kills}`
+            );
 
             if (existingIndex >= 0) {
               // Atualizar monstro existente
               updatedMonsters[existingIndex] = {
                 ...updatedMonsters[existingIndex],
                 kills,
-                is_selected: true,
+                is_selected: isSelected,
                 completed: this.isCompleteHunt(monsterId),
                 ultima_atualizacao: new Date().toISOString(),
               };
+              console.log(
+                `🔄 Atualizado monstro existente: ${monster.name} - Selected: ${isSelected}`
+              );
             } else {
               // Adicionar novo monstro
               updatedMonsters.push({
@@ -972,21 +1067,30 @@ export class BestiaryComponent implements OnInit {
                 name: monster.name,
                 progress: 0,
                 kills,
-                is_selected: true,
+                is_selected: isSelected,
                 completed: this.isCompleteHunt(monsterId),
                 user_notes: '',
                 data_adicao: new Date().toISOString(),
                 ultima_atualizacao: new Date().toISOString(),
               });
+              console.log(`➕ Adicionado novo monstro: ${monster.name} - Selected: ${isSelected}`);
             }
           });
 
-          // Remover monstros que foram desselecionados
+          // Remover monstros que não estão no cache ou foram explicitamente desselecionados
           allUserMonsterIds.forEach(monsterId => {
-            if (!selectedIds.includes(monsterId)) {
+            const isInCache = monsterId in selectionCache;
+            const isSelectedInCache = selectionCache[monsterId];
+
+            // Remover se não está no cache ou foi explicitamente desselecionado
+            if (!isInCache || !isSelectedInCache) {
               const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
               if (existingIndex >= 0) {
+                const monsterName = updatedMonsters[existingIndex].name;
                 updatedMonsters.splice(existingIndex, 1);
+                console.log(
+                  `🗑️ Removido monstro: ${monsterName} (ID: ${monsterId}) - Não está no cache ou foi desselecionado`
+                );
               }
             }
           });
@@ -1003,6 +1107,21 @@ export class BestiaryComponent implements OnInit {
             },
           };
 
+          console.log('🎯 Resultado final do salvamento:');
+          console.log('📊 Total de monstros no bestiário:', updatedMonsters.length);
+          console.log(
+            '📊 Monstros selecionados:',
+            updatedMonsters.filter(m => m.is_selected).length
+          );
+          console.log(
+            '📊 Total de kills:',
+            updatedMonsters.reduce((sum, m) => sum + m.kills, 0)
+          );
+          console.log(
+            '📊 Monstros salvos:',
+            updatedMonsters.map(m => `${m.name} (ID: ${m.id})`)
+          );
+
           // Salvar no backend
           this.userBestiaryService
             .saveUserBestiary(updatedData)
@@ -1015,7 +1134,26 @@ export class BestiaryComponent implements OnInit {
                 // Fazer novo GET para buscar dados atualizados do servidor
                 this.reloadUserBestiaryData();
                 this.userBestiaryLoading.set(false);
+
+                // Atualizar estado original após salvamento bem-sucedido
+                this.saveOriginalState(savedData);
+
+                // Limpar flag de modificações não salvas
+                this.hasUnsavedChanges.set(false);
+
+                // Resetar filtros e seleções após salvamento bem-sucedido
+                this.resetFiltersAndSelections();
+
+                // Se foi chamado do modal de saída, navegar após salvar
+                if (this.exitModalLoading()) {
+                  this.exitModalLoading.set(false);
+                  this.showExitModalSignal.set(false);
+                  this.modalTriggeredByPopstate.set(false);
+                  this.router.navigate(['/grimorio']);
+                }
+                this.loading.set(false);
               },
+
               error: error => {
                 console.error('Erro ao salvar bestiário:', error);
 
@@ -1028,6 +1166,13 @@ export class BestiaryComponent implements OnInit {
                 }
 
                 this.userBestiaryLoading.set(false);
+
+                // Se foi chamado do modal de saída, desativar loader
+                if (this.exitModalLoading()) {
+                  this.exitModalLoading.set(false);
+                }
+
+                this.loading.set(false);
               },
             });
         },
@@ -1175,6 +1320,12 @@ export class BestiaryComponent implements OnInit {
    * Limpa todos os filtros
    */
   clearFilters(): void {
+    // Track clear filters action
+    this.analyticsService.trackEvent('bestiary_clear_filters', {
+      action: 'clear_all_filters',
+      current_page: this.pagination().currentPage,
+    });
+
     this.filterForm.reset();
     this.filterSelected.set(false);
     this.filterCompleted.set(false);
@@ -1521,6 +1672,284 @@ export class BestiaryComponent implements OnInit {
         'Percebi que você está tentando salvar seu bestiário pessoal como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!'
       );
       this.showVisitorModal.set(true);
+    }
+  }
+
+  closeExitModal(): void {
+    // Track modal close action
+    this.analyticsService.trackEvent('bestiary_exit_modal', {
+      action: 'close_modal',
+      triggered_by: this.modalTriggeredByPopstate() ? 'popstate' : 'button',
+      has_unsaved_changes: this.hasUnsavedChanges(),
+    });
+
+    this.showExitModalSignal.set(false);
+    this.modalTriggeredByPopstate.set(false);
+  }
+
+  confirmExit(): void {
+    // Track exit without saving
+    this.analyticsService.trackEvent('bestiary_exit_modal', {
+      action: 'exit_without_saving',
+      triggered_by: this.modalTriggeredByPopstate() ? 'popstate' : 'button',
+      has_unsaved_changes: this.hasUnsavedChanges(),
+    });
+
+    // Sair sem salvar - limpar flag e navegar
+    this.hasUnsavedChanges.set(false);
+    this.showExitModalSignal.set(false);
+
+    // Restaurar estado original
+    const original = this.originalLocalState();
+    if (original) {
+      this.charmKills.set(original.charmKills);
+      this.completeHuntMonsters.set(original.completeHunts);
+
+      // Restaurar cache de seleções com dados originais
+      const originalCache: Record<number, boolean> = {};
+      original.selectedMonsters.forEach(monsterId => {
+        originalCache[monsterId] = true;
+      });
+      this.selectionCache.set(originalCache);
+
+      this.currentModifications.set({
+        charmKills: { ...original.charmKills },
+        selectedMonsters: new Set(original.selectedMonsters),
+        completeHunts: new Set(original.completeHunts),
+      });
+    }
+
+    console.log('✅ Saindo sem salvar - estado restaurado');
+
+    // Verificar se foi acionado por popstate
+    const wasTriggeredByPopstate = this.modalTriggeredByPopstate();
+
+    if (wasTriggeredByPopstate) {
+      // Se foi acionado por popstate, usar window.history.back()
+      console.log('🔄 Navegando com window.history.back() (popstate)');
+      window.history.back();
+    } else {
+      // Caso contrário, usar router.navigate
+      console.log('🔄 Navegando com router.navigate (botão voltar)');
+      this.router.navigate(['/grimorio']);
+    }
+
+    // Limpar flag de popstate
+    this.modalTriggeredByPopstate.set(false);
+  }
+
+  saveAndExit(): void {
+    // Track save and exit action
+    this.analyticsService.trackEvent('bestiary_exit_modal', {
+      action: 'save_and_exit',
+      triggered_by: this.modalTriggeredByPopstate() ? 'popstate' : 'button',
+      has_unsaved_changes: this.hasUnsavedChanges(),
+    });
+
+    // Ativar loader
+    this.exitModalLoading.set(true);
+
+    // Salvar e depois sair
+    this.saveAllSelectedMonsters();
+
+    // O salvamento já limpa o flag hasUnsavedChanges
+    // A navegação será feita no callback de sucesso do saveAllSelectedMonsters
+    // A flag de popstate será limpa no callback de sucesso
+  }
+
+  /**
+   * Método de teste para simular modificações não salvas
+   */
+
+  /**
+   * Salvar estado original do bestiário para comparação
+   */
+  private saveOriginalState(data: UserBestiaryData): void {
+    this.originalBestiaryState.set(data);
+
+    // Inicializar estado original com os dados carregados
+    const originalKills: Record<number, number> = {};
+    const originalSelected = new Set<number>();
+    const originalComplete = new Set<number>();
+
+    data.monstros_selecionados?.forEach(monster => {
+      originalKills[monster.id] = monster.kills || 0;
+      if (monster.is_selected) {
+        originalSelected.add(monster.id);
+      }
+      if (monster.completed) {
+        originalComplete.add(monster.id);
+      }
+    });
+
+    // Salvar estado original
+    this.originalLocalState.set({
+      charmKills: originalKills,
+      selectedMonsters: originalSelected,
+      completeHunts: originalComplete,
+    });
+
+    // Inicializar estado atual com os dados originais
+    this.currentModifications.set({
+      charmKills: { ...originalKills },
+      selectedMonsters: new Set(originalSelected),
+      completeHunts: new Set(originalComplete),
+    });
+
+    // Limpar flag de modificações não salvas
+    this.hasUnsavedChanges.set(false);
+  }
+
+  /**
+   * Verificar se há modificações não salvas comparando estados
+   */
+  private checkForUnsavedChanges(): boolean {
+    const original = this.originalLocalState();
+    const current = this.currentModifications();
+
+    if (!original) return false;
+
+    // Verificar mudanças nos kills de charm
+    for (const [monsterId, kills] of Object.entries(current.charmKills)) {
+      const originalKills = original.charmKills[parseInt(monsterId)] || 0;
+      if (originalKills !== kills) {
+        return true;
+      }
+    }
+
+    // Verificar se há kills no estado atual que não existiam no original
+    for (const [monsterId, kills] of Object.entries(original.charmKills)) {
+      const currentKills = current.charmKills[parseInt(monsterId)] || 0;
+      if (kills !== currentKills) {
+        return true;
+      }
+    }
+
+    // Verificar mudanças na seleção de monstros
+    if (!this.setsAreEqual(original.selectedMonsters, current.selectedMonsters)) {
+      return true;
+    }
+
+    // Verificar mudanças no status de caça completa
+    if (!this.setsAreEqual(original.completeHunts, current.completeHunts)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Comparar se dois Sets são iguais
+   */
+  private setsAreEqual(set1: Set<number>, set2: Set<number>): boolean {
+    if (set1.size !== set2.size) return false;
+    for (const item of set1) {
+      if (!set2.has(item)) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Atualizar estado atual das modificações
+   */
+  private updateCurrentModifications(): void {
+    // Atualizar kills de charm
+    const updatedKills = { ...this.charmKills() };
+
+    // Atualizar monstros selecionados do cache
+    const cache = this.selectionCache();
+    const updatedSelected = new Set<number>();
+    Object.entries(cache).forEach(([monsterId, isSelected]) => {
+      if (isSelected) {
+        updatedSelected.add(parseInt(monsterId));
+      }
+    });
+
+    // Atualizar caças completas
+    const updatedComplete = new Set(this.completeHuntMonsters());
+
+    this.currentModifications.set({
+      charmKills: updatedKills,
+      selectedMonsters: updatedSelected,
+      completeHunts: updatedComplete,
+    });
+
+    // Verificar se há modificações não salvas
+    const hasChanges = this.checkForUnsavedChanges();
+    this.hasUnsavedChanges.set(hasChanges);
+
+    console.log('🔄 Estado atualizado - Modificações não salvas:', hasChanges);
+  }
+
+  /**
+   * Resetar filtros e seleções após salvamento bem-sucedido
+   */
+  private resetFiltersAndSelections(): void {
+    // Resetar formulário de filtros
+    if (this.filterForm) {
+      this.filterForm.patchValue({
+        search: '',
+        class: '',
+        difficulty: '',
+      });
+    }
+
+    // Resetar filtros especiais
+    this.filterSelected.set(false);
+    this.filterCompleted.set(false);
+
+    // Resetar paginação para primeira página
+    this.pagination.update(p => ({
+      ...p,
+      currentPage: 1,
+    }));
+
+    // NÃO limpar o cache de seleções - manter as seleções do usuário
+    // O cache será atualizado quando os dados forem recarregados do servidor
+
+    // Recarregar monstros com filtros resetados
+    this.loadMonsters();
+
+    console.log('🔄 Filtros resetados após salvamento (cache mantido)');
+  }
+
+  /**
+   * Método simples para verificar modificações e mostrar modal
+   */
+  voltarComVerificacao(): void {
+    // Atualizar estado atual antes de verificar
+    this.updateCurrentModifications();
+
+    console.log('🔍 Verificando modificações não salvas...');
+    console.log('📊 Estado original:', this.originalLocalState());
+    console.log('📊 Estado atual:', this.currentModifications());
+    console.log('📊 Tem modificações não salvas:', this.hasUnsavedChanges());
+
+    if (this.hasUnsavedChanges()) {
+      console.log('⚠️ Modificações não salvas detectadas - mostrando modal');
+
+      // Track modal triggered by back button
+      this.analyticsService.trackEvent('bestiary_exit_modal', {
+        action: 'modal_triggered',
+        triggered_by: 'back_button',
+        has_unsaved_changes: true,
+      });
+
+      // Marcar que o modal foi acionado pelo botão voltar (não popstate)
+      this.modalTriggeredByPopstate.set(false);
+
+      this.showExitModalSignal.set(true);
+    } else {
+      console.log('✅ Nenhuma modificação não salva - navegando');
+
+      // Track direct navigation (no unsaved changes)
+      this.analyticsService.trackEvent('bestiary_navigation', {
+        action: 'direct_navigation',
+        destination: '/grimorio',
+        has_unsaved_changes: false,
+      });
+
+      this.router.navigate(['/grimorio']);
     }
   }
 }

@@ -28,7 +28,7 @@
     <h1 class="tavernatibiana-title">Capítulo das Criaturas Enfrentadas</h1>
 
     <div class="parchment-card medieval-disclaimer">
-      <button class="voltar-button-card" [routerLink]="'/grimorio'">Voltar</button>
+      <button class="voltar-button-card" (click)="voltarComVerificacao()">Voltar</button>
 
       <div
         style="
@@ -514,6 +514,42 @@
             Próxima
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Saída com Modificações Não Salvas -->
+<div class="modal-overlay" [class.show]="showExitModalSignal()" (click)="closeExitModal()">
+  <div class="parchment-card modal-content" (click)="$event.stopPropagation()">
+    <div class="card-content">
+      <div class="modal-header">
+        <h2></h2>
+        <button class="modal-close" (click)="closeExitModal()">×</button>
+      </div>
+
+      <hr />
+
+      <div class="modal-body">
+        <p class="medieval-intro">
+          <strong>Atenção, aventureiro!</strong> <br />
+          Tu tens modificações não salvas em teu bestiário.
+        </p>
+
+        <p class="medieval-intro">
+          Se saíres agora, perderás todas as alterações feitas nos kills de charm e status de caça
+          completa.
+        </p>
+
+        <p class="medieval-intro">Desejas realmente sair sem salvar tuas modificações?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="button-medieval danger" (click)="confirmExit()">Sair sem Salvar</button>
+        <button class="button-medieval" (click)="saveAndExit()" [disabled]="exitModalLoading()">
+          <div *ngIf="exitModalLoading()" class="loader-spinner"></div>
+          {{ exitModalLoading() ? 'Salvando...' : 'Salvar e Sair' }}
+        </button>
       </div>
     </div>
   </div>
