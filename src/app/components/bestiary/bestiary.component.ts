@@ -798,7 +798,6 @@ export class BestiaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading.set(true);
-
     // Inicializar formulário imediatamente
     this.initializeForm();
 
@@ -1000,7 +999,6 @@ export class BestiaryComponent implements OnInit {
    * Carrega todos os 780 monstros na store para paginação local
    */
   private loadAllMonstersToStore(): void {
-    this.loading.set(true);
     this.error.set(null);
 
     this.bestiaryService
@@ -1079,6 +1077,10 @@ export class BestiaryComponent implements OnInit {
         },
         error: error => {
           console.error('Erro ao carregar bestiário do usuário:', error);
+
+          // Verificar se é erro de visitante
+          this.handleVisitorError(error);
+
           this.userBestiaryError.set('Erro ao carregar bestiário pessoal');
           this.userBestiaryLoading.set(false);
         },
@@ -1788,11 +1790,16 @@ export class BestiaryComponent implements OnInit {
    * Método auxiliar para tratar erro de visitante
    */
   private handleVisitorError(error: any): void {
+    console.log('🔍 Analisando erro para modal de visitante:', error);
+
     let isVisitorError = false;
 
     // Verificar se é erro HTTP 400 ou se tem a estrutura específica
     const isHttp400 = error.status === 400;
     const hasErrorStructure = error.error && typeof error.error === 'object';
+
+    console.log('🔍 Status:', error.status, 'isHttp400:', isHttp400);
+    console.log('🔍 Error structure:', hasErrorStructure);
 
     // Verificar diferentes estruturas de erro
     if (isHttp400 || hasErrorStructure) {
@@ -1806,6 +1813,7 @@ export class BestiaryComponent implements OnInit {
           error.error.message.includes('nao cadastrado') ||
           error.error.message.toLowerCase().includes('nao cadastrado'))
       ) {
+        console.log('✅ Erro de visitante detectado em error.error.message');
         isVisitorError = true;
       }
 
@@ -1819,6 +1827,7 @@ export class BestiaryComponent implements OnInit {
           error.error.error.includes('nao cadastrado') ||
           error.error.error.toLowerCase().includes('nao cadastrado'))
       ) {
+        console.log('✅ Erro de visitante detectado em error.error.error');
         isVisitorError = true;
       }
 
@@ -1832,6 +1841,7 @@ export class BestiaryComponent implements OnInit {
           error.message.includes('nao cadastrado') ||
           error.message.toLowerCase().includes('nao cadastrado'))
       ) {
+        console.log('✅ Erro de visitante detectado em error.message');
         isVisitorError = true;
       }
 
@@ -1842,6 +1852,7 @@ export class BestiaryComponent implements OnInit {
           error.error.message?.includes('Realize o cadastro') ||
           error.error.error?.includes('Realize o cadastro'))
       ) {
+        console.log('✅ Erro de visitante detectado em success: false');
         isVisitorError = true;
       }
 
@@ -1851,34 +1862,54 @@ export class BestiaryComponent implements OnInit {
         error.error?.error === 'Usuário visitante não pode acessar este endpoint' &&
         error.error?.message === 'Realize o cadastro para acessar o bestiário pessoal'
       ) {
+        console.log('✅ Erro de visitante detectado em estrutura específica');
         isVisitorError = true;
       }
     }
 
-    // 5. Verificar se é um HttpErrorResponse do Angular
+    // 6. Verificar se é um HttpErrorResponse do Angular
     if (error.name === 'HttpErrorResponse' || error.constructor.name === 'HttpErrorResponse') {
+      console.log('✅ HttpErrorResponse detectado');
       // Verificar se tem a propriedade error com a estrutura correta
       if (error.error && typeof error.error === 'object') {
         if (
           error.error.error?.includes('Usuário visitante não pode acessar') ||
           error.error.message?.includes('Realize o cadastro')
         ) {
+          console.log('✅ Erro de visitante detectado em HttpErrorResponse');
           isVisitorError = true;
         }
       }
     }
 
-    // 6. Verificar se a mensagem contém "400 Bad Request" (fallback)
+    // 7. Verificar se a mensagem contém "400 Bad Request" (fallback)
     if (error.message && error.message.includes('400 Bad Request')) {
+      console.log('✅ 400 Bad Request detectado');
       // Se a mensagem contém 400, verificar se é erro de visitante
       if (error.message.includes('user-bestiary')) {
+        console.log('✅ Erro de visitante detectado em 400 Bad Request');
         isVisitorError = true;
       }
     }
 
+    // 8. Verificar se é erro 401 (Unauthorized) - pode ser visitante
+    if (error.status === 401) {
+      console.log('✅ 401 Unauthorized detectado - provavelmente visitante');
+      isVisitorError = true;
+    }
+
+    // 9. Verificar se é erro 403 (Forbidden) - pode ser visitante
+    if (error.status === 403) {
+      console.log('✅ 403 Forbidden detectado - provavelmente visitante');
+      isVisitorError = true;
+    }
+
+    console.log('🔍 isVisitorError final:', isVisitorError);
+
     if (isVisitorError) {
+      console.log('🎯 Mostrando modal de visitante');
       this.visitorMessage.set(
-        'Percebi que você está tentando salvar seu bestiário pessoal como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!'
+        'Percebi que você está tentando acessar funcionalidades exclusivas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!'
       );
       this.showVisitorModal.set(true);
     }
