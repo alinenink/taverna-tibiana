@@ -618,8 +618,35 @@ export class BestiaryComponent implements OnInit {
   }
 
   getSelectedCount(): number {
-    // Contar todos os monstros selecionados (cache + originais não modificados)
+    // Verificar IDs inválidos antes de calcular o count
+    this.checkAndCleanInvalidIds();
     return this.getAllSelectedMonsters().length;
+  }
+
+  /**
+   * Verificar e limpar IDs inválidos do cache (fora do computed)
+   */
+  private checkAndCleanInvalidIds(): void {
+    const cache = this.selectionCache();
+    const allMonsters = this.allMonsters();
+    const invalidIds: number[] = [];
+
+    // Verificar IDs inválidos
+    Object.entries(cache).forEach(([monsterIdStr, isSelected]) => {
+      if (isSelected) {
+        const monsterId = parseInt(monsterIdStr);
+        const monster = allMonsters.find(m => m.id === monsterId);
+        if (!monster) {
+          invalidIds.push(monsterId);
+        }
+      }
+    });
+
+    // Limpar IDs inválidos se encontrados
+    if (invalidIds.length > 0) {
+      console.log('🧹 Limpando IDs inválidos do cache:', invalidIds);
+      this.cleanInvalidIdsFromCache(invalidIds);
+    }
   }
 
   /**
@@ -631,7 +658,6 @@ export class BestiaryComponent implements OnInit {
     const allMonsters = this.allMonsters();
 
     const selectedMonsters: Array<{ id: number; name: string; kills: number }> = [];
-    const invalidIds: number[] = [];
 
     // 1. Adicionar monstros do cache (modificados pelo usuário)
     Object.entries(cache).forEach(([monsterIdStr, isSelected]) => {
@@ -644,10 +670,8 @@ export class BestiaryComponent implements OnInit {
             name: monster.name,
             kills: this.getCharmKills(monsterId),
           });
-        } else {
-          // Marcar ID inválido para limpeza
-          invalidIds.push(monsterId);
         }
+        // IDs inválidos são tratados em checkAndCleanInvalidIds()
       }
     });
 
@@ -663,18 +687,10 @@ export class BestiaryComponent implements OnInit {
               name: monster.name,
               kills: this.getCharmKills(monsterId),
             });
-          } else {
-            // Marcar ID inválido para limpeza
-            invalidIds.push(monsterId);
           }
+          // IDs inválidos são tratados em checkAndCleanInvalidIds()
         }
       });
-    }
-
-    // 3. Limpar IDs inválidos do cache se encontrados
-    if (invalidIds.length > 0) {
-      console.log('🧹 Limpando IDs inválidos do cache:', invalidIds);
-      this.cleanInvalidIdsFromCache(invalidIds);
     }
 
     return selectedMonsters;
