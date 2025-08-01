@@ -552,9 +552,53 @@ export class BestiaryComponent implements OnInit {
   }
 
   getSelectedCount(): number {
-    // Contar monstros selecionados no cache
+    // Contar todos os monstros selecionados (cache + originais não modificados)
+    return this.getAllSelectedMonsters().length;
+  }
+
+  /**
+   * Obter todos os monstros selecionados (cache + originais não modificados)
+   */
+  private getAllSelectedMonsters(): Array<{ id: number; name: string; kills: number }> {
     const cache = this.selectionCache();
-    return Object.values(cache).filter(isSelected => isSelected).length;
+    const original = this.originalLocalState();
+    const allMonsters = this.allMonsters();
+
+    const selectedMonsters: Array<{ id: number; name: string; kills: number }> = [];
+
+    // 1. Adicionar monstros do cache (modificados pelo usuário)
+    Object.entries(cache).forEach(([monsterIdStr, isSelected]) => {
+      if (isSelected) {
+        const monsterId = parseInt(monsterIdStr);
+        const monster = allMonsters.find(m => m.id === monsterId);
+        if (monster) {
+          selectedMonsters.push({
+            id: monsterId,
+            name: monster.name,
+            kills: this.getCharmKills(monsterId),
+          });
+        }
+      }
+    });
+
+    // 2. Adicionar monstros originais que não foram modificados
+    if (original) {
+      original.selectedMonsters.forEach(monsterId => {
+        // Só adicionar se não está no cache (não foi modificado)
+        if (!(monsterId in cache)) {
+          const monster = allMonsters.find(m => m.id === monsterId);
+          if (monster) {
+            selectedMonsters.push({
+              id: monsterId,
+              name: monster.name,
+              kills: this.getCharmKills(monsterId),
+            });
+          }
+        }
+      });
+    }
+
+    return selectedMonsters;
   }
 
   // Métodos para controlar filtros
@@ -989,15 +1033,17 @@ export class BestiaryComponent implements OnInit {
     }
 
     const selectionCache = this.selectionCache();
-    const selectedIds = Object.entries(selectionCache)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([monsterId, _]) => parseInt(monsterId));
+
+    // Obter todos os monstros selecionados (do cache + originais não modificados)
+    const allSelectedMonsters = this.getAllSelectedMonsters();
+    const selectedIds = allSelectedMonsters.map(monster => monster.id);
 
     // Debug: Log dos monstros selecionados
     console.log('🔍 Salvando bestiário - Cache completo:', selectionCache);
     console.log('🔍 Monstros selecionados:', selectedIds);
     console.log('🔍 Página atual:', this.pagination().currentPage);
     console.log('🔍 Total de monstros selecionados:', selectedIds.length);
+    console.log('🔍 Cache vs Total:', Object.keys(selectionCache).length, 'vs', selectedIds.length);
 
     // Track save action
     this.analyticsService.trackEvent('bestiary_save', {
@@ -1021,45 +1067,34 @@ export class BestiaryComponent implements OnInit {
             currentData.monstros_selecionados?.map(m => m.id) || []
           );
 
-          // Processar cache completo de seleções
-          console.log('🔍 Processando cache completo de seleções...');
+          // Processar todos os monstros selecionados
+          console.log('🔍 Processando todos os monstros selecionados...');
 
-          // Processar todos os monstros no cache
-          Object.entries(selectionCache).forEach(([monsterIdStr, isSelected]) => {
-            const monsterId = parseInt(monsterIdStr);
-
-            // Buscar informações do monstro (pode não estar na página atual)
-            let monster = this.monsters().find(m => m.id === monsterId);
-
-            // Se não está na página atual, buscar no allMonsters
-            if (!monster) {
-              monster = this.allMonsters().find(m => m.id === monsterId);
-            }
+          // Processar todos os monstros selecionados (cache + originais)
+          allSelectedMonsters.forEach(selectedMonster => {
+            const monsterId = selectedMonster.id;
+            const monster = this.allMonsters().find(m => m.id === monsterId);
 
             if (!monster) {
-              console.log(`⚠️ Monstro ID ${monsterId} não encontrado em nenhuma fonte`);
+              console.log(`⚠️ Monstro ID ${monsterId} não encontrado em allMonsters`);
               return;
             }
 
             const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
-            const kills = this.getCharmKills(monsterId);
+            const kills = selectedMonster.kills;
 
-            console.log(
-              `✅ Processando: ${monster.name} (ID: ${monsterId}) - Selected: ${isSelected} - Kills: ${kills}`
-            );
+            console.log(`✅ Processando: ${monster.name} (ID: ${monsterId}) - Kills: ${kills}`);
 
             if (existingIndex >= 0) {
               // Atualizar monstro existente
               updatedMonsters[existingIndex] = {
                 ...updatedMonsters[existingIndex],
                 kills,
-                is_selected: isSelected,
+                is_selected: true,
                 completed: this.isCompleteHunt(monsterId),
                 ultima_atualizacao: new Date().toISOString(),
               };
-              console.log(
-                `🔄 Atualizado monstro existente: ${monster.name} - Selected: ${isSelected}`
-              );
+              console.log(`🔄 Atualizado monstro existente: ${monster.name}`);
             } else {
               // Adicionar novo monstro
               updatedMonsters.push({
@@ -1067,29 +1102,27 @@ export class BestiaryComponent implements OnInit {
                 name: monster.name,
                 progress: 0,
                 kills,
-                is_selected: isSelected,
+                is_selected: true,
                 completed: this.isCompleteHunt(monsterId),
                 user_notes: '',
                 data_adicao: new Date().toISOString(),
                 ultima_atualizacao: new Date().toISOString(),
               });
-              console.log(`➕ Adicionado novo monstro: ${monster.name} - Selected: ${isSelected}`);
+              console.log(`➕ Adicionado novo monstro: ${monster.name}`);
             }
           });
 
-          // Remover monstros que não estão no cache ou foram explicitamente desselecionados
+          // Remover monstros que não estão na lista de selecionados
+          const selectedMonsterIds = new Set(allSelectedMonsters.map(m => m.id));
           allUserMonsterIds.forEach(monsterId => {
-            const isInCache = monsterId in selectionCache;
-            const isSelectedInCache = selectionCache[monsterId];
-
-            // Remover se não está no cache ou foi explicitamente desselecionado
-            if (!isInCache || !isSelectedInCache) {
+            // Remover se não está na lista de selecionados
+            if (!selectedMonsterIds.has(monsterId)) {
               const existingIndex = updatedMonsters.findIndex(m => m.id === monsterId);
               if (existingIndex >= 0) {
                 const monsterName = updatedMonsters[existingIndex].name;
                 updatedMonsters.splice(existingIndex, 1);
                 console.log(
-                  `🗑️ Removido monstro: ${monsterName} (ID: ${monsterId}) - Não está no cache ou foi desselecionado`
+                  `🗑️ Removido monstro: ${monsterName} (ID: ${monsterId}) - Não está na lista de selecionados`
                 );
               }
             }
