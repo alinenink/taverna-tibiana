@@ -431,14 +431,19 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
-    const selectedMonsters = this.monsters().filter(monster =>
-      this.selectedMonsterIds().has(monster.id)
-    );
+    // Usar getAllSelectedMonsters() para obter todos os monstros selecionados
+    // independente da página atual
+    const selectedMonstersData = this.getAllSelectedMonsters();
 
-    if (selectedMonsters.length === 0) {
+    if (selectedMonstersData.length === 0) {
       alert('Nenhuma criatura selecionada para exportar!');
       return;
     }
+
+    // Obter os objetos Monster completos do allMonstersStore
+    const selectedMonsters = selectedMonstersData
+      .map(selectedData => this.allMonstersStore().find(monster => monster.id === selectedData.id))
+      .filter(monster => monster !== undefined) as Monster[];
 
     // Track PDF export
     this.analyticsService.trackEvent('bestiary_export', {
@@ -508,14 +513,19 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
-    const selectedMonsters = this.monsters().filter(monster =>
-      this.selectedMonsterIds().has(monster.id)
-    );
+    // Usar getAllSelectedMonsters() para obter todos os monstros selecionados
+    // independente da página atual
+    const selectedMonstersData = this.getAllSelectedMonsters();
 
-    if (selectedMonsters.length === 0) {
+    if (selectedMonstersData.length === 0) {
       alert('Nenhuma criatura selecionada para exportar!');
       return;
     }
+
+    // Obter os objetos Monster completos do allMonstersStore
+    const selectedMonsters = selectedMonstersData
+      .map(selectedData => this.allMonstersStore().find(monster => monster.id === selectedData.id))
+      .filter(monster => monster !== undefined) as Monster[];
 
     // Track Excel export
     this.analyticsService.trackEvent('bestiary_export', {
