@@ -1574,6 +1574,13 @@
   }
 }
 
+// Estilos específicos para o modal de visitante
+.visitor-modal {
+  z-index: 3000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .modal-content {
   max-width: 500px;
   width: 90%;
