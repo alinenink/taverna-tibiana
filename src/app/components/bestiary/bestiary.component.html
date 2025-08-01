@@ -261,7 +261,7 @@
 
         <div class="monsters-grid">
           <div
-            *ngFor="let monster of filteredMonsters(); trackBy: trackByMonsterId"
+            *ngFor="let monster of monsters(); trackBy: trackByMonsterId"
             class="monster-card"
             [class.selected]="isMonsterSelected(monster.id)"
             (click)="toggleMonsterSelection(monster.id)"

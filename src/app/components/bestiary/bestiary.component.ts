@@ -54,9 +54,6 @@ export class BestiaryComponent implements OnInit {
   // Removido autosave - será implementado aviso de saída
 
   // Lista completa de todos os monstros (780) - carregada uma única vez
-  private readonly _allMonsters = signal<Monster[]>([]);
-  readonly allMonsters = this._allMonsters.asReadonly();
-
   // Estado de carregamento e erro
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -405,7 +402,7 @@ export class BestiaryComponent implements OnInit {
     userData.monstros_selecionados.forEach(userMonster => {
       // Verificar se o monstro está completo (kills >= terceiro estágio)
       // Usar o array de todos os monstros para obter os detalhes do charm
-      const monster = this.allMonsters().find(m => m.id === userMonster.id);
+      const monster = this.allMonstersStore().find(m => m.id === userMonster.id);
       if (monster) {
         // Usar os kills atuais (que podem ter sido modificados pelo usuário)
         const currentKills = this.charmKills()[userMonster.id] || userMonster.kills;
@@ -639,7 +636,7 @@ export class BestiaryComponent implements OnInit {
    */
   private checkAndCleanInvalidIds(): void {
     const cache = this.selectionCache();
-    const allMonsters = this.allMonsters();
+    const allMonsters = this.allMonstersStore();
     const invalidIds: number[] = [];
 
     // Verificar IDs inválidos
@@ -666,7 +663,7 @@ export class BestiaryComponent implements OnInit {
   private getAllSelectedMonsters(): Array<{ id: number; name: string; kills: number }> {
     const cache = this.selectionCache();
     const original = this.originalLocalState();
-    const allMonsters = this.allMonsters();
+    const allMonsters = this.allMonstersStore();
 
     const selectedMonsters: Array<{ id: number; name: string; kills: number }> = [];
 
@@ -712,7 +709,7 @@ export class BestiaryComponent implements OnInit {
    */
   private cleanInvalidIdsFromCache(invalidIds: number[]): void {
     const cache = this.selectionCache();
-    const allMonsters = this.allMonsters();
+    const allMonsters = this.allMonstersStore();
 
     // Criar novo cache sem os IDs inválidos
     const cleanedCache: Record<number, boolean> = {};
