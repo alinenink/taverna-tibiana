@@ -53,17 +53,90 @@ export class BestiaryComponent implements OnInit {
   private readonly destroy$ = new Subject<void>();
   // Removido autosave - será implementado aviso de saída
 
-  // Signals para estado reativo
-  readonly monsters = signal<Monster[]>([]);
+  // Lista completa de todos os monstros (780) - carregada uma única vez
+  private readonly _allMonsters = signal<Monster[]>([]);
+  readonly allMonsters = this._allMonsters.asReadonly();
+
+  // Estado de carregamento e erro
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+
+  // Paginação baseada na lista completa
   readonly pagination = signal({
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 6,
+    itemsPerPage: 20,
     hasNextPage: false,
     hasPreviousPage: false,
+  });
+
+  // Filtros aplicados
+  readonly appliedFilters = signal<{
+    search: string;
+    class: string;
+    difficulty: string;
+    selected: boolean;
+    completed: boolean;
+  }>({
+    search: '',
+    class: '',
+    difficulty: '',
+    selected: false,
+    completed: false,
+  });
+
+  // Lista filtrada (sem paginação)
+  readonly filteredMonsters = computed(() => {
+    const allMonsters = this.allMonsters();
+    const filters = this.appliedFilters();
+
+    let filtered = allMonsters;
+
+    // Filtro por busca
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      filtered = filtered.filter(
+        monster =>
+          monster.name.toLowerCase().includes(searchTerm) ||
+          monster.class.name.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Filtro por classe
+    if (filters.class) {
+      filtered = filtered.filter(
+        monster => monster.class.name.toLowerCase() === filters.class.toLowerCase()
+      );
+    }
+
+    // Filtro por dificuldade
+    if (filters.difficulty) {
+      filtered = filtered.filter(monster => monster.difficulty === filters.difficulty);
+    }
+
+    // Filtro por selecionados
+    if (filters.selected) {
+      filtered = filtered.filter(monster => this.isMonsterSelected(monster.id));
+    }
+
+    // Filtro por completados
+    if (filters.completed) {
+      filtered = filtered.filter(monster => this.isCompleteHunt(monster.id));
+    }
+
+    return filtered;
+  });
+
+  // Monstros paginados para exibição
+  readonly monsters = computed(() => {
+    const filtered = this.filteredMonsters();
+    const pagination = this.pagination();
+
+    const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage;
+    const endIndex = startIndex + pagination.itemsPerPage;
+
+    return filtered.slice(startIndex, endIndex);
   });
 
   // Signals para bestiário do usuário
@@ -78,10 +151,6 @@ export class BestiaryComponent implements OnInit {
   readonly hasMonsters = computed(() => this.monsters().length > 0);
   readonly hasError = computed(() => this.error() !== null);
   readonly isLoading = computed(() => this.loading());
-
-  // Monstros filtrados baseado nos filtros ativos
-  // Agora os filtros são aplicados no servidor, então usamos diretamente monsters()
-  readonly filteredMonsters = computed(() => this.monsters());
 
   // Opções para filtros (serão carregadas dinamicamente)
   private readonly _availableClasses = signal<string[]>([]);
@@ -120,9 +189,6 @@ export class BestiaryComponent implements OnInit {
 
   // Total fixo de charm points calculado uma única vez
   readonly totalCharmPoints = signal<number>(0);
-
-  // Todos os monstros para cálculo de charm points (independente da paginação)
-  readonly allMonsters = signal<Monster[]>([]);
 
   // Controle de modificações não salvas
   readonly hasUnsavedChanges = signal<boolean>(false);
@@ -905,13 +971,13 @@ export class BestiaryComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: allMonsters => {
-          this.allMonsters.set(allMonsters);
+          this._allMonsters.set(allMonsters);
           console.log('✅ Todos os monstros carregados (cache/API):', allMonsters.length);
           // Calcular total de charm points após carregar todos os monstros
           this.calculateTotalCharmPoints();
-          // Depois carregar monstros paginados para exibição
-          this.loading.set(true);
-          this.loadMonsters();
+          // Atualizar paginação baseada na lista completa
+          this.updatePagination();
+          this.loading.set(false);
         },
         error: error => {
           console.error('Erro ao carregar todos os monstros:', error);
@@ -1303,67 +1369,36 @@ export class BestiaryComponent implements OnInit {
   /**
    * Carrega os monstros com os filtros atuais
    */
+  /**
+   * Carrega os monstros com base nos filtros ativos
+   * Agora usa a lista completa carregada uma única vez
+   */
   loadMonsters(): void {
-    const formValue = this.filterForm.value;
-    const params: BestiarySearchParams = {
-      page: this.pagination().currentPage,
-      limit: this.pagination().itemsPerPage,
-    };
-
-    // Verificar se há filtros ativos
-    const hasFilters = this.hasRealFilters(formValue);
-
-    if (hasFilters) {
-      // Aplicar filtros específicos
-      if (formValue.search) {
-        params.search = formValue.search;
-      }
-      if (formValue.class) {
-        params.class = formValue.class;
-      }
-      if (formValue.difficulty) {
-        params.difficulty = formValue.difficulty;
-      }
-
-      // Adicionar filtro baseado nos checkboxes
-      if (this.filterSelected()) {
-        params.filter = 'selected';
-      } else if (this.filterCompleted()) {
-        params.filter = 'completed';
-      }
-    } else {
-      // Sem filtros ativos - carregar todos os monstros
-      // Não adicionar nenhum parâmetro de filtro
+    // Se não temos monstros carregados, carregar todos primeiro
+    if (this.allMonsters().length === 0) {
+      this.loadAllMonstersAndThenPaginated();
+      return;
     }
 
-    this.error.set(null);
-
-    this.bestiaryService
-      .getMonsters(params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: response => this.handleResponse(response),
-        error: error => this.handleError(error),
-      });
+    // Aplicar filtros e atualizar paginação
+    this.applyFilters();
+    this.updatePagination();
+    this.loading.set(false);
   }
 
   /**
-   * Trata a resposta da API
+   * Aplica filtros do formulário aos filtros internos
    */
-  private handleResponse(response: BestiaryResponse): void {
-    this.monsters.set(response.data);
-    this.pagination.set({
-      currentPage: response.pagination.page,
-      totalPages: response.pagination.totalPages,
-      totalItems: response.pagination.totalItems,
-      itemsPerPage: response.pagination.limit,
-      hasNextPage: response.pagination.hasNext,
-      hasPreviousPage: response.pagination.hasPrev,
-    });
-    this.loading.set(false);
+  private applyFilters(): void {
+    const formValue = this.filterForm.value;
 
-    // Após carregar os monstros, sincronizar dados do usuário e preencher seleções
-    this.syncUserBestiaryWithLocal();
+    this.appliedFilters.set({
+      search: formValue.search || '',
+      class: formValue.class || '',
+      difficulty: formValue.difficulty || '',
+      selected: this.filterSelected(),
+      completed: this.filterCompleted(),
+    });
   }
 
   /**
@@ -1372,7 +1407,6 @@ export class BestiaryComponent implements OnInit {
   private handleError(error: any): void {
     this.error.set(error.message || 'Erro ao carregar monstros');
     this.loading.set(false);
-    this.monsters.set([]);
 
     console.error('Bestiary error:', error);
   }
@@ -1417,10 +1451,11 @@ export class BestiaryComponent implements OnInit {
     this.filterForm.reset();
     this.filterSelected.set(false);
     this.filterCompleted.set(false);
-    // Resetar para a primeira página e recarregar
+
+    // Aplicar filtros limpos e atualizar paginação
+    this.applyFilters();
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
-    // Carregar monstros sem filtros (carregamento inicial)
-    this.loadMonsters();
+    this.updatePagination();
   }
 
   /**
@@ -1440,7 +1475,7 @@ export class BestiaryComponent implements OnInit {
       ...p,
       currentPage: pageIndex,
     }));
-    this.loadMonsters();
+    // Não precisa recarregar, apenas atualizar a página
   }
 
   /**
@@ -2039,6 +2074,32 @@ export class BestiaryComponent implements OnInit {
 
       this.router.navigate(['/grimorio']);
     }
+  }
+
+  /**
+   * Atualizar paginação baseada na lista filtrada
+   */
+  private updatePagination(): void {
+    const filteredCount = this.filteredMonsters().length;
+    const itemsPerPage = this.pagination().itemsPerPage;
+    const totalPages = Math.ceil(filteredCount / itemsPerPage);
+    const currentPage = Math.min(this.pagination().currentPage, totalPages || 1);
+
+    this.pagination.set({
+      currentPage,
+      totalPages,
+      totalItems: filteredCount,
+      itemsPerPage,
+      hasNextPage: currentPage < totalPages,
+      hasPreviousPage: currentPage > 1,
+    });
+
+    console.log('📊 Paginação atualizada:', {
+      totalItems: filteredCount,
+      totalPages,
+      currentPage,
+      itemsPerPage,
+    });
   }
 
   /**
