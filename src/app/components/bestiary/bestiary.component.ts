@@ -1076,9 +1076,16 @@ export class BestiaryComponent implements OnInit {
           this.userBestiaryLoading.set(false);
         },
         error: error => {
-          console.error('Erro ao carregar bestiário do usuário:', error);
+          console.error('❌ Erro ao carregar bestiário do usuário:', error);
+          console.log('🔍 Estrutura do erro:', {
+            status: error.status,
+            error: error.error,
+            message: error.message,
+            name: error.name,
+          });
 
           // Verificar se é erro de visitante
+          console.log('🎯 Chamando handleVisitorError...');
           this.handleVisitorError(error);
 
           this.userBestiaryError.set('Erro ao carregar bestiário pessoal');
@@ -1817,6 +1824,20 @@ export class BestiaryComponent implements OnInit {
         isVisitorError = true;
       }
 
+      // 1.5. Verificar error.error.error (estrutura específica do seu erro)
+      if (
+        error.error?.error &&
+        (error.error.error.includes('Usuário visitante não pode acessar') ||
+          error.error.error.includes('Realize o cadastro') ||
+          error.error.error.includes('Usuário não cadastrado') ||
+          error.error.error.toLowerCase().includes('usuário não cadastrado') ||
+          error.error.error.includes('nao cadastrado') ||
+          error.error.error.toLowerCase().includes('nao cadastrado'))
+      ) {
+        console.log('✅ Erro de visitante detectado em error.error.error');
+        isVisitorError = true;
+      }
+
       // 2. Verificar error.error.error (estrutura: {error: "msg", message: "msg"})
       if (
         error.error?.error &&
@@ -1863,6 +1884,24 @@ export class BestiaryComponent implements OnInit {
         error.error?.message === 'Realize o cadastro para acessar o bestiário pessoal'
       ) {
         console.log('✅ Erro de visitante detectado em estrutura específica');
+        isVisitorError = true;
+      }
+
+      // 5.5. Verificar estrutura exata do erro fornecido
+      if (
+        error.error?.success === false &&
+        error.error?.error === 'Usuário visitante não pode acessar este endpoint'
+      ) {
+        console.log('✅ Erro de visitante detectado em estrutura exata');
+        isVisitorError = true;
+      }
+
+      // 5.6. Verificar apenas success: false com mensagem de visitante
+      if (
+        error.error?.success === false &&
+        (error.error?.error?.includes('visitante') || error.error?.message?.includes('cadastro'))
+      ) {
+        console.log('✅ Erro de visitante detectado em success: false com mensagem de visitante');
         isVisitorError = true;
       }
     }
@@ -1912,6 +1951,9 @@ export class BestiaryComponent implements OnInit {
         'Percebi que você está tentando acessar funcionalidades exclusivas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!'
       );
       this.showVisitorModal.set(true);
+      console.log('✅ Modal de visitante exibido com sucesso');
+    } else {
+      console.log('❌ Erro não foi identificado como erro de visitante');
     }
   }
 
