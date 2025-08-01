@@ -984,31 +984,11 @@ export class BestiaryComponent implements OnInit {
    * Carregar todos os monstros e depois os monstros paginados
    */
   private loadAllMonstersAndThenPaginated(): void {
-    // Primeiro carregar todos os monstros para cálculo de charm points
-    this.bestiaryService
-      .getAllMonsters()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: allMonsters => {
-          this._allMonsters.set(allMonsters);
-          console.log('✅ Todos os monstros carregados (cache/API):', allMonsters.length);
+    // Carregar dados do usuário primeiro
+    this.loadUserBestiary();
 
-          // Limpar IDs inválidos após carregar todos os monstros
-          this.checkAndCleanInvalidIds();
-
-          // Calcular total de charm points após carregar todos os monstros
-          this.calculateTotalCharmPoints();
-          // Atualizar paginação baseada na lista completa
-          this.updatePagination();
-          this.loading.set(false);
-        },
-        error: error => {
-          console.error('Erro ao carregar todos os monstros:', error);
-          // Continuar com carregamento paginado mesmo com erro
-          this.loading.set(true);
-          this.loadMonsters();
-        },
-      });
+    // Carregar primeira página para exibição rápida
+    this.loadMonsters();
   }
 
   /**
@@ -1397,26 +1377,51 @@ export class BestiaryComponent implements OnInit {
    */
   /**
    * Carrega os monstros com base nos filtros ativos
-   * Agora usa a lista completa carregada uma única vez
+   * Usa paginação tradicional para melhor performance
    */
   loadMonsters(): void {
-    // Se não temos monstros carregados, carregar todos primeiro
-    if (this.allMonsters().length === 0) {
-      this.loadAllMonstersAndThenPaginated();
-      return;
-    }
-
-    // Mostrar loading durante aplicação de filtros
     this.loading.set(true);
+    this.error.set(null);
 
-    // Aplicar filtros e atualizar paginação
-    this.applyFilters();
-    this.updatePagination();
+    const currentPage = this.pagination().currentPage;
+    const itemsPerPage = this.pagination().itemsPerPage;
 
-    // Simular um pequeno delay para mostrar o loading
-    setTimeout(() => {
-      this.loading.set(false);
-    }, 100);
+    // Preparar parâmetros de filtro
+    const filters: any = {
+      page: currentPage,
+      limit: itemsPerPage,
+    };
+
+    const formValue = this.filterForm.value;
+    if (formValue.search) filters.search = formValue.search;
+    if (formValue.class) filters.class = formValue.class;
+    if (formValue.difficulty) filters.difficulty = formValue.difficulty;
+    if (this.filterSelected()) filters.selected = true;
+    if (this.filterCompleted()) filters.completed = true;
+
+    this.bestiaryService
+      .getMonsters(filters)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: response => {
+          this._allMonsters.set(response.data);
+
+          this.pagination.set({
+            currentPage: response.pagination.page,
+            totalPages: response.pagination.totalPages,
+            totalItems: response.pagination.totalItems,
+            itemsPerPage: response.pagination.limit,
+            hasNextPage: response.pagination.hasNext,
+            hasPreviousPage: response.pagination.hasPrev,
+          });
+
+          this.loading.set(false);
+        },
+        error: error => {
+          console.error('Erro ao carregar monstros:', error);
+          this.handleError(error);
+        },
+      });
   }
 
   /**
