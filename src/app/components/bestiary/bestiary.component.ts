@@ -1211,9 +1211,9 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
-    // Verificar se allMonsters foi carregado
-    if (this.allMonsters().length === 0) {
-      console.error('❌ AllMonsters não foi carregado. Tentando carregar novamente...');
+    // Verificar se allMonstersStore foi carregado
+    if (this.allMonstersStore().length === 0) {
+      console.error('❌ AllMonstersStore não foi carregado. Tentando carregar novamente...');
       this.loadAllMonstersAndThenPaginated();
       return;
     }
@@ -1230,7 +1230,7 @@ export class BestiaryComponent implements OnInit {
     console.log('🔍 Página atual:', this.pagination().currentPage);
     console.log('🔍 Total de monstros selecionados:', selectedIds.length);
     console.log('🔍 Cache vs Total:', Object.keys(selectionCache).length, 'vs', selectedIds.length);
-    console.log('🔍 AllMonsters carregados:', this.allMonsters().length, 'monstros');
+    console.log('🔍 AllMonstersStore carregados:', this.allMonstersStore().length, 'monstros');
     console.log(
       '🔍 IDs no cache:',
       Object.keys(selectionCache)
@@ -1266,10 +1266,10 @@ export class BestiaryComponent implements OnInit {
           // Processar todos os monstros selecionados (cache + originais)
           allSelectedMonsters.forEach(selectedMonster => {
             const monsterId = selectedMonster.id;
-            const monster = this.allMonsters().find(m => m.id === monsterId);
+            const monster = this.allMonstersStore().find(m => m.id === monsterId);
 
             if (!monster) {
-              console.log(`⚠️ Monstro ID ${monsterId} não encontrado em allMonsters`);
+              console.log(`⚠️ Monstro ID ${monsterId} não encontrado em allMonstersStore`);
               return;
             }
 
