@@ -1406,10 +1406,17 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
+    // Mostrar loading durante aplicação de filtros
+    this.loading.set(true);
+
     // Aplicar filtros e atualizar paginação
     this.applyFilters();
     this.updatePagination();
-    this.loading.set(false);
+
+    // Simular um pequeno delay para mostrar o loading
+    setTimeout(() => {
+      this.loading.set(false);
+    }, 100);
   }
 
   /**
@@ -1550,15 +1557,7 @@ export class BestiaryComponent implements OnInit {
    * Obtém a URL da imagem do monstro
    */
   getMonsterImageUrl(imagePath: string): string {
-    const url = this.bestiaryService.getMonsterImageUrl(imagePath);
-
-    // Adiciona parâmetro de cache-busting simples baseado na página
-    const cacheBuster = `?page=${this.pagination().currentPage}`;
-    const finalUrl = url.includes('?')
-      ? `${url}&${cacheBuster.substring(1)}`
-      : `${url}${cacheBuster}`;
-
-    return finalUrl;
+    return this.bestiaryService.getMonsterImageUrl(imagePath);
   }
 
   /**
@@ -1602,13 +1601,22 @@ export class BestiaryComponent implements OnInit {
     img.style.display = 'none';
     const container = img.parentElement;
     if (container) {
-      container.innerHTML = `
-        <div class="monster-placeholder">
-          <span class="monster-emoji">🐉</span>
-          <span class="placeholder-text">Erro ao carregar</span>
-        </div>
-      `;
+      // Verificar se já existe um placeholder para evitar duplicação
+      const existingPlaceholder = container.querySelector('.monster-placeholder');
+      if (!existingPlaceholder) {
+        container.innerHTML = `
+          <div class="monster-placeholder">
+            <span class="monster-emoji">🐉</span>
+            <span class="placeholder-text">Sem imagem</span>
+          </div>
+        `;
+      }
     }
+
+    // Log para debug
+    console.warn(
+      `⚠️ Erro ao carregar imagem para ${monster.name} (ID: ${monster.id}): ${monster.image}`
+    );
   }
 
   /**
@@ -1617,6 +1625,16 @@ export class BestiaryComponent implements OnInit {
   onImageLoad(event: any, monster: Monster): void {
     const img = event.target as HTMLImageElement;
     img.style.opacity = '1';
+    img.style.display = 'block';
+
+    // Remover placeholder se existir
+    const container = img.parentElement;
+    if (container) {
+      const placeholder = container.querySelector('.monster-placeholder');
+      if (placeholder) {
+        placeholder.remove();
+      }
+    }
   }
 
   /**
