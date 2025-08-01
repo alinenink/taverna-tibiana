@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environments';
 import { AVAILABLE_MONSTER_IMAGES, ImageMappingUtils } from './bestiary-image-config';
@@ -87,29 +87,30 @@ export interface BestiaryResponse {
 
 // Tipos para as classes de monstros
 export type MonsterClassType =
-  | 'animal'
-  | 'human'
-  | 'undead'
-  | 'demon'
-  | 'dragon'
-  | 'elemental'
-  | 'construct'
-  | 'plant'
-  | 'slime'
-  | 'amphibic'
-  | 'aquatic'
-  | 'bird'
-  | 'bug'
-  | 'fey'
-  | 'goblinoid'
-  | 'humanoid'
-  | 'magical'
-  | 'mammal'
-  | 'reptile'
-  | 'vermin';
+  | 'Amphibic'
+  | 'Aquatic'
+  | 'Bird'
+  | 'Construct'
+  | 'Demon'
+  | 'Dragon'
+  | 'Elemental'
+  | 'Extra Dimensional'
+  | 'Fey'
+  | 'Giant'
+  | 'Human'
+  | 'Humanoid'
+  | 'Inkborn'
+  | 'Lycanthrope'
+  | 'Magical'
+  | 'Mammal'
+  | 'Plant'
+  | 'Reptile'
+  | 'Slime'
+  | 'Undead'
+  | 'Vermin';
 
 // Tipos para as dificuldades
-export type MonsterDifficulty = 'trivial' | 'easy' | 'medium' | 'hard' | 'extreme';
+export type MonsterDifficulty = 'Challenging' | 'Easy' | 'Hard' | 'Harmless' | 'Medium' | 'Trivial';
 
 // Interface para parâmetros de busca
 export interface BestiarySearchParams {
@@ -149,6 +150,90 @@ export class BestiaryService {
           // Log removido para manter Clean Code
         }),
         catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Obtém os filtros disponíveis (classes, dificuldades e estatísticas)
+   */
+  getAvailableFilters(): Observable<{
+    classes: Array<{ id: number; name: string; displayName: string; count: number }>;
+    difficulties: Array<{
+      value: string;
+      displayName: string;
+      color: string;
+      stars: number;
+      count: number;
+    }>;
+    stats: {
+      total_monsters: number;
+      total_classes: number;
+      total_difficulties: number;
+      average_level: number;
+      min_level: number;
+      max_level: number;
+    };
+  }> {
+    const timestamp = new Date().getTime();
+    const urlWithTimestamp = `${this.baseUrl}/filters?_t=${timestamp}`;
+
+    return this.http
+      .get<{
+        success: boolean;
+        data: {
+          classes: Array<{ id: number; name: string; displayName: string; count: number }>;
+          difficulties: Array<{
+            value: string;
+            displayName: string;
+            color: string;
+            stars: number;
+            count: number;
+          }>;
+          stats: {
+            total_monsters: number;
+            total_classes: number;
+            total_difficulties: number;
+            average_level: number;
+            min_level: number;
+            max_level: number;
+          };
+        };
+      }>(urlWithTimestamp)
+      .pipe(
+        map(response => response.data),
+        catchError(error => {
+          // Fallback para dados estáticos quando o endpoint não estiver disponível
+          console.warn('Endpoint de filtros não disponível, usando dados estáticos:', error);
+
+          const availableClasses = this.getAvailableClasses();
+          const availableDifficulties = this.getAvailableDifficulties();
+
+          const classes = availableClasses.map((className, index) => ({
+            id: index + 1,
+            name: className,
+            displayName: this.getClassDisplayName(className),
+            count: 0, // Não temos contagem sem o backend
+          }));
+
+          const difficulties = availableDifficulties.map((difficulty, index) => ({
+            value: difficulty,
+            displayName: this.getDifficultyDisplayName(difficulty),
+            color: this.getDifficultyColor(difficulty),
+            stars: index + 1,
+            count: 0, // Não temos contagem sem o backend
+          }));
+
+          const stats = {
+            total_monsters: 0,
+            total_classes: classes.length,
+            total_difficulties: difficulties.length,
+            average_level: 0,
+            min_level: 0,
+            max_level: 0,
+          };
+
+          return of({ classes, difficulties, stats });
+        })
       );
   }
 
@@ -256,26 +341,27 @@ export class BestiaryService {
    */
   getAvailableClasses(): MonsterClassType[] {
     return [
-      'animal',
-      'human',
-      'undead',
-      'demon',
-      'dragon',
-      'elemental',
-      'construct',
-      'plant',
-      'slime',
-      'amphibic',
-      'aquatic',
-      'bird',
-      'bug',
-      'fey',
-      'goblinoid',
-      'humanoid',
-      'magical',
-      'mammal',
-      'reptile',
-      'vermin',
+      'Amphibic',
+      'Aquatic',
+      'Bird',
+      'Construct',
+      'Demon',
+      'Dragon',
+      'Elemental',
+      'Extra Dimensional',
+      'Fey',
+      'Giant',
+      'Human',
+      'Humanoid',
+      'Inkborn',
+      'Lycanthrope',
+      'Magical',
+      'Mammal',
+      'Plant',
+      'Reptile',
+      'Slime',
+      'Undead',
+      'Vermin',
     ];
   }
 
@@ -283,7 +369,7 @@ export class BestiaryService {
    * Obtém a lista de dificuldades disponíveis
    */
   getAvailableDifficulties(): MonsterDifficulty[] {
-    return ['trivial', 'easy', 'medium', 'hard', 'extreme'];
+    return ['Challenging', 'Easy', 'Hard', 'Harmless', 'Medium', 'Trivial'];
   }
 
   /**
@@ -291,26 +377,27 @@ export class BestiaryService {
    */
   getClassDisplayName(monsterClass: MonsterClassType): string {
     const displayNames: Record<MonsterClassType, string> = {
-      animal: 'Animal',
-      human: 'Humano',
-      undead: 'Morto-vivo',
-      demon: 'Demônio',
-      dragon: 'Dragão',
-      elemental: 'Elemental',
-      construct: 'Constructo',
-      plant: 'Planta',
-      slime: 'Slime',
-      amphibic: 'Anfíbio',
-      aquatic: 'Aquático',
-      bird: 'Ave',
-      bug: 'Inseto',
-      fey: 'Fada',
-      goblinoid: 'Goblinóide',
-      humanoid: 'Humanoide',
-      magical: 'Mágico',
-      mammal: 'Mamífero',
-      reptile: 'Réptil',
-      vermin: 'Verme',
+      Amphibic: 'Anfíbio',
+      Aquatic: 'Aquático',
+      Bird: 'Ave',
+      Construct: 'Constructo',
+      Demon: 'Demônio',
+      Dragon: 'Dragão',
+      Elemental: 'Elemental',
+      'Extra Dimensional': 'Extra Dimensional',
+      Fey: 'Fada',
+      Giant: 'Gigante',
+      Human: 'Humano',
+      Humanoid: 'Humanoide',
+      Inkborn: 'Inkborn',
+      Lycanthrope: 'Licantropo',
+      Magical: 'Mágico',
+      Mammal: 'Mamífero',
+      Plant: 'Planta',
+      Reptile: 'Réptil',
+      Slime: 'Slime',
+      Undead: 'Morto-vivo',
+      Vermin: 'Verme',
     };
 
     return displayNames[monsterClass] || monsterClass;
@@ -321,11 +408,12 @@ export class BestiaryService {
    */
   getDifficultyDisplayName(difficulty: MonsterDifficulty): string {
     const displayNames: Record<MonsterDifficulty, string> = {
-      trivial: 'Trivial',
-      easy: 'Fácil',
-      medium: 'Médio',
-      hard: 'Difícil',
-      extreme: 'Extremo',
+      Challenging: 'Desafiador',
+      Easy: 'Fácil',
+      Hard: 'Difícil',
+      Harmless: 'Inofensivo',
+      Medium: 'Médio',
+      Trivial: 'Trivial',
     };
 
     return displayNames[difficulty] || difficulty;
@@ -336,11 +424,12 @@ export class BestiaryService {
    */
   getDifficultyColor(difficulty: MonsterDifficulty): string {
     const colors: Record<MonsterDifficulty, string> = {
-      trivial: '#4CAF50',
-      easy: '#8BC34A',
-      medium: '#FFC107',
-      hard: '#FF9800',
-      extreme: '#F44336',
+      Harmless: '#4CAF50',
+      Trivial: '#8BC34A',
+      Easy: '#CDDC39',
+      Medium: '#FFC107',
+      Challenging: '#FF9800',
+      Hard: '#F44336',
     };
 
     return colors[difficulty] || '#757575';

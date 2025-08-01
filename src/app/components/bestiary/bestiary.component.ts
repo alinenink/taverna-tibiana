@@ -34,8 +34,6 @@ import {
   getDifficultyDisplayName,
   getDifficultyColor,
   getDifficultyStars,
-  getAvailableClasses,
-  getAvailableDifficulties,
 } from '../../models/bestiary-mappings';
 
 @Component({
@@ -52,7 +50,6 @@ export class BestiaryComponent implements OnInit {
   private readonly analyticsService = inject(AnalyticsService);
   private readonly fb = inject(FormBuilder);
   private readonly destroy$ = new Subject<void>();
-  private readonly searchSubject$ = new Subject<string>();
   private readonly autoSaveSubject$ = new Subject<number>();
 
   // Signals para estado reativo
@@ -85,9 +82,19 @@ export class BestiaryComponent implements OnInit {
   // Agora os filtros são aplicados no servidor, então usamos diretamente monsters()
   readonly filteredMonsters = computed(() => this.monsters());
 
-  // Opções para filtros
-  readonly availableClasses = getAvailableClasses();
-  readonly availableDifficulties = getAvailableDifficulties();
+  // Opções para filtros (serão carregadas dinamicamente)
+  private readonly _availableClasses = signal<string[]>([]);
+  private readonly _availableDifficulties = signal<string[]>([]);
+  readonly availableClasses = computed(() => this._availableClasses());
+  readonly availableDifficulties = computed(() => this._availableDifficulties());
+  readonly filterStats = signal<{
+    total_monsters: number;
+    total_classes: number;
+    total_difficulties: number;
+    average_level: number;
+    min_level: number;
+    max_level: number;
+  } | null>(null);
 
   // Controle do popup de localizações
   readonly openLocationPopupId = signal<number | null>(null);
@@ -695,6 +702,10 @@ export class BestiaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading.set(true);
+
+    // Inicializar formulário imediatamente
+    this.initializeForm();
+
     setTimeout(() => {
       this.loading.set(false);
       this.analyticsService.trackEvent('page_view', {
@@ -702,10 +713,8 @@ export class BestiaryComponent implements OnInit {
         page_location: '/bestiary',
       });
 
-      this.initializeForm();
-      this.setupSearchSubscription();
       this.setupAutoSaveSubscription();
-      this.loadUserBestiaryAndThenMonsters();
+      this.loadFiltersAndThenData();
     }, 500);
     // Track page view
   }
@@ -715,6 +724,28 @@ export class BestiaryComponent implements OnInit {
     this.savePendingChanges();
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  /**
+   * Carregar filtros disponíveis e depois os dados
+   */
+  private loadFiltersAndThenData(): void {
+    // Usar diretamente os dados estáticos sem fazer chamada para o backend
+    this._availableClasses.set(this.bestiaryService.getAvailableClasses());
+    this._availableDifficulties.set(this.bestiaryService.getAvailableDifficulties());
+
+    // Definir estatísticas padrão
+    this.filterStats.set({
+      total_monsters: 0,
+      total_classes: this._availableClasses().length,
+      total_difficulties: this._availableDifficulties().length,
+      average_level: 0,
+      min_level: 0,
+      max_level: 0,
+    });
+
+    // Carregar o bestiário do usuário e depois os monstros
+    this.loadUserBestiaryAndThenMonsters();
   }
 
   /**
@@ -1027,40 +1058,12 @@ export class BestiaryComponent implements OnInit {
 
     // Observa mudanças nos filtros
     this.filterForm.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe(() => {
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe(formValue => {
+        // Sempre carregar monstros quando há mudança nos filtros
+        // Se não há filtros ativos, carregará todos os monstros
         this.pagination.update(p => ({ ...p, currentPage: 1 }));
         this.loadMonsters();
-      });
-  }
-
-  /**
-   * Configura a subscription para busca com debounce
-   */
-  private setupSearchSubscription(): void {
-    this.loading.set(true);
-    this.searchSubject$
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap(searchTerm => {
-          // Track search
-          if (searchTerm && searchTerm.trim().length > 0) {
-            this.analyticsService.trackSearch(searchTerm, 'bestiary');
-          }
-
-          this.loading.set(false);
-          this.error.set(null);
-          return this.bestiaryService.searchMonsters(searchTerm, {
-            page: this.pagination().currentPage,
-            limit: this.pagination().itemsPerPage,
-          });
-        })
-      )
-      .subscribe({
-        next: response => this.handleResponse(response),
-        error: error => this.handleError(error),
       });
   }
 
@@ -1074,21 +1077,30 @@ export class BestiaryComponent implements OnInit {
       limit: this.pagination().itemsPerPage,
     };
 
-    if (formValue.search) {
-      params.search = formValue.search;
-    }
-    if (formValue.class) {
-      params.class = formValue.class;
-    }
-    if (formValue.difficulty) {
-      params.difficulty = formValue.difficulty;
-    }
+    // Verificar se há filtros ativos
+    const hasFilters = this.hasRealFilters(formValue);
 
-    // Adicionar filtro baseado nos checkboxes
-    if (this.filterSelected()) {
-      params.filter = 'selected';
-    } else if (this.filterCompleted()) {
-      params.filter = 'completed';
+    if (hasFilters) {
+      // Aplicar filtros específicos
+      if (formValue.search) {
+        params.search = formValue.search;
+      }
+      if (formValue.class) {
+        params.class = formValue.class;
+      }
+      if (formValue.difficulty) {
+        params.difficulty = formValue.difficulty;
+      }
+
+      // Adicionar filtro baseado nos checkboxes
+      if (this.filterSelected()) {
+        params.filter = 'selected';
+      } else if (this.filterCompleted()) {
+        params.filter = 'completed';
+      }
+    } else {
+      // Sem filtros ativos - carregar todos os monstros
+      // Não adicionar nenhum parâmetro de filtro
     }
 
     this.error.set(null);
@@ -1133,6 +1145,33 @@ export class BestiaryComponent implements OnInit {
   }
 
   /**
+   * Verifica se há valores reais nos filtros
+   */
+  private hasRealFilters(formValue: any): boolean {
+    // Verificar se há busca por texto
+    if (formValue.search && formValue.search.trim().length > 0) {
+      return true;
+    }
+
+    // Verificar se há filtro por classe
+    if (formValue.class && formValue.class.trim().length > 0) {
+      return true;
+    }
+
+    // Verificar se há filtro por dificuldade
+    if (formValue.difficulty && formValue.difficulty.trim().length > 0) {
+      return true;
+    }
+
+    // Verificar se há filtros especiais ativos
+    if (this.filterSelected() || this.filterCompleted()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Limpa todos os filtros
    */
   clearFilters(): void {
@@ -1141,6 +1180,7 @@ export class BestiaryComponent implements OnInit {
     this.filterCompleted.set(false);
     // Resetar para a primeira página e recarregar
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
+    // Carregar monstros sem filtros (carregamento inicial)
     this.loadMonsters();
   }
 
@@ -1168,21 +1208,21 @@ export class BestiaryComponent implements OnInit {
    * Obtém o nome de exibição para uma classe
    */
   getClassDisplayName(monsterClass: string): string {
-    return getClassDisplayName(monsterClass);
+    return this.bestiaryService.getClassDisplayName(monsterClass as any);
   }
 
   /**
    * Obtém o nome de exibição para uma dificuldade
    */
   getDifficultyDisplayName(difficulty: string): string {
-    return getDifficultyDisplayName(difficulty);
+    return this.bestiaryService.getDifficultyDisplayName(difficulty as any);
   }
 
   /**
    * Obtém a cor para uma dificuldade
    */
   getDifficultyColor(difficulty: string): string {
-    return getDifficultyColor(difficulty);
+    return this.bestiaryService.getDifficultyColor(difficulty as any);
   }
 
   /**
@@ -1439,7 +1479,17 @@ export class BestiaryComponent implements OnInit {
       if (
         error.error?.success === false &&
         (error.error.error?.includes('Usuário visitante não pode acessar') ||
-          error.error.message?.includes('Realize o cadastro'))
+          error.error.message?.includes('Realize o cadastro') ||
+          error.error.error?.includes('Realize o cadastro'))
+      ) {
+        isVisitorError = true;
+      }
+
+      // 5. Verificar estrutura específica do erro que você forneceu
+      if (
+        error.error?.success === false &&
+        error.error?.error === 'Usuário visitante não pode acessar este endpoint' &&
+        error.error?.message === 'Realize o cadastro para acessar o bestiário pessoal'
       ) {
         isVisitorError = true;
       }

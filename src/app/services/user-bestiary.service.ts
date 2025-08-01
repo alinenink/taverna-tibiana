@@ -413,6 +413,7 @@ export class UserBestiaryService {
       return throwError(() => new Error('Operação bem-sucedida'));
     }
 
-    return throwError(() => new Error(error.message || 'Erro desconhecido'));
+    // Preservar a estrutura original do erro para que o handleVisitorError funcione
+    return throwError(() => error);
   }
 }
