@@ -617,10 +617,13 @@ export class BestiaryComponent implements OnInit {
     return cache[monsterId] === true;
   }
 
-  getSelectedCount(): number {
-    // Verificar IDs inválidos antes de calcular o count
-    this.checkAndCleanInvalidIds();
+  // Computed signal para o count de selecionados (sem escrita em signals)
+  readonly selectedCount = computed(() => {
     return this.getAllSelectedMonsters().length;
+  });
+
+  getSelectedCount(): number {
+    return this.selectedCount();
   }
 
   /**
@@ -989,6 +992,10 @@ export class BestiaryComponent implements OnInit {
         next: allMonsters => {
           this._allMonsters.set(allMonsters);
           console.log('✅ Todos os monstros carregados (cache/API):', allMonsters.length);
+
+          // Limpar IDs inválidos após carregar todos os monstros
+          this.checkAndCleanInvalidIds();
+
           // Calcular total de charm points após carregar todos os monstros
           this.calculateTotalCharmPoints();
           // Atualizar paginação baseada na lista completa
@@ -1075,6 +1082,9 @@ export class BestiaryComponent implements OnInit {
 
     // Salvar estado original após sincronização
     this.saveOriginalState(userData);
+
+    // Limpar IDs inválidos após sincronizar dados do usuário
+    this.checkAndCleanInvalidIds();
   }
 
   /**
