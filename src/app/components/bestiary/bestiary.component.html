@@ -76,7 +76,7 @@
               <label for="class">Classe</label>
               <select id="class" formControlName="class" class="input-medieval select-medieval">
                 <option value="">Todas as classes</option>
-                <option *ngFor="let monsterClass of availableClasses" [value]="monsterClass">
+                <option *ngFor="let monsterClass of availableClasses()" [value]="monsterClass">
                   {{ monsterClass }}
                 </option>
               </select>
@@ -90,7 +90,7 @@
                 class="input-medieval select-medieval"
               >
                 <option value="">Todas as dificuldades</option>
-                <option *ngFor="let difficulty of availableDifficulties" [value]="difficulty">
+                <option *ngFor="let difficulty of availableDifficulties()" [value]="difficulty">
                   {{ difficulty }}
                 </option>
               </select>

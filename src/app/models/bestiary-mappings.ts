@@ -33,7 +33,7 @@ export const MONSTER_CLASSES: MonsterClass[] = [
   { id: 18, name: 'Reptile', displayName: 'Réptil' },
   { id: 19, name: 'Slime', displayName: 'Lodo' },
   { id: 20, name: 'Undead', displayName: 'Morto-Vivo' },
-  { id: 21, name: 'Vermin', displayName: 'Vermin' },
+  { id: 21, name: 'Vermin', displayName: 'Verme' },
 ];
 
 export const MONSTER_DIFFICULTIES: MonsterDifficulty[] = [
@@ -41,8 +41,8 @@ export const MONSTER_DIFFICULTIES: MonsterDifficulty[] = [
   { value: 'Trivial', displayName: 'Trivial', color: '#8BC34A', stars: 2 },
   { value: 'Easy', displayName: 'Fácil', color: '#CDDC39', stars: 3 },
   { value: 'Medium', displayName: 'Médio', color: '#FFC107', stars: 4 },
-  { value: 'Hard', displayName: 'Difícil', color: '#FF9800', stars: 5 },
-  { value: 'Challenging', displayName: 'Desafiador', color: '#F44336', stars: 6 },
+  { value: 'Challenging', displayName: 'Desafiador', color: '#FF9800', stars: 5 },
+  { value: 'Hard', displayName: 'Difícil', color: '#F44336', stars: 6 },
 ];
 
 export function getClassDisplayName(className: string): string {
