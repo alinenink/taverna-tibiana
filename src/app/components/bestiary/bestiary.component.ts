@@ -1951,6 +1951,9 @@ export class BestiaryComponent implements OnInit {
         'Percebi que você está tentando acessar funcionalidades exclusivas como visitante! Se você quer desfrutar de todas as funcionalidades da Taverna, é preciso se registrar!'
       );
       this.showVisitorModal.set(true);
+      // Parar o loader quando o modal de visitante aparecer
+      this.loading.set(false);
+      this.userBestiaryLoading.set(false);
       console.log('✅ Modal de visitante exibido com sucesso');
     } else {
       console.log('❌ Erro não foi identificado como erro de visitante');

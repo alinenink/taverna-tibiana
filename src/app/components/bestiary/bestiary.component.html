@@ -557,26 +557,33 @@
 
 <!-- Modal de Visitante -->
 <div class="modal-overlay visitor-modal" *ngIf="showVisitorModal()" (click)="closeVisitorModal()">
-  <div class="modal-conteudo" (click)="$event.stopPropagation()">
-    <strong class="medieval-text modal-titulo">
-      <img
-        src="assets/icons-svg/beer-mug.svg"
-        alt="Taverna"
-        class="svg-icon"
-        style="width: 24px; height: 24px; margin-right: 8px"
-      />
-      Atenção, aventureiro!
-    </strong>
-    <div class="modal-opcoes">
-      <p style="font-size: 1.1rem; color: #7a5a2f; text-align: center; margin: 1.2em 0">
-        {{ visitorMessage() }}
-      </p>
-    </div>
-    <div class="modal-botoes">
-      <button type="button" class="button-medieval" (click)="goToRegister()">
-        Me registrar agora
-      </button>
-      <button type="button" class="button-medieval" (click)="closeVisitorModal()">Cancelar</button>
+  <div class="parchment-card modal-content" (click)="$event.stopPropagation()">
+    <div class="card-content">
+      <div class="modal-header">
+        <h2>
+          <img
+            src="assets/icons-svg/beer-mug.svg"
+            alt="Taverna"
+            class="svg-icon"
+            style="width: 24px; height: 24px; margin-right: 8px"
+          />
+          Atenção, aventureiro!
+        </h2>
+        <button class="modal-close" (click)="closeVisitorModal()">×</button>
+      </div>
+
+      <hr />
+
+      <div class="modal-body">
+        <p class="medieval-intro">
+          {{ visitorMessage() }}
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="button-medieval" (click)="goToRegister()">Me registrar agora</button>
+        <button class="button-medieval" (click)="closeVisitorModal()">Cancelar</button>
+      </div>
     </div>
   </div>
 </div>
