@@ -66,7 +66,7 @@ export class BestiaryComponent implements OnInit {
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 20,
+    itemsPerPage: 6, // 6 itens por página como solicitado
     hasNextPage: false,
     hasPreviousPage: false,
   });
@@ -88,8 +88,12 @@ export class BestiaryComponent implements OnInit {
 
   // Lista filtrada (sem paginação)
   readonly filteredMonsters = computed(() => {
-    const allMonsters = this.allMonsters();
+    const allMonsters = this.allMonstersStore();
     const filters = this.appliedFilters();
+
+    if (!allMonsters || allMonsters.length === 0) {
+      return [];
+    }
 
     let filtered = allMonsters;
 
@@ -138,6 +142,10 @@ export class BestiaryComponent implements OnInit {
 
     return filtered.slice(startIndex, endIndex);
   });
+
+  // Store completa de todos os monstros (780 monstros)
+  private readonly _allMonstersStore = signal<Monster[]>([]);
+  readonly allMonstersStore = this._allMonstersStore.asReadonly();
 
   // Signals para bestiário do usuário
   readonly userBestiary = signal<UserBestiaryData | null>(null);
@@ -987,8 +995,69 @@ export class BestiaryComponent implements OnInit {
     // Carregar dados do usuário primeiro
     this.loadUserBestiary();
 
-    // Carregar primeira página para exibição rápida
-    this.loadMonsters();
+    // Carregar todos os monstros na store
+    this.loadAllMonstersToStore();
+  }
+
+  /**
+   * Carrega todos os 780 monstros na store para paginação local
+   */
+  private loadAllMonstersToStore(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.bestiaryService
+      .getAllMonsters()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: allMonsters => {
+          // Salvar todos os monstros na store
+          this._allMonstersStore.set(allMonsters);
+          console.log('✅ Todos os 780 monstros carregados na store:', allMonsters.length);
+
+          // Limpar IDs inválidos
+          this.checkAndCleanInvalidIds();
+
+          // Calcular total de charm points
+          this.calculateTotalCharmPoints();
+
+          // Atualizar paginação baseada na store completa
+          this.updatePaginationFromStore();
+
+          this.loading.set(false);
+        },
+        error: error => {
+          console.error('Erro ao carregar todos os monstros:', error);
+          this.handleError(error);
+        },
+      });
+  }
+
+  /**
+   * Atualiza paginação baseada na store completa
+   */
+  private updatePaginationFromStore(): void {
+    const filteredMonsters = this.filteredMonsters();
+    const itemsPerPage = this.pagination().itemsPerPage;
+    const totalItems = filteredMonsters.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const currentPage = Math.min(this.pagination().currentPage, totalPages || 1);
+
+    this.pagination.set({
+      currentPage,
+      totalPages,
+      totalItems,
+      itemsPerPage,
+      hasNextPage: currentPage < totalPages,
+      hasPreviousPage: currentPage > 1,
+    });
+
+    console.log('📊 Paginação atualizada da store:', {
+      totalItems,
+      totalPages,
+      currentPage,
+      itemsPerPage,
+    });
   }
 
   /**
@@ -1377,51 +1446,18 @@ export class BestiaryComponent implements OnInit {
    */
   /**
    * Carrega os monstros com base nos filtros ativos
-   * Usa paginação tradicional para melhor performance
+   * Agora usa a store local para paginação sem requisições ao backend
    */
   loadMonsters(): void {
-    this.loading.set(true);
-    this.error.set(null);
+    // Se a store está vazia, carregar todos os monstros primeiro
+    if (this.allMonstersStore().length === 0) {
+      this.loadAllMonstersToStore();
+      return;
+    }
 
-    const currentPage = this.pagination().currentPage;
-    const itemsPerPage = this.pagination().itemsPerPage;
-
-    // Preparar parâmetros de filtro
-    const filters: any = {
-      page: currentPage,
-      limit: itemsPerPage,
-    };
-
-    const formValue = this.filterForm.value;
-    if (formValue.search) filters.search = formValue.search;
-    if (formValue.class) filters.class = formValue.class;
-    if (formValue.difficulty) filters.difficulty = formValue.difficulty;
-    if (this.filterSelected()) filters.selected = true;
-    if (this.filterCompleted()) filters.completed = true;
-
-    this.bestiaryService
-      .getMonsters(filters)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: response => {
-          this._allMonsters.set(response.data);
-
-          this.pagination.set({
-            currentPage: response.pagination.page,
-            totalPages: response.pagination.totalPages,
-            totalItems: response.pagination.totalItems,
-            itemsPerPage: response.pagination.limit,
-            hasNextPage: response.pagination.hasNext,
-            hasPreviousPage: response.pagination.hasPrev,
-          });
-
-          this.loading.set(false);
-        },
-        error: error => {
-          console.error('Erro ao carregar monstros:', error);
-          this.handleError(error);
-        },
-      });
+    // Aplicar filtros e atualizar paginação local
+    this.applyFilters();
+    this.updatePaginationFromStore();
   }
 
   /**
@@ -1490,14 +1526,14 @@ export class BestiaryComponent implements OnInit {
     this.filterSelected.set(false);
     this.filterCompleted.set(false);
 
-    // Aplicar filtros limpos e atualizar paginação
+    // Aplicar filtros limpos e atualizar paginação local
     this.applyFilters();
     this.pagination.update(p => ({ ...p, currentPage: 1 }));
-    this.updatePagination();
+    this.updatePaginationFromStore();
   }
 
   /**
-   * Trata mudança de página
+   * Trata mudança de página (agora local, sem requisições ao backend)
    */
   onPageChange(pageIndex: number, pageSize: number): void {
     if (pageIndex === this.pagination().currentPage) return;
@@ -1509,11 +1545,15 @@ export class BestiaryComponent implements OnInit {
       total_pages: this.pagination().totalPages,
     });
 
+    // Atualizar apenas a página atual (paginação local)
     this.pagination.update(p => ({
       ...p,
       currentPage: pageIndex,
+      hasNextPage: pageIndex < p.totalPages,
+      hasPreviousPage: pageIndex > 1,
     }));
-    // Não precisa recarregar, apenas atualizar a página
+
+    console.log(`📄 Mudança para página ${pageIndex} (local)`);
   }
 
   /**
