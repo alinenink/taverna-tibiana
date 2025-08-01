@@ -302,15 +302,38 @@ export class BestiaryService {
 
     console.log('🔄 Carregando todos os monstros da API...');
 
-    return this.getMonsters({ limit: 1000 }).pipe(
-      map(response => response.data),
-      tap(monsters => {
-        // Salvar no cache
-        this.allMonstersCache = monsters;
-        this.allMonstersCacheTimestamp = now;
-        console.log('✅ Cache atualizado com', monsters.length, 'monstros');
-      })
-    );
+    // Usar o novo endpoint bestiary-all
+    return this.http
+      .get<{ success: boolean; data: Monster[]; meta: any }>(`${this.baseUrl}-all`)
+      .pipe(
+        map(response => {
+          if (response.success && response.data) {
+            return response.data;
+          }
+          throw new Error('Resposta inválida do servidor');
+        }),
+        tap(monsters => {
+          // Salvar no cache
+          this.allMonstersCache = monsters;
+          this.allMonstersCacheTimestamp = now;
+          console.log('✅ Cache atualizado com', monsters.length, 'monstros');
+        }),
+        catchError(error => {
+          console.error(
+            '❌ Erro ao carregar do endpoint bestiary-all, tentando fallback...',
+            error
+          );
+          // Fallback para o método antigo
+          return this.getMonsters({ limit: 1000 }).pipe(
+            map(response => response.data),
+            tap(monsters => {
+              this.allMonstersCache = monsters;
+              this.allMonstersCacheTimestamp = now;
+              console.log('✅ Cache atualizado com fallback:', monsters.length, 'monstros');
+            })
+          );
+        })
+      );
   }
 
   /**
@@ -329,6 +352,35 @@ export class BestiaryService {
     if (!this.allMonstersCache) return false;
     const now = Date.now();
     return now - this.allMonstersCacheTimestamp < this.CACHE_DURATION;
+  }
+
+  /**
+   * Buscar monstros com filtros usando o endpoint bestiary-all
+   */
+  getMonstersWithFilters(
+    params: {
+      search?: string;
+      class?: MonsterClassType;
+      difficulty?: MonsterDifficulty;
+    } = {}
+  ): Observable<Monster[]> {
+    const queryParams = new URLSearchParams();
+
+    if (params.search) queryParams.append('search', params.search);
+    if (params.class) queryParams.append('class', params.class);
+    if (params.difficulty) queryParams.append('difficulty', params.difficulty);
+
+    const url = `${this.baseUrl}-all${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+
+    return this.http.get<{ success: boolean; data: Monster[]; meta: any }>(url).pipe(
+      map(response => {
+        if (response.success && response.data) {
+          return response.data;
+        }
+        throw new Error('Resposta inválida do servidor');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
