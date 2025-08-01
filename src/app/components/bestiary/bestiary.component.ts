@@ -565,6 +565,7 @@ export class BestiaryComponent implements OnInit {
     const allMonsters = this.allMonsters();
 
     const selectedMonsters: Array<{ id: number; name: string; kills: number }> = [];
+    const invalidIds: number[] = [];
 
     // 1. Adicionar monstros do cache (modificados pelo usuário)
     Object.entries(cache).forEach(([monsterIdStr, isSelected]) => {
@@ -577,6 +578,9 @@ export class BestiaryComponent implements OnInit {
             name: monster.name,
             kills: this.getCharmKills(monsterId),
           });
+        } else {
+          // Marcar ID inválido para limpeza
+          invalidIds.push(monsterId);
         }
       }
     });
@@ -593,12 +597,48 @@ export class BestiaryComponent implements OnInit {
               name: monster.name,
               kills: this.getCharmKills(monsterId),
             });
+          } else {
+            // Marcar ID inválido para limpeza
+            invalidIds.push(monsterId);
           }
         }
       });
     }
 
+    // 3. Limpar IDs inválidos do cache se encontrados
+    if (invalidIds.length > 0) {
+      console.log('🧹 Limpando IDs inválidos do cache:', invalidIds);
+      this.cleanInvalidIdsFromCache(invalidIds);
+    }
+
     return selectedMonsters;
+  }
+
+  /**
+   * Limpar IDs inválidos do cache
+   */
+  private cleanInvalidIdsFromCache(invalidIds: number[]): void {
+    const cache = this.selectionCache();
+    const allMonsters = this.allMonsters();
+
+    // Criar novo cache sem os IDs inválidos
+    const cleanedCache: Record<number, boolean> = {};
+
+    Object.entries(cache).forEach(([monsterIdStr, isSelected]) => {
+      const monsterId = parseInt(monsterIdStr);
+
+      // Só manter se o ID é válido (existe em allMonsters)
+      if (!invalidIds.includes(monsterId) && allMonsters.some(m => m.id === monsterId)) {
+        cleanedCache[monsterId] = isSelected;
+      }
+    });
+
+    // Atualizar cache limpo
+    this.selectionCache.set(cleanedCache);
+
+    console.log('✅ Cache limpo. IDs removidos:', invalidIds);
+    console.log('📊 Cache antes:', Object.keys(cache).length, 'IDs');
+    console.log('📊 Cache depois:', Object.keys(cleanedCache).length, 'IDs');
   }
 
   // Métodos para controlar filtros
@@ -1032,6 +1072,13 @@ export class BestiaryComponent implements OnInit {
       return;
     }
 
+    // Verificar se allMonsters foi carregado
+    if (this.allMonsters().length === 0) {
+      console.error('❌ AllMonsters não foi carregado. Tentando carregar novamente...');
+      this.loadAllMonstersAndThenPaginated();
+      return;
+    }
+
     const selectionCache = this.selectionCache();
 
     // Obter todos os monstros selecionados (do cache + originais não modificados)
@@ -1044,6 +1091,13 @@ export class BestiaryComponent implements OnInit {
     console.log('🔍 Página atual:', this.pagination().currentPage);
     console.log('🔍 Total de monstros selecionados:', selectedIds.length);
     console.log('🔍 Cache vs Total:', Object.keys(selectionCache).length, 'vs', selectedIds.length);
+    console.log('🔍 AllMonsters carregados:', this.allMonsters().length, 'monstros');
+    console.log(
+      '🔍 IDs no cache:',
+      Object.keys(selectionCache)
+        .map(id => parseInt(id))
+        .sort((a, b) => a - b)
+    );
 
     // Track save action
     this.analyticsService.trackEvent('bestiary_save', {
