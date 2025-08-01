@@ -1084,9 +1084,9 @@ export class BestiaryComponent implements OnInit {
             name: error.name,
           });
 
-          // Verificar se é erro de visitante
-          console.log('🎯 Chamando handleVisitorError...');
-          this.handleVisitorError(error);
+          // Não mostrar modal de visitante no GET, apenas no PUT
+          // O modal de visitante só deve aparecer quando o usuário tentar salvar
+          console.log('ℹ️ Erro no GET - Modal de visitante não será exibido');
 
           this.userBestiaryError.set('Erro ao carregar bestiário pessoal');
           this.userBestiaryLoading.set(false);
