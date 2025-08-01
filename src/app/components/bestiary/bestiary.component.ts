@@ -906,6 +906,7 @@ export class BestiaryComponent implements OnInit {
       .subscribe({
         next: allMonsters => {
           this.allMonsters.set(allMonsters);
+          console.log('✅ Todos os monstros carregados (cache/API):', allMonsters.length);
           // Calcular total de charm points após carregar todos os monstros
           this.calculateTotalCharmPoints();
           // Depois carregar monstros paginados para exibição
@@ -2038,5 +2039,13 @@ export class BestiaryComponent implements OnInit {
 
       this.router.navigate(['/grimorio']);
     }
+  }
+
+  /**
+   * Forçar recarregamento de todos os monstros (limpa cache)
+   */
+  forceReloadAllMonsters(): void {
+    this.bestiaryService.clearAllMonstersCache();
+    this.loadAllMonstersAndThenPaginated();
   }
 }

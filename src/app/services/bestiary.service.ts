@@ -129,6 +129,11 @@ export class BestiaryService {
   private readonly baseUrl = `${environment.apiUrl}/bestiary`;
   private readonly backendBaseUrl = environment.apiUrl.replace('/api', '');
 
+  // Cache para todos os monstros
+  private allMonstersCache: Monster[] | null = null;
+  private allMonstersCacheTimestamp: number = 0;
+  private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -284,10 +289,46 @@ export class BestiaryService {
   }
 
   /**
-   * Busca todos os monstros (sem paginação)
+   * Busca todos os monstros (sem paginação) com cache
    */
   getAllMonsters(): Observable<Monster[]> {
-    return this.getMonsters({ limit: 1000 }).pipe(map(response => response.data));
+    const now = Date.now();
+
+    // Verificar se o cache é válido
+    if (this.allMonstersCache && now - this.allMonstersCacheTimestamp < this.CACHE_DURATION) {
+      console.log('📦 Retornando monstros do cache:', this.allMonstersCache.length, 'monstros');
+      return of(this.allMonstersCache);
+    }
+
+    console.log('🔄 Carregando todos os monstros da API...');
+
+    return this.getMonsters({ limit: 1000 }).pipe(
+      map(response => response.data),
+      tap(monsters => {
+        // Salvar no cache
+        this.allMonstersCache = monsters;
+        this.allMonstersCacheTimestamp = now;
+        console.log('✅ Cache atualizado com', monsters.length, 'monstros');
+      })
+    );
+  }
+
+  /**
+   * Limpar cache de monstros (útil para forçar recarregamento)
+   */
+  clearAllMonstersCache(): void {
+    this.allMonstersCache = null;
+    this.allMonstersCacheTimestamp = 0;
+    console.log('🗑️ Cache de monstros limpo');
+  }
+
+  /**
+   * Verificar se o cache está válido
+   */
+  isAllMonstersCacheValid(): boolean {
+    if (!this.allMonstersCache) return false;
+    const now = Date.now();
+    return now - this.allMonstersCacheTimestamp < this.CACHE_DURATION;
   }
 
   /**
